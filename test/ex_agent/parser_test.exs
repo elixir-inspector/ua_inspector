@@ -1,7 +1,7 @@
 defmodule ExAgent.ParserTest do
   use ExUnit.Case, async: true
 
-  test "the truth" do
-    assert true == true
+  test "retain unparsed ua" do
+    assert "test_ua" == ExAgent.parse("test_ua")[:string]
   end
 end
