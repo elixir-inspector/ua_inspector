@@ -3,6 +3,7 @@
 ## Resources
 
 - [ua-parser](https://github.com/tobie/ua-parser)
+- [yamler](https://github.com/superbobry/yamler)
 
 ## License
 

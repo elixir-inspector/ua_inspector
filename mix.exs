@@ -13,6 +13,6 @@ defmodule ExAgent.Mixfile do
   end
 
   defp deps do
-    []
+    [ { :yamler, github: "superbobry/yamler" } ]
   end
 end
