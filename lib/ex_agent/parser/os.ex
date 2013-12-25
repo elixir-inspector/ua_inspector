@@ -1,4 +1,4 @@
-defmodule ExAgent.Parser.OperatingSystem do
+defmodule ExAgent.Parser.OS do
   @regexes [
     { :android, %r/Android/i },
     { :ipad,    %r/iPad/i },

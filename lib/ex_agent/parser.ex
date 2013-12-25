@@ -10,7 +10,7 @@ defmodule ExAgent.Parser do
   def parse(ua) do
     [ string: ua,
       device: ua |> ExAgent.Parser.Device.parse(),
-      os:     ua |> ExAgent.Parser.OperatingSystem.parse(),
+      os:     ua |> ExAgent.Parser.OS.parse(),
       ua:     ua |> ExAgent.Parser.UserAgent.parse() ]
   end
 end
