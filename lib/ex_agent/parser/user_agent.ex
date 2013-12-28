@@ -1,28 +1,22 @@
 defmodule ExAgent.Parser.UserAgent do
-  @regexes [
-    { :chrome,  %r/Chrome/i },
-    { :firefox, %r/Firefox/i },
-    { :ie,      %r/MSIE/i },
-    { :opera,   %r/Opera/i },
-    { :safari,  %r/Safari/i }
-  ]
-
   @doc """
   Parses the user agent (browser) from a user agent.
   """
   @spec parse(String.t) :: tuple
   def parse(ua) do
-    [ family:  ua |> parse_family(@regexes),
-      version: :unknown ]
+    ua |> parse_ua(ExAgent.Regexes.get(:user_agent))
   end
 
-  defp parse_family(ua, [{ family, re } | families]) do
-    case Regex.run(re, ua) do
-      nil -> ua |> parse_family(families)
-      _   -> family
+  defp parse_ua(ua, [regex | regexes]) do
+    case Regex.run(regex[:regex], ua) do
+      captures when is_list(captures) ->
+        [ family:  captures |> Enum.at(1) |> String.downcase() |> binary_to_atom(),
+          version: :unknown ]
+      _ -> ua |> parse_ua(regexes)
     end
   end
-  defp parse_family(_, []) do
-    :unknown
+
+  defp parse_ua(_, []) do
+    [ family: :unknown, version: :unknown ]
   end
 end
