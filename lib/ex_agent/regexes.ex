@@ -1,9 +1,16 @@
 defmodule ExAgent.Regexes do
-  regexes = case :yaml.load_file("./vendor/ua-parser/regexes.yaml") do
-    { :ok, regexes } -> regexes
-    { :error, err }  ->
-      IO.puts "Failed to load regexes.yaml: " <> inspect(err)
-      nil
+  regexes_url = "https://raw.github.com/tobie/ua-parser/master/regexes.yaml"
+
+  HTTPotion.start
+  HTTPotion.Response[body: regexes_yaml] = regexes_url |> HTTPotion.get()
+
+  unless nil == regexes_yaml do
+    regexes = case :yaml.load(regexes_yaml) do
+      { :ok, regexes } -> regexes
+      { :error, err }  ->
+        IO.puts "Failed to parse regexes.yaml: " <> inspect(err)
+        nil
+    end
   end
 
   unless nil == regexes do
