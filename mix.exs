@@ -4,13 +4,11 @@ defmodule ExAgent.Mixfile do
   def project do
     [ app:     :ex_agent,
       version: "0.0.1",
-      elixir:  "~> 0.11.1",
+      elixir:  "~> 0.12.0",
       deps:    deps ]
   end
 
-  def application do
-    []
-  end
+  def application, do: []
 
   defp deps do
     [ { :httpotion, github: "myfreeweb/httpotion" },
