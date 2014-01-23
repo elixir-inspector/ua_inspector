@@ -10,7 +10,7 @@ defmodule ExAgent.Parser.OS do
   defp parse_os(os, [regex | regexes]) do
     case Regex.run(regex[:regex], os) do
       captures when is_list(captures) ->
-        [ family:  captures |> Enum.at(1) |> String.downcase() |> binary_to_atom(),
+        [ family:  captures |> Enum.at(1) |> String.downcase(),
           version: :unknown ]
       _ -> os |> parse_os(regexes)
     end

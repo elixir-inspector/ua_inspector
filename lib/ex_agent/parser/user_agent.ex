@@ -10,7 +10,7 @@ defmodule ExAgent.Parser.UserAgent do
   defp parse_ua(ua, [regex | regexes]) do
     case Regex.run(regex[:regex], ua) do
       captures when is_list(captures) ->
-        [ family:  captures |> Enum.at(1) |> String.downcase() |> binary_to_atom(),
+        [ family:  captures |> Enum.at(1) |> String.downcase(),
           version: :unknown ]
       _ -> ua |> parse_ua(regexes)
     end

@@ -10,7 +10,7 @@ defmodule ExAgent.Parser.Device do
   defp parse_device(device, [regex | regexes]) do
     case Regex.run(regex[:regex], device) do
       captures when is_list(captures) ->
-        [ family:  captures |> Enum.at(1) |> String.downcase() |> binary_to_atom() ]
+        [ family:  captures |> Enum.at(1) |> String.downcase() ]
       _ -> device |> parse_device(regexes)
     end
   end
