@@ -1,3 +1,3 @@
-[ "httpotion": {:git, "git://github.com/myfreeweb/httpotion.git", "f41ad7b86cf0de5ce2830323290b30f55df17f17", []},
+[ "httpotion": {:git, "git://github.com/myfreeweb/httpotion.git", "f9407c497ce8e71ebea8cf94d08b093f90afa5bb", []},
   "ibrowse": {:git, "git://github.com/cmullaparthi/ibrowse.git", "d824491d37449763ac44398f8494731e0c1418c1", []},
   "yamler": {:git, "git://github.com/superbobry/yamler.git", "a758cbbf6c90222955a76a9dfe6b93c88b52f3a2", []} ]
