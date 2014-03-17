@@ -4,7 +4,7 @@ defmodule ExAgent.Mixfile do
   def project do
     [ app:     :ex_agent,
       version: "0.0.1",
-      elixir:  "~> 0.12.3",
+      elixir:  "~> 0.12.5",
       deps:    deps ]
   end
 
