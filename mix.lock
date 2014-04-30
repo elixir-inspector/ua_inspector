@@ -1,1 +1,1 @@
-%{"yamler": {:git, "git://github.com/superbobry/yamler.git", "a758cbbf6c90222955a76a9dfe6b93c88b52f3a2", []}}
+%{"yamerl": {:git, "git://github.com/yakaz/yamerl.git", "3955c235c3cae11c064a9c37a6e7657632906992", []}}

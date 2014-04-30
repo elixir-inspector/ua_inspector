@@ -14,9 +14,6 @@ defp deps do
 end
 ```
 
-Please note that yamler requires [libyaml](http://pyyaml.org/wiki/LibYAML)
-(including development headers) to be present on your system.
-
 
 ## Usage
 
@@ -42,7 +39,7 @@ _String_ will return the passed user agent unmodified.
 ## Resources
 
 - [ua-parser](https://github.com/tobie/ua-parser)
-- [yamler](https://github.com/superbobry/yamler)
+- [yamerl](https://github.com/yakaz/yamerl)
 
 
 ## License

@@ -12,6 +12,6 @@ defmodule ExAgent.Mixfile do
   def application, do: []
 
   defp deps do
-    [ { :yamler, github: "superbobry/yamler" } ]
+    [ { :yamerl, github: "yakaz/yamerl" } ]
   end
 end

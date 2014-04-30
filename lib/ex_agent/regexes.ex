@@ -16,12 +16,9 @@ defmodule ExAgent.Regexes do
       raise "Failed to download #{ regexes_url }, error: #{ reason }"
   end
 
-  regexes = case :yaml.load(regexes_yaml) do
-    { :ok, regexes }   -> regexes
-    { :error, reason } -> raise "Failed to parse regexes.yaml: #{ reason }"
-  end
+  :application.start(:yamerl)
 
-  regexes |> hd() |> Enum.each(fn (parser) ->
+  regexes_yaml |> :yamerl_constr.string([ :str_node_as_binary ]) |> hd() |> Enum.each(fn (parser) ->
     { type, regexes } = parser
 
     regexes = regexes |> Enum.map(fn (regex) ->
