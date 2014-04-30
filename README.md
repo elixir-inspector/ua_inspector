@@ -1,5 +1,23 @@
 # ExAgent
 
+User agent parser library.
+
+
+## Configuration
+
+To use ExAgent with your projects, edit your `mix.exs` file and add it as a
+dependency:
+
+```elixir
+defp deps do
+  [ { :ex_agent, github: "elixytics/ex_agent" } ]
+end
+```
+
+Please note that yamler requires [libyaml](http://pyyaml.org/wiki/LibYAML)
+(including development headers) to be present on your system.
+
+
 ## Usage
 
 _Note: the information returned are not complete... yet._
