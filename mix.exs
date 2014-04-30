@@ -2,16 +2,16 @@ defmodule ExAgent.Mixfile do
   use Mix.Project
 
   def project do
-    [ app:     :ex_agent,
-      version: "0.0.1",
-      elixir:  "~> 0.12.5",
-      deps:    deps ]
+    [ app:       :ex_agent,
+      version:   "0.0.1",
+      elixir:    "~> 0.13.1",
+      deps:      deps,
+      deps_path: "_deps" ]
   end
 
   def application, do: []
 
   defp deps do
-    [ { :httpotion, github: "myfreeweb/httpotion" },
-      { :yamler,    github: "superbobry/yamler" } ]
+    [ { :yamler, github: "superbobry/yamler" } ]
   end
 end

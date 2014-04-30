@@ -23,7 +23,6 @@ _String_ will return the passed user agent unmodified.
 
 ## Resources
 
-- [httpotion](https://github.com/myfreeweb/httpotion)
 - [ua-parser](https://github.com/tobie/ua-parser)
 - [yamler](https://github.com/superbobry/yamler)
 
