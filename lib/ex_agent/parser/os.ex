@@ -10,12 +10,12 @@ defmodule ExAgent.Parser.OS do
   defp parse_os(os, [ %ExAgent.Regex{ regex: regex } | regexes ]) do
     case Regex.run(regex, os) do
       captures when is_list(captures) ->
-        %ExAgent.OS{
+        %ExAgent.Response.OS{
           family:  captures |> Enum.at(1) |> String.downcase()
         }
       _ -> os |> parse_os(regexes)
     end
   end
 
-  defp parse_os(_, []), do: %ExAgent.OS{}
+  defp parse_os(_, []), do: %ExAgent.Response.OS{}
 end

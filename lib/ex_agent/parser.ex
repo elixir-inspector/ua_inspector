@@ -2,11 +2,13 @@ defmodule ExAgent.Parser do
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t) :: tuple
+  @spec parse(String.t) :: ExAgent.Response
   def parse(ua) do
-    [ string: ua,
+    %ExAgent.Response{
+      string: ua,
       device: ua |> ExAgent.Parser.Device.parse(),
       os:     ua |> ExAgent.Parser.OS.parse(),
-      ua:     ua |> ExAgent.Parser.UserAgent.parse() ]
+      ua:     ua |> ExAgent.Parser.UserAgent.parse()
+    }
   end
 end

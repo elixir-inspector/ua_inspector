@@ -10,12 +10,12 @@ defmodule ExAgent.Parser.UserAgent do
   defp parse_ua(ua, [ %ExAgent.Regex{ regex: regex } | regexes ]) do
     case Regex.run(regex, ua) do
       captures when is_list(captures) ->
-        %ExAgent.UserAgent{
+        %ExAgent.Response.UserAgent{
           family: captures |> Enum.at(1) |> String.downcase()
         }
       _ -> ua |> parse_ua(regexes)
     end
   end
 
-  defp parse_ua(_, []), do: %ExAgent.UserAgent{}
+  defp parse_ua(_, []), do: %ExAgent.Response.UserAgent{}
 end

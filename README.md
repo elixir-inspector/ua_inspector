@@ -21,10 +21,12 @@ _Note: the information returned are not complete... yet._
 
 ```elixir
 iex(1)> ExAgent.parse("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36")
-[ string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
-  device: %ExAgent.Device{ family: :unknown },
-  os:     %ExAgent.OS{ family: "linux", version: :unknown },
-  ua:     %ExAgent.UserAgent{ family: "chrome", version: :unknown } ]
+%ExAgent.Response{
+  string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
+  device: %ExAgent.Response.Device{ family: :unknown },
+  os:     %ExAgent.Response.OS{ family: "linux", version: :unknown },
+  ua:     %ExAgent.Response.UserAgent{ family: "chrome", version: :unknown }
+}
 ```
 
 _Device_, _os_ and _ua_ are structs containing the elements _family_ (and

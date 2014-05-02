@@ -10,12 +10,12 @@ defmodule ExAgent.Parser.Device do
   defp parse_device(device, [ %ExAgent.Regex{ regex: regex } | regexes ]) do
     case Regex.run(regex, device) do
       captures when is_list(captures) ->
-        %ExAgent.Device{
+        %ExAgent.Response.Device{
           family: captures |> Enum.at(1) |> String.downcase()
         }
       _ -> device |> parse_device(regexes)
     end
   end
 
-  defp parse_device(_, []), do: %ExAgent.Device{}
+  defp parse_device(_, []), do: %ExAgent.Response.Device{}
 end
