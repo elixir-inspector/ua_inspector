@@ -20,40 +20,41 @@ defmodule ExAgent.Regexes do
   # parse yaml
   :application.start(:yamerl)
 
-  regexes_list =
+  regex_list =
        regexes_yaml
     |> :yamerl_constr.string([ :str_node_as_binary ])
     |> hd()
 
   # define access methods
-  regexes_list |> Enum.each(fn (parser) ->
+  regex_list |> Enum.each(fn (parser) ->
     { type, regexes } = parser
 
-    regexes_dict = regexes |> Enum.map(fn (regex) ->
-      raw = regex |> Enum.into( HashDict.new() )
+    regex_maps = regexes |> Enum.map(fn (regex) ->
+      raw = regex |> Enum.into( %{} )
 
-      HashDict.new()
-        |> HashDict.put(:regex,              raw |> HashDict.get("regex", nil) |> Regex.compile!())
-        |> HashDict.put(:device_replacement, raw |> HashDict.get("device_replacement", nil))
-        |> HashDict.put(:family_replacement, raw |> HashDict.get("family_replacement", nil))
-        |> HashDict.put(:os_replacement,     raw |> HashDict.get("os_replacement", nil))
-        |> HashDict.put(:os_v1_replacement,  raw |> HashDict.get("os_v1_replacement", nil))
-        |> HashDict.put(:os_v2_replacement,  raw |> HashDict.get("os_v2_replacement", nil))
-        |> HashDict.put(:v1_replacement,     raw |> HashDict.get("v1_replacement", nil))
-        |> HashDict.put(:v2_replacement,     raw |> HashDict.get("v2_replacement", nil))
+      %ExAgent.Regex{
+        regex:              raw |> Map.get("regex",              nil) |> Regex.compile!(),
+        device_replacement: raw |> Map.get("device_replacement", nil),
+        family_replacement: raw |> Map.get("family_replacement", nil),
+        os_replacement:     raw |> Map.get("os_replacement",     nil),
+        os_v1_replacement:  raw |> Map.get("os_v1_replacement",  nil),
+        os_v2_replacement:  raw |> Map.get("os_v2_replacement",  nil),
+        v1_replacement:     raw |> Map.get("v1_replacement",     nil),
+        v2_replacement:     raw |> Map.get("v2_replacement",     nil)
+      }
     end)
 
     case type do
       "device_parsers" ->
-        @device_parsers regexes_dict
+        @device_parsers regex_maps
         def get(:device), do: @device_parsers
 
       "os_parsers" ->
-        @os_parsers regexes_dict
+        @os_parsers regex_maps
         def get(:os), do: @os_parsers
 
       "user_agent_parsers" ->
-        @user_agent_parsers regexes_dict
+        @user_agent_parsers regex_maps
         def get(:user_agent), do: @user_agent_parsers
     end
   end)

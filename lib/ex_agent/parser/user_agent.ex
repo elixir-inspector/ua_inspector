@@ -7,8 +7,8 @@ defmodule ExAgent.Parser.UserAgent do
     ua |> parse_ua(ExAgent.Regexes.get(:user_agent))
   end
 
-  defp parse_ua(ua, [regex | regexes]) do
-    case Regex.run(regex[:regex], ua) do
+  defp parse_ua(ua, [ %ExAgent.Regex{ regex: regex } | regexes ]) do
+    case Regex.run(regex, ua) do
       captures when is_list(captures) ->
         [ family:  captures |> Enum.at(1) |> String.downcase(),
           version: :unknown ]
