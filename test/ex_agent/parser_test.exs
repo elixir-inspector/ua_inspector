@@ -17,7 +17,7 @@ defmodule ExAgent.ParserTest do
       device: %ExAgent.Response.Device{family: device_family},
       os:     %ExAgent.Response.OS{family: os_family},
       ua:     %ExAgent.Response.UserAgent{family: ua_family}
-    } =  ua |> ExAgent.parse()
+    } = ua |> ExAgent.parse()
 
     assert ua_string     == ua
     assert device_family == :unknown

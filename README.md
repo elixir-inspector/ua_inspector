@@ -23,14 +23,23 @@ _Note: the information returned are not complete... yet._
 iex(1)> ExAgent.parse("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36")
 %ExAgent.Response{
   string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
-  device: %ExAgent.Response.Device{ family: :unknown },
-  os:     %ExAgent.Response.OS{ family: "linux", version: :unknown },
-  ua:     %ExAgent.Response.UserAgent{ family: "chrome", version: :unknown }
+  device: %ExAgent.Response.Device{
+    family: :unknown
+  },
+  os: %ExAgent.Response.OS{
+    family: "linux",  major: :unknown,
+    minor:  :unknown, patch: :unknown, :patch_minor: :unknown
+  },
+  ua: %ExAgent.Response.UserAgent{
+    family: "chrome", major: :unknown,
+    minor:  :unknown, patch: :unknown
+  }
 }
 ```
 
-_Device_, _os_ and _ua_ are structs containing the elements _family_ (and
-_version_ if available).
+_Device_, _os_ and _ua_ are structs containing the element _family_ and, if
+available, several version indicators named _major_, _minor_, _patch_ and/or
+_patch\_minor_.
 
 The values of the nested elements will be strings if they are properly matched,
 otherwise an atom with the value __:unknown__.
