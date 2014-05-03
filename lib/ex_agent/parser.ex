@@ -8,7 +8,7 @@ defmodule ExAgent.Parser do
       string: ua,
       device: ua |> ExAgent.Parser.Device.parse(),
       os:     ua |> ExAgent.Parser.OS.parse(),
-      ua:     ua |> ExAgent.Parser.UserAgent.parse()
+      ua:     ua |> ExAgent.Parser.UA.parse()
     }
   end
 end

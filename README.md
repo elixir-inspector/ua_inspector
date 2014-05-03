@@ -28,7 +28,7 @@ iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) A
     family: "iOS", major: "5",
     minor:  "1",   patch: "1", patch_minor: :unknown
   },
-  ua: %ExAgent.Response.UserAgent{
+  ua: %ExAgent.Response.UA{
     family: "iPhone", major: "5",
     minor:  "1",      patch: :unknown
   }

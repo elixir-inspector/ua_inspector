@@ -2,7 +2,7 @@ defmodule ExAgent.Parser.Device do
   @doc """
   Parses the device from a user agent.
   """
-  @spec parse(String.t) :: ExAgent.Device
+  @spec parse(String.t) :: ExAgent.Response.Device
   def parse(user_agent) do
     parse_device(user_agent, ExAgent.Regexes.get(:device))
   end

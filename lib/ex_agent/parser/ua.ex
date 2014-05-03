@@ -1,8 +1,8 @@
-defmodule ExAgent.Parser.UserAgent do
+defmodule ExAgent.Parser.UA do
   @doc """
   Parses the user agent (browser) from a user agent.
   """
-  @spec parse(String.t) :: ExAgent.UserAgent
+  @spec parse(String.t) :: ExAgent.Response.UA
   def parse(user_agent) do
     parse_ua(user_agent, ExAgent.Regexes.get(:user_agent))
   end
@@ -16,7 +16,7 @@ defmodule ExAgent.Parser.UserAgent do
       parse_ua(user_agent, regexes)
     end
   end
-  defp parse_ua(_, []), do: %ExAgent.Response.UserAgent{}
+  defp parse_ua(_, []), do: %ExAgent.Response.UA{}
 
   defp parse_ua_data(user_agent, regex) do
     %ExAgent.Regex{
@@ -27,7 +27,7 @@ defmodule ExAgent.Parser.UserAgent do
 
     captures = Regex.run(regex_str, user_agent)
 
-    %ExAgent.Response.UserAgent{
+    %ExAgent.Response.UA{
       family: parse_ua_family(captures),
       major:  parse_ua_major(captures, v1_replacement),
       minor:  parse_ua_minor(captures, v2_replacement),
