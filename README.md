@@ -20,19 +20,19 @@ end
 _Note: the information returned are not complete... yet._
 
 ```elixir
-iex(1)> ExAgent.parse("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36")
+iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3")
 %ExAgent.Response{
   string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
   device: %ExAgent.Response.Device{
-    family: :unknown
+    family: "iPhone;"
   },
   os: %ExAgent.Response.OS{
-    family: "linux",  major: :unknown,
-    minor:  :unknown, patch: :unknown, :patch_minor: :unknown
+    family: "iOS", major: "5",
+    minor:  "1",   patch: "1", patch_minor: :unknown
   },
   ua: %ExAgent.Response.UserAgent{
-    family: "chrome", major: :unknown,
-    minor:  :unknown, patch: :unknown
+    family: "iphone", major: :unknown,
+    minor: :unknown,  patch: :unknown
   }
 }
 ```
