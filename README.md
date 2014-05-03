@@ -17,8 +17,6 @@ end
 
 ## Usage
 
-_Note: the information returned are not complete... yet._
-
 ```elixir
 iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3")
 %ExAgent.Response{
@@ -31,8 +29,8 @@ iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) A
     minor:  "1",   patch: "1", patch_minor: :unknown
   },
   ua: %ExAgent.Response.UserAgent{
-    family: "iphone", major: :unknown,
-    minor: :unknown,  patch: :unknown
+    family: "iPhone", major: "5",
+    minor:  "1",      patch: :unknown
   }
 }
 ```
