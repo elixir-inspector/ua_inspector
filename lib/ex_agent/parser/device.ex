@@ -3,19 +3,34 @@ defmodule ExAgent.Parser.Device do
   Parses the device from a user agent.
   """
   @spec parse(String.t) :: ExAgent.Device
-  def parse(device) do
-    device |> parse_device(ExAgent.Regexes.get(:device))
+  def parse(user_agent) do
+    parse_device(user_agent, ExAgent.Regexes.get(:device))
   end
 
-  defp parse_device(device, [ %ExAgent.Regex{ regex: regex } | regexes ]) do
-    case Regex.run(regex, device) do
-      captures when is_list(captures) ->
-        %ExAgent.Response.Device{
-          family: captures |> Enum.at(1) |> String.downcase()
-        }
-      _ -> device |> parse_device(regexes)
+  defp parse_device(user_agent, [ regex | regexes ]) do
+    %ExAgent.Regex{ regex: regex_str } = regex
+
+    if Regex.match?(regex_str, user_agent) do
+      parse_device_data(user_agent, regex)
+    else
+      parse_device(user_agent, regexes)
     end
   end
-
   defp parse_device(_, []), do: %ExAgent.Response.Device{}
+
+  defp parse_device_data(user_agent, regex) do
+    %ExAgent.Regex{
+      regex:              regex_str,
+      device_replacement: replacement
+    } = regex
+
+    family = Regex.run(regex_str, user_agent) |> hd()
+
+    if nil != replacement do
+      replacement = replacement |> String.replace("$", "\\")
+      family      = Regex.replace(regex_str, family, replacement)
+    end
+
+    %ExAgent.Response.Device{ family: family }
+  end
 end
