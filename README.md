@@ -22,7 +22,7 @@ iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) A
 %ExAgent.Response{
   string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
   device: %ExAgent.Response.Device{
-    family: "iPhone;"
+    family: "iPhone"
   },
   os: %ExAgent.Response.OS{
     family: "iOS", major: "5",

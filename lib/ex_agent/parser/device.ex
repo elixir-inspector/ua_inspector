@@ -24,11 +24,12 @@ defmodule ExAgent.Parser.Device do
       device_replacement: replacement
     } = regex
 
-    family = Regex.run(regex_str, user_agent) |> hd()
+    captures = Regex.run(regex_str, user_agent)
+    family   = Enum.at(captures, 1)
 
     if nil != replacement do
       replacement = replacement |> String.replace("$", "\\")
-      family      = Regex.replace(regex_str, family, replacement)
+      family      = Regex.replace(regex_str, Enum.at(captures, 0), replacement)
     end
 
     %ExAgent.Response.Device{ family: family }
