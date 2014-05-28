@@ -2,7 +2,7 @@ defmodule ExAgent.Parser.OS do
   @doc """
   Parses the operating system from a user agent.
   """
-  @spec parse(String.t) :: ExAgent.Response.OS
+  @spec parse(String.t) :: ExAgent.Response.OS.t
   def parse(user_agent) do
     parse_os(user_agent, ExAgent.Regexes.get(:os))
   end

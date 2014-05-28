@@ -2,7 +2,7 @@ defmodule ExAgent.Parser.UA do
   @doc """
   Parses the user agent (browser) from a user agent.
   """
-  @spec parse(String.t) :: ExAgent.Response.UA
+  @spec parse(String.t) :: ExAgent.Response.UA.t
   def parse(user_agent) do
     parse_ua(user_agent, ExAgent.Regexes.get(:user_agent))
   end

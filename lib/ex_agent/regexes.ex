@@ -47,14 +47,17 @@ defmodule ExAgent.Regexes do
     case type do
       "device_parsers" ->
         @device_parsers regex_maps
+        @spec get(Atom.t) :: ExAgent.Regex.t
         def get(:device), do: @device_parsers
 
       "os_parsers" ->
         @os_parsers regex_maps
+        @spec get(Atom.t) :: ExAgent.Regex.t
         def get(:os), do: @os_parsers
 
       "user_agent_parsers" ->
         @user_agent_parsers regex_maps
+        @spec get(Atom.t) :: ExAgent.Regex.t
         def get(:user_agent), do: @user_agent_parsers
     end
   end)

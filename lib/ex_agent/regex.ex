@@ -1,4 +1,6 @@
 defmodule ExAgent.Regex do
+  @type t :: map
+
   defstruct regex:              nil :: Regex.t,
             device_replacement: nil :: String.t,
             family_replacement: nil :: String.t,

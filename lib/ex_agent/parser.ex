@@ -2,7 +2,7 @@ defmodule ExAgent.Parser do
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t) :: ExAgent.Response
+  @spec parse(String.t) :: ExAgent.Response.t
   def parse(ua) do
     %ExAgent.Response{
       string: ua,
