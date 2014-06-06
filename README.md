@@ -48,6 +48,22 @@ otherwise an atom with the value __:unknown__.
 
 _String_ will return the passed user agent unmodified.
 
+### Downloading "regexes.yaml"
+
+Using `mix ex_agent.yaml.download` you can store a local copy of the regexes
+database to your local MIX_HOME directory.
+
+The complete path will be shown to you upon command invocation.
+
+After downloading you can load it during startup:
+
+```elixir
+iex(1)> ExAgent.start_link()
+{ :ok, #PID<0.80.0> }
+iex(2)> ExAgent.load_yaml(Mix.ExAgent.local_yaml)
+:ok
+```
+
 
 ## Resources
 
