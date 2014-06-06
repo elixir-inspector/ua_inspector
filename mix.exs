@@ -5,7 +5,7 @@ defmodule ExAgent.Mixfile do
     [ app:        :ex_agent,
       name:       "ExAgent",
       source_url: "https://github.com/elixytics/ex_agent",
-      version:    "0.0.1",
+      version:    "0.0.2",
       elixir:     "~> 0.13.3",
       deps:       deps(Mix.env),
       deps_path:  "_deps",

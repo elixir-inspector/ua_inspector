@@ -18,7 +18,9 @@ end
 ## Usage
 
 ```elixir
-iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3")
+iex(1)> ExAgent.start_link()
+{ :ok, #PID<0.80.0> }
+iex(2)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3")
 %ExAgent.Response{
   string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
   device: %ExAgent.Response.Device{
