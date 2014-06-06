@@ -4,10 +4,10 @@ defmodule ExAgent.Parser.UA do
   """
   @spec parse(String.t) :: ExAgent.Response.UA.t
   def parse(user_agent) do
-    parse_ua(user_agent, ExAgent.Regexes.get(:user_agent))
+    parse_ua(user_agent, ExAgent.Regexes.get(:ua))
   end
 
-  defp parse_ua(user_agent, [ regex | regexes ]) do
+  defp parse_ua(user_agent, [ { _index, regex } | regexes ]) do
     %ExAgent.Regex{ regex: regex_str } = regex
 
     if Regex.match?(regex_str, user_agent) do

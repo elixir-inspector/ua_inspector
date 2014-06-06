@@ -7,7 +7,7 @@ defmodule ExAgent.Parser.OS do
     parse_os(user_agent, ExAgent.Regexes.get(:os))
   end
 
-  defp parse_os(user_agent, [ regex | regexes ]) do
+  defp parse_os(user_agent, [ { _index, regex } | regexes ]) do
     %ExAgent.Regex{ regex: regex_str } = regex
 
     if Regex.match?(regex_str, user_agent) do

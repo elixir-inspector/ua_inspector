@@ -3,7 +3,8 @@ defmodule ExAgent.TestHelper.Suite do
     quote do
       setup_all do
         { :ok, _ } = ExAgent.Server.start_link([])
-        :ok
+
+        ExAgent.TestHelper.Regexes.yaml_fixture() |> ExAgent.load_yaml()
       end
 
       teardown_all do

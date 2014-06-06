@@ -1,0 +1,11 @@
+user_agent_parsers:
+  - regex: '(IEMobile)[ /](\d+)\.(\d+)'
+    family_replacement: 'IE Mobile'
+
+os_parsers:
+  - regex: '(CPU OS|iPhone OS|CPU iPhone) +(\d+)[_\.](\d+)(?:[_\.](\d+))?'
+    os_replacement: 'iOS'
+
+device_parsers:
+  - regex: 'HTC ([A-Z][a-z0-9 ]+) \d+\.\d+\.\d+\.\d+'
+    device_replacement: 'HTC $1'
