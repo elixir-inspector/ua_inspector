@@ -1,14 +1,14 @@
 defmodule ExAgent.TestHelper.Suite do
   defmacro __using__(_) do
     quote do
-      setup_all do
+      setup do
         { :ok, _ } = ExAgent.Server.start_link([])
 
-        ExAgent.TestHelper.Regexes.yaml_fixture() |> ExAgent.load_yaml()
-      end
+        on_exit fn ->
+          :ok = ExAgent.Server.stop()
+        end
 
-      teardown_all do
-        :ok = ExAgent.Server.stop()
+        ExAgent.TestHelper.Regexes.yaml_fixture() |> ExAgent.load_yaml()
       end
     end
   end
