@@ -1,5 +1,5 @@
 defmodule ExAgent.ParserTest do
-  use ExAgent.TestHelper.Case, async: false
+  use ExUnit.Case, async: true
 
   test "retain unparsed ua" do
     ua = "test_ua"
