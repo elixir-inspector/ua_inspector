@@ -1,8 +1,13 @@
 defmodule ExAgent.Response.UA do
-  @type t :: map
+  @type t :: %__MODULE__{
+    family: String.t | atom,
+    major:  String.t | atom,
+    minor:  String.t | atom,
+    patch:  String.t | atom
+  }
 
-  defstruct family: :unknown :: String.t | atom,
-            major:  :unknown :: String.t | atom,
-            minor:  :unknown :: String.t | atom,
-            patch:  :unknown :: String.t | atom
+  defstruct family: :unknown,
+            major:  :unknown,
+            minor:  :unknown,
+            patch:  :unknown
 end

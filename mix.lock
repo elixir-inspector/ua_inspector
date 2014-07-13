@@ -1,2 +1,2 @@
 %{"ex_doc": {:git, "git://github.com/elixir-lang/ex_doc.git", "6ef80510e5037e3cbcc9bb96bc30daa441e74722", [tag: "6ef80510e5037e3cbcc9bb96bc30daa441e74722"]},
-  "yamerl": {:git, "git://github.com/yakaz/yamerl.git", "3955c235c3cae11c064a9c37a6e7657632906992", []}}
+  "yamerl": {:git, "git://github.com/yakaz/yamerl.git", "e087f5737425fd64cd2deb10e2b5e8f136f6034c", []}}

@@ -1,5 +1,7 @@
 defmodule ExAgent.Response.Device do
-  @type t :: map
+  @type t :: %__MODULE__{
+    family: String.t | atom
+  }
 
-  defstruct family: :unknown :: String.t | atom
+  defstruct family: :unknown
 end
