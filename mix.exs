@@ -5,7 +5,7 @@ defmodule ExAgent.Mixfile do
     [ app:        :ex_agent,
       name:       "ExAgent",
       source_url: "https://github.com/elixytics/ex_agent",
-      version:    "0.0.4",
+      version:    "0.1.0",
       elixir:     "~> 0.14.0",
       deps:       deps(Mix.env),
       deps_path:  "_deps",
@@ -13,7 +13,8 @@ defmodule ExAgent.Mixfile do
   end
 
   def application do
-    [ applications: [ :yamerl ] ]
+    [ applications: [ :yamerl ],
+      mod:          { ExAgent, [] } ]
   end
 
   defp deps(:docs) do

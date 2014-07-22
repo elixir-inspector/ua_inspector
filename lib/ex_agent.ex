@@ -1,14 +1,14 @@
 defmodule ExAgent do
-  use Supervisor
+  use Application
 
-  def start_link() do
-    Supervisor.start_link(__MODULE__, [])
-  end
+  def start(_, _) do
+    ExAgent.Supervisor.start_link()
 
-  def init([]) do
-    import Supervisor.Spec
+    if Application.get_env(:ex_agent, :yaml) do
+      load_yaml(Application.get_env(:ex_agent, :yaml))
+    end
 
-    supervise([ worker(ExAgent.Server, []) ], strategy: :one_for_one)
+    { :ok, self() }
   end
 
   @doc """
