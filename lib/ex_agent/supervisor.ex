@@ -6,8 +6,6 @@ defmodule ExAgent.Supervisor do
   end
 
   def init([]) do
-    import Supervisor.Spec
-
     supervise([ worker(ExAgent.Server, []) ], strategy: :one_for_one)
   end
 end
