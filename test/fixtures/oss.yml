@@ -1,0 +1,3 @@
+- regex: '(?:CPU OS|iPhone OS|iOS)[ _](\d+(?:[_\.]\d+)*)'
+  name: 'iOS'
+  version: '$1'

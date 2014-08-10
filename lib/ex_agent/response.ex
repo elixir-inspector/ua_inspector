@@ -1,13 +1,13 @@
 defmodule ExAgent.Response do
   @type t :: %__MODULE__{
     string: String.t,
-    device: ExAgent.Response.Device,
-    os:     ExAgent.Response.OS,
-    ua:     ExAgent.Response.UA
+    client: Map.t,
+    device: Map.t,
+    os:     Map.t
   }
 
   defstruct string: nil,
+            client: nil,
             device: nil,
-            os:     nil,
-            ua:     nil
+            os:     nil
 end

@@ -1,0 +1,6 @@
+Apple:
+  regex: 'AppleTV|iPad|iPod|iPhone'
+  models:
+    - regex: 'iPad'
+      model: 'iPad'
+      device: 'tablet'

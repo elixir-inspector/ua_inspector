@@ -1,37 +1,29 @@
 defmodule ExAgent.Parser.Device do
   @doc """
-  Parses the device from a user agent.
+  Parses device information from a user agent.
   """
-  @spec parse(String.t) :: ExAgent.Response.Device.t
-  def parse(user_agent) do
-    parse_device(user_agent, ExAgent.Regexes.get(:device))
+  @spec parse(String.t) :: Map.t
+  def parse(ua) do
+    parse_device(ua, ExAgent.Database.Devices.list)
   end
 
-  defp parse_device(user_agent, [ { _index, regex } | regexes ]) do
-    %ExAgent.Regex{ regex: regex_str } = regex
-
-    if Regex.match?(regex_str, user_agent) do
-      parse_device_data(user_agent, regex)
+  defp parse_device(ua, [ { _index, entry } | database ]) do
+    if Regex.match?(entry.regex, ua) do
+      parse_model(ua, entry, entry.models)
     else
-      parse_device(user_agent, regexes)
+      parse_device(ua, database)
     end
   end
-  defp parse_device(_, []), do: %ExAgent.Response.Device{}
 
-  defp parse_device_data(user_agent, regex) do
-    %ExAgent.Regex{
-      regex:              regex_str,
-      device_replacement: replacement
-    } = regex
-
-    captures = Regex.run(regex_str, user_agent)
-    family   = Enum.at(captures, 1)
-
-    if nil != replacement do
-      replacement = replacement |> String.replace("$", "\\")
-      family      = Regex.replace(regex_str, Enum.at(captures, 0), replacement)
+  defp parse_model(ua, device, [ model | models ]) do
+    if Regex.match?(model.regex, ua) do
+      %{
+        brand:  device.brand,
+        device: model.device,
+        model:  model.model
+      }
+    else
+      parse_model(ua, device, models)
     end
-
-    %ExAgent.Response.Device{ family: family }
   end
 end

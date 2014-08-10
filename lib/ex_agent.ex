@@ -4,18 +4,18 @@ defmodule ExAgent do
   def start(_, _) do
     ExAgent.Supervisor.start_link()
 
-    if Application.get_env(:ex_agent, :yaml) do
-      load_yaml(Application.get_env(:ex_agent, :yaml))
+    if Application.get_env(:ex_agent, :database_path) do
+      load(Application.get_env(:ex_agent, :database_path))
     end
 
     { :ok, self() }
   end
 
   @doc """
-  Loads yaml file with user agent definitions.
+  Loads parser databases from given base path.
   """
-  @spec load_yaml(String.t) :: :ok | { :error, String.t }
-  def load_yaml(file), do: GenServer.call(:ex_agent, { :load_yaml, file })
+  @spec load(String.t) :: :ok | { :error, String.t }
+  def load(path), do: GenServer.call(:ex_agent, { :load, path })
 
   @doc """
   Parses a user agent.

@@ -24,13 +24,14 @@ def application do
 end
 ```
 
-### User Agent Database
+### Parser Databases
 
-Using `mix ex_agent.yaml.download` you can store a local copy of the regexes
-database your local MIX_HOME directory. This database is taken from the
-[ua-parser](https://github.com/tobie/ua-parser) project.
+Using `mix ex_agent.databases.download` you can store local copies of the
+supported parser databases to your local MIX_HOME directory. The databases
+are taken from the
+[piwik/device-detector](https://github.com/piwik/device-detector) project.
 
-The local path of the downloaded file will be shown to you upon command
+The local path of the downloaded files will be shown to you upon command
 invocation.
 
 ### Configuration
@@ -42,7 +43,7 @@ configuration:
 use Mix.Config
 
 config :ex_agent,
-  yaml: Path.join(Mix.Utils.mix_home, "ex_agent/regexes.yaml")
+  database_path: Path.join(Mix.Utils.mix_home, "ex_agent")
 ```
 
 The shown path is the default download path used by the mix task.
@@ -51,36 +52,31 @@ The shown path is the default download path used by the mix task.
 ## Usage
 
 ```elixir
-iex(1)> ExAgent.parse("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3")
-%ExAgent.Response{
-  string: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
-  device: %ExAgent.Response.Device{
-    family: "iPhone"
+iex(1)> ExAgent.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
+%{
+  string: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
+  client: %{
+    name: "Mobile Safari",
+    version: "7.0"
   },
-  os: %ExAgent.Response.OS{
-    family: "iOS", major: "5",
-    minor:  "1",   patch: "1", patch_minor: :unknown
+  device: %{
+    brand: "Apple",
+    device: "tablet",
+    model: "iPad"
   },
-  ua: %ExAgent.Response.UA{
-    family: "iPhone", major: "5",
-    minor:  "1",      patch: :unknown
-  }
+  os: %{
+    name: "iOS",
+    version: "7_0_4"
+  },
 }
 ```
-
-_Device_, _os_ and _ua_ are structs containing the element _family_ and, if
-available, several version indicators named _major_, _minor_, _patch_ and/or
-_patch\_minor_.
-
-The values of the nested elements will be strings if they are properly matched,
-otherwise an atom with the value __:unknown__.
 
 _String_ will return the passed user agent unmodified.
 
 
 ## Resources
 
-- [ua-parser](https://github.com/tobie/ua-parser)
+- [piwik/device-detector](https://github.com/piwik/device-detector)
 - [yamerl](https://github.com/yakaz/yamerl)
 
 
@@ -88,5 +84,6 @@ _String_ will return the passed user agent unmodified.
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-_Regexes.yaml_ taken from the [ua-parser](https://github.com/tobie/ua-parser)
+The parser databases are taken from the
+[piwik/device-detector](https://github.com/piwik/device-detector)
 project. See there for detailed license information about the data contained.

@@ -1,0 +1,3 @@
+- regex: '(?:iPod|iPad|iPhone).+Version/(\d+[\.\d]+)'
+  name: 'Mobile Safari'
+  version: '$1'
