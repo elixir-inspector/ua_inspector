@@ -1,6 +1,30 @@
 defmodule ExAgent.ParserTest do
   use ExUnit.Case, async: true
 
+  test "parse empty" do
+    agent  = ""
+    parsed = %{
+      string: agent,
+      client: :unknown,
+      device: :unknown,
+      os:     :unknown
+    }
+
+    assert parsed == ExAgent.parse(agent)
+  end
+
+  test "parse unknown" do
+    agent  = "some unknown user agent"
+    parsed = %{
+      string: agent,
+      client: :unknown,
+      device: :unknown,
+      os:     :unknown
+    }
+
+    assert parsed == ExAgent.parse(agent)
+  end
+
   test "parse" do
     agent  = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
     parsed = %{

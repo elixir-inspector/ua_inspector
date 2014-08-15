@@ -1,7 +1,6 @@
 defmodule ExAgent.Database.Clients do
   @ets_counter :clients
   @ets_table   :ex_agent_clients
-
   @sources [
     { "clients.browsers.yml",     "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/browsers.yml" },
     { "clients.feed_readers.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/feed_readers.yml" },

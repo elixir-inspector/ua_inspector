@@ -1,17 +1,23 @@
 defmodule ExAgent.Parser.Device do
+  @moduledoc false
+
   @doc """
   Parses device information from a user agent.
-  """
-  @spec parse(String.t) :: Map.t
-  def parse(ua) do
-    parse_device(ua, ExAgent.Database.Devices.list)
-  end
 
-  defp parse_device(ua, [ { _index, entry } | database ]) do
+  Returns `:unknown` if no information is not found in the database.
+
+      iex> parse("--- undetectable ---", [])
+      :unknown
+  """
+  @spec parse(String.t, Enum.t) :: Map.t
+
+  def parse(_, []), do: :unknown
+
+  def parse(ua, [ { _index, entry } | database ]) do
     if Regex.match?(entry.regex, ua) do
       parse_model(ua, entry, entry.models)
     else
-      parse_device(ua, database)
+      parse(ua, database)
     end
   end
 

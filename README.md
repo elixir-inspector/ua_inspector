@@ -69,9 +69,16 @@ iex(1)> ExAgent.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKi
     version: "7_0_4"
   },
 }
+iex(2)> ExAgent.parse("--- undetectable ---")
+%{
+  string: "--- undetectable ---",
+  client: :unknown,
+  device: :unknown,
+  os:     :unknown
+}
 ```
 
-_String_ will return the passed user agent unmodified.
+The map key _string_ will hold the unmodified passed user agent.
 
 
 ## Resources

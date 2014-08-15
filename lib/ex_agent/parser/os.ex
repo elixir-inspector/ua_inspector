@@ -1,21 +1,27 @@
 defmodule ExAgent.Parser.Os do
+  @moduledoc false
+
   @doc """
   Parses operating system information from a user agent.
-  """
-  @spec parse(String.t) :: Map.t
-  def parse(ua) do
-    parse_os(ua, ExAgent.Database.Oss.list)
-  end
 
-  defp parse_os(ua, [ { _index, entry } | database ]) do
+  Returns `:unknown` if no information is not found in the database.
+
+      iex> parse("--- undetectable ---", [])
+      :unknown
+  """
+  @spec parse(String.t, Enum.t) :: Map.t
+
+  def parse(_, []), do: :unknown
+
+  def parse(ua, [ { _index, entry } | database ]) do
     if Regex.match?(entry.regex, ua) do
-      parse_os_data(ua, entry)
+      parse_data(ua, entry)
     else
-      parse_os(ua, database)
+      parse(ua, database)
     end
   end
 
-  defp parse_os_data(ua, entry) do
+  defp parse_data(ua, entry) do
     captures = Regex.run(entry.regex, ua)
 
     %{

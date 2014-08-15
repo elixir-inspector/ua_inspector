@@ -6,9 +6,9 @@ defmodule ExAgent.Parser do
   def parse(ua) do
     %{
       string: ua,
-      client: ExAgent.Parser.Client.parse(ua),
-      device: ExAgent.Parser.Device.parse(ua),
-      os:     ExAgent.Parser.Os.parse(ua)
+      client: ExAgent.Parser.Client.parse(ua, ExAgent.Database.Clients.list),
+      device: ExAgent.Parser.Device.parse(ua, ExAgent.Database.Devices.list),
+      os:     ExAgent.Parser.Os.parse(ua, ExAgent.Database.Oss.list)
     }
   end
 end
