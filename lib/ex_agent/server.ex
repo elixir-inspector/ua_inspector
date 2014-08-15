@@ -1,19 +1,13 @@
 defmodule ExAgent.Server do
   use GenServer
 
+  @behaviour :poolboy_worker
+
   def start_link(default \\ []) do
-    GenServer.start_link(__MODULE__, default, [ name: :ex_agent ])
+    GenServer.start_link(__MODULE__, default)
   end
 
-  def init(_) do
-    ExAgent.Databases.init()
-
-    { :ok, [] }
-  end
-
-  def stop() do
-    GenServer.call(:ex_agent, :stop)
-  end
+  def init(_), do: { :ok, [] }
 
   def handle_call({ :load, path }, _from, state) do
     { :reply, ExAgent.Databases.load(path), state }
@@ -24,10 +18,4 @@ defmodule ExAgent.Server do
   end
 
   def handle_call(:stop, _from, state), do: { :stop, :normal, :ok, state }
-
-  def terminate(_, _) do
-    ExAgent.Databases.terminate()
-
-    :ok
-  end
 end

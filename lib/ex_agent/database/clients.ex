@@ -10,7 +10,7 @@ defmodule ExAgent.Database.Clients do
   ]
 
   def init() do
-    :ets.new(@ets_table, [ :ordered_set, :private, :named_table ])
+    :ets.new(@ets_table, [ :ordered_set, :public, :named_table ])
   end
 
   def list(), do: :ets.tab2list(@ets_table)

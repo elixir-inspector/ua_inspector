@@ -2,7 +2,7 @@ defmodule ExAgent.Databases do
   @ets_table :ex_agent
 
   def init() do
-    :ets.new(@ets_table, [ :set, :private, :named_table ])
+    :ets.new(@ets_table, [ :set, :public, :named_table ])
 
     ExAgent.Database.Clients.init()
     ExAgent.Database.Devices.init()
