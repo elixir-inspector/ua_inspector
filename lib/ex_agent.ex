@@ -20,6 +20,6 @@ defmodule ExAgent do
   @doc """
   Parses a user agent.
   """
-  @spec parse(String.t) :: ExAgent.Response.t
+  @spec parse(String.t) :: Map.t
   def parse(ua), do: GenServer.call(:ex_agent, { :parse, ua })
 end
