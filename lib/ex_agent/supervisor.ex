@@ -6,6 +6,10 @@ defmodule ExAgent.Supervisor do
   end
 
   def init([]) do
-    supervise([ ExAgent.Pool.child_spec ], strategy: :one_for_one)
+    [
+      worker(ExAgent.Databases, []),
+      ExAgent.Pool.child_spec
+    ]
+      |> supervise(strategy: :one_for_one)
   end
 end

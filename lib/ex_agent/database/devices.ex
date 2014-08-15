@@ -10,7 +10,7 @@ defmodule ExAgent.Database.Devices do
   ]
 
   def init() do
-    :ets.new(@ets_table, [ :ordered_set, :public, :named_table ])
+    :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
   end
 
   def list(), do: :ets.tab2list(@ets_table)

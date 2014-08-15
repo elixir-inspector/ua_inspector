@@ -9,10 +9,6 @@ defmodule ExAgent.Server do
 
   def init(_), do: { :ok, [] }
 
-  def handle_call({ :load, path }, _from, state) do
-    { :reply, ExAgent.Databases.load(path), state }
-  end
-
   def handle_call({ :parse, ua }, _from, state) do
     { :reply, ExAgent.Parser.parse(ua), state }
   end

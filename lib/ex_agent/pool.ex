@@ -17,14 +17,6 @@ defmodule ExAgent.Pool do
   def child_spec(), do: :poolboy.child_spec(@pool_name, @pool_options, [])
 
   @doc false
-  def load(path) do
-    :poolboy.transaction(
-      @pool_name,
-      &GenServer.call(&1, { :load, path })
-    )
-  end
-
-  @doc false
   def parse(ua) do
     :poolboy.transaction(
       @pool_name,
