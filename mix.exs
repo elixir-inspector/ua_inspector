@@ -8,7 +8,7 @@ defmodule ExAgent.Mixfile do
       version:    "0.3.1",
       elixir:     ">= 0.14.0",
       deps:       deps(Mix.env),
-      docs:       &docs/0 ]
+      docs:       [ readme: true, main: "README" ] ]
   end
 
   def application do
@@ -16,20 +16,14 @@ defmodule ExAgent.Mixfile do
       mod:          { ExAgent, [] } ]
   end
 
-  defp deps(:docs) do
+  def deps(:docs) do
     deps(:prod) ++
-      [ { :ex_doc,   github: "elixir-lang/ex_doc" },
-        { :markdown, github: "devinus/markdown" } ]
+      [ { :earmark, "~> 0.1" },
+        { :ex_doc,  "~> 0.5" } ]
   end
 
-  defp deps(_) do
+  def deps(_) do
     [ { :poolboy, "~> 1.0" },
       { :yamerl,  github: "yakaz/yamerl" } ]
-  end
-
-  defp docs do
-    [ readme:     true,
-      main:       "README",
-      source_ref: System.cmd("git rev-parse --verify --quiet HEAD") ]
   end
 end
