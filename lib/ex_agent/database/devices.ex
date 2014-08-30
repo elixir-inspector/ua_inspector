@@ -3,6 +3,8 @@ defmodule ExAgent.Database.Devices do
   ExAgent device information database.
   """
 
+  use ExAgent.Database
+
   @ets_counter :devices
   @ets_table   :ex_agent_devices
   @sources [
@@ -13,56 +15,18 @@ defmodule ExAgent.Database.Devices do
     { "devices.televisions.yml",  "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/televisions.yml" }
   ]
 
-  @doc """
-  Initializes (sets up) the database.
-  """
-  @spec init() :: atom
-  def init() do
-    :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
-  end
+  def store_entry({ brand, data }) do
+    counter = ExAgent.Databases.update_counter(@ets_counter)
+    data    = Enum.into(data, %{})
+    models  = parse_models(data)
 
-  @doc """
-  Returns all device database entries as a list.
-  """
-  @spec list() :: list
-  def list(), do: :ets.tab2list(@ets_table)
+    entry = %{
+      brand:  brand,
+      models: models,
+      regex:  Regex.compile!(data["regex"])
+    }
 
-  @doc """
-  Loads a device database file.
-  """
-  @spec load(String.t) :: :ok
-  def load(path) do
-    for file <- Dict.keys(@sources) do
-      database = Path.join(path, file)
-
-      if File.regular?(database) do
-        load_database(database)
-      end
-    end
-  end
-
-  @doc """
-  Returns the database sources.
-  """
-  @spec sources() :: list
-  def sources(), do: @sources
-
-  @doc """
-  Terminates (deletes) the database.
-  """
-  @spec terminate() :: atom
-  def terminate(), do: :ets.delete(@ets_table)
-
-  defp load_database(file) do
-    :yamerl_constr.file(file, [ :str_node_as_binary ])
-      |> hd()
-      |> parse_database()
-  end
-
-  defp parse_database([]), do: :ok
-  defp parse_database([ { brand, entry } | database ]) do
-    store_entry(brand, entry)
-    parse_database(database)
+    :ets.insert_new(@ets_table, { counter, entry })
   end
 
   defp parse_models(data) do
@@ -81,19 +45,5 @@ defmodule ExAgent.Database.Devices do
         }
       end)
     end
-  end
-
-  defp store_entry(brand, data) do
-    counter = ExAgent.Databases.update_counter(@ets_counter)
-    data    = Enum.into(data, %{})
-    models  = parse_models(data)
-
-    entry = %{
-      brand:  brand,
-      models: models,
-      regex:  Regex.compile!(data["regex"])
-    }
-
-    :ets.insert_new(@ets_table, { counter, entry })
   end
 end
