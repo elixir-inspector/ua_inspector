@@ -1,8 +1,4 @@
 defmodule Mix.Tasks.Ex_agent.Databases.Download do
-  use Mix.Task
-
-  @shortdoc  "Downloads regexes.yaml"
-
   @moduledoc """
   Fetches parser databases from the
   [piwik/device-detector](https://github.com/piwik/device-detector)
@@ -12,6 +8,10 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
 
   `mix ex_agent.database.download`
   """
+
+  use Mix.Task
+
+  @shortdoc  "Downloads parser databases"
 
   def run(_args) do
     Mix.shell.info("Download path: #{ Mix.ExAgent.download_path() }")

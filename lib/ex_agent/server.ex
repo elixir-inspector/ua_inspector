@@ -1,4 +1,8 @@
 defmodule ExAgent.Server do
+  @moduledoc """
+  ExAgent poolboy worker (server).
+  """
+
   use GenServer
 
   @behaviour :poolboy_worker

@@ -1,5 +1,7 @@
 defmodule ExAgent.Parser.Client do
-  @moduledoc false
+  @moduledoc """
+  ExAgent client information parser.
+  """
 
   @doc """
   Parses client information from a user agent.
@@ -9,7 +11,7 @@ defmodule ExAgent.Parser.Client do
       iex> parse("--- undetectable ---", [])
       :unknown
   """
-  @spec parse(String.t, Enum.t) :: Map.t
+  @spec parse(String.t, Enum.t) :: map
 
   def parse(_, []), do: :unknown
 

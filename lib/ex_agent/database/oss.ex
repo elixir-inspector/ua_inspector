@@ -1,16 +1,32 @@
 defmodule ExAgent.Database.Oss do
+  @moduledoc """
+  ExAgent operating system information database.
+  """
+
   @ets_counter :oss
   @ets_table   :ex_agent_oss
   @sources [
     { "oss.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/oss.yml" }
   ]
 
+  @doc """
+  Initializes (sets up) the database.
+  """
+  @spec init() :: atom
   def init() do
     :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
   end
 
+  @doc """
+  Returns all operating system database entries as a list.
+  """
+  @spec list() :: list
   def list(), do: :ets.tab2list(@ets_table)
 
+  @doc """
+  Loads a operating system database file.
+  """
+  @spec load(String.t) :: :ok
   def load(path) do
     for file <- Dict.keys(@sources) do
       database = Path.join(path, file)
@@ -21,7 +37,16 @@ defmodule ExAgent.Database.Oss do
     end
   end
 
-  def sources(),   do: @sources
+  @doc """
+  Returns the database sources.
+  """
+  @spec sources() :: list
+  def sources(), do: @sources
+
+  @doc """
+  Terminates (deletes) the database.
+  """
+  @spec terminate() :: atom
   def terminate(), do: :ets.delete(@ets_table)
 
   defp load_database(file) do

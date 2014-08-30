@@ -14,9 +14,13 @@ defmodule ExAgent.Pool do
   @doc """
   Returns poolboy child specification for supervision tree.
   """
-  def child_spec(), do: :poolboy.child_spec(@pool_name, @pool_options, [])
+  @spec child_spec :: tuple
+  def child_spec, do: :poolboy.child_spec(@pool_name, @pool_options, [])
 
-  @doc false
+  @doc """
+  Sends a parse request to a pool worker.
+  """
+  @spec parse(String.t) :: map
   def parse(ua) do
     :poolboy.transaction(
       @pool_name,

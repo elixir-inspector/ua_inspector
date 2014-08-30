@@ -1,5 +1,7 @@
 defmodule ExAgent.Parser.Os do
-  @moduledoc false
+  @moduledoc """
+  ExAgent operating system information parser.
+  """
 
   @doc """
   Parses operating system information from a user agent.
@@ -9,7 +11,7 @@ defmodule ExAgent.Parser.Os do
       iex> parse("--- undetectable ---", [])
       :unknown
   """
-  @spec parse(String.t, Enum.t) :: Map.t
+  @spec parse(String.t, Enum.t) :: map
 
   def parse(_, []), do: :unknown
 

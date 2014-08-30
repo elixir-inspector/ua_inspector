@@ -1,8 +1,12 @@
 defmodule ExAgent.Parser do
+  @moduledoc """
+  Parser module to call individual data parsers and aggregate the results.
+  """
+
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t) :: Map.t
+  @spec parse(String.t) :: map
   def parse(ua) do
     %{
       string: ua,
