@@ -5,8 +5,8 @@ defmodule ExAgent.Mixfile do
     [ app:        :ex_agent,
       name:       "ExAgent",
       source_url: "https://github.com/elixytics/ex_agent",
-      version:    "0.3.1",
-      elixir:     ">= 0.14.0",
+      version:    "0.4.0",
+      elixir:     "~> 1.0",
       deps:       deps(Mix.env),
       docs:       [ readme: true, main: "README" ] ]
   end
@@ -19,7 +19,7 @@ defmodule ExAgent.Mixfile do
   def deps(:docs) do
     deps(:prod) ++
       [ { :earmark, "~> 0.1" },
-        { :ex_doc,  "~> 0.5" } ]
+        { :ex_doc,  "~> 0.6" } ]
   end
 
   def deps(_) do
