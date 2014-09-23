@@ -6,10 +6,10 @@ defmodule ExAgent do
   use Application
 
   def start(_type, _args) do
-    ExAgent.Supervisor.start_link()
+    { :ok, _pid } = ExAgent.Supervisor.start_link()
 
     if Application.get_env(:ex_agent, :database_path) do
-      load(Application.get_env(:ex_agent, :database_path))
+      :ok = load(Application.get_env(:ex_agent, :database_path))
     end
 
     { :ok, self() }

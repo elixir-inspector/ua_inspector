@@ -19,7 +19,7 @@ defmodule ExAgent.Databases do
   end
 
   def init(_) do
-    :ets.new(@ets_table, [ :set, :protected, :named_table ])
+    _tid = :ets.new(@ets_table, [ :set, :protected, :named_table ])
 
     ExAgent.Database.Clients.init()
     ExAgent.Database.Devices.init()
@@ -65,6 +65,6 @@ defmodule ExAgent.Databases do
 
   Use only within server connection!
   """
-  @spec update_counter(atom) :: atom
+  @spec update_counter(atom) :: integer
   def update_counter(counter), do: :ets.update_counter(@ets_table, counter, 1)
 end

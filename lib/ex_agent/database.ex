@@ -15,7 +15,7 @@ defmodule ExAgent.Database do
       directly out of the database file and the actual data needed when
       querying the database.
       """
-      @spec store_entry(Dict.t) :: boolean
+      @spec store_entry(any) :: boolean
       def store_entry(_entry), do: false
 
       defoverridable [ store_entry: 1 ]
@@ -27,7 +27,7 @@ defmodule ExAgent.Database do
       @doc """
       Initializes (sets up) the database.
       """
-      @spec init() :: atom
+      @spec init() :: atom | :ets.tid
       def init() do
         :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
       end
@@ -41,7 +41,7 @@ defmodule ExAgent.Database do
       @doc """
       Loads a database file.
       """
-      @spec load(String.t) :: :ok
+      @spec load(String.t) :: no_return
       def load(path) do
         for file <- Dict.keys(@sources) do
           database = Path.join(path, file)
@@ -63,7 +63,7 @@ defmodule ExAgent.Database do
       @doc """
       Terminates (deletes) the database.
       """
-      @spec terminate() :: atom
+      @spec terminate() :: :true
       def terminate(), do: :ets.delete(@ets_table)
 
       @doc """
@@ -81,7 +81,7 @@ defmodule ExAgent.Database do
   @doc """
   Parses a yaml database file and returns the contents.
   """
-  @spec load_database(String.t) :: list
+  @spec load_database(String.t) :: any
   def load_database(file) do
     :yamerl_constr.file(file, [ :str_node_as_binary ])
       |> hd()
