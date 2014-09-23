@@ -2,13 +2,14 @@ defmodule ExAgent.Mixfile do
   use Mix.Project
 
   def project do
-    [ app:        :ex_agent,
-      name:       "ExAgent",
-      source_url: "https://github.com/elixytics/ex_agent",
-      version:    "0.4.0",
-      elixir:     "~> 1.0",
-      deps:       deps(Mix.env),
-      docs:       [ readme: true, main: "README" ] ]
+    [ app:           :ex_agent,
+      name:          "ExAgent",
+      source_url:    "https://github.com/elixytics/ex_agent",
+      version:       "0.4.0",
+      elixir:        "~> 1.0",
+      deps:          deps(Mix.env),
+      docs:          [ readme: true, main: "README" ],
+      test_coverage: [ tool: ExCoveralls ]]
   end
 
   def application do
@@ -24,7 +25,8 @@ defmodule ExAgent.Mixfile do
 
   def deps(:test) do
     deps(:prod) ++
-      [ { :dialyze, "~> 0.1" } ]
+      [ { :dialyze,     "~> 0.1" },
+        { :excoveralls, "~> 0.3" } ]
   end
 
   def deps(_) do
