@@ -22,6 +22,11 @@ defmodule ExAgent.Mixfile do
         { :ex_doc,  "~> 0.6" } ]
   end
 
+  def deps(:test) do
+    deps(:prod) ++
+      [ { :dialyze, "~> 0.1" } ]
+  end
+
   def deps(_) do
     [ { :poolboy, "~> 1.0" },
       { :yamerl,  github: "yakaz/yamerl" } ]
