@@ -3,22 +3,12 @@ defmodule ExAgent.Database do
   Basic database module providing minimal functions.
   """
 
+  use Behaviour
+
   defmacro __using__(_opts) do
     quote do
-      import unquote(__MODULE__)
+      @behaviour unquote(__MODULE__)
       @before_compile unquote(__MODULE__)
-
-      @doc """
-      Stores a database entry.
-
-      If necessary a data conversion is made from the raw data passed
-      directly out of the database file and the actual data needed when
-      querying the database.
-      """
-      @spec store_entry(any) :: boolean
-      def store_entry(_entry), do: false
-
-      defoverridable [ store_entry: 1 ]
     end
   end
 
@@ -77,6 +67,15 @@ defmodule ExAgent.Database do
       end
     end
   end
+
+  @doc """
+  Stores a database entry.
+
+  If necessary a data conversion is made from the raw data passed
+  directly out of the database file and the actual data needed when
+  querying the database.
+  """
+  defcallback store_entry(any) :: boolean
 
   @doc """
   Parses a yaml database file and returns the contents.

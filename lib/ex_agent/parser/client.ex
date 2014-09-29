@@ -3,15 +3,7 @@ defmodule ExAgent.Parser.Client do
   ExAgent client information parser.
   """
 
-  @doc """
-  Parses client information from a user agent.
-
-  Returns `:unknown` if no information is not found in the database.
-
-      iex> parse("--- undetectable ---", [])
-      :unknown
-  """
-  @spec parse(String.t, Enum.t) :: map
+  use ExAgent.Parser
 
   def parse(_, []), do: :unknown
 

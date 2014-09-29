@@ -3,15 +3,7 @@ defmodule ExAgent.Parser.Os do
   ExAgent operating system information parser.
   """
 
-  @doc """
-  Parses operating system information from a user agent.
-
-  Returns `:unknown` if no information is not found in the database.
-
-      iex> parse("--- undetectable ---", [])
-      :unknown
-  """
-  @spec parse(String.t, Enum.t) :: map
+  use ExAgent.Parser
 
   def parse(_, []), do: :unknown
 
