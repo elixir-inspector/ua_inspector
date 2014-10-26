@@ -4,3 +4,10 @@ Apple:
     - regex: 'iPad'
       model: 'iPad'
       device: 'tablet'
+
+Incomplete:
+  regex: 'Incomplete'
+  models:
+    - regex: 'Unmatched'
+      model: 'Unmatched'
+      device: 'ignore'

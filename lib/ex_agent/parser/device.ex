@@ -15,6 +15,8 @@ defmodule ExAgent.Parser.Device do
     end
   end
 
+  defp parse_model(_, _, []), do: :unknown
+
   defp parse_model(ua, device, [ model | models ]) do
     if Regex.match?(model.regex, ua) do
       %{
