@@ -13,15 +13,25 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
 
   @shortdoc  "Downloads parser databases"
 
-  def run(_args) do
+  def run(args) do
     Mix.shell.info("Download path: #{ Mix.ExAgent.download_path() }")
     Mix.shell.info("This command will delete all existing files before downloading!")
 
-    if Mix.shell.yes?("Download parser databases?") do
-      clear()
-      setup()
-      download()
-    end
+    { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
+
+    run_confirmed(opts)
+  end
+
+  defp run_confirmed([ force: true ]), do: run_confirmed(true)
+  defp run_confirmed(false), do: :ok
+  defp run_confirmed(true) do
+    clear()
+    setup()
+    download()
+  end
+  defp run_confirmed(_) do
+    Mix.shell.yes?("Download parser databases?")
+      |> run_confirmed()
   end
 
   defp clear() do
