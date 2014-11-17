@@ -14,12 +14,14 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
   @shortdoc  "Downloads parser databases"
 
   def run(args) do
-    Mix.shell.info("Download path: #{ Mix.ExAgent.download_path() }")
-    Mix.shell.info("This command will delete all existing files before downloading!")
+    Mix.shell.info "Download path: #{ Mix.ExAgent.download_path() }"
+    Mix.shell.info "This command will delete all existing files before downloading!"
 
     { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
 
     run_confirmed(opts)
+
+    Mix.shell.info "Download complete!"
   end
 
   defp run_confirmed([ force: true ]), do: run_confirmed(true)
@@ -51,7 +53,7 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
   defp download_database(local, remote) do
     target = Path.join([ Mix.ExAgent.download_path, local ])
 
-    IO.puts ".. downloading: #{ local }"
+    Mix.shell.info ".. downloading: #{ local }"
     File.write! target, Mix.Utils.read_path!(remote)
   end
 
