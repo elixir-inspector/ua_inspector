@@ -1,18 +1,18 @@
-defmodule ExAgent.Database.Oss do
+defmodule UAInspector.Database.Oss do
   @moduledoc """
-  ExAgent operating system information database.
+  UAInspector operating system information database.
   """
 
-  use ExAgent.Database
+  use UAInspector.Database
 
   @ets_counter :oss
-  @ets_table   :ex_agent_oss
+  @ets_table   :ua_inspector_oss
   @sources [
     { "oss.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/oss.yml" }
   ]
 
   def store_entry(data) do
-    counter = ExAgent.Databases.update_counter(@ets_counter)
+    counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     entry   = %{
       name:    data["name"],

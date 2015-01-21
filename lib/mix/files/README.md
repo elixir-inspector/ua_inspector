@@ -1,4 +1,4 @@
-# ExAgent Parser Databases
+# UAInspector Parser Databases
 
 The files in this directory are taken from the
 [piwik/device-detector](https://github.com/piwik/device-detector)

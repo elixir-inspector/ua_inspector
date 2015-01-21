@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Ex_agent.Databases.Download do
+defmodule Mix.Tasks.Ua_inspector.Databases.Download do
   @moduledoc """
   Fetches parser databases from the
   [piwik/device-detector](https://github.com/piwik/device-detector)
@@ -6,7 +6,7 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
 
   The files will be stored inside your MIX_HOME (defaults to ~/.mix).
 
-  `mix ex_agent.database.download`
+  `mix ua_inspector.database.download`
   """
 
   use Mix.Task
@@ -14,7 +14,7 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
   @shortdoc  "Downloads parser databases"
 
   def run(args) do
-    Mix.shell.info "Download path: #{ Mix.ExAgent.download_path() }"
+    Mix.shell.info "Download path: #{ Mix.UAInspector.download_path() }"
     Mix.shell.info "This command will delete all existing files before downloading!"
 
     { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
@@ -37,13 +37,13 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
   end
 
   defp clear() do
-    { :ok, _ } = File.rm_rf Mix.ExAgent.download_path
+    { :ok, _ } = File.rm_rf Mix.UAInspector.download_path
   end
 
   defp download() do
-    databases = ExAgent.Database.Clients.sources ++
-                ExAgent.Database.Devices.sources ++
-                ExAgent.Database.Oss.sources
+    databases = UAInspector.Database.Clients.sources ++
+                UAInspector.Database.Devices.sources ++
+                UAInspector.Database.Oss.sources
 
     for { local, remote } <- databases do
       download_database(local, remote)
@@ -51,17 +51,17 @@ defmodule Mix.Tasks.Ex_agent.Databases.Download do
   end
 
   defp download_database(local, remote) do
-    target = Path.join([ Mix.ExAgent.download_path, local ])
+    target = Path.join([ Mix.UAInspector.download_path, local ])
 
     Mix.shell.info ".. downloading: #{ local }"
     File.write! target, Mix.Utils.read_path!(remote)
   end
 
   defp setup() do
-    :ok = File.mkdir_p Mix.ExAgent.download_path
+    :ok = File.mkdir_p Mix.UAInspector.download_path
 
     readme_src = Path.join([ __DIR__, "../../files/README.md" ])
-    readme_tgt = Path.join([ Mix.ExAgent.download_path, "README.md" ])
+    readme_tgt = Path.join([ Mix.UAInspector.download_path, "README.md" ])
 
     { :ok, _ } = File.copy readme_src, readme_tgt
   end

@@ -1,9 +1,9 @@
-defmodule ExAgent.Parser.Os do
+defmodule UAInspector.Parser.Os do
   @moduledoc """
-  ExAgent operating system information parser.
+  UAInspector operating system information parser.
   """
 
-  use ExAgent.Parser
+  use UAInspector.Parser
 
   def parse(_, []), do: :unknown
 

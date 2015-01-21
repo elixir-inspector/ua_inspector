@@ -1,11 +1,11 @@
-defmodule ExAgent.Mixfile do
+defmodule UAInspector.Mixfile do
   use Mix.Project
 
   def project do
-    [ app:           :ex_agent,
-      name:          "ExAgent",
-      source_url:    "https://github.com/elixytics/ex_agent",
-      version:       "0.4.0",
+    [ app:           :ua_inspector,
+      name:          "UAInspector",
+      source_url:    "https://github.com/elixytics/ua_inspector",
+      version:       "0.5.0",
       elixir:        "~> 1.0",
       deps:          deps(Mix.env),
       docs:          [ readme: "README.md", main: "README" ],
@@ -14,7 +14,7 @@ defmodule ExAgent.Mixfile do
 
   def application do
     [ applications: [ :yamerl ],
-      mod:          { ExAgent, [] } ]
+      mod:          { UAInspector, [] } ]
   end
 
   def deps(:docs) do

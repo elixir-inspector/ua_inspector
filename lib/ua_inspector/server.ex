@@ -1,6 +1,6 @@
-defmodule ExAgent.Server do
+defmodule UAInspector.Server do
   @moduledoc """
-  ExAgent poolboy worker (server).
+  UAInspector poolboy worker (server).
   """
 
   use GenServer
@@ -12,7 +12,7 @@ defmodule ExAgent.Server do
   end
 
   def handle_call({ :parse, ua }, _from, state) do
-    { :reply, ExAgent.Parser.parse(ua), state }
+    { :reply, UAInspector.Parser.parse(ua), state }
   end
 
   def handle_call(:stop, _from, state), do: { :stop, :normal, :ok, state }

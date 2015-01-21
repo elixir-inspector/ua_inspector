@@ -1,4 +1,4 @@
-defmodule ExAgent.ParserTest do
+defmodule UAInspector.ParserTest do
   use ExUnit.Case, async: true
 
   test "handle incomplete yaml definitions" do
@@ -10,7 +10,7 @@ defmodule ExAgent.ParserTest do
       os:     :unknown
     }
 
-    assert parsed == ExAgent.parse(agent)
+    assert parsed == UAInspector.parse(agent)
   end
 
   test "parse" do
@@ -22,7 +22,7 @@ defmodule ExAgent.ParserTest do
       os:     %{ name: "iOS", version: "7_0_4" },
     }
 
-    assert parsed == ExAgent.parse(agent)
+    assert parsed == UAInspector.parse(agent)
   end
 
   test "parse empty" do
@@ -34,7 +34,7 @@ defmodule ExAgent.ParserTest do
       os:     :unknown
     }
 
-    assert parsed == ExAgent.parse(agent)
+    assert parsed == UAInspector.parse(agent)
   end
 
   test "parse unknown" do
@@ -46,6 +46,6 @@ defmodule ExAgent.ParserTest do
       os:     :unknown
     }
 
-    assert parsed == ExAgent.parse(agent)
+    assert parsed == UAInspector.parse(agent)
   end
 end

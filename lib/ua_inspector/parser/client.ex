@@ -1,9 +1,9 @@
-defmodule ExAgent.Parser.Client do
+defmodule UAInspector.Parser.Client do
   @moduledoc """
-  ExAgent client information parser.
+  UAInspector client information parser.
   """
 
-  use ExAgent.Parser
+  use UAInspector.Parser
 
   def parse(_, []), do: :unknown
 

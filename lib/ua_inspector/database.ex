@@ -1,4 +1,4 @@
-defmodule ExAgent.Database do
+defmodule UAInspector.Database do
   @moduledoc """
   Basic database module providing minimal functions.
   """

@@ -1,11 +1,13 @@
-defmodule ExAgent.Databases do
+defmodule UAInspector.Databases do
   @moduledoc """
   Module to coordinate individual parser databases.
   """
 
   use GenServer
 
-  @ets_table :ex_agent
+  alias UAInspector.Database
+
+  @ets_table :ua_inspector
 
 
   # GenServer lifecycle
@@ -21,19 +23,19 @@ defmodule ExAgent.Databases do
   def init(_) do
     _tid = :ets.new(@ets_table, [ :set, :protected, :named_table ])
 
-    ExAgent.Database.Clients.init()
-    ExAgent.Database.Devices.init()
-    ExAgent.Database.Oss.init()
+    Database.Clients.init()
+    Database.Devices.init()
+    Database.Oss.init()
 
-    :ets.insert(:ex_agent, [ clients: 0, devices: 0, oss: 0 ])
+    :ets.insert(@ets_table, [ clients: 0, devices: 0, oss: 0 ])
 
     { :ok, [] }
   end
 
   def terminate(_, _) do
-    ExAgent.Database.Clients.terminate()
-    ExAgent.Database.Devices.terminate()
-    ExAgent.Database.Oss.terminate()
+    Database.Clients.terminate()
+    Database.Devices.terminate()
+    Database.Oss.terminate()
 
     :ets.delete(@ets_table)
 
@@ -44,9 +46,9 @@ defmodule ExAgent.Databases do
   # GenServer callbacks
 
   def handle_call({ :load, path }, _from, state) do
-    ExAgent.Database.Clients.load(path)
-    ExAgent.Database.Devices.load(path)
-    ExAgent.Database.Oss.load(path)
+    Database.Clients.load(path)
+    Database.Devices.load(path)
+    Database.Oss.load(path)
 
     { :reply, :ok, state }
   end

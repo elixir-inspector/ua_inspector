@@ -1,14 +1,14 @@
-defmodule ExAgent.Pool do
+defmodule UAInspector.Pool do
   @moduledoc """
-  Connects the plain ExAgent interface with the underlying pool.
+  Connects the plain UAInspector interface with the underlying pool.
   """
 
-  @pool_name    :ex_agent_pool
+  @pool_name    :ua_inspector_pool
   @pool_options [
     name:          { :local, @pool_name },
-    worker_module: ExAgent.Server,
-    size:          Application.get_env(:ex_agent, :pool_size, 5),
-    max_overflow:  Application.get_env(:ex_agent, :pool_max_overflow, 10)
+    worker_module: UAInspector.Server,
+    size:          Application.get_env(:ua_inspector, :pool_size, 5),
+    max_overflow:  Application.get_env(:ua_inspector, :pool_max_overflow, 10)
   ]
 
   @doc """

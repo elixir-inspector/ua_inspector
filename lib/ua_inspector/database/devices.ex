@@ -1,12 +1,12 @@
-defmodule ExAgent.Database.Devices do
+defmodule UAInspector.Database.Devices do
   @moduledoc """
-  ExAgent device information database.
+  UAInspector device information database.
   """
 
-  use ExAgent.Database
+  use UAInspector.Database
 
   @ets_counter :devices
-  @ets_table   :ex_agent_devices
+  @ets_table   :ua_inspector_devices
   @sources [
     { "devices.cameras.yml",      "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/cameras.yml" },
     { "devices.car_browsers.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/car_browsers.yml" },
@@ -16,7 +16,7 @@ defmodule ExAgent.Database.Devices do
   ]
 
   def store_entry({ brand, data }) do
-    counter = ExAgent.Databases.update_counter(@ets_counter)
+    counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     models  = parse_models(data)
 

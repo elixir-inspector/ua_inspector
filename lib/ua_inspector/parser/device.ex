@@ -1,9 +1,9 @@
-defmodule ExAgent.Parser.Device do
+defmodule UAInspector.Parser.Device do
   @moduledoc """
-  ExAgent device information parser.
+  UAInspector device information parser.
   """
 
-  use ExAgent.Parser
+  use UAInspector.Parser
 
   def parse(_, []), do: :unknown
 

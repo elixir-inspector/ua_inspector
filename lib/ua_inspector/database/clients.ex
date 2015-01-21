@@ -1,12 +1,12 @@
-defmodule ExAgent.Database.Clients do
+defmodule UAInspector.Database.Clients do
   @moduledoc """
-  ExAgent client information database.
+  UAInspector client information database.
   """
 
-  use ExAgent.Database
+  use UAInspector .Database
 
   @ets_counter :clients
-  @ets_table   :ex_agent_clients
+  @ets_table   :ua_inspector_clients
   @sources [
     { "clients.browsers.yml",     "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/browsers.yml" },
     { "clients.feed_readers.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/feed_readers.yml" },
@@ -16,7 +16,7 @@ defmodule ExAgent.Database.Clients do
   ]
 
   def store_entry(data) do
-    counter = ExAgent.Databases.update_counter(@ets_counter)
+    counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     entry   = %{
       name:    data["name"],

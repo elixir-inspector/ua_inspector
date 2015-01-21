@@ -1,9 +1,12 @@
-defmodule ExAgent.Parser do
+defmodule UAInspector.Parser do
   @moduledoc """
   Parser module to call individual data parsers and aggregate the results.
   """
 
   use Behaviour
+
+  alias UAInspector.Database
+  alias UAInspector.Parser
 
   defmacro __using__(_opts) do
     quote do
@@ -28,9 +31,9 @@ defmodule ExAgent.Parser do
   def parse(ua) do
     %{
       string: ua,
-      client: ExAgent.Parser.Client.parse(ua, ExAgent.Database.Clients.list),
-      device: ExAgent.Parser.Device.parse(ua, ExAgent.Database.Devices.list),
-      os:     ExAgent.Parser.Os.parse(ua, ExAgent.Database.Oss.list)
+      client: Parser.Client.parse(ua, Database.Clients.list),
+      device: Parser.Device.parse(ua, Database.Devices.list),
+      os:     Parser.Os.parse(ua, Database.Oss.list)
     }
   end
 end
