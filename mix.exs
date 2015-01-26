@@ -5,7 +5,7 @@ defmodule UAInspector.Mixfile do
     [ app:           :ua_inspector,
       name:          "UAInspector",
       source_url:    "https://github.com/elixytics/ua_inspector",
-      version:       "0.5.0",
+      version:       "0.6.0-dev",
       elixir:        "~> 1.0",
       deps:          deps(Mix.env),
       docs:          [ readme: "README.md", main: "README" ],
