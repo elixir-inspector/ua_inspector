@@ -22,17 +22,13 @@ defmodule UAInspector do
 
   @doc """
   Loads parser databases from given base path.
-
-  Proxy method for `UAInspector.Databases.load/1`.
   """
   @spec load(String.t) :: :ok | { :error, String.t }
-  def load(path), do: UAInspector.Databases.load(path)
+  defdelegate load(path), to: UAInspector.Databases
 
   @doc """
   Parses a user agent.
-
-  Proxy method for `UAInspector.Pool.parse/1`.
   """
   @spec parse(String.t) :: map
-  def parse(ua), do: UAInspector.Pool.parse(ua)
+  defdelegate parse(ua), to: UAInspector.Pool
 end
