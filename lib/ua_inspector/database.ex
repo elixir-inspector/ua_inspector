@@ -19,9 +19,8 @@ defmodule UAInspector.Database do
         :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
       end
 
-      def list(),      do: :ets.tab2list(@ets_table)
-      def sources(),   do: @sources
-      def terminate(), do: :ets.delete(@ets_table)
+      def list(),    do: :ets.tab2list(@ets_table)
+      def sources(), do: @sources
 
       def load(path) do
         for file <- Dict.keys(@sources) do
@@ -76,11 +75,6 @@ defmodule UAInspector.Database do
   querying the database.
   """
   defcallback store_entry(any) :: boolean
-
-  @doc """
-  Terminates (deletes) the database.
-  """
-  defcallback terminate() :: :true
 
   @doc """
   Parses a yaml database file and returns the contents.

@@ -32,16 +32,6 @@ defmodule UAInspector.Databases do
     { :ok, [] }
   end
 
-  def terminate(_, _) do
-    Database.Clients.terminate()
-    Database.Devices.terminate()
-    Database.Oss.terminate()
-
-    :ets.delete(@ets_table)
-
-    :ok
-  end
-
 
   # GenServer callbacks
 
