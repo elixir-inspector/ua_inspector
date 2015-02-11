@@ -2,3 +2,4 @@ _build/
 deps/
 doc/
 test/downloads/
+verify/databases/
