@@ -50,6 +50,7 @@ defmodule UAInspector.Databases do
   Sends a request to load a database to the internal server.
   """
   @spec load(String.t) :: :ok
+  def load(nil),  do: :ok
   def load(path), do: GenServer.call(__MODULE__, { :load, path })
 
   @doc """

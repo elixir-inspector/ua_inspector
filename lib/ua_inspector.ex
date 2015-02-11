@@ -12,10 +12,7 @@ defmodule UAInspector do
     children = [ worker(UAInspector.Databases, []), UAInspector.Pool.child_spec ]
 
     sup = Supervisor.start_link(children, options)
-
-    if Application.get_env(:ua_inspector, :database_path) do
-      :ok = load(Application.get_env(:ua_inspector, :database_path))
-    end
+    :ok = Application.get_env(:ua_inspector, :database_path, nil) |> load()
 
     sup
   end
