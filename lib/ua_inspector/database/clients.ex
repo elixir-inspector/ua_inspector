@@ -10,6 +10,7 @@ defmodule UAInspector.Database.Clients do
   @sources [
     { "clients.browsers.yml",     "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/browsers.yml" },
     { "clients.feed_readers.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/feed_readers.yml" },
+    { "clients.libraries.yml",    "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/libraries.yml" },
     { "clients.mediaplayers.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/mediaplayers.yml" },
     { "clients.mobile_apps.yml",  "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/mobile_apps.yml" },
     { "clients.pim.yml",          "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client/pim.yml" }
