@@ -8,11 +8,12 @@ defmodule UAInspector.Database.Devices do
   @ets_counter :devices
   @ets_table   :ua_inspector_devices
   @sources [
-    { "devices.cameras.yml",      "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/cameras.yml" },
-    { "devices.car_browsers.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/car_browsers.yml" },
-    { "devices.consoles.yml",     "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/consoles.yml" },
-    { "devices.mobiles.yml",      "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/mobiles.yml" },
-    { "devices.televisions.yml",  "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/televisions.yml" }
+    { "devices.cameras.yml",               "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/cameras.yml" },
+    { "devices.car_browsers.yml",          "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/car_browsers.yml" },
+    { "devices.consoles.yml",              "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/consoles.yml" },
+    { "devices.mobiles.yml",               "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/mobiles.yml" },
+    { "devices.portable_media_player.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/portable_media_player.yml" },
+    { "devices.televisions.yml",           "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/televisions.yml" }
   ]
 
   def store_entry({ brand, data }) do
