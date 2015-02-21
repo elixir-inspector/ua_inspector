@@ -1,14 +1,15 @@
 defmodule UAInspector.Mixfile do
   use Mix.Project
 
+  @url_github "https://github.com/elixytics/ua_inspector"
+
   def project do
     [ app:           :ua_inspector,
       name:          "UAInspector",
-      source_url:    "https://github.com/elixytics/ua_inspector",
       version:       "0.6.0-dev",
       elixir:        "~> 1.0",
       deps:          deps(Mix.env),
-      docs:          [ readme: "README.md", main: "README" ],
+      docs:          docs,
       test_coverage: [ tool: ExCoveralls ]]
   end
 
@@ -32,5 +33,12 @@ defmodule UAInspector.Mixfile do
   def deps(_) do
     [ { :poolboy, "~> 1.0" },
       { :yamerl,  github: "yakaz/yamerl" } ]
+  end
+
+  def docs do
+    [ main:       "README",
+      readme:     "README.md",
+      source_ref: "master",
+      source_url: @url_github ]
   end
 end
