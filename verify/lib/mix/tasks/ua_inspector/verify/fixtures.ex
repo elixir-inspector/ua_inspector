@@ -27,7 +27,9 @@ defmodule Mix.Tasks.Ua_inspector.Verify.Fixtures do
     download(fixtures)
   end
 
-  def download_path, do: Path.join(__DIR__, "../../../../../fixtures")
+  def download_path,       do: Path.join(__DIR__, "../../../../../fixtures")
+  def download_path(file), do: Path.join(download_path, file)
+  def list,                do: @fixtures
 
   def setup() do
     File.rm_rf! download_path
