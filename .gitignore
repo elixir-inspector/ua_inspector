@@ -3,3 +3,4 @@ deps/
 doc/
 test/downloads/
 verify/databases/
+verify/fixtures/
