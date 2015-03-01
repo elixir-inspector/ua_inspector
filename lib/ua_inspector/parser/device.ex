@@ -5,6 +5,8 @@ defmodule UAInspector.Parser.Device do
 
   use UAInspector.Parser
 
+  alias UAInspector.Result
+
   def parse(_, []), do: :unknown
 
   def parse(ua, [ { _index, entry } | database ]) do
@@ -19,7 +21,7 @@ defmodule UAInspector.Parser.Device do
 
   defp parse_model(ua, device, [ model | models ]) do
     if Regex.match?(model.regex, ua) do
-      %{
+      %Result.Device{
         brand: device.brand,
         type:  model.device,
         model: model.model

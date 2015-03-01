@@ -58,7 +58,7 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
     name: "Mobile Safari",
     version: "7.0"
   },
-  device: %{
+  device: %UAInspector.Result.Device{
     brand: "Apple",
     model: "iPad",
     type:  "tablet"

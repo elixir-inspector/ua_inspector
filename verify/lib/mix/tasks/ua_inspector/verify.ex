@@ -16,6 +16,7 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
 
   defp compare(testcase, result) do
     testcase.user_agent == result.user_agent
+    && testcase.device  == Map.from_struct(result.device)
     && testcase.os.name == result.os.name
   end
 
@@ -31,8 +32,8 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
 
   defp verify([]),                      do: nil
   defp verify([ testcase | testcases ]) do
-    testcase = parse(testcase)
-    result   = UAInspector.parse(testcase[:user_agent])
+    testcase = testcase |> parse() |> Verify.Unshortener.parse()
+    result   = testcase[:user_agent] |> UAInspector.parse()
 
     case compare(testcase, result) do
       false -> throw "verification failed: #{ testcase[:user_agent] }"
