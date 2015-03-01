@@ -1,4 +1,4 @@
-defmodule UAInspector.Parser.Os do
+defmodule UAInspector.Parser.OS do
   @moduledoc """
   UAInspector operating system information parser.
   """

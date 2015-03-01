@@ -42,7 +42,7 @@ defmodule Mix.Tasks.Ua_inspector.Databases.Download do
   defp download() do
     databases = UAInspector.Database.Clients.sources ++
                 UAInspector.Database.Devices.sources ++
-                UAInspector.Database.Oss.sources
+                UAInspector.Database.OSs.sources
 
     for { local, remote } <- databases do
       download_database(local, remote)

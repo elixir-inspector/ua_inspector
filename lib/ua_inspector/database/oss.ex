@@ -1,4 +1,4 @@
-defmodule UAInspector.Database.Oss do
+defmodule UAInspector.Database.OSs do
   @moduledoc """
   UAInspector operating system information database.
   """

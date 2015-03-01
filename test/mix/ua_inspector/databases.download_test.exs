@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Ua_inspector.Databases.DownloadTest do
 
       databases = UAInspector.Database.Clients.sources ++
                   UAInspector.Database.Devices.sources ++
-                  UAInspector.Database.Oss.sources
+                  UAInspector.Database.OSs.sources
 
       for { local, _remote } <- databases do
         [ test_path, local ]

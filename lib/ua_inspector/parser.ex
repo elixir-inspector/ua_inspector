@@ -34,7 +34,7 @@ defmodule UAInspector.Parser do
       user_agent: ua,
       client:     Parser.Client.parse(ua, Database.Clients.list),
       device:     Parser.Device.parse(ua, Database.Devices.list),
-      os:         Parser.Os.parse(ua, Database.Oss.list)
+      os:         Parser.OS.parse(ua, Database.OSs.list)
     }
   end
 end

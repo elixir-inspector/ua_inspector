@@ -25,7 +25,7 @@ defmodule UAInspector.Databases do
 
     Database.Clients.init()
     Database.Devices.init()
-    Database.Oss.init()
+    Database.OSs.init()
 
     :ets.insert(@ets_table, [ clients: 0, devices: 0, oss: 0 ])
 
@@ -38,7 +38,7 @@ defmodule UAInspector.Databases do
   def handle_call({ :load, path }, _from, state) do
     Database.Clients.load(path)
     Database.Devices.load(path)
-    Database.Oss.load(path)
+    Database.OSs.load(path)
 
     { :reply, :ok, state }
   end
