@@ -14,6 +14,11 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
   end
 
 
+  defp compare(testcase, result) do
+    testcase.user_agent == result.user_agent
+    && testcase.os.name == result.os.name
+  end
+
   defp parse(case_data) when is_list(case_data) do
     case_data
     |> Enum.map(fn ({ k, v }) -> { String.to_atom(k), parse(v) } end)
@@ -29,7 +34,7 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
     testcase = parse(testcase)
     result   = UAInspector.parse(testcase[:user_agent])
 
-    case testcase[:os][:name] == result[:os][:name] do
+    case compare(testcase, result) do
       false -> throw "verification failed: #{ testcase[:user_agent] }"
       true  -> verify(testcases)
     end

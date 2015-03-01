@@ -53,7 +53,7 @@ The shown path is the default download path used by the mix task.
 ```elixir
 iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
 %{
-  string: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
+  user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
   client: %{
     name: "Mobile Safari",
     version: "7.0"
@@ -70,14 +70,14 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
 }
 iex(2)> UAInspector.parse("--- undetectable ---")
 %{
-  string: "--- undetectable ---",
-  client: :unknown,
-  device: :unknown,
-  os:     :unknown
+  user_agent: "--- undetectable ---",
+  client:     :unknown,
+  device:     :unknown,
+  os:         :unknown
 }
 ```
 
-The map key _string_ will hold the unmodified passed user agent.
+The map key _user\_agent_ will hold the unmodified passed user agent.
 
 
 ## Resources

@@ -30,10 +30,10 @@ defmodule UAInspector.Parser do
   @spec parse(String.t) :: map
   def parse(ua) do
     %{
-      string: ua,
-      client: Parser.Client.parse(ua, Database.Clients.list),
-      device: Parser.Device.parse(ua, Database.Devices.list),
-      os:     Parser.Os.parse(ua, Database.Oss.list)
+      user_agent: ua,
+      client:     Parser.Client.parse(ua, Database.Clients.list),
+      device:     Parser.Device.parse(ua, Database.Devices.list),
+      os:         Parser.Os.parse(ua, Database.Oss.list)
     }
   end
 end
