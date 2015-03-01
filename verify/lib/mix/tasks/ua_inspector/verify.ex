@@ -14,10 +14,22 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
   end
 
 
+  defp cleanup(testcase) do
+    testcase =  %{ testcase |
+      os: Map.delete(testcase.os, :short_name)
+    }
+
+    if testcase.os.version == :null do
+      testcase = put_in(testcase, [ :os, :version ], :unknown)
+    end
+
+    testcase
+  end
+
   defp compare(testcase, result) do
     testcase.user_agent == result.user_agent
     && testcase.device  == Map.from_struct(result.device)
-    && testcase.os.name == result.os.name
+    && testcase.os == Map.from_struct(result.os)
   end
 
   defp parse(case_data) when is_list(case_data) do
@@ -32,7 +44,7 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
 
   defp verify([]),                      do: nil
   defp verify([ testcase | testcases ]) do
-    testcase = testcase |> parse() |> Verify.Unshortener.parse()
+    testcase = testcase |> parse() |> Verify.Unshortener.parse() |> cleanup()
     result   = testcase[:user_agent] |> UAInspector.parse()
 
     case compare(testcase, result) do

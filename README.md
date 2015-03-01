@@ -63,7 +63,7 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
     model: "iPad",
     type:  "tablet"
   },
-  os: %{
+  os: %UAInspector.Result.OS{
     name: "iOS",
     version: "7_0_4"
   },

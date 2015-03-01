@@ -5,6 +5,8 @@ defmodule UAInspector.Parser.OS do
 
   use UAInspector.Parser
 
+  alias UAInspector.Result
+
   def parse(_, []), do: :unknown
 
   def parse(ua, [ { _index, entry } | database ]) do
@@ -18,9 +20,9 @@ defmodule UAInspector.Parser.OS do
   defp parse_data(ua, entry) do
     captures = Regex.run(entry.regex, ua)
 
-    %{
+    %Result.OS{
       name:    entry.name,
-      version: Enum.at(captures, 1) || ""
+      version: Enum.at(captures, 1) || :unknown
     }
   end
 end

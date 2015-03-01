@@ -16,7 +16,7 @@ defmodule UAInspector.ParserTest do
       user_agent: agent,
       client:     %{ name: "Mobile Safari", version: "7.0" },
       device:     %Result.Device{ brand: "Apple", model: "iPad", type: "tablet" },
-      os:         %{ name: "iOS", version: "7_0_4" },
+      os:         %Result.OS{ name: "iOS", version: "7_0_4" },
     }
 
     assert parsed == UAInspector.parse(agent)
