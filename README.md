@@ -52,7 +52,7 @@ The shown path is the default download path used by the mix task.
 
 ```elixir
 iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
-%{
+%UAInspector.Result{
   user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
   client: %{
     name: "Mobile Safari",
@@ -69,7 +69,7 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
   },
 }
 iex(2)> UAInspector.parse("--- undetectable ---")
-%{
+%UAInspector.Result{
   user_agent: "--- undetectable ---",
   client:     :unknown,
   device:     :unknown,

@@ -7,6 +7,7 @@ defmodule UAInspector.Parser do
 
   alias UAInspector.Database
   alias UAInspector.Parser
+  alias UAInspector.Result
 
   defmacro __using__(_opts) do
     quote do
@@ -29,7 +30,7 @@ defmodule UAInspector.Parser do
   """
   @spec parse(String.t) :: map
   def parse(ua) do
-    %{
+    %Result{
       user_agent: ua,
       client:     Parser.Client.parse(ua, Database.Clients.list),
       device:     Parser.Device.parse(ua, Database.Devices.list),
