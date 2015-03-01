@@ -15,7 +15,7 @@ defmodule UAInspector.ParserTest do
     parsed = %Result{
       user_agent: agent,
       client:     %{ name: "Mobile Safari", version: "7.0" },
-      device:     %{ brand: "Apple", device: "tablet", model: "iPad" },
+      device:     %{ brand: "Apple", model: "iPad", type: "tablet" },
       os:         %{ name: "iOS", version: "7_0_4" },
     }
 

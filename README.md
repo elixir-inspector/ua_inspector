@@ -60,8 +60,8 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
   },
   device: %{
     brand: "Apple",
-    device: "tablet",
-    model: "iPad"
+    model: "iPad",
+    type:  "tablet"
   },
   os: %{
     name: "iOS",

@@ -20,9 +20,9 @@ defmodule UAInspector.Parser.Device do
   defp parse_model(ua, device, [ model | models ]) do
     if Regex.match?(model.regex, ua) do
       %{
-        brand:  device.brand,
-        device: model.device,
-        model:  model.model
+        brand: device.brand,
+        type:  model.device,
+        model: model.model
       }
     else
       parse_model(ua, device, models)
