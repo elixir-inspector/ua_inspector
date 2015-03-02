@@ -54,7 +54,7 @@ The shown path is the default download path used by the mix task.
 iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
 %UAInspector.Result{
   user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
-  client: %{
+  client: %UAInspector.Result.Client{
     name: "Mobile Safari",
     version: "7.0"
   },

@@ -16,7 +16,8 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
 
   defp compare(testcase, result) do
     testcase.user_agent == result.user_agent
-    && testcase.device  == Map.from_struct(result.device)
+    && testcase.client == Map.from_struct(result.client)
+    && testcase.device == Map.from_struct(result.device)
     && testcase.os == Map.from_struct(result.os)
   end
 
