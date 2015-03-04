@@ -16,7 +16,7 @@ defmodule UAInspector.Database.OSs do
     data    = Enum.into(data, %{})
     entry   = %{
       name:    data["name"],
-      regex:   Regex.compile!(data["regex"]),
+      regex:   Regex.compile!(data["regex"], [ :caseless ]),
       version: data["version"]
     }
 

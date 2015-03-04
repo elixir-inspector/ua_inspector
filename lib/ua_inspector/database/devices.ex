@@ -26,7 +26,7 @@ defmodule UAInspector.Database.Devices do
     entry = %{
       brand:  brand,
       models: models,
-      regex:  Regex.compile!(data["regex"])
+      regex:  Regex.compile!(data["regex"], [ :caseless ])
     }
 
     :ets.insert_new(@ets_table, { counter, entry })
