@@ -44,7 +44,7 @@ defmodule Mix.Tasks.Ua_inspector.Databases.Download do
                 UAInspector.Database.Devices.sources ++
                 UAInspector.Database.OSs.sources
 
-    for { local, remote } <- databases do
+    for { _type, local, remote } <- databases do
       download_database(local, remote)
     end
   end

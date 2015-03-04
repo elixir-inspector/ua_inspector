@@ -5,6 +5,7 @@ defmodule UAInspector.Result.Client do
 
   defstruct [
     name:    :unknown,
+    type:    :unknown,
     version: :unknown
   ]
 end

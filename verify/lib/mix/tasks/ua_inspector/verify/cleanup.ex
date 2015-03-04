@@ -24,7 +24,6 @@ defmodule Mix.Tasks.Ua_inspector.Verify.Cleanup do
          client
       |> Map.delete(:engine)
       |> Map.delete(:short_name)
-      |> Map.delete(:type)
 
     %{ testcase | client: client }
   end

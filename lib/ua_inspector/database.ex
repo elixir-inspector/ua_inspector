@@ -23,21 +23,21 @@ defmodule UAInspector.Database do
       def sources(), do: @sources
 
       def load(path) do
-        for file <- Dict.keys(@sources) do
-          database = Path.join(path, file)
+        for { type, local, _remote } <- @sources do
+          database = Path.join(path, local)
 
           if File.regular?(database) do
             database
               |> unquote(__MODULE__).load_database()
-              |> parse_database()
+              |> parse_database(type)
           end
         end
       end
 
-      def parse_database([]), do: :ok
-      def parse_database([ entry | database ]) do
-        store_entry(entry)
-        parse_database(database)
+      def parse_database([],                  _type), do: :ok
+      def parse_database([ entry | database ], type)  do
+        store_entry(entry, type)
+        parse_database(database, type)
       end
     end
   end
@@ -55,12 +55,12 @@ defmodule UAInspector.Database do
   @doc """
   Loads a database file.
   """
-  defcallback load(String.t) :: no_return
+  defcallback load(path :: String.t) :: no_return
 
   @doc """
   Traverses the database and passes each entry to the storage function.
   """
-  defcallback parse_database(list) :: :ok
+  defcallback parse_database(entries :: list, type :: String.t) :: :ok
 
   @doc """
   Returns the database sources.
@@ -74,7 +74,7 @@ defmodule UAInspector.Database do
   directly out of the database file and the actual data needed when
   querying the database.
   """
-  defcallback store_entry(any) :: boolean
+  defcallback store_entry(entry :: any, type :: String.t) :: boolean
 
   @doc """
   Parses a yaml database file and returns the contents.

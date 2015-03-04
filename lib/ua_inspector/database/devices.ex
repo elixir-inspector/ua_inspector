@@ -5,18 +5,20 @@ defmodule UAInspector.Database.Devices do
 
   use UAInspector.Database
 
+  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device"
+
   @ets_counter :devices
   @ets_table   :ua_inspector_devices
   @sources [
-    { "devices.cameras.yml",               "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/cameras.yml" },
-    { "devices.car_browsers.yml",          "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/car_browsers.yml" },
-    { "devices.consoles.yml",              "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/consoles.yml" },
-    { "devices.mobiles.yml",               "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/mobiles.yml" },
-    { "devices.portable_media_player.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/portable_media_player.yml" },
-    { "devices.televisions.yml",           "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device/televisions.yml" }
+    { "", "devices.cameras.yml",               "#{ @source_base_url }/cameras.yml" },
+    { "", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
+    { "", "devices.consoles.yml",              "#{ @source_base_url }/consoles.yml" },
+    { "", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" },
+    { "", "devices.portable_media_player.yml", "#{ @source_base_url }/portable_media_player.yml" },
+    { "", "devices.televisions.yml",           "#{ @source_base_url }/televisions.yml" }
   ]
 
-  def store_entry({ brand, data }) do
+  def store_entry({ brand, data }, _type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     models  = parse_models(data)

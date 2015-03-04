@@ -22,6 +22,7 @@ defmodule UAInspector.Parser.Client do
 
     %Result.Client{
       name:    entry.name,
+      type:    entry.type,
       version: Enum.at(captures, 1) || :unknown
     }
   end

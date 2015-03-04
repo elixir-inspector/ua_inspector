@@ -5,13 +5,13 @@ defmodule UAInspector.Database.OSs do
 
   use UAInspector.Database
 
+  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+
   @ets_counter :oss
   @ets_table   :ua_inspector_oss
-  @sources [
-    { "oss.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/oss.yml" }
-  ]
+  @sources [{ "", "oss.yml", "#{ @source_base_url }/oss.yml" }]
 
-  def store_entry(data) do
+  def store_entry(data, _type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     entry   = %{
