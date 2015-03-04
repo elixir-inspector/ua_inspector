@@ -37,13 +37,19 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
     result   = testcase[:user_agent] |> UAInspector.parse()
 
     case compare(testcase, result) do
-      false -> throw "verification failed: #{ testcase[:user_agent] }"
       true  -> verify(testcases)
+      false ->
+        IO.puts "-- verification failed --"
+        IO.puts "user_agent: #{ testcase[:user_agent] }"
+        IO.puts "testcase: #{ inspect testcase }"
+        IO.puts "result: #{ inspect result }"
+
+        throw "verification failed"
     end
   end
 
-  defp verify_all([]),                          do: :ok
-  defp verify_all([{ fixture, _ } | fixtures ]) do
+  defp verify_all([]),                    do: :ok
+  defp verify_all([ fixture | fixtures ]) do
     Mix.shell.info ".. verifying: #{ fixture }"
 
     testcases =

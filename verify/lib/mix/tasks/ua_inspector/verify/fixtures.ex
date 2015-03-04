@@ -3,8 +3,11 @@ defmodule Mix.Tasks.Ua_inspector.Verify.Fixtures do
   Utility module to bundle/download verification fixtures.
   """
 
+  @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
+
   @fixtures [
-    { "car_browser.yml", "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures/car_browser.yml" }
+    "camera.yml",
+    "car_browser.yml"
   ]
 
   def download() do
@@ -17,12 +20,12 @@ defmodule Mix.Tasks.Ua_inspector.Verify.Fixtures do
     :ok
   end
 
-  def download([]),                             do: :ok
-  def download([{ local, remote } | fixtures ]) do
-    target = Path.join([ download_path, local ])
+  def download([]),                    do: :ok
+  def download([ fixture | fixtures ]) do
+    target = Path.join([ download_path, fixture ])
 
-    Mix.shell.info ".. downloading: #{ local }"
-    File.write! target, Mix.Utils.read_path!(remote)
+    Mix.shell.info ".. downloading: #{ fixture }"
+    File.write! target, Mix.Utils.read_path!("#{ @fixture_base_url }/#{ fixture }")
 
     download(fixtures)
   end
