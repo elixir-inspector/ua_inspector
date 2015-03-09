@@ -43,7 +43,7 @@ defmodule UAInspector.Database.Devices do
 
         %{
           device: model["device"] || device,
-          model:  model["model"],
+          model:  model["model"] || "",
           regex:  Regex.compile!(model["regex"])
         }
       end)

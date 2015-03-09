@@ -1,3 +1,8 @@
+TiPhone:
+  regex: 'TiPhone ?([a-z0-9]+)'
+  device: 'smartphone'
+  model: '$1'
+
 Apple:
   regex: 'AppleTV|iPad|iPod|iPhone'
   models:

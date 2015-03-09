@@ -10,13 +10,25 @@ defmodule UAInspector.ParserTest do
     assert parsed == UAInspector.parse(agent)
   end
 
-  test "parse" do
+  test "parse #1" do
     agent  = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
     parsed = %Result{
       user_agent: agent,
       client:     %Result.Client{ name: "Mobile Safari", type: "browser", version: "7.0" },
       device:     %Result.Device{ brand: "Apple", model: "iPad", type: "tablet" },
-      os:         %Result.OS{ name: "iOS", version: "7_0_4" },
+      os:         %Result.OS{ name: "iOS", version: "7_0_4" }
+    }
+
+    assert parsed == UAInspector.parse(agent)
+  end
+
+  test "parse #2" do
+    agent  = "Tiphone T67/1.0 Browser/wap2.0 Sync/SyncClient1.1 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+    parsed = %Result{
+      user_agent: agent,
+      client:     :unknown,
+      device:     %Result.Device{ brand: "TiPhone", model: "T67", type: "smartphone" },
+      os:         :unknown
     }
 
     assert parsed == UAInspector.parse(agent)
