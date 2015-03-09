@@ -10,6 +10,21 @@ defmodule UAInspector.ParserTest do
     assert parsed == UAInspector.parse(agent)
   end
 
+  test "parse empty" do
+    agent  = ""
+    parsed = %Result{ user_agent: agent }
+
+    assert parsed == UAInspector.parse(agent)
+  end
+
+  test "parse unknown" do
+    agent  = "some unknown user agent"
+    parsed = %Result{ user_agent: agent }
+
+    assert parsed == UAInspector.parse(agent)
+  end
+
+
   test "parse #1" do
     agent  = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
     parsed = %Result{
@@ -34,16 +49,14 @@ defmodule UAInspector.ParserTest do
     assert parsed == UAInspector.parse(agent)
   end
 
-  test "parse empty" do
-    agent  = ""
-    parsed = %Result{ user_agent: agent }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-  test "parse unknown" do
-    agent  = "some unknown user agent"
-    parsed = %Result{ user_agent: agent }
+  test "parse #3" do
+    agent  = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)"
+    parsed = %Result{
+      user_agent: agent,
+      client:     %Result.Client{ name: "Internet Explorer", type: "browser", version: "9.0" },
+      device:     :unknown,
+      os:         :unknown
+    }
 
     assert parsed == UAInspector.parse(agent)
   end

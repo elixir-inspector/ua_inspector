@@ -1,3 +1,9 @@
 - regex: '(?:iPod|iPad|iPhone).+Version/(\d+[\.\d]+)'
   name: 'Mobile Safari'
   version: '$1'
+
+- regex: 'MSIE.*Trident/5.0'
+  name: 'Internet Explorer'
+  version: 9.0
+  engine:
+    default: 'Trident'

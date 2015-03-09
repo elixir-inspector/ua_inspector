@@ -25,7 +25,7 @@ defmodule UAInspector.Database.Clients do
       name:    data["name"],
       regex:   Regex.compile!(data["regex"], [ :caseless ]),
       type:    type,
-      version: data["version"]
+      version: data["version"] |> to_string()
     }
 
     :ets.insert_new(@ets_table, { counter, entry })

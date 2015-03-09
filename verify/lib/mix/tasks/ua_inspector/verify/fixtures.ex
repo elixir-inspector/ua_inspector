@@ -7,7 +7,8 @@ defmodule Mix.Tasks.Ua_inspector.Verify.Fixtures do
 
   @fixtures [
     "camera.yml",
-    "car_browser.yml"
+    "car_browser.yml",
+    "console.yml"
   ]
 
   def download() do
