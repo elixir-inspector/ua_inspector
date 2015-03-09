@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Ua_inspector.Databases.DownloadTest do
+defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Ua_inspector.Databases.DownloadTest do
 
     console = capture_io fn ->
       Application.put_env(:ua_inspector, :database_path, test_path)
-      Mix.Tasks.Ua_inspector.Databases.Download.run(["--force"])
+      Mix.Tasks.UAInspector.Databases.Download.run(["--force"])
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
       databases = UAInspector.Database.Clients.sources ++
