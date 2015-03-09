@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Ua_inspector.Databases.Download do
+defmodule Mix.Tasks.UAInspector.Databases.Download do
   @moduledoc """
   Fetches parser databases from the
   [piwik/device-detector](https://github.com/piwik/device-detector)
@@ -66,4 +66,14 @@ defmodule Mix.Tasks.Ua_inspector.Databases.Download do
 
     File.copy!(readme_src, readme_tgt)
   end
+end
+
+#
+# Elixir 1.0.2 requires the underscore module naming.
+# https://github.com/elixytics/ua_inspector/pull/1
+#
+defmodule Mix.Tasks.Ua_inspector.Databases.Download do
+  @moduledoc false
+
+  defdelegate run(args), to: Mix.Tasks.UAInspector.Databases.Download
 end

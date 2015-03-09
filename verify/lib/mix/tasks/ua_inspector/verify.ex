@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Ua_inspector.Verify do
+defmodule Mix.Tasks.UAInspector.Verify do
   use Mix.Task
 
-  alias Mix.Tasks.Ua_inspector.Verify
+  alias Mix.Tasks.UAInspector.Verify
 
   def run(_args) do
     { :ok, _ } = Application.ensure_all_started(:ua_inspector)
@@ -61,4 +61,12 @@ defmodule Mix.Tasks.Ua_inspector.Verify do
     verify(testcases)
     verify_all(fixtures)
   end
+end
+
+#
+# Elixir 1.0.2 requires the underscore module naming.
+# https://github.com/elixytics/ua_inspector/pull/1
+#
+defmodule Mix.Tasks.Ua_inspector.Verify do
+  defdelegate run(args), to: Mix.Tasks.UAInspector.Verify
 end
