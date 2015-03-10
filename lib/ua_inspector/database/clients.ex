@@ -22,6 +22,7 @@ defmodule UAInspector.Database.Clients do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     entry   = %{
+      engine:  data["engine"],
       name:    data["name"],
       regex:   Regex.compile!(data["regex"], [ :caseless ]),
       type:    type,

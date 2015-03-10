@@ -29,7 +29,7 @@ defmodule UAInspector.ParserTest do
     agent  = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
     parsed = %Result{
       user_agent: agent,
-      client:     %Result.Client{ name: "Mobile Safari", type: "browser", version: "7.0" },
+      client:     %Result.Client{ engine: "WebKit", name: "Mobile Safari", type: "browser", version: "7.0" },
       device:     %Result.Device{ brand: "Apple", model: "iPad", type: "tablet" },
       os:         %Result.OS{ name: "iOS", version: "7_0_4" }
     }
@@ -53,11 +53,26 @@ defmodule UAInspector.ParserTest do
     agent  = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)"
     parsed = %Result{
       user_agent: agent,
-      client:     %Result.Client{ name: "Internet Explorer", type: "browser", version: "9.0" },
+      client:     %Result.Client{ engine: "Trident", name: "Internet Explorer", type: "browser", version: "9.0" },
       device:     :unknown,
       os:         :unknown
     }
 
     assert parsed == UAInspector.parse(agent)
+  end
+
+
+  test "parse browser engine #1" do
+    agent  = "Opera/9.80 (Windows NT 6.2; U; Edition Next; ru) Presto/2.11 Version/12.50"
+    parsed = UAInspector.parse(agent)
+
+    assert "Presto" == parsed.client.engine
+  end
+
+  test "parse browser engine #2" do
+    agent  = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next-Campaign 21)"
+    parsed = UAInspector.parse(agent)
+
+    assert "Blink" == parsed.client.engine
   end
 end

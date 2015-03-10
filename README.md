@@ -55,6 +55,7 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
 %UAInspector.Result{
   user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
   client: %UAInspector.Result.Client{
+    engine:  "WebKit",
     name:    "Mobile Safari",
     type:    "browser",
     version: "7.0"

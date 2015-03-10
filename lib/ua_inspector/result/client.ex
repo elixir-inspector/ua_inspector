@@ -4,6 +4,7 @@ defmodule UAInspector.Result.Client do
   """
 
   defstruct [
+    engine:  :unknown,
     name:    :unknown,
     type:    :unknown,
     version: :unknown

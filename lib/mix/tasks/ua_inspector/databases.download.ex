@@ -11,6 +11,8 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
   use Mix.Task
 
+  alias UAInspector.Database
+
   @shortdoc  "Downloads parser databases"
 
   def run(args) do
@@ -40,9 +42,10 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   defp clear(), do: File.rm_rf! download_path
 
   defp download() do
-    databases = UAInspector.Database.Clients.sources ++
-                UAInspector.Database.Devices.sources ++
-                UAInspector.Database.OSs.sources
+    databases = Database.BrowserEngines.sources ++
+                Database.Clients.sources ++
+                Database.Devices.sources ++
+                Database.OSs.sources
 
     for { _type, local, remote } <- databases do
       download_database(local, remote)

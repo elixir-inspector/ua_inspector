@@ -7,3 +7,11 @@
   version: 9.0
   engine:
     default: 'Trident'
+
+- regex: '(?:Opera|OPR)[/ ](?:9.80.*Version/)?(\d+[\.\d]+).+Edition Next'
+  name: 'Opera Next'
+  version: '$1'
+  engine:
+    default: 'Presto'
+    versions:
+      15: 'Blink'

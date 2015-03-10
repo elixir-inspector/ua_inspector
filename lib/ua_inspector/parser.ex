@@ -5,7 +5,6 @@ defmodule UAInspector.Parser do
 
   use Behaviour
 
-  alias UAInspector.Database
   alias UAInspector.Parser
   alias UAInspector.Result
 
@@ -20,10 +19,10 @@ defmodule UAInspector.Parser do
 
   Returns `:unknown` if no information is not found in the database.
 
-      iex> parse("--- undetectable ---", [])
+      iex> parse("--- undetectable ---")
       :unknown
   """
-  defcallback parse(String.t, Enum.t) :: atom | map
+  defcallback parse(ua :: String.t) :: atom | map
 
   @doc """
   Parses a given user agent string.
@@ -32,9 +31,9 @@ defmodule UAInspector.Parser do
   def parse(ua) do
     %Result{
       user_agent: ua,
-      client:     Parser.Client.parse(ua, Database.Clients.list),
-      device:     Parser.Device.parse(ua, Database.Devices.list),
-      os:         Parser.OS.parse(ua, Database.OSs.list)
+      client:     Parser.Client.parse(ua),
+      device:     Parser.Device.parse(ua),
+      os:         Parser.OS.parse(ua)
     }
   end
 end

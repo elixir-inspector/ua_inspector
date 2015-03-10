@@ -11,22 +11,19 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
   @spec cleanup(testcase :: map) :: map
   def cleanup(testcase) do
     testcase
-    |> cleanup_client()
+    |> cleanup_client_engine()
     |> cleanup_client_version()
     |> cleanup_os_version()
+    |> remove_client_short_name()
     |> remove_os_short_name()
     |> unshorten_device_brand()
   end
 
 
-  defp cleanup_client(%{ client: client } = testcase) do
-    client =
-         client
-      |> Map.delete(:engine)
-      |> Map.delete(:short_name)
-
-    %{ testcase | client: client }
+  defp cleanup_client_engine(%{ client: %{ engine: :null }} = testcase) do
+    put_in(testcase, [ :client, :engine ], :unknown)
   end
+  defp cleanup_client_engine(testcase), do: testcase
 
 
   defp cleanup_client_version(%{ client: %{ version: :null }} = testcase) do
@@ -45,6 +42,11 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
     put_in(testcase, [ :os, :version ], to_string(version))
   end
   defp cleanup_os_version(testcase), do: testcase
+
+
+  defp remove_client_short_name(testcase) do
+    %{ testcase | client: Map.delete(testcase.client, :short_name) }
+  end
 
 
   defp remove_os_short_name(testcase) do
