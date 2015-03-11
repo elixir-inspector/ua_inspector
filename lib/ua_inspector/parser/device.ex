@@ -7,6 +7,7 @@ defmodule UAInspector.Parser.Device do
 
   alias UAInspector.Database.Devices
   alias UAInspector.Result
+  alias UAInspector.Util
 
   def parse(ua), do: parse(ua, Devices.list)
 
@@ -39,7 +40,7 @@ defmodule UAInspector.Parser.Device do
     captures  = Regex.run(device.regex, ua)
     model_str =
          (model.model || "")
-      |> uncapture(captures, 0)
+      |> Util.uncapture(captures)
       |> String.replace(~r/\$(\d)/, "")
       |> String.strip()
       |> maybe_unknown()
@@ -49,13 +50,5 @@ defmodule UAInspector.Parser.Device do
       type:  model.device,
       model: model_str
     }
-  end
-
-
-  defp uncapture(model, [],                     _),    do: model
-  defp uncapture(model, [ capture | captures ], index) do
-    model
-    |> String.replace("\$#{ index }", capture)
-    |> uncapture(captures, index + 1)
   end
 end

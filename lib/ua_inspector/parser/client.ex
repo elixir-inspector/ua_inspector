@@ -8,6 +8,7 @@ defmodule UAInspector.Parser.Client do
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine
   alias UAInspector.Result
+  alias UAInspector.Util
 
   def parse(ua), do: parse(ua, Clients.list)
 
@@ -61,19 +62,11 @@ defmodule UAInspector.Parser.Client do
   end
 
 
-  defp uncapture(version, [],                     _),    do: version
-  defp uncapture(version, [ capture | captures ], index) do
-    version
-    |> String.replace("\$#{ index }", capture)
-    |> uncapture(captures, index + 1)
-  end
-
-
   defp version_str(ua, entry) do
     captures = Regex.run(entry.regex, ua)
 
     (entry.version || "")
-      |> uncapture(captures, 0)
+      |> Util.uncapture(captures)
       |> String.replace(~r/\$(\d)/, "")
       |> String.strip()
       |> String.replace(~r/\.(\d)0+$/, ".\\1")

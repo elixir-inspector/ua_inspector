@@ -7,6 +7,7 @@ defmodule UAInspector.Parser.OS do
 
   alias UAInspector.Database.OSs
   alias UAInspector.Result
+  alias UAInspector.Util
 
   def parse(ua), do: parse(ua, OSs.list)
 
@@ -29,7 +30,7 @@ defmodule UAInspector.Parser.OS do
     captures    = Regex.run(entry.regex, ua)
     version_str =
          (entry.version || "")
-      |> uncapture(captures, 0)
+      |> Util.uncapture(captures)
       |> String.replace(~r/\$(\d)/, "")
       |> String.strip()
       |> String.replace(~r/\.(\d)0+$/, ".\\1")
@@ -39,13 +40,5 @@ defmodule UAInspector.Parser.OS do
       name:    entry.name,
       version: version_str
     }
-  end
-
-
-  defp uncapture(version, [],                     _),    do: version
-  defp uncapture(version, [ capture | captures ], index) do
-    version
-    |> String.replace("\$#{ index }", capture)
-    |> uncapture(captures, index + 1)
   end
 end
