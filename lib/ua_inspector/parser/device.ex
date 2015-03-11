@@ -22,10 +22,6 @@ defmodule UAInspector.Parser.Device do
   end
 
 
-  defp maybe_unknown(""),  do: :unknown
-  defp maybe_unknown(str), do: str
-
-
   defp parse_model(_, _, []), do: :unknown
 
   defp parse_model(ua, device, [ model | models ]) do
@@ -43,7 +39,7 @@ defmodule UAInspector.Parser.Device do
       |> Util.uncapture(captures)
       |> String.replace(~r/\$(\d)/, "")
       |> String.strip()
-      |> maybe_unknown()
+      |> Util.maybe_unknown()
 
     %Result.Device{
       brand: device.brand,

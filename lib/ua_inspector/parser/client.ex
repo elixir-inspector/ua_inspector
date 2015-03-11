@@ -45,10 +45,6 @@ defmodule UAInspector.Parser.Client do
   end
 
 
-  defp maybe_unknown(""),  do: :unknown
-  defp maybe_unknown(str), do: str
-
-
   defp parse_data(ua, entry) do
     version = version_str(ua, entry)
     engine  = engine_str(entry.engine, version)
@@ -70,6 +66,6 @@ defmodule UAInspector.Parser.Client do
       |> String.replace(~r/\$(\d)/, "")
       |> String.strip()
       |> String.replace(~r/\.(\d)0+$/, ".\\1")
-      |> maybe_unknown()
+      |> Util.maybe_unknown()
   end
 end

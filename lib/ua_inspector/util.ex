@@ -4,6 +4,13 @@ defmodule UAInspector.Util do
   """
 
   @doc """
+  Replaces an empty string with `:unknown`.
+  """
+  @spec maybe_unknown(data :: String.t) :: :unknown | String.t
+  def maybe_unknown(""),   do: :unknown
+  def maybe_unknown(data), do: data
+
+  @doc """
   Replaces PHP-Style regex captures with their values.
   """
   @spec uncapture(data :: String.t, captures :: list) :: String.t

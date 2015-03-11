@@ -22,10 +22,6 @@ defmodule UAInspector.Parser.OS do
   end
 
 
-  defp maybe_unknown(""),  do: :unknown
-  defp maybe_unknown(str), do: str
-
-
   defp parse_data(ua, entry) do
     captures    = Regex.run(entry.regex, ua)
     version_str =
@@ -34,7 +30,7 @@ defmodule UAInspector.Parser.OS do
       |> String.replace(~r/\$(\d)/, "")
       |> String.strip()
       |> String.replace(~r/\.(\d)0+$/, ".\\1")
-      |> maybe_unknown()
+      |> Util.maybe_unknown()
 
     %Result.OS{
       name:    entry.name,
