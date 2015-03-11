@@ -9,13 +9,17 @@ defmodule UAInspector.Database.Clients do
 
   @ets_counter :clients
   @ets_table   :ua_inspector_clients
+
+  # files ordered according to
+  # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
+  # to prevent false detections
   @sources [
-    { "browser",     "clients.browsers.yml",     "#{ @source_base_url }/browsers.yml" },
     { "feed reader", "clients.feed_readers.yml", "#{ @source_base_url }/feed_readers.yml" },
-    { "library",     "clients.libraries.yml",    "#{ @source_base_url }/libraries.yml" },
-    { "mediaplayer", "clients.mediaplayers.yml", "#{ @source_base_url }/mediaplayers.yml" },
     { "mobile app",  "clients.mobile_apps.yml",  "#{ @source_base_url }/mobile_apps.yml" },
-    { "pim",         "clients.pim.yml",          "#{ @source_base_url }/pim.yml" }
+    { "mediaplayer", "clients.mediaplayers.yml", "#{ @source_base_url }/mediaplayers.yml" },
+    { "pim",         "clients.pim.yml",          "#{ @source_base_url }/pim.yml" },
+    { "browser",     "clients.browsers.yml",     "#{ @source_base_url }/browsers.yml" },
+    { "library",     "clients.libraries.yml",    "#{ @source_base_url }/libraries.yml" }
   ]
 
   def store_entry(data, type) do

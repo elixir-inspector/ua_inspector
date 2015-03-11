@@ -9,12 +9,17 @@ defmodule UAInspector.Database.Devices do
 
   @ets_counter :devices
   @ets_table   :ua_inspector_devices
+
+  # files ordered according to
+  # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
+  # to prevent false detections
   @sources [
-    { "", "devices.cameras.yml",               "#{ @source_base_url }/cameras.yml" },
-    { "", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
     { "", "devices.consoles.yml",              "#{ @source_base_url }/consoles.yml" },
-    { "", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" },
+    { "", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
+    { "", "devices.cameras.yml",               "#{ @source_base_url }/cameras.yml" },
     { "", "devices.portable_media_player.yml", "#{ @source_base_url }/portable_media_player.yml" },
+    { "", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" },
+
     { "", "devices.televisions.yml",           "#{ @source_base_url }/televisions.yml" }
   ]
 
