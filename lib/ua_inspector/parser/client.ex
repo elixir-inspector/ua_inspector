@@ -61,9 +61,7 @@ defmodule UAInspector.Parser.Client do
 
     (entry.version || "")
       |> Util.uncapture(captures)
-      |> String.replace(~r/\$(\d)/, "")
-      |> String.strip()
-      |> String.replace(~r/\.(\d)0+$/, ".\\1")
+      |> Util.sanitize_version()
       |> Util.maybe_unknown()
   end
 end

@@ -27,9 +27,7 @@ defmodule UAInspector.Parser.OS do
     version_str =
          (entry.version || "")
       |> Util.uncapture(captures)
-      |> String.replace(~r/\$(\d)/, "")
-      |> String.strip()
-      |> String.replace(~r/\.(\d)0+$/, ".\\1")
+      |> Util.sanitize_version()
       |> Util.maybe_unknown()
 
     %Result.OS{

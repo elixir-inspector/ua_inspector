@@ -11,6 +11,29 @@ defmodule UAInspector.Util do
   def maybe_unknown(data), do: data
 
   @doc """
+  Sanitizes a model string.
+  """
+  @spec sanitize_model(model :: String.t) :: String.t
+  def sanitize_model(""),   do: ""
+  def sanitize_model(model) do
+    model
+    |> String.replace(~r/\$(\d)/, "")
+    |> String.strip()
+  end
+
+  @doc """
+  Sanitizes a version string.
+  """
+  @spec sanitize_version(version :: String.t) :: String.t
+  def sanitize_version(""),     do: ""
+  def sanitize_version(version) do
+    version
+    |> String.replace(~r/\$(\d)/, "")
+    |> String.strip()
+    |> String.replace(~r/\.(\d)0+$/, ".\\1")
+  end
+
+  @doc """
   Converts an unknown version string to a semver-comparable format.
 
   Everything except the `major` and `minor` version is dropped as

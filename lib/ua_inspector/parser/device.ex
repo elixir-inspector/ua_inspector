@@ -37,8 +37,7 @@ defmodule UAInspector.Parser.Device do
     model_str =
          (model.model || "")
       |> Util.uncapture(captures)
-      |> String.replace(~r/\$(\d)/, "")
-      |> String.strip()
+      |> Util.sanitize_model()
       |> Util.maybe_unknown()
 
     %Result.Device{
