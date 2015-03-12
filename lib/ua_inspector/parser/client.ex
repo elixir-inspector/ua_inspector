@@ -28,20 +28,18 @@ defmodule UAInspector.Parser.Client do
   defp engine_str([{ "default", default }], _), do: default
 
   defp engine_str([{ "default", default } | [{ "versions", engines }]], v) do
-    version =
-         v
-      |> String.split(".", parts: 2)
-      |> hd()
-      |> String.to_integer(10)
+    version  = v |> to_string() |> Util.to_semver()
+     filtered = Enum.filter engines, fn ({ maybe_version, _ }) ->
+      maybe_version = maybe_version |> to_string() |> Util.to_semver()
 
-    filtered = Enum.filter engines, fn ({ maybe_version, _ }) ->
-      version >= maybe_version
-    end
+      :lt != Version.compare(version, maybe_version)
+     end
 
-    case filtered do
-      []              -> default
-      [{ _, engine }] -> engine
-    end
+    case List.last(filtered) do
+      nil           -> default
+      { _, ""     } -> nil
+      { _, engine } -> engine
+   end
   end
 
 

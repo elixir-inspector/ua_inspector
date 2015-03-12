@@ -11,6 +11,38 @@ defmodule UAInspector.Util do
   def maybe_unknown(data), do: data
 
   @doc """
+  Converts an unknown version string to a semver-comparable format.
+
+  Everything except the `major` and `minor` version is dropped as
+  these two parts are the only available/needed.
+
+  Missing values are filled with zeroes while empty strings are ignored.
+
+  ## Examples
+
+      iex> to_semver("15")
+      "15.0.0"
+
+      iex> to_semver("3.6")
+      "3.6.0"
+
+      iex> to_semver("8.8.8")
+      "8.8.0"
+
+      iex> to_semver("")
+      ""
+  """
+  @spec to_semver(version :: String.t) :: String.t
+  def to_semver(""),     do: ""
+  def to_semver(version) do
+    case String.split(version, ".", parts: 3) do
+      [ maj ]         -> [ maj, "0", "0" ] |> Enum.join(".")
+      [ maj, min ]    -> [ maj, min, "0" ] |> Enum.join(".")
+      [ maj, min, _ ] -> [ maj, min, "0" ] |> Enum.join(".")
+    end
+  end
+
+  @doc """
   Replaces PHP-Style regex captures with their values.
   """
   @spec uncapture(data :: String.t, captures :: list) :: String.t
