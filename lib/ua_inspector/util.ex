@@ -18,6 +18,7 @@ defmodule UAInspector.Util do
   def sanitize_model(model) do
     model
     |> String.replace(~r/\$(\d)/, "")
+    |> String.replace("_", " ")
     |> String.strip()
   end
 
@@ -29,6 +30,7 @@ defmodule UAInspector.Util do
   def sanitize_version(version) do
     version
     |> String.replace(~r/\$(\d)/, "")
+    |> String.replace(~r/\.$/, "")
     |> String.strip()
   end
 

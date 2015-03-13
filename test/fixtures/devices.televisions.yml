@@ -1,0 +1,6 @@
+Videoweb:
+  regex: 'videoweb|compatible;'
+  device: 'tv'
+  models:
+    - regex: 'ANTGalio/3.0'
+      model: '600S'

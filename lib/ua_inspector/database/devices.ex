@@ -14,16 +14,15 @@ defmodule UAInspector.Database.Devices do
   # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
   # to prevent false detections
   @sources [
-    { "", "devices.consoles.yml",              "#{ @source_base_url }/consoles.yml" },
-    { "", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
-    { "", "devices.cameras.yml",               "#{ @source_base_url }/cameras.yml" },
-    { "", "devices.portable_media_player.yml", "#{ @source_base_url }/portable_media_player.yml" },
-    { "", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" },
-
-    { "", "devices.televisions.yml",           "#{ @source_base_url }/televisions.yml" }
+    { "hbbtv",   "devices.televisions.yml",           "#{ @source_base_url }/televisions.yml" },
+    { "regular", "devices.consoles.yml",              "#{ @source_base_url }/consoles.yml" },
+    { "regular", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
+    { "regular", "devices.cameras.yml",               "#{ @source_base_url }/cameras.yml" },
+    { "regular", "devices.portable_media_player.yml", "#{ @source_base_url }/portable_media_player.yml" },
+    { "regular", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" }
   ]
 
-  def store_entry({ brand, data }, _type) do
+  def store_entry({ brand, data }, type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
     models  = parse_models(data)
@@ -31,7 +30,8 @@ defmodule UAInspector.Database.Devices do
     entry = %{
       brand:  brand,
       models: models,
-      regex:  Regex.compile!(data["regex"], [ :caseless ])
+      regex:  Regex.compile!(data["regex"], [ :caseless ]),
+      type:   type
     }
 
     :ets.insert_new(@ets_table, { counter, entry })
@@ -41,7 +41,11 @@ defmodule UAInspector.Database.Devices do
     device = data["device"]
 
     if data["model"] do
-      [ %{ device: device, model: data["model"], regex: Regex.compile!(".*") } ]
+      [%{
+        device: device,
+        model: data["model"],
+        regex: Regex.compile!(data["regex"], [ :caseless ])
+      }]
     else
       Enum.map(data["models"], fn(model) ->
         model = Enum.into(model, %{})
@@ -49,7 +53,7 @@ defmodule UAInspector.Database.Devices do
         %{
           device: model["device"] || device,
           model:  model["model"] || "",
-          regex:  Regex.compile!(model["regex"])
+          regex:  Regex.compile!(model["regex"], [ :caseless ])
         }
       end)
     end

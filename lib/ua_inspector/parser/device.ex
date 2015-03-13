@@ -9,21 +9,35 @@ defmodule UAInspector.Parser.Device do
   alias UAInspector.Result
   alias UAInspector.Util
 
-  def parse(ua), do: parse(ua, Devices.list)
+  @hbbtv Regex.compile!("HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})", [ :caseless ])
 
-
-  defp parse(_,  []),                             do: :unknown
-  defp parse(ua, [{ _index, entry } | database ]) do
-    if Regex.match?(entry.regex, ua) do
-      parse_model(ua, entry, entry.models)
-    else
-      parse(ua, database)
+  def parse(ua) do
+    case Regex.match?(@hbbtv, ua) do
+      true  -> parse_hbbtv(ua)
+      false -> parse(ua, Devices.list, "regular")
     end
   end
 
 
-  defp parse_model(_, _, []), do: :unknown
+  defp parse(_,  [],                              _),   do: :unknown
+  defp parse(ua, [{ _index, entry } | database ], type) do
+    if type == entry.type && Regex.match?(entry.regex, ua) do
+       parse_model(ua, entry, entry.models)
+     else
+      parse(ua, database, type)
+    end
+  end
 
+
+  defp parse_hbbtv(ua) do
+    case parse(ua, Devices.list, "hbbtv") do
+      :unknown -> %Result.Device{ type: "tv" }
+      device   -> device
+     end
+   end
+
+
+  defp parse_model(_,  _,      []),                do: :unknown
   defp parse_model(ua, device, [ model | models ]) do
     if Regex.match?(model.regex, ua) do
       parse_model_data(ua, device, model)
@@ -33,7 +47,7 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp parse_model_data(ua, device, model) do
-    captures  = Regex.run(device.regex, ua)
+    captures  = Regex.run(model.regex, ua)
     model_str =
          (model.model || "")
       |> Util.uncapture(captures)
