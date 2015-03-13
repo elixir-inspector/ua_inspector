@@ -16,10 +16,13 @@ defmodule Mix.Tasks.UAInspector.Verify do
 
   defp compare(testcase, result) do
     testcase.user_agent == result.user_agent
-    && testcase.client == Map.from_struct(result.client)
-    && testcase.device == Map.from_struct(result.device)
-    && testcase.os == Map.from_struct(result.os)
-  end
+    && testcase.client == maybe_from_struct(result.client)
+    && testcase.device == maybe_from_struct(result.device)
+    && testcase.os == maybe_from_struct(result.os)
+   end
+
+  defp maybe_from_struct(:unknown), do: :unknown
+  defp maybe_from_struct(result),   do: Map.from_struct(result)
 
   defp parse(case_data) when is_list(case_data) do
     case_data
