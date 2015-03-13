@@ -29,17 +29,11 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
   defp cleanup_client_version(%{ client: %{ version: :null }} = testcase) do
     put_in(testcase, [ :client, :version ], :unknown)
   end
-  defp cleanup_client_version(%{ client: %{ version: version }} = testcase) do
-    put_in(testcase, [ :client, :version ], to_string(version))
-  end
   defp cleanup_client_version(testcase), do: testcase
 
 
   defp cleanup_os_version(%{ os: %{ version: :null }} = testcase) do
     put_in(testcase, [ :os, :version ], :unknown)
-  end
-  defp cleanup_os_version(%{ os: %{ version: version }} = testcase) do
-    put_in(testcase, [ :os, :version ], to_string(version))
   end
   defp cleanup_os_version(testcase), do: testcase
 

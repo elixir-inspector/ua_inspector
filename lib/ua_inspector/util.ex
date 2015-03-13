@@ -30,7 +30,6 @@ defmodule UAInspector.Util do
     version
     |> String.replace(~r/\$(\d)/, "")
     |> String.strip()
-    |> String.replace(~r/\.(\d)0+$/, ".\\1")
   end
 
   @doc """
