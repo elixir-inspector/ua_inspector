@@ -10,6 +10,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
     "car_browser.yml",
     "console.yml",
     "phablet.yml",
+    "portable_media_player.yml",
     "tv.yml"
   ]
 
