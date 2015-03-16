@@ -31,6 +31,7 @@ defmodule UAInspector.Util do
     version
     |> String.replace(~r/\$(\d)/, "")
     |> String.replace(~r/\.$/, "")
+    |> String.replace("_", ".")
     |> String.strip()
   end
 

@@ -67,7 +67,7 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
   },
   os: %UAInspector.Result.OS{
     name:    "iOS",
-    version: "7_0_4"
+    version: "7.0.4"
   },
 }
 iex(2)> UAInspector.parse("--- undetectable ---")
