@@ -6,6 +6,6 @@ defmodule UAInspector.Result.Device do
   defstruct [
     brand: :unknown,
     model: :unknown,
-    type:  :unknown
+    type:  "desktop"
   ]
 end

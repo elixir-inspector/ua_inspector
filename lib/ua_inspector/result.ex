@@ -3,10 +3,12 @@ defmodule UAInspector.Result do
   Result struct.
   """
 
+  alias UAInspector.Result
+
   defstruct [
     user_agent: "",
     client:     :unknown,
-    device:     :unknown,
+    device:     %Result.Device{},
     os:         :unknown
   ]
 end

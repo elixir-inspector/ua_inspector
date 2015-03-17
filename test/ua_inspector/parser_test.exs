@@ -42,9 +42,7 @@ defmodule UAInspector.ParserTest do
     agent  = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)"
     parsed = %Result{
       user_agent: agent,
-      client:     %Result.Client{ engine: "Trident", name: "Internet Explorer", type: "browser", version: "9.0" },
-      device:     :unknown,
-      os:         :unknown
+      client:     %Result.Client{ engine: "Trident", name: "Internet Explorer", type: "browser", version: "9.0" }
     }
 
     assert parsed == UAInspector.parse(agent)
@@ -54,9 +52,7 @@ defmodule UAInspector.ParserTest do
     agent  = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.12) Gecko/20130823 Firefox/10.0.11esrpre Iceape/2.7.12"
     parsed = %Result{
       user_agent: agent,
-      client:     %Result.Client{ engine: "Gecko", name: "Iceape", type: "browser", version: "2.7.12" },
-      device:     :unknown,
-      os:         :unknown
+      client:     %Result.Client{ engine: "Gecko", name: "Iceape", type: "browser", version: "2.7.12" }
     }
 
     assert parsed == UAInspector.parse(agent)
@@ -67,9 +63,7 @@ defmodule UAInspector.ParserTest do
     agent  = "Tiphone T67/1.0 Browser/wap2.0 Sync/SyncClient1.1 Profile/MIDP-2.0 Configuration/CLDC-1.1"
     parsed = %Result{
       user_agent: agent,
-      client:     :unknown,
-      device:     %Result.Device{ brand: "TiPhone", model: "T67", type: "smartphone" },
-      os:         :unknown
+      device:     %Result.Device{ brand: "TiPhone", model: "T67", type: "smartphone" }
     }
 
     assert parsed == UAInspector.parse(agent)
@@ -78,10 +72,8 @@ defmodule UAInspector.ParserTest do
   test "parse device #2" do
     agent  = "HbbTV/1.1.1 (+DL;TechnoTrend Goerler;S-855;3.1.8.24.04.20.devel;;) CE-HTML/1.0 hdplusinteraktiv/1.0 (NETRANGEMMH;)"
     parsed = %Result{
-     user_agent: agent,
-      client:     :unknown,
-      device:     %Result.Device{ type: "tv" },
-      os:         :unknown
+      user_agent: agent,
+      device:     %Result.Device{ type: "tv" }
     }
 
     assert parsed == UAInspector.parse(agent)
@@ -91,9 +83,7 @@ defmodule UAInspector.ParserTest do
     agent  = "HbbTV/1.1.1 (;;;;) Mozilla/5.0 (compatible; ANTGalio/3.0.2.1.22.43.08; Linux2.6.18-7.1/7405d0-smp)"
     parsed = %Result{
       user_agent: agent,
-      client:     :unknown,
-      device:     %Result.Device{ brand: "Videoweb", model: "600S", type: "tv" },
-      os:         :unknown
+      device:     %Result.Device{ brand: "Videoweb", model: "600S", type: "tv" }
     }
 
     assert parsed == UAInspector.parse(agent)

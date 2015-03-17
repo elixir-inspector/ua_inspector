@@ -74,12 +74,15 @@ iex(2)> UAInspector.parse("--- undetectable ---")
 %UAInspector.Result{
   user_agent: "--- undetectable ---",
   client:     :unknown,
-  device:     :unknown,
+  device:     %UAInspector.Result.Device{ type: "desktop" },
   os:         :unknown
 }
 ```
 
 The map key _user\_agent_ will hold the unmodified passed user agent.
+
+If the device type cannot be determined a "desktop" `:type` will be
+assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
 
 
 ## Resources

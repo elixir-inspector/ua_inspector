@@ -14,7 +14,7 @@ defmodule UAInspector.Parser.Device do
   def parse(ua) do
     case Regex.match?(@hbbtv, ua) do
       true  -> parse_hbbtv(ua)
-      false -> parse(ua, Devices.list, "regular")
+      false -> parse_regular(ua)
     end
   end
 
@@ -33,8 +33,15 @@ defmodule UAInspector.Parser.Device do
     case parse(ua, Devices.list, "hbbtv") do
       :unknown -> %Result.Device{ type: "tv" }
       device   -> device
-     end
-   end
+    end
+  end
+
+  defp parse_regular(ua) do
+    case parse(ua, Devices.list, "regular") do
+      :unknown -> %Result.Device{ type: "desktop" }
+      device   -> device
+    end
+  end
 
 
   defp parse_model(_,  _,      []),                do: :unknown
