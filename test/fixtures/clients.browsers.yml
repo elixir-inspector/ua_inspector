@@ -1,12 +1,8 @@
-- regex: '(?:iPod|iPad|iPhone).+Version/(\d+[\.\d]+)'
-  name: 'Mobile Safari'
-  version: '$1'
-
-- regex: 'MSIE.*Trident/5.0'
-  name: 'Internet Explorer'
-  version: 9.0
+- regex: '(Iceape|SeaMonkey|gnuzilla)(?:/(\d+[\.\d]+))?'
+  name: '$1'
+  version: '$2'
   engine:
-    default: 'Trident'
+    default: 'Gecko'
 
 - regex: '(?:Opera|OPR)[/ ](?:9.80.*Version/)?(\d+[\.\d]+).+Edition Next'
   name: 'Opera Next'
@@ -15,3 +11,13 @@
     default: 'Presto'
     versions:
       15: 'Blink'
+
+- regex: 'MSIE.*Trident/5.0'
+  name: 'Internet Explorer'
+  version: 9.0
+  engine:
+    default: 'Trident'
+
+- regex: '(?:iPod|iPad|iPhone).+Version/(\d+[\.\d]+)'
+  name: 'Mobile Safari'
+  version: '$1'

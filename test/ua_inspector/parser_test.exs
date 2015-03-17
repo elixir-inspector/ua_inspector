@@ -50,6 +50,18 @@ defmodule UAInspector.ParserTest do
     assert parsed == UAInspector.parse(agent)
   end
 
+  test "parse client #2" do
+    agent  = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.12) Gecko/20130823 Firefox/10.0.11esrpre Iceape/2.7.12"
+    parsed = %Result{
+      user_agent: agent,
+      client:     %Result.Client{ engine: "Gecko", name: "Iceape", type: "browser", version: "2.7.12" },
+      device:     :unknown,
+      os:         :unknown
+    }
+
+    assert parsed == UAInspector.parse(agent)
+  end
+
 
   test "parse device #1" do
     agent  = "Tiphone T67/1.0 Browser/wap2.0 Sync/SyncClient1.1 Profile/MIDP-2.0 Configuration/CLDC-1.1"
