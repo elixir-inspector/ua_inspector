@@ -5,6 +5,8 @@ defmodule UAInspector.Database.Clients do
 
   use UAInspector .Database
 
+  alias UAInspector.Util
+
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
 
   @ets_counter :clients
@@ -28,7 +30,7 @@ defmodule UAInspector.Database.Clients do
     entry   = %{
       engine:  data["engine"],
       name:    data["name"],
-      regex:   Regex.compile!(data["regex"], [ :caseless ]),
+      regex:   Util.build_regex(data["regex"]),
       type:    type,
       version: data["version"] |> to_string()
     }

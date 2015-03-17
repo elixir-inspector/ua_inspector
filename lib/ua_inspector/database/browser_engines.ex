@@ -5,6 +5,8 @@ defmodule UAInspector.Database.BrowserEngines do
 
   use UAInspector.Database
 
+  alias UAInspector.Util
+
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
 
   @ets_counter :browser_engines
@@ -16,7 +18,7 @@ defmodule UAInspector.Database.BrowserEngines do
     data    = Enum.into(data, %{})
     entry   = %{
       name:  data["name"],
-      regex: Regex.compile!(data["regex"], [ :caseless ])
+      regex: Util.build_regex(data["regex"])
     }
 
     :ets.insert_new(@ets_table, { counter, entry })

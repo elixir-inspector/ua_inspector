@@ -5,6 +5,8 @@ defmodule UAInspector.Database.Devices do
 
   use UAInspector.Database
 
+  alias UAInspector.Util
+
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device"
 
   @ets_counter :devices
@@ -30,7 +32,7 @@ defmodule UAInspector.Database.Devices do
     entry = %{
       brand:  brand,
       models: models,
-      regex:  Regex.compile!(data["regex"], [ :caseless ]),
+      regex:  Util.build_regex(data["regex"]),
       type:   type
     }
 
@@ -44,7 +46,7 @@ defmodule UAInspector.Database.Devices do
       [%{
         device: device,
         model: data["model"],
-        regex: Regex.compile!(data["regex"], [ :caseless ])
+        regex: Util.build_regex(data["regex"])
       }]
     else
       Enum.map(data["models"], fn(model) ->
@@ -52,8 +54,8 @@ defmodule UAInspector.Database.Devices do
 
         %{
           device: model["device"] || device,
-          model:  model["model"] || "",
-          regex:  Regex.compile!(model["regex"], [ :caseless ])
+          model:  model["model"]  || "",
+          regex:  Util.build_regex(model["regex"])
         }
       end)
     end

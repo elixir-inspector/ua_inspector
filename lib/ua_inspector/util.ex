@@ -4,6 +4,18 @@ defmodule UAInspector.Util do
   """
 
   @doc """
+  Upgrades a database regex into a detection regex.
+
+  This prevents matching a string with other characters
+  before the matching part.
+  """
+  @spec build_regex(regex :: String.t) :: Regex.t
+  def build_regex(regex) do
+    "(?:^|[^A-Z_-])(?:" <> regex <> ")"
+    |> Regex.compile!([ :caseless ])
+  end
+
+  @doc """
   Replaces an empty string with `:unknown`.
   """
   @spec maybe_unknown(data :: String.t) :: :unknown | String.t
