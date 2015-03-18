@@ -26,10 +26,10 @@ defmodule UAInspector.Parser.Client do
   defp parse_data(ua, entry) do
     name    = resolve_name(ua, entry)
     version = resolve_version(ua, entry)
-    engine  = resolve_engine(entry.engine, version)
+    engine  = maybe_resolve_engine(entry.type, entry.engine, ua, version)
 
     %Result.Client{
-      engine:  engine || BrowserEngine.parse(ua),
+      engine:  engine,
       name:    name,
       type:    entry.type,
       version: version
@@ -37,8 +37,20 @@ defmodule UAInspector.Parser.Client do
   end
 
 
-  defp resolve_engine(nil, _),                      do: nil
-  defp resolve_engine([{ "default", "" }], _),      do: nil
+  defp maybe_resolve_engine("browser", engine_data, ua, version) do
+    engine = case resolve_engine(engine_data, version) do
+      ""     -> BrowserEngine.parse(ua)
+      engine -> engine
+    end
+
+    engine |> Util.maybe_unknown()
+  end
+
+  defp maybe_resolve_engine(_, _, _, _), do: :unknown
+
+
+  defp resolve_engine(nil, _),                      do: ""
+  defp resolve_engine([{ "default", "" }], _),      do: ""
   defp resolve_engine([{ "default", default }], _), do: default
 
   defp resolve_engine([{ "default", default } | non_default ], version) do
@@ -53,7 +65,7 @@ defmodule UAInspector.Parser.Client do
 
     case List.last(filtered) do
       nil           -> default
-      { _, ""     } -> nil
+      { _, ""     } -> ""
       { _, engine } -> engine
     end
   end
