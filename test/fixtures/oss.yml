@@ -1,3 +1,7 @@
+- regex: '(Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|CentOS|BackTrack)(?:(?: Enterprise)? Linux)?(?:[ /\-](\d+[\.\d]+))?'
+  name: '$1'
+  version: '$2'
+
 - regex: '(?:CPU OS|iPhone OS|iOS)[ _](\d+(?:[_\.]\d+)*)'
   name: 'iOS'
   version: '$1'

@@ -23,16 +23,33 @@ defmodule UAInspector.Parser.OS do
 
 
   defp parse_data(ua, entry) do
-    captures    = Regex.run(entry.regex, ua)
-    version_str =
-         (entry.version || "")
+    name    = resolve_name(ua, entry)
+    version = resolve_version(ua, entry)
+
+    %Result.OS{
+      name:    name,
+      version: version
+    }
+  end
+
+
+  defp resolve_name(ua, entry) do
+    captures = Regex.run(entry.regex, ua)
+
+    (entry.name || "")
+      |> Util.uncapture(captures)
+      |> Util.sanitize_name()
+      |> String.downcase()
+      |> Util.OS.proper_case()
+      |> Util.maybe_unknown()
+  end
+
+  defp resolve_version(ua, entry) do
+    captures = Regex.run(entry.regex, ua)
+
+    (entry.version || "")
       |> Util.uncapture(captures)
       |> Util.sanitize_version()
       |> Util.maybe_unknown()
-
-    %Result.OS{
-      name:    entry.name,
-      version: version_str
-    }
   end
 end

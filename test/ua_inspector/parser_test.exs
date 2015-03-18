@@ -90,6 +90,17 @@ defmodule UAInspector.ParserTest do
   end
 
 
+  test "parse os #3" do
+    agent  = "Mozilla/5.0 (X11; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 debian/unstable (3.8.2-5) Epiphany/3.8.2"
+    parsed = %Result{
+      user_agent: agent,
+      os:         %Result.OS{ name: "Debian" }
+    }
+
+    assert parsed == UAInspector.parse(agent)
+  end
+
+
   test "parse browser engine #1" do
     agent  = "Opera/9.80 (Windows NT 6.2; U; Edition Next; ru) Presto/2.11 Version/12.50"
     parsed = UAInspector.parse(agent)
