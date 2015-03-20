@@ -6,17 +6,27 @@ defmodule UAInspector.Parser.Device do
   use UAInspector.Parser
 
   alias UAInspector.Database.Devices
+  alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
   alias UAInspector.Util
 
   @hbbtv Regex.compile!("HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})", [ :caseless ])
 
   def parse(ua) do
-    case Regex.match?(@hbbtv, ua) do
+    device = case Regex.match?(@hbbtv, ua) do
       true  -> parse_hbbtv(ua)
       false -> parse_regular(ua)
     end
+
+    device |> maybe_parse_vendor(ua)
   end
+
+
+  defp maybe_parse_vendor(%{ brand: :unknown } = device, ua) do
+    %{ device | brand: VendorFragment.parse(ua) }
+  end
+
+  defp maybe_parse_vendor(device, _), do: device
 
 
   defp parse(_,  [],                              _),   do: :unknown

@@ -27,12 +27,14 @@ defmodule UAInspector.Databases do
     Database.Clients.init()
     Database.Devices.init()
     Database.OSs.init()
+    Database.VendorFragments.init()
 
     counters = [
-      browser_engines: 0,
-      clients:         0,
-      devices:         0,
-      oss:             0
+      browser_engines:  0,
+      clients:          0,
+      devices:          0,
+      oss:              0,
+      vendor_fragments: 0
     ]
 
     :ets.insert(@ets_table, counters)
@@ -48,6 +50,7 @@ defmodule UAInspector.Databases do
     Database.Clients.load(path)
     Database.Devices.load(path)
     Database.OSs.load(path)
+    Database.VendorFragments.load(path)
 
     { :reply, :ok, state }
   end

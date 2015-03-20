@@ -45,7 +45,8 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     databases = Database.BrowserEngines.sources ++
                 Database.Clients.sources ++
                 Database.Devices.sources ++
-                Database.OSs.sources
+                Database.OSs.sources ++
+                Database.VendorFragments.sources
 
     for { _type, local, remote } <- databases do
       download_database(local, remote)
