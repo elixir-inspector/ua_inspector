@@ -5,6 +5,8 @@ defmodule UAInspector.Database.OSs do
 
   use UAInspector.Database
 
+  alias UAInspector.Util
+
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
 
   @ets_counter :oss
@@ -16,7 +18,7 @@ defmodule UAInspector.Database.OSs do
     data    = Enum.into(data, %{})
     entry   = %{
       name:    data["name"],
-      regex:   Regex.compile!(data["regex"], [ :caseless ]),
+      regex:   Util.build_regex(data["regex"]),
       version: data["version"]
     }
 
