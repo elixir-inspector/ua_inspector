@@ -9,6 +9,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
     "camera.yml",
     "car_browser.yml",
     "console.yml",
+    "desktop.yml",
     "phablet.yml",
     "portable_media_player.yml",
     "smart_display.yml",
