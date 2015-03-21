@@ -44,17 +44,19 @@ defmodule UAInspector.Database.Devices do
 
     if data["model"] do
       [%{
+        brand:  nil,
         device: device,
-        model: data["model"],
-        regex: Util.build_regex(data["regex"])
+        model:  data["model"],
+        regex:  Util.build_regex(data["regex"])
       }]
     else
       Enum.map(data["models"], fn(model) ->
         model = Enum.into(model, %{})
 
         %{
+          brand:  model["brand"],
           device: model["device"] || device,
-          model:  model["model"]  || "",
+          model:  model["model"],
           regex:  Util.build_regex(model["regex"])
         }
       end)

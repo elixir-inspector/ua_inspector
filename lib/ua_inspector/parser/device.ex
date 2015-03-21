@@ -71,8 +71,10 @@ defmodule UAInspector.Parser.Device do
       |> Util.sanitize_model()
       |> Util.maybe_unknown()
 
+    brand_str = (model.brand || device.brand) |> Util.maybe_unknown
+
     %Result.Device{
-      brand: device.brand,
+      brand: brand_str,
       type:  model.device,
       model: model_str
     }
