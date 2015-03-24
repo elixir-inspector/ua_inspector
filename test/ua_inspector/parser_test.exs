@@ -25,7 +25,7 @@ defmodule UAInspector.ParserTest do
   end
 
 
-  test "parse #1" do
+  test "parse" do
     agent  = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
     parsed = %Result{
       user_agent: agent,
@@ -35,91 +35,5 @@ defmodule UAInspector.ParserTest do
     }
 
     assert parsed == UAInspector.parse(agent)
-  end
-
-
-  test "parse client #1" do
-    agent  = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)"
-    parsed = %Result{
-      user_agent: agent,
-      client:     %Result.Client{ engine: "Trident", name: "Internet Explorer", type: "browser", version: "9.0" }
-    }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-  test "parse client #2" do
-    agent  = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.12) Gecko/20130823 Firefox/10.0.11esrpre Iceape/2.7.12"
-    parsed = %Result{
-      user_agent: agent,
-      client:     %Result.Client{ engine: "Gecko", name: "Iceape", type: "browser", version: "2.7.12" }
-    }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-
-  test "parse device #1" do
-    agent  = "Tiphone T67/1.0 Browser/wap2.0 Sync/SyncClient1.1 Profile/MIDP-2.0 Configuration/CLDC-1.1"
-    parsed = %Result{
-      user_agent: agent,
-      device:     %Result.Device{ brand: "TiPhone", model: "T67", type: "smartphone" }
-    }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-  test "parse device #2" do
-    agent  = "HbbTV/1.1.1 (+DL;TechnoTrend Goerler;S-855;3.1.8.24.04.20.devel;;) CE-HTML/1.0 hdplusinteraktiv/1.0 (NETRANGEMMH;)"
-    parsed = %Result{
-      user_agent: agent,
-      device:     %Result.Device{ type: "tv" }
-    }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-  test "parse device #3" do
-    agent  = "HbbTV/1.1.1 (;;;;) Mozilla/5.0 (compatible; ANTGalio/3.0.2.1.22.43.08; Linux2.6.18-7.1/7405d0-smp)"
-    parsed = %Result{
-      user_agent: agent,
-      device:     %Result.Device{ brand: "Videoweb", model: "600S", type: "tv" }
-    }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-
-  test "parse os #3" do
-    agent  = "Mozilla/5.0 (X11; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 debian/unstable (3.8.2-5) Epiphany/3.8.2"
-    parsed = %Result{
-      user_agent: agent,
-      os:         %Result.OS{ name: "Debian" }
-    }
-
-    assert parsed == UAInspector.parse(agent)
-  end
-
-
-  test "parse browser engine #1" do
-    agent  = "Opera/9.80 (Windows NT 6.2; U; Edition Next; ru) Presto/2.11 Version/12.50"
-    parsed = UAInspector.parse(agent)
-
-    assert "Presto" == parsed.client.engine
-  end
-
-  test "parse browser engine #2" do
-    agent  = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/33.0.1750.91 Safari/537.36 OPR/20.0.1387.37 (Edition Next-Campaign 21)"
-    parsed = UAInspector.parse(agent)
-
-    assert "Blink" == parsed.client.engine
-  end
-
-
-  test "parse vendor fragment" do
-    agent  = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/7.0; SLCC2; .NET CLR 2.0.50727; Media Center PC 6.0; MAAR; Tablet PC 2.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E)"
-    parsed = UAInspector.parse(agent)
-
-    assert "Acer" == parsed.device.brand
   end
 end
