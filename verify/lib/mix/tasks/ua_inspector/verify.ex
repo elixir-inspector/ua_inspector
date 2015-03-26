@@ -1,5 +1,7 @@
 defmodule Mix.Tasks.UAInspector.Verify do
-  use Mix.Task
+  @moduledoc """
+  Verifies UAInspector results.
+  """
 
   alias Mix.Tasks.UAInspector.Verify
 
@@ -66,10 +68,31 @@ defmodule Mix.Tasks.UAInspector.Verify do
   end
 end
 
-#
-# Elixir 1.0.2 requires the underscore module naming.
-# https://github.com/elixytics/ua_inspector/pull/1
-#
-defmodule Mix.Tasks.Ua_inspector.Verify do
-  defdelegate run(args), to: Mix.Tasks.UAInspector.Verify
+if Version.match?(System.version, ">= 1.0.3") do
+  #
+  # Elixir 1.0.3 and up requires mixed case module namings.
+  # The "double uppercase letter" of "UAInspector" violates
+  # this rule. This fake task acts as a workaround.
+  #
+  defmodule Mix.Tasks.UaInspector.Verify do
+    @moduledoc false
+    @shortdoc  "Verifies parser results"
+
+    use Mix.Task
+
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Verify
+  end
+else
+  #
+  # Elixir 1.0.2 requires the underscore module naming.
+  # https://github.com/elixytics/ua_inspector/pull/1
+  #
+  defmodule Mix.Tasks.Ua_inspector.Verify do
+    @moduledoc false
+    @shortdoc  "Verifies parser results"
+
+    use Mix.Task
+
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Verify
+  end
 end

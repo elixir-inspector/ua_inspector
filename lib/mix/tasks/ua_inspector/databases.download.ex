@@ -9,11 +9,7 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   `mix ua_inspector.database.download`
   """
 
-  use Mix.Task
-
   alias UAInspector.Database
-
-  @shortdoc  "Downloads parser databases"
 
   def run(args) do
     Mix.shell.info "Download path: #{ download_path }"
@@ -72,12 +68,31 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   end
 end
 
-#
-# Elixir 1.0.2 requires the underscore module naming.
-# https://github.com/elixytics/ua_inspector/pull/1
-#
-defmodule Mix.Tasks.Ua_inspector.Databases.Download do
-  @moduledoc false
+if Version.match?(System.version, ">= 1.0.3") do
+  #
+  # Elixir 1.0.3 and up requires mixed case module namings.
+  # The "double uppercase letter" of "UAInspector" violates
+  # this rule. This fake task acts as a workaround.
+  #
+  defmodule Mix.Tasks.UaInspector.Databases.Download do
+    @moduledoc false
+    @shortdoc  "Downloads parser databases"
 
-  defdelegate run(args), to: Mix.Tasks.UAInspector.Databases.Download
+    use Mix.Task
+
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Databases.Download
+  end
+else
+  #
+  # Elixir 1.0.2 requires the underscore module naming.
+  # https://github.com/elixytics/ua_inspector/pull/1
+  #
+  defmodule Mix.Tasks.Ua_inspector.Databases.Download do
+    @moduledoc false
+    @shortdoc  "Downloads parser databases"
+
+    use Mix.Task
+
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Databases.Download
+  end
 end
