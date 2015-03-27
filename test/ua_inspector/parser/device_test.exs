@@ -42,4 +42,20 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert parsed.device == result
   end
+
+  test "#6" do
+    agent  = "Mozilla/5.0 (Linux; U; Android 0.5; en-us) AppleWebKit/522+ (KHTML, like Gecko) Safari/419.3"
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{ type: "smartphone" }
+
+    assert parsed.device == result
+  end
+
+  test "#7" do
+    agent  = "Mozilla/5.0 (Linux; U; Android 3.1; pl-pl; K1 Build/K1_A301_03_03_110919_SG) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13"
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{ type: "tablet" }
+
+    assert parsed.device == result
+  end
 end
