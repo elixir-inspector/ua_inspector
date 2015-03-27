@@ -21,7 +21,7 @@ defmodule UAInspector.Parser.Device do
     end
 
     device
-    |> maybe_parse_type(ua, @android_mobile, "mobile")
+    |> maybe_parse_type(ua, @android_mobile, "smartphone")
     |> maybe_parse_type(ua, @android_tablet, "tablet")
     |> maybe_parse_type_default()
     |> maybe_parse_vendor(ua)

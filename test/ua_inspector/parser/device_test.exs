@@ -30,7 +30,7 @@ defmodule UAInspector.Parser.DeviceTest do
   test "#4" do
     agent  = "Mozilla/5.0 (Android; Mobile; rv:22.0) Gecko/22.0 Firefox/22.0"
     parsed = UAInspector.parse(agent)
-    result = %Result.Device{ type: "mobile" }
+    result = %Result.Device{ type: "smartphone" }
 
     assert parsed.device == result
   end
