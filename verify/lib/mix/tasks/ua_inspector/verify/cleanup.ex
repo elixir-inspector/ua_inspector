@@ -53,7 +53,9 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
   defp cleanup_device_model(%{ device: %{ model: :null }} = testcase) do
     put_in(testcase, [ :device, :model ], :unknown)
   end
-  defp cleanup_device_model(testcase), do: testcase
+  defp cleanup_device_model(%{ device: %{ model: model }} = testcase) do
+    put_in(testcase, [ :device, :model ], to_string(model))
+  end
 
 
   defp cleanup_os_entry(%{ os: os } = testcase) do
