@@ -33,6 +33,7 @@ defmodule UAInspector.Parser do
     ua
     |> assemble_result()
     |> maybe_fix_android()
+    |> maybe_fix_windows()
   end
 
 
@@ -74,4 +75,32 @@ defmodule UAInspector.Parser do
     :lt != Version.compare(version, "3.0.0")
     && :lt == Version.compare(version, "4.0.0")
   end
+
+
+  # assume windows 8 with touch capability is a tablet
+  @has_touch Util.build_regex("Touch")
+
+  defp maybe_fix_windows(%{ os:     %{ name: "Windows RT" },
+                            device: %{ type: "desktop" }} = result) do
+    %{ result | device: %{ result.device | type: "tablet" }}
+  end
+
+  defp maybe_fix_windows(%{ os: %{ version: :unknown }} = result) do
+    result
+  end
+
+  defp maybe_fix_windows(%{ os:     %{ name: "Windows" } = os,
+                            device: %{ type: "desktop" }} = result) do
+    version  = Util.to_semver(os.version)
+    is_gte_8 = (:lt != Version.compare(version, "8.0.0"))
+    is_touch = Regex.match?(@has_touch, result.user_agent)
+
+    if is_gte_8 && is_touch do
+      %{ result | device: %{ result.device | type: "tablet" }}
+    else
+      result
+    end
+  end
+
+  defp maybe_fix_windows(result), do: result
 end

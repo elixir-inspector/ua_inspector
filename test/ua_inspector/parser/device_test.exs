@@ -58,4 +58,20 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert parsed.device == result
   end
+
+  test "#8" do
+    agent  = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch; ARMBJS)"
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{ type: "tablet" }
+
+    assert parsed.device == result
+  end
+
+  test "#9" do
+    agent  = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; Touch; MAARJS)"
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{ brand: "Acer", type: "tablet" }
+
+    assert parsed.device == result
+  end
 end

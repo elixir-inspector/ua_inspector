@@ -65,6 +65,9 @@ defmodule UAInspector.Util do
 
   Missing values are filled with zeroes while empty strings are ignored.
 
+  If a non-integer value is found it is ignored and every part
+  including and after it will be a zero.
+
   ## Examples
 
       iex> to_semver("15")
@@ -78,14 +81,31 @@ defmodule UAInspector.Util do
 
       iex> to_semver("")
       ""
+
+      iex> to_semver("invalid")
+      "0.0.0"
+
+      iex> to_semver("3.help")
+      "3.0.0"
+
+      iex> to_semver("0.1.invalid")
+      "0.1.0"
   """
   @spec to_semver(version :: String.t) :: String.t
   def to_semver(""),     do: ""
   def to_semver(version) do
     case String.split(version, ".", parts: 3) do
-      [ maj ]         -> [ maj, "0", "0" ] |> Enum.join(".")
-      [ maj, min ]    -> [ maj, min, "0" ] |> Enum.join(".")
-      [ maj, min, _ ] -> [ maj, min, "0" ] |> Enum.join(".")
+      [ maj ]         -> [ maj, "0" ] |> to_semver_string()
+      [ maj, min ]    -> [ maj, min ] |> to_semver_string()
+      [ maj, min, _ ] -> [ maj, min ] |> to_semver_string()
+    end
+  end
+
+  defp to_semver_string([ maj, min ]) do
+    case { Integer.parse(maj), Integer.parse(min) } do
+      { :error,    _ }         -> "0.0.0"
+      {{ maj, _ }, :error }    -> "#{ maj }.0.0"
+      {{ maj, _ }, { min, _ }} -> "#{ maj }.#{ min }.0"
     end
   end
 

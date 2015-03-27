@@ -1,3 +1,7 @@
+- regex: 'Windows NT 6.2; ARM;'
+  name: 'Windows RT'
+  version: ''
+
 - regex: '(?:Android|Adr)[ /](?:[a-z]+ )?(\d+[\.\d]+)'
   name: 'Android'
   version: '$1'
@@ -5,6 +9,10 @@
 - regex: '(Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|CentOS|BackTrack)(?:(?: Enterprise)? Linux)?(?:[ /\-](\d+[\.\d]+))?'
   name: '$1'
   version: '$2'
+
+- regex: 'CYGWIN_NT-6.2|Windows NT 6.2|Windows 8'
+  name: 'Windows'
+  version: '8'
 
 - regex: '(?:CPU OS|iPhone OS|iOS)[ _](\d+(?:[_\.]\d+)*)'
   name: 'iOS'
