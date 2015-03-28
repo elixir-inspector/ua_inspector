@@ -18,7 +18,8 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
     "portable_media_player.yml",
     "smart_display.yml",
     "tablet.yml",
-    "tv.yml"
+    "tv.yml",
+    "unknown.yml"
   ]
 
   def download() do
