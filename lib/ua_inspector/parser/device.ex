@@ -23,7 +23,6 @@ defmodule UAInspector.Parser.Device do
     device
     |> maybe_parse_type(ua, @android_mobile, "smartphone")
     |> maybe_parse_type(ua, @android_tablet, "tablet")
-    |> maybe_parse_type_default()
     |> maybe_parse_vendor(ua)
   end
 
@@ -37,12 +36,6 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp maybe_parse_type(device, _, _, _), do: device
-
-  defp maybe_parse_type_default(%{ type: :unknown } = device) do
-    %{ device | type: "desktop" }
-  end
-
-  defp maybe_parse_type_default(device), do: device
 
   defp maybe_parse_vendor(%{ brand: :unknown } = device, ua) do
     %{ device | brand: VendorFragment.parse(ua) }

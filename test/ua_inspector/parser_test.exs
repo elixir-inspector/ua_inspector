@@ -5,21 +5,21 @@ defmodule UAInspector.ParserTest do
 
   test "handle incomplete yaml definitions" do
     agent  = "Incomplete YAML entry without model"
-    parsed = %Result{ user_agent: agent, device: %Result.Device{ type: "desktop" }}
+    parsed = %Result{ user_agent: agent }
 
     assert parsed == UAInspector.parse(agent)
   end
 
   test "parse empty" do
     agent  = ""
-    parsed = %Result{ user_agent: agent, device: %Result.Device{ type: "desktop" }}
+    parsed = %Result{ user_agent: agent }
 
     assert parsed == UAInspector.parse(agent)
   end
 
   test "parse unknown" do
     agent  = "some unknown user agent"
-    parsed = %Result{ user_agent: agent, device: %Result.Device{ type: "desktop" }}
+    parsed = %Result{ user_agent: agent }
 
     assert parsed == UAInspector.parse(agent)
   end

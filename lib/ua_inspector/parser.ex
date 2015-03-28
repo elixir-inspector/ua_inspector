@@ -34,6 +34,7 @@ defmodule UAInspector.Parser do
     |> assemble_result()
     |> maybe_fix_android()
     |> maybe_fix_windows()
+    |> maybe_detect_desktop()
   end
 
 
@@ -46,6 +47,19 @@ defmodule UAInspector.Parser do
     }
   end
 
+
+  defp maybe_detect_desktop(%{ os: :unknown } = result), do: result
+
+  defp maybe_detect_desktop(%{ device: %{ type: :unknown }} = result) do
+    case Util.OS.desktop_only?(result.os.name) do
+      true  -> %{ result | device: %{ result.device | type: "desktop" }}
+      false -> result
+    end
+  end
+
+  defp maybe_detect_desktop(result), do: result
+
+
   # Android <  2.0.0 is always a smartphone
   # Andoird == 3.*   is always a tablet
   defp maybe_fix_android(%{ os: %{ version: :unknown }} = result) do
@@ -53,7 +67,7 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_android(%{ os:     %{ name: "Android" } = os,
-                            device: %{ type: "desktop" }} = result) do
+                            device: %{ type: :unknown }} = result) do
     version = Util.to_semver(os.version)
     type    =  cond do
       smartphone_android?(version) -> "smartphone"
@@ -81,7 +95,7 @@ defmodule UAInspector.Parser do
   @has_touch Util.build_regex("Touch")
 
   defp maybe_fix_windows(%{ os:     %{ name: "Windows RT" },
-                            device: %{ type: "desktop" }} = result) do
+                            device: %{ type: :unknown }} = result) do
     %{ result | device: %{ result.device | type: "tablet" }}
   end
 
@@ -90,7 +104,7 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_windows(%{ os:     %{ name: "Windows" } = os,
-                            device: %{ type: "desktop" }} = result) do
+                            device: %{ type: :unknown }} = result) do
     version  = Util.to_semver(os.version)
     is_gte_8 = (:lt != Version.compare(version, "8.0.0"))
     is_touch = Regex.match?(@has_touch, result.user_agent)
