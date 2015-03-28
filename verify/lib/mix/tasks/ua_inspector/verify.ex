@@ -21,7 +21,7 @@ defmodule Mix.Tasks.UAInspector.Verify do
     && testcase.client == maybe_from_struct(result.client)
     && testcase.device == maybe_from_struct(result.device)
     && testcase.os == maybe_from_struct(result.os)
-   end
+  end
 
   defp maybe_from_struct(:unknown), do: :unknown
   defp maybe_from_struct(result),   do: Map.from_struct(result)
