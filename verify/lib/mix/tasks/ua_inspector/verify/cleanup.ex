@@ -15,6 +15,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
     |> cleanup_client_version()
     |> cleanup_device_brand()
     |> cleanup_device_model()
+    |> cleanup_device_type()
     |> cleanup_os_entry()
     |> cleanup_os_version()
     |> remove_client_short_name()
@@ -56,6 +57,12 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
   defp cleanup_device_model(%{ device: %{ model: model }} = testcase) do
     put_in(testcase, [ :device, :model ], to_string(model))
   end
+
+
+  defp cleanup_device_type(%{ device: %{ type: :null }} = testcase) do
+    put_in(testcase, [ :device, :type ], :unknown)
+  end
+  defp cleanup_device_type(testcase), do: testcase
 
 
   defp cleanup_os_entry(%{ os: os } = testcase) do

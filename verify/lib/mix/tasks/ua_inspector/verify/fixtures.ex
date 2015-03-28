@@ -11,6 +11,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
     "console.yml",
     "desktop.yml",
     "feature_phone.yml",
+    "feed_reader.yml",
     "mediaplayer.yml",
     "mobile_apps.yml",
     "phablet.yml",
