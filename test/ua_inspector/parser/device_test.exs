@@ -74,4 +74,18 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert parsed.device == result
   end
+
+  test "#10" do
+    agent  = "Bird-Doeasy E700_TD/S100 Linux/3.0.8 Android/4.0.3 Release/03.12.2013 Browser/AppleWebkit534.30 Mobile Safari/534.30;"
+    parsed = UAInspector.parse(agent)
+
+    assert "smartphone" == parsed.device.type
+  end
+
+  test "#11" do
+    agent  = "SonyEricssonU1i/R1CA; Mozilla/5.0 (SymbianOS/9.4; U; Series60/5.0 Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebKit/525 (KHTML, like Gecko) Version/3.0 Safari/525"
+    parsed = UAInspector.parse(agent)
+
+    assert "feature phone" == parsed.device.type
+  end
 end

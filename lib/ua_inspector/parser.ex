@@ -7,6 +7,7 @@ defmodule UAInspector.Parser do
 
   alias UAInspector.Parser
   alias UAInspector.Result
+  alias UAInspector.ShortCode
   alias UAInspector.Util
 
   defmacro __using__(_opts) do
@@ -61,9 +62,21 @@ defmodule UAInspector.Parser do
 
 
   # Android <  2.0.0 is always a smartphone
-  # Andoird == 3.*   is always a tablet
+  # Android == 3.*   is always a tablet
+  # treat Android feature phones as smartphones
   defp maybe_fix_android(%{ os: %{ version: :unknown }} = result) do
     result
+  end
+
+  defp maybe_fix_android(%{ os:     %{ name: os_name },
+                            device: %{ type: "feature phone" }} = result) do
+    short_code = os_name |> ShortCode.os_name(:short)
+    family     = short_code |> Util.OS.family()
+
+    case family do
+      "Android" -> %{ result | device: %{ result.device | type: "smartphone" }}
+      _         -> result
+    end
   end
 
   defp maybe_fix_android(%{ os:     %{ name: "Android" } = os,

@@ -60,11 +60,25 @@ defmodule UAInspector.Util.OS do
   @spec desktop_only?(name :: String.t) :: boolean
   def desktop_only?(name) do
     short_code = name |> ShortCode.os_name(:short)
-    family     = Enum.find(@osFamilies, &in_family?(short_code, &1))
 
-    case family do
-      { family, _ } -> Enum.any?(@desktopFamilies, &( &1 == family ))
-      _             -> false
+    case family(short_code) do
+      nil    -> false
+      family -> Enum.any?(@desktopFamilies, &( &1 == family ))
+    end
+  end
+
+  @doc """
+  Returns the OS family for an OS short code.
+
+  Unknown short codes return `nil` as their family.
+  """
+  @spec family(short_code :: String.t) :: String.t | nil
+  def family(short_code) do
+    lookup = Enum.find(@osFamilies, &in_family?(short_code, &1))
+
+    case lookup do
+      { name, _ } -> name
+      _           -> nil
     end
   end
 
