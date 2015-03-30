@@ -5,7 +5,10 @@ defmodule UAInspector.ParserTest do
 
   test "handle incomplete yaml definitions" do
     agent  = "Incomplete YAML entry without model"
-    parsed = %Result{ user_agent: agent }
+    parsed = %Result{
+      user_agent: agent,
+      device:     %Result.Device{ brand: "Incomplete" }
+    }
 
     assert parsed == UAInspector.parse(agent)
   end

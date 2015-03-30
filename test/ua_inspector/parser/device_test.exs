@@ -88,4 +88,12 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert "feature phone" == parsed.device.type
   end
+
+  test "#12" do
+    agent  = "CorePlayer/1.0 (Palm OS 5.4.9; ARM Intel PXA27x; en) CorePlayer/1.3.2_6909"
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{ brand: "Palm", type: "smartphone" }
+
+    assert parsed.device == result
+  end
 end

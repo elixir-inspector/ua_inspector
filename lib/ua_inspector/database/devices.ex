@@ -32,6 +32,7 @@ defmodule UAInspector.Database.Devices do
     entry = %{
       brand:  brand,
       models: models,
+      device: data["device"],
       regex:  Util.build_regex(data["regex"]),
       type:   type
     }

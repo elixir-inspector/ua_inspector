@@ -6,6 +6,12 @@ Sony:
       model: 'Satio'
       brand: 'Sony Ericsson'
       device: 'feature phone'
+
+Palm:
+  regex: '(?:Pre|Pixi)/(\d+)\.(\d+)|Palm|Treo|Xiino'
+  device: 'smartphone'
+  models: []
+
 TiPhone:
   regex: 'TiPhone ?([a-z0-9]+)'
   device: 'smartphone'
