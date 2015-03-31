@@ -12,6 +12,13 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   alias UAInspector.Database
 
   def run(args) do
+    case download_path do
+      nil -> exit_unconfigured()
+      _   -> do_run(args)
+    end
+  end
+
+  defp do_run(args) do
     Mix.shell.info "Download path: #{ download_path }"
     Mix.shell.info "This command will delete all existing files before downloading!"
 
@@ -20,6 +27,11 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     run_confirmed(opts)
 
     Mix.shell.info "Download complete!"
+  end
+
+  defp exit_unconfigured() do
+    Mix.shell.error("Database path not configured.")
+    Mix.shell.error("See README.md for details.")
   end
 
   defp run_confirmed([ force: true ]), do: run_confirmed(true)

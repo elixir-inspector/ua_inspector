@@ -30,4 +30,18 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
 
     File.rm_rf! test_path
   end
+
+  test "missing configuration" do
+    Mix.shell(Mix.Shell.IO)
+
+    orig_path = Application.get_env(:ua_inspector, :database_path)
+
+    console = capture_io :stderr, fn ->
+      Application.put_env(:ua_inspector, :database_path, nil)
+      Mix.Tasks.UAInspector.Databases.Download.run([])
+      Application.put_env(:ua_inspector, :database_path, orig_path)
+    end
+
+    assert String.contains?(console, "not configured")
+  end
 end
