@@ -3,6 +3,28 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
 
   import ExUnit.CaptureIO
 
+  test "aborted download" do
+    Mix.shell(Mix.Shell.IO)
+
+    console = capture_io fn ->
+      Mix.Tasks.UAInspector.Databases.Download.run([])
+
+      IO.write "n"
+    end
+
+    assert String.contains?(console, "Download aborted")
+  end
+
+  test "confirmed download" do
+    Mix.shell(Mix.Shell.IO)
+
+    console = capture_io [capture_prompt: true], fn ->
+      Mix.Tasks.UAInspector.Databases.Download.run([])
+    end
+
+    assert String.contains?(console, "Download parser databases? [Yn]")
+  end
+
   test "forceable download" do
     Mix.shell(Mix.Shell.IO)
 

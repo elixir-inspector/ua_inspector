@@ -34,9 +34,15 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     Mix.shell.error("See README.md for details.")
   end
 
+
   defp run_confirmed([ force: true ]), do: run_confirmed(true)
-  defp run_confirmed(false),           do: :ok
-  defp run_confirmed(true)             do
+
+  defp run_confirmed(false) do
+    Mix.shell.info("Download aborted")
+    :ok
+  end
+
+  defp run_confirmed(true) do
     clear()
     setup()
     download()
@@ -46,6 +52,7 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     |> Mix.shell.yes?()
     |> run_confirmed()
   end
+
 
   defp clear(), do: File.rm_rf! download_path
 
