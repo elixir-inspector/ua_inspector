@@ -20,6 +20,9 @@ TiPhone:
 Apple:
   regex: 'AppleTV|iPad|iPod|iPhone'
   models:
+    - regex: '(?:Apple-)?iPhone1[C,]1'
+      model: 'iPhone'
+      device: 'smartphone'
     - regex: 'iPad'
       model: 'iPad'
       device: 'tablet'
@@ -33,7 +36,4 @@ Bird:
 
 Incomplete:
   regex: 'Incomplete'
-  models:
-    - regex: 'Unmatched'
-      model: 'Unmatched'
-      device: 'ignore'
+  models: []
