@@ -7,12 +7,13 @@ User agent parser library.
 
 ### Dependency
 
-To use UA Inspector with your projects, edit your `mix.exs` file
-and add it as a dependency:
+To use UA Inspector with your projects, edit your `mix.exs` file and add the
+required dependencies:
 
 ```elixir
 defp deps do
-  [ { :ua_inspector, github: "elixytics/ua_inspector" } ]
+  [ { :ua_inspector, github: "elixytics/ua_inspector" },
+    { :yamerl,       github: "yakaz/yamerl" } ]
 end
 ```
 
