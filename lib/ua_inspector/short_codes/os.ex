@@ -40,6 +40,7 @@ defmodule UAInspector.ShortCodes.OS do
     { "MCD", "MocorDroid" },
     { "MIN", "Mint" },
     { "MLD", "MildWild" },
+    { "MOR", "MorphOS" },
     { "NBS", "NetBSD" },
     { "WII", "Nintendo" },
     { "NDS", "Nintendo Mobile" },

@@ -19,7 +19,7 @@ defmodule UAInspector.Util.OS do
 
   @osFamilies [
     { "Android",                [ "AND", "CYN", "RZD", "MLD", "MCD" ]},
-    { "AmigaOS",                [ "AMG" ]},
+    { "AmigaOS",                [ "AMG", "MOR" ]},
     { "Apple TV",               [ "ATV" ]},
     { "BlackBerry",             [ "BLB", "QNX" ]},
     { "Brew",                   [ "BMP" ]},
