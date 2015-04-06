@@ -12,7 +12,7 @@ required dependencies:
 
 ```elixir
 defp deps do
-  [ { :ua_inspector, github: "elixytics/ua_inspector" },
+  [ { :ua_inspector, "~> 0.6" },
     { :yamerl,       github: "yakaz/yamerl" } ]
 end
 ```

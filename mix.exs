@@ -9,7 +9,7 @@ defmodule UAInspector.Mixfile do
       name:          "UAInspector",
       description:   "User agent parser library",
       package:       package,
-      version:       "0.6.0-dev",
+      version:       "0.6.0",
       elixir:        "~> 1.0",
       deps:          deps(Mix.env),
       docs:          docs,
@@ -41,7 +41,7 @@ defmodule UAInspector.Mixfile do
   def docs do
     [ main:       "README",
       readme:     "README.md",
-      source_ref: "master",
+      source_ref: "v0.6.0",
       source_url: @url_github ]
   end
 
