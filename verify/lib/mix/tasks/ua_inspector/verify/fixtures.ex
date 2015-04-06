@@ -17,6 +17,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
     "phablet.yml",
     "portable_media_player.yml",
     "smart_display.yml",
+    "smartphone.yml",
     "tablet.yml",
     "tv.yml",
     "unknown.yml"
