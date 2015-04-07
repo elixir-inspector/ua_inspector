@@ -75,7 +75,12 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     File.write! target, Mix.Utils.read_path!(remote)
   end
 
-  defp download_path, do: Application.get_env(:ua_inspector, :database_path)
+  defp download_path do
+    case Application.get_env(:ua_inspector, :database_path) do
+      nil  -> nil
+      path -> path |> Path.expand()
+    end
+  end
 
   defp setup() do
     download_path |> File.mkdir_p!

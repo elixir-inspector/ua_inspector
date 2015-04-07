@@ -35,15 +35,16 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
 
   def download([]),                    do: :ok
   def download([ fixture | fixtures ]) do
-    target = Path.join([ download_path, fixture ])
-
     Mix.shell.info ".. downloading: #{ fixture }"
-    File.write! target, Mix.Utils.read_path!("#{ @fixture_base_url }/#{ fixture }")
+    File.write!(
+      download_path(fixture),
+      Mix.Utils.read_path!("#{ @fixture_base_url }/#{ fixture }")
+    )
 
     download(fixtures)
   end
 
-  def download_path,       do: Path.join(__DIR__, "../../../../../fixtures")
+  def download_path,       do: Path.join(__DIR__, "../../../../../fixtures") |> Path.expand()
   def download_path(file), do: Path.join(download_path, file)
   def list,                do: @fixtures
 

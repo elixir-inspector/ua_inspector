@@ -29,7 +29,7 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
     Mix.shell(Mix.Shell.IO)
 
     orig_path = Application.get_env(:ua_inspector, :database_path)
-    test_path = Path.join(__DIR__, "../../downloads")
+    test_path = Path.join(__DIR__, "../../downloads") |> Path.expand()
 
     console = capture_io fn ->
       Application.put_env(:ua_inspector, :database_path, test_path)
