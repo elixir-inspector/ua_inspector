@@ -5,9 +5,11 @@ defmodule Mix.Tasks.UAInspector.Verify do
 
   alias Mix.Tasks.UAInspector.Verify
 
-  def run(_args) do
-    { :ok, _ } = Application.ensure_all_started(:ua_inspector)
-    :ok        = Verify.Fixtures.download()
+  def run(args) do
+    { :ok, _ }               = Application.ensure_all_started(:ua_inspector)
+    { opts, _argv, _errors } = OptionParser.parse(args)
+
+    :ok = maybe_download_fixtures(opts)
 
     Verify.Fixtures.list() |> verify_all()
 
@@ -21,6 +23,15 @@ defmodule Mix.Tasks.UAInspector.Verify do
     && testcase.client == maybe_from_struct(result.client)
     && testcase.device == maybe_from_struct(result.device)
     && testcase.os == maybe_from_struct(result.os)
+  end
+
+  defp maybe_download_fixtures([ quick: true ]), do: :ok
+  defp maybe_download_fixtures(_)                do
+    res = Verify.Fixtures.download()
+
+    Mix.shell.info "Skip fixture download using '--quick'."
+
+    res
   end
 
   defp maybe_from_struct(:unknown), do: :unknown
@@ -55,15 +66,23 @@ defmodule Mix.Tasks.UAInspector.Verify do
 
   defp verify_all([]),                    do: :ok
   defp verify_all([ fixture | fixtures ]) do
-    Mix.shell.info ".. verifying: #{ fixture }"
+    testfile = fixture |> Verify.Fixtures.download_path()
 
-    testcases =
-         fixture
-      |> Verify.Fixtures.download_path()
-      |> :yamerl_constr.file([ :str_node_as_binary ])
-      |> unravel_list()
+    case File.exists?(testfile) do
+      false ->
+        Mix.shell.error "Fixture file #{ fixture } missing."
+        Mix.shell.error "Please run without '--quick' param to download it!"
 
-    verify(testcases)
+      true ->
+        testcases =
+             testfile
+          |> :yamerl_constr.file([ :str_node_as_binary ])
+          |> unravel_list()
+
+        Mix.shell.info ".. verifying: #{ fixture }"
+        verify(testcases)
+    end
+
     verify_all(fixtures)
   end
 end
