@@ -79,7 +79,7 @@ defmodule Mix.Tasks.UAInspector.Verify do
           |> :yamerl_constr.file([ :str_node_as_binary ])
           |> unravel_list()
 
-        Mix.shell.info ".. verifying: #{ fixture }"
+        Mix.shell.info ".. verifying: #{ fixture } (#{ length(testcases) } tests)"
         verify(testcases)
     end
 
