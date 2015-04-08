@@ -9,6 +9,8 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   `mix ua_inspector.database.download`
   """
 
+  use Mix.Task
+
   alias UAInspector.Database
 
   def run(args) do
