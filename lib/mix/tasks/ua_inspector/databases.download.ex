@@ -25,36 +25,37 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
 
     run_confirmed(opts)
-
-    Mix.shell.info "Download complete!"
   end
 
   defp exit_unconfigured() do
-    Mix.shell.error("Database path not configured.")
-    Mix.shell.error("See README.md for details.")
+    Mix.shell.error "Database path not configured."
+    Mix.shell.error "See README.md for details."
   end
 
 
   defp run_confirmed([ force: true ]), do: run_confirmed(true)
 
   defp run_confirmed(false) do
-    Mix.shell.info("Download aborted")
+    Mix.shell.info "Download aborted!"
+
     :ok
   end
 
   defp run_confirmed(true) do
-    clear()
     setup()
     download()
+
+    Mix.shell.info "Download complete!"
+
+    :ok
   end
+
   defp run_confirmed(_) do
     "Download parser databases?"
     |> Mix.shell.yes?()
     |> run_confirmed()
   end
 
-
-  defp clear(), do: File.rm_rf! download_path
 
   defp download() do
     databases = Database.BrowserEngines.sources ++
@@ -82,13 +83,15 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     end
   end
 
+
   defp setup() do
+    download_path |> File.rm_rf!
     download_path |> File.mkdir_p!
 
     readme_src = Path.join(__DIR__, "../../files/README.md")
     readme_tgt = Path.join(download_path, "README.md")
 
-    File.copy!(readme_src, readme_tgt)
+    File.copy! readme_src, readme_tgt
   end
 end
 
