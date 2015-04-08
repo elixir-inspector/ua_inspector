@@ -6,10 +6,10 @@ defmodule Mix.Tasks.UAInspector.Verify do
   alias Mix.Tasks.UAInspector.Verify
 
   def run(args) do
-    { :ok, _ }               = Application.ensure_all_started(:ua_inspector)
     { opts, _argv, _errors } = OptionParser.parse(args)
 
-    :ok = maybe_download_fixtures(opts)
+    :ok        = maybe_download(opts)
+    { :ok, _ } = Application.ensure_all_started(:ua_inspector)
 
     Verify.Fixtures.list() |> verify_all()
 
@@ -25,13 +25,14 @@ defmodule Mix.Tasks.UAInspector.Verify do
     && testcase.os == maybe_from_struct(result.os)
   end
 
-  defp maybe_download_fixtures([ quick: true ]), do: :ok
-  defp maybe_download_fixtures(_)                do
-    res = Verify.Fixtures.download()
+  defp maybe_download([ quick: true ]), do: :ok
+  defp maybe_download(_)                do
+    :ok = Mix.Tasks.UAInspector.Databases.Download.run(["--force"])
+    :ok = Verify.Fixtures.download()
 
-    Mix.shell.info "Skip fixture download using '--quick'."
+    Mix.shell.info "=== Skip downloads using '--quick' ==="
 
-    res
+    :ok
   end
 
   defp maybe_from_struct(:unknown), do: :unknown

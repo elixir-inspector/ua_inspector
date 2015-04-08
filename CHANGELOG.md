@@ -4,6 +4,7 @@
 
 - Enhancements
   - Displays expanded download path for `mix ua_inspector.databases.download`
+  - Verification script now automatically downloads database files
 
 ## v0.6.0 (2015-04-06)
 
