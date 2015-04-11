@@ -7,15 +7,21 @@ defmodule UAInspector.Pool do
   @pool_options [
     name:          { :local, @pool_name },
     worker_module: UAInspector.Server,
-    size:          Application.get_env(:ua_inspector, :pool_size, 5),
-    max_overflow:  Application.get_env(:ua_inspector, :pool_max_overflow, 10)
+    size:          5,
+    max_overflow:  10
   ]
 
   @doc """
   Returns poolboy child specification for supervision tree.
   """
   @spec child_spec :: tuple
-  def child_spec, do: :poolboy.child_spec(@pool_name, @pool_options, [])
+  def child_spec do
+    opts =
+         @pool_options
+      |> Keyword.merge(Application.get_env(:ua_inspector, :pool, []))
+
+    :poolboy.child_spec(@pool_name, opts, [])
+  end
 
   @doc """
   Sends a parse request to a pool worker.
