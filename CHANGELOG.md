@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.7.0-dev
+## v0.7.0 (2015-05-31)
 
 - Enhancements
   - Dependencies not used in production builds are marked as optional
