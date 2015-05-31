@@ -3,6 +3,7 @@
 ## v0.7.0-dev
 
 - Enhancements
+  - Dependencies not used in production builds are marked as optional
   - Displays expanded download path for `mix ua_inspector.databases.download`
   - Verification script now automatically downloads database files
   - Worker pool options are no longer defined at compile time
