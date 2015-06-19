@@ -19,8 +19,8 @@ defmodule UAInspector.Database do
         :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
       end
 
-      def list(),    do: :ets.tab2list(@ets_table)
-      def sources(), do: @sources
+      def list,    do: :ets.tab2list(@ets_table)
+      def sources, do: @sources
 
       def load(path) do
         for { type, local, _remote } <- @sources do
@@ -28,8 +28,8 @@ defmodule UAInspector.Database do
 
           if File.regular?(database) do
             database
-              |> unquote(__MODULE__).load_database()
-              |> parse_database(type)
+            |> unquote(__MODULE__).load_database()
+            |> parse_database(type)
           end
         end
       end
@@ -81,7 +81,8 @@ defmodule UAInspector.Database do
   """
   @spec load_database(String.t) :: any
   def load_database(file) do
-    :yamerl_constr.file(file, [ :str_node_as_binary ])
-      |> hd()
+    file
+    |> :yamerl_constr.file([ :str_node_as_binary ])
+    |> hd()
   end
 end

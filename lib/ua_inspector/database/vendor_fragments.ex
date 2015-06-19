@@ -17,7 +17,7 @@ defmodule UAInspector.Database.VendorFragments do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     regexes = regexes |> Enum.map( &Util.build_regex(&1) )
 
-    entry   = %{
+    entry = %{
       brand:   brand,
       regexes: regexes
     }

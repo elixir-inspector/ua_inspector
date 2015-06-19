@@ -38,11 +38,8 @@ defmodule UAInspector.Util do
   Sanitizes a name string.
   """
   @spec sanitize_name(name :: String.t) :: String.t
-  def sanitize_name(""),  do: ""
-  def sanitize_name(name) do
-    name
-    |> String.strip()
-  end
+  def sanitize_name(""),   do: ""
+  def sanitize_name(name), do: name |> String.strip()
 
   @doc """
   Sanitizes a version string.

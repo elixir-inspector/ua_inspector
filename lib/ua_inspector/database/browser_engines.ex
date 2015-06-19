@@ -16,7 +16,8 @@ defmodule UAInspector.Database.BrowserEngines do
   def store_entry(data, _type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
-    entry   = %{
+
+    entry = %{
       name:  data["name"],
       regex: Util.build_regex(data["regex"])
     }

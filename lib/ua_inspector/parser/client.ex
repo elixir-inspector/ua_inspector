@@ -83,8 +83,8 @@ defmodule UAInspector.Parser.Client do
     captures = Regex.run(entry.regex, ua)
 
     (entry.version || "")
-      |> Util.uncapture(captures)
-      |> Util.sanitize_version()
-      |> Util.maybe_unknown()
+    |> Util.uncapture(captures)
+    |> Util.sanitize_version()
+    |> Util.maybe_unknown()
   end
 end

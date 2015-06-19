@@ -6,7 +6,7 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
   The files will be stored inside your configured path.
 
-  `mix ua_inspector.database.download`
+  `mix ua_inspector.databases.download`
   """
 
   use Mix.Task

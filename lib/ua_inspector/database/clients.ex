@@ -3,7 +3,7 @@ defmodule UAInspector.Database.Clients do
   UAInspector client information database.
   """
 
-  use UAInspector .Database
+  use UAInspector.Database
 
   alias UAInspector.Util
 
@@ -27,7 +27,8 @@ defmodule UAInspector.Database.Clients do
   def store_entry(data, type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)
     data    = Enum.into(data, %{})
-    entry   = %{
+
+    entry = %{
       engine:  data["engine"],
       name:    data["name"],
       regex:   Util.build_regex(data["regex"]),
