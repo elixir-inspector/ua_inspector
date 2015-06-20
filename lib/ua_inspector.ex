@@ -16,7 +16,7 @@ defmodule UAInspector do
     ]
 
     sup = Supervisor.start_link(children, options)
-    :ok = Application.get_env(:ua_inspector, :database_path, nil) |> load()
+    :ok = UAInspector.Config.database_path |> load()
 
     sup
   end

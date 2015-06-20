@@ -11,17 +11,18 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
   use Mix.Task
 
+  alias UAInspector.Config
   alias UAInspector.Database
 
   def run(args) do
-    case download_path do
+    case Config.database_path do
       nil -> exit_unconfigured()
       _   -> do_run(args)
     end
   end
 
   defp do_run(args) do
-    Mix.shell.info "Download path: #{ download_path }"
+    Mix.shell.info "Download path: #{ Config.database_path }"
     Mix.shell.info "This command will delete all existing files before downloading!"
 
     { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
@@ -72,21 +73,17 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   end
 
   defp download_database(local, remote) do
-    target = Path.join([ download_path, local ])
+    target = Path.join([ Config.database_path, local ])
 
     Mix.shell.info ".. downloading: #{ local }"
     File.write! target, Mix.Utils.read_path!(remote)
   end
 
-  defp download_path do
-    case Application.get_env(:ua_inspector, :database_path) do
-      nil  -> nil
-      path -> path |> Path.expand()
-    end
-  end
 
 
   defp setup() do
+    download_path = Config.database_path
+
     download_path |> File.rm_rf!
     download_path |> File.mkdir_p!
 
