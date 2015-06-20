@@ -9,7 +9,11 @@ defmodule UAInspector do
     import Supervisor.Spec
 
     options  = [ strategy: :one_for_one, name: UAInspector.Supervisor ]
-    children = [ worker(UAInspector.Databases, []), UAInspector.Pool.child_spec ]
+    children = [
+      worker(UAInspector.Databases, []),
+      worker(UAInspector.ShortCodeMaps, []),
+      UAInspector.Pool.child_spec
+    ]
 
     sup = Supervisor.start_link(children, options)
     :ok = Application.get_env(:ua_inspector, :database_path, nil) |> load()

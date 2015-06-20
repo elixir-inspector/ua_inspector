@@ -7,7 +7,7 @@ defmodule UAInspector.Databases do
 
   alias UAInspector.Database
 
-  @ets_table :ua_inspector
+  @ets_table :ua_inspector_databases
 
 
   # GenServer lifecycle

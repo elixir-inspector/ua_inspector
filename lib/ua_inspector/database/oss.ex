@@ -10,7 +10,7 @@ defmodule UAInspector.Database.OSs do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
 
   @ets_counter :oss
-  @ets_table   :ua_inspector_oss
+  @ets_table   :ua_inspector_database_oss
   @sources [{ "", "oss.yml", "#{ @source_base_url }/oss.yml" }]
 
   def store_entry(data, _type) do

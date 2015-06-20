@@ -10,7 +10,7 @@ defmodule UAInspector.Database.Devices do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device"
 
   @ets_counter :devices
-  @ets_table   :ua_inspector_devices
+  @ets_table   :ua_inspector_database_devices
 
   # files ordered according to
   # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php

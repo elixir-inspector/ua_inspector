@@ -10,7 +10,7 @@ defmodule UAInspector.Database.VendorFragments do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
 
   @ets_counter :vendor_fragments
-  @ets_table   :ua_inspector_vendor_fragments
+  @ets_table   :ua_inspector_database_vendor_fragments
   @sources [{ "", "vendorfragments.yml", "#{ @source_base_url }/vendorfragments.yml" }]
 
   def store_entry({ brand, regexes }, _type) do

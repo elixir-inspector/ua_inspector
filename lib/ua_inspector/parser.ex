@@ -7,7 +7,7 @@ defmodule UAInspector.Parser do
 
   alias UAInspector.Parser
   alias UAInspector.Result
-  alias UAInspector.ShortCode
+  alias UAInspector.ShortCodeMap
   alias UAInspector.Util
 
   defmacro __using__(_opts) do
@@ -70,7 +70,7 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android(%{ os:     %{ name: os_name },
                             device: %{ type: "feature phone" }} = result) do
-    short_code = os_name |> ShortCode.os_name(:short)
+    short_code = os_name |> ShortCodeMap.OSs.to_short()
     family     = short_code |> Util.OS.family()
 
     case family do

@@ -3,8 +3,7 @@ defmodule UAInspector.Util.OS do
   Utility methods for operating system lookups.
   """
 
-  alias UAInspector.ShortCode
-  alias UAInspector.ShortCodes.OS
+  alias UAInspector.ShortCodeMap
 
   @desktopFamilies [
     "AmigaOS",
@@ -46,20 +45,12 @@ defmodule UAInspector.Util.OS do
   ]
 
 
-  # pre-generate proper_case/1 methods
-  for { _short, long } <- OS.list do
-    dclong = long |> String.downcase
-
-    def proper_case(unquote(dclong)), do: unquote(long)
-  end
-
-
   @doc """
   Checks whether an operating system is treated as "desktop only".
   """
   @spec desktop_only?(name :: String.t) :: boolean
   def desktop_only?(name) do
-    short_code = name |> ShortCode.os_name(:short)
+    short_code = name |> ShortCodeMap.OSs.to_short()
 
     case family(short_code) do
       nil    -> false
@@ -96,7 +87,13 @@ defmodule UAInspector.Util.OS do
       "--UnKnOnWn--"
   """
   @spec proper_case(os :: String.t) :: String.t
-  def proper_case(os), do: os
+  def proper_case(os) do
+    ShortCodeMap.OSs.list
+    |> Enum.find({ os, os }, fn ({ _, o }) ->
+         String.downcase(os) == String.downcase(o)
+       end)
+    |> elem(1)
+  end
 
 
   # Internal methods
