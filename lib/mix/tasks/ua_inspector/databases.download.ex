@@ -11,8 +11,11 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
   use Mix.Task
 
+  alias Mix.UAInspector.Download
+
   alias UAInspector.Config
   alias UAInspector.Database
+
 
   def run(args) do
     case Config.database_path do
@@ -23,7 +26,7 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
   defp do_run(args) do
     Mix.shell.info "Download path: #{ Config.database_path }"
-    Mix.shell.info "This command will delete all existing files before downloading!"
+    Mix.shell.info "This command will overwrite any existing files!"
 
     { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
 
@@ -45,7 +48,8 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
   end
 
   defp run_confirmed(true) do
-    setup()
+    :ok = Download.prepare_database_path()
+
     download()
 
     Mix.shell.info "Download complete!"
@@ -77,20 +81,6 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
     Mix.shell.info ".. downloading: #{ local }"
     File.write! target, Mix.Utils.read_path!(remote)
-  end
-
-
-
-  defp setup() do
-    download_path = Config.database_path
-
-    download_path |> File.rm_rf!
-    download_path |> File.mkdir_p!
-
-    readme_src = Path.join(__DIR__, "../../files/README.md")
-    readme_tgt = Path.join(download_path, "README.md")
-
-    File.copy! readme_src, readme_tgt
   end
 end
 
