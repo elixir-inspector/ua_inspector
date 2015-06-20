@@ -22,7 +22,7 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
       Mix.Tasks.UAInspector.Databases.Download.run([])
     end
 
-    assert String.contains?(console, "Download parser databases? [Yn]")
+    assert String.contains?(console, "Really download? [Yn]")
   end
 
   test "forceable download" do
@@ -59,9 +59,12 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
     orig_path = Application.get_env(:ua_inspector, :database_path)
 
     console = capture_io :stderr, fn ->
-      Application.put_env(:ua_inspector, :database_path, nil)
-      Mix.Tasks.UAInspector.Databases.Download.run([])
-      Application.put_env(:ua_inspector, :database_path, orig_path)
+      # capture regular output as well
+      capture_io fn ->
+        Application.put_env(:ua_inspector, :database_path, nil)
+        Mix.Tasks.UAInspector.Databases.Download.run([])
+        Application.put_env(:ua_inspector, :database_path, orig_path)
+      end
     end
 
     assert String.contains?(console, "not configured")

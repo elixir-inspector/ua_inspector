@@ -18,28 +18,14 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
 
   def run(args) do
+    Mix.shell.info "UAInspector Database Download"
+
     case Config.database_path do
-      nil -> exit_unconfigured()
-      _   -> do_run(args)
+      nil -> Download.exit_unconfigured()
+      _   -> Download.request_confirmation(args) |> run_confirmed()
     end
   end
 
-  defp do_run(args) do
-    Mix.shell.info "Download path: #{ Config.database_path }"
-    Mix.shell.info "This command will overwrite any existing files!"
-
-    { opts, _argv, _errors } = OptionParser.parse(args, aliases: [ f: :force ])
-
-    run_confirmed(opts)
-  end
-
-  defp exit_unconfigured() do
-    Mix.shell.error "Database path not configured."
-    Mix.shell.error "See README.md for details."
-  end
-
-
-  defp run_confirmed([ force: true ]), do: run_confirmed(true)
 
   defp run_confirmed(false) do
     Mix.shell.info "Download aborted!"
@@ -55,12 +41,6 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
     Mix.shell.info "Download complete!"
 
     :ok
-  end
-
-  defp run_confirmed(_) do
-    "Download parser databases?"
-    |> Mix.shell.yes?()
-    |> run_confirmed()
   end
 
 
