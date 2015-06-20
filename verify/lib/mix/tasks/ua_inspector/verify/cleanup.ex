@@ -3,7 +3,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
   Cleans up testcases.
   """
 
-  alias UAInspector.ShortCode
+  alias UAInspector.ShortCodeMap.DeviceBrands
 
   @doc """
   Cleans up a test case.
@@ -93,7 +93,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
 
 
   def unshorten_device_brand(%{ device: %{ brand: brand }} = testcase) do
-    put_in(testcase,[ :device, :brand ], ShortCode.device_brand(brand, :long))
+    put_in(testcase,[ :device, :brand ], DeviceBrands.to_long(brand))
   end
   def unshorten_device_brand(testcase), do: testcase
 end

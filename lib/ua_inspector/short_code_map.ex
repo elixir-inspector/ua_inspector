@@ -20,6 +20,18 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       def list, do: :ets.tab2list(@ets_table)
+
+      def to_long(short) do
+        list
+        |> Enum.find({ short, short }, fn ({ s, _ }) -> short == s end)
+        |> elem(1)
+      end
+
+      def to_short(long) do
+        list
+        |> Enum.find({ long, long }, fn ({ _, l }) -> long == l end)
+        |> elem(0)
+      end
     end
   end
 

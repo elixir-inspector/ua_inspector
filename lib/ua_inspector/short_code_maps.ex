@@ -19,7 +19,10 @@ defmodule UAInspector.ShortCodeMaps do
   end
 
   def init(_) do
+    ShortCodeMap.DeviceBrands.init()
     ShortCodeMap.OSs.init()
+
+    ShortCodeMap.DeviceBrands.load()
     ShortCodeMap.OSs.load()
 
     { :ok, [] }
