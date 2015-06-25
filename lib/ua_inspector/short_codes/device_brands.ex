@@ -27,6 +27,7 @@ defmodule UAInspector.ShortCodes.DeviceBrands do
     { "BS", "BenQ-Siemens" },
     { "BU", "Blu" },
     { "BX", "bq" },
+    { "CB", "CUBOT" },
     { "CA", "Cat" },
     { "CE", "Celkon" },
     { "CC", "ConCorde" },
