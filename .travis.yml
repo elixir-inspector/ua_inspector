@@ -1,10 +1,8 @@
 language: elixir
 
 env:
-  - TEST_ENV=ex_unit
-  - TEST_ENV=verify
+  - MIX_ENV=test TEST_ENV=ex_unit
+  - MIX_ENV=prod TEST_ENV=verify
 
-before_install: . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_before_install.sh
-install:        . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_install.sh
-script:         . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_script.sh
-after_success:  . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_after_success.sh
+script:        . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_script.sh
+after_success: . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_after_success.sh
