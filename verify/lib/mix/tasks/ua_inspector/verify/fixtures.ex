@@ -6,6 +6,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
   @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
 
   @fixtures [
+    "bots.yml",
     "camera.yml",
     "car_browser.yml",
     "console.yml",

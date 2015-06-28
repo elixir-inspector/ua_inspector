@@ -31,11 +31,16 @@ defmodule UAInspector.Parser do
   """
   @spec parse(String.t) :: map
   def parse(ua) do
-    ua
-    |> assemble_result()
-    |> maybe_fix_android()
-    |> maybe_fix_windows()
-    |> maybe_detect_desktop()
+    case Parser.Bot.parse(ua) do
+      :unknown ->
+        ua
+        |> assemble_result()
+        |> maybe_fix_android()
+        |> maybe_fix_windows()
+        |> maybe_detect_desktop()
+
+      bot -> bot
+    end
   end
 
 

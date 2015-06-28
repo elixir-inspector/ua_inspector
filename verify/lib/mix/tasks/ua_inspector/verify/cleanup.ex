@@ -37,6 +37,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
 
     %{ testcase | client: client }
   end
+  defp cleanup_client_engine(testcase), do: testcase
 
 
   defp cleanup_client_version(%{ client: %{ version: :null }} = testcase) do
@@ -57,6 +58,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
   defp cleanup_device_model(%{ device: %{ model: model }} = testcase) do
     put_in(testcase, [ :device, :model ], to_string(model))
   end
+  defp cleanup_device_model(testcase), do: testcase
 
 
   defp cleanup_device_type(%{ device: %{ type: :null }} = testcase) do
@@ -72,6 +74,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
 
     %{ testcase | os: os }
   end
+  defp cleanup_os_entry(testcase), do: testcase
 
 
   defp cleanup_os_version(%{ os: %{ version: :null }} = testcase) do
@@ -81,15 +84,17 @@ defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
 
 
   defp remove_client_short_name(%{ client: :unknown } = testcase), do: testcase
-  defp remove_client_short_name(testcase) do
+  defp remove_client_short_name(%{ client: _ } = testcase) do
     %{ testcase | client: Map.delete(testcase.client, :short_name) }
   end
+  defp remove_client_short_name(testcase), do: testcase
 
 
   defp remove_os_short_name(%{ os: :unknown } = testcase), do: testcase
-  defp remove_os_short_name(testcase) do
+  defp remove_os_short_name(%{ os: _ } = testcase) do
     %{ testcase | os: Map.delete(testcase.os, :short_name) }
   end
+  defp remove_os_short_name(testcase), do: testcase
 
 
   def unshorten_device_brand(%{ device: %{ brand: brand }} = testcase) do

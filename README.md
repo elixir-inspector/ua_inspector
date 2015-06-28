@@ -71,7 +71,26 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
     version: "7.0.4"
   },
 }
-iex(2)> UAInspector.parse("--- undetectable ---")
+
+iex(2)> UAInspector.parse("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36")
+%UAInspector.Result.Bot{
+  user_agent: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36",
+  category:   "Search bot",
+  name:       "Googlebot",
+  producer: %UAInspector.Result.BotProducer{
+    name: "Google Inc.",
+    url:  "http://www.google.com"
+  },
+  url: "http://www.google.com/bot.html"
+}
+
+iex(3)> UAInspector.parse("generic crawler agent")
+%UAInspector.Result.Bot{
+  user_agent: "generic crawler agent",
+  name:       "Generic Bot"
+}
+
+iex(4)> UAInspector.parse("--- undetectable ---")
 %UAInspector.Result{
   user_agent: "--- undetectable ---",
   client:     :unknown,
@@ -84,6 +103,9 @@ The map key _user\_agent_ will hold the unmodified passed user agent.
 
 If the device type cannot be determined a "desktop" `:type` will be
 assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
+
+When a bot agent is detected the result with be a `UAInspector.Result.Bot`
+struct instead of `UAInspector.Result`.
 
 
 ## Resources

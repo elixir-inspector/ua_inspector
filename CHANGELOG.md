@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.8.0-dev
+
+- Enhancements
+  - Bots are included in the detection
+
 ## v0.7.0 (2015-05-31)
 
 - Enhancements

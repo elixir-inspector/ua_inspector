@@ -19,10 +19,17 @@ defmodule Mix.Tasks.UAInspector.Verify do
 
 
   defp compare(testcase, result) do
-    testcase.user_agent == result.user_agent
-    && testcase.client == maybe_from_struct(result.client)
-    && testcase.device == maybe_from_struct(result.device)
-    && testcase.os == maybe_from_struct(result.os)
+    if Map.has_key?(testcase, :client) && Map.has_key?(result, :client) do
+      # regular user agent
+      testcase.user_agent == result.user_agent
+      && testcase.client == maybe_from_struct(result.client)
+      && testcase.device == maybe_from_struct(result.device)
+      && testcase.os == maybe_from_struct(result.os)
+    else
+      # bot
+      testcase.user_agent == result.user_agent
+      && testcase.name == result.name
+    end
   end
 
   defp maybe_download([ quick: true ]), do: :ok
