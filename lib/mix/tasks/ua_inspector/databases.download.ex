@@ -45,7 +45,8 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
 
   defp download() do
-    databases = Database.BrowserEngines.sources ++
+    databases = Database.Bots.sources ++
+                Database.BrowserEngines.sources ++
                 Database.Clients.sources ++
                 Database.Devices.sources ++
                 Database.OSs.sources ++

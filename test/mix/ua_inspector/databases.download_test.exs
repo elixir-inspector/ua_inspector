@@ -36,7 +36,8 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
       Mix.Tasks.UAInspector.Databases.Download.run(["--force"])
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
-      databases = UAInspector.Database.Clients.sources ++
+      databases = UAInspector.Database.Bots.sources ++
+                  UAInspector.Database.Clients.sources ++
                   UAInspector.Database.Devices.sources ++
                   UAInspector.Database.OSs.sources
 
