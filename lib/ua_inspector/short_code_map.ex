@@ -19,7 +19,9 @@ defmodule UAInspector.ShortCodeMap do
         :ets.new(@ets_table, [ :set, :protected, :named_table ])
       end
 
-      def list, do: :ets.tab2list(@ets_table)
+      def list,   do: :ets.tab2list(@ets_table)
+      def local,  do: @file_local
+      def remote, do: @file_remote
 
       def to_long(short) do
         list
