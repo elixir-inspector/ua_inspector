@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
+defmodule Mix.Tasks.UAInspector.ShortCodeMaps.DownloadTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
@@ -7,7 +7,7 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
     Mix.shell(Mix.Shell.IO)
 
     console = capture_io fn ->
-      Mix.Tasks.UAInspector.Databases.Download.run([])
+      Mix.Tasks.UAInspector.Download.ShortCodeMaps.run([])
 
       IO.write "n"
     end
@@ -19,7 +19,7 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
     Mix.shell(Mix.Shell.IO)
 
     console = capture_io [capture_prompt: true], fn ->
-      Mix.Tasks.UAInspector.Databases.Download.run([])
+      Mix.Tasks.UAInspector.Download.ShortCodeMaps.run([])
     end
 
     assert String.contains?(console, "Really download? [Yn]")
@@ -33,19 +33,19 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
 
     console = capture_io fn ->
       Application.put_env(:ua_inspector, :database_path, test_path)
-      Mix.Tasks.UAInspector.Databases.Download.run(["--force"])
+      Mix.Tasks.UAInspector.Download.ShortCodeMaps.run(["--force"])
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
-      databases = UAInspector.Database.Bots.sources ++
-                  UAInspector.Database.Clients.sources ++
-                  UAInspector.Database.Devices.sources ++
-                  UAInspector.Database.OSs.sources
+      maps = [
+        UAInspector.ShortCodeMap.DeviceBrands,
+        UAInspector.ShortCodeMap.OSs
+      ]
 
-      for { local, _remote } <- databases do
-        [ test_path, local ]
-          |> Path.join()
-          |> File.exists?
-          |> assert
+      for map <- maps do
+        [ test_path, map.local ]
+        |> Path.join()
+        |> File.exists?
+        |> assert
       end
     end
 
@@ -63,7 +63,7 @@ defmodule Mix.Tasks.UAInspector.Databases.DownloadTest do
       # capture regular output as well
       capture_io fn ->
         Application.put_env(:ua_inspector, :database_path, nil)
-        Mix.Tasks.UAInspector.Databases.Download.run([])
+        Mix.Tasks.UAInspector.Download.ShortCodeMaps.run([])
         Application.put_env(:ua_inspector, :database_path, orig_path)
       end
     end

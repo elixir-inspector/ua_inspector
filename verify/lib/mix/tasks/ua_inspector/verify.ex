@@ -34,7 +34,7 @@ defmodule Mix.Tasks.UAInspector.Verify do
 
   defp maybe_download([ quick: true ]), do: :ok
   defp maybe_download(_)                do
-    :ok = Mix.Tasks.UAInspector.Databases.Download.run(["--force"])
+    :ok = Mix.Tasks.UAInspector.Download.Databases.run(["--force"])
     :ok = Verify.Fixtures.download()
 
     Mix.shell.info "=== Skip downloads using '--quick' ==="

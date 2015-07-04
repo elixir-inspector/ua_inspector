@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.Databases.Download do
+defmodule Mix.Tasks.UAInspector.Download.Databases do
   @moduledoc """
   Fetches parser databases from the
   [piwik/device-detector](https://github.com/piwik/device-detector)
@@ -6,7 +6,7 @@ defmodule Mix.Tasks.UAInspector.Databases.Download do
 
   The files will be stored inside your configured path.
 
-  `mix ua_inspector.databases.download`
+  `mix ua_inspector.download.databases`
   """
 
   use Mix.Task
@@ -71,25 +71,25 @@ if Version.match?(System.version, ">= 1.0.3") do
   # The "double uppercase letter" of "UAInspector" violates
   # this rule. This fake task acts as a workaround.
   #
-  defmodule Mix.Tasks.UaInspector.Databases.Download do
+  defmodule Mix.Tasks.UaInspector.Download.Databases do
     @moduledoc false
     @shortdoc  "Downloads parser databases"
 
     use Mix.Task
 
-    defdelegate run(args), to: Mix.Tasks.UAInspector.Databases.Download
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Download.Databases
   end
 else
   #
   # Elixir 1.0.2 requires the underscore module naming.
   # https://github.com/elixytics/ua_inspector/pull/1
   #
-  defmodule Mix.Tasks.Ua_inspector.Databases.Download do
+  defmodule Mix.Tasks.Ua_inspector.Download.Databases do
     @moduledoc false
     @shortdoc  "Downloads parser databases"
 
     use Mix.Task
 
-    defdelegate run(args), to: Mix.Tasks.UAInspector.Databases.Download
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Download.Databases
   end
 end

@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.ShortCodeMaps.Download do
+defmodule Mix.Tasks.UAInspector.Download.ShortCodeMaps do
   @moduledoc """
   Fetches short code map listings from the
   [piwik/device-detector](https://github.com/piwik/device-detector)
@@ -7,7 +7,7 @@ defmodule Mix.Tasks.UAInspector.ShortCodeMaps.Download do
   The listings are extracted from the original PHP source files and stored
   as YAML files in the configured download path.
 
-  `mix ua_inspector.short_code_maps.download`
+  `mix ua_inspector.download.short_code_maps`
   """
 
   use Mix.Task
@@ -63,24 +63,24 @@ if Version.match?(System.version, ">= 1.0.3") do
   # The "double uppercase letter" of "UAInspector" violates
   # this rule. This fake task acts as a workaround.
   #
-  defmodule Mix.Tasks.UaInspector.ShortCodeMaps.Download do
+  defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
     @moduledoc false
     @shortdoc  "Downloads parser short code maps"
 
     use Mix.Task
 
-    defdelegate run(args), to: Mix.Tasks.UAInspector.ShortCodeMaps.Download
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Download.ShortCodeMaps
   end
 else
   #
   # Elixir 1.0.2 requires the underscore module naming.
   #
-  defmodule Mix.Tasks.Ua_inspector.Short_code_maps.Download do
+  defmodule Mix.Tasks.Ua_inspector.Download.Short_code_maps do
     @moduledoc false
     @shortdoc  "Downloads parser short code maps"
 
     use Mix.Task
 
-    defdelegate run(args), to: Mix.Tasks.UAInspector.ShortCodeMaps.Download
+    defdelegate run(args), to: Mix.Tasks.UAInspector.Download.ShortCodeMaps
   end
 end

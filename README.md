@@ -27,7 +27,7 @@ end
 
 ### Parser Databases
 
-Using `mix ua_inspector.databases.download` you can store local copies of the
+Using `mix ua_inspector.download.databases` you can store local copies of the
 supported parser databases in the configured path. The databases are taken from
 the [piwik/device-detector](https://github.com/piwik/device-detector) project.
 

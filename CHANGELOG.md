@@ -5,6 +5,9 @@
 - Enhancements
   - Bots are included in the detection
 
+- Backwards incompatible changes
+  - Renamed mix task `databases.download` to `download.databases`
+
 ## v0.7.0 (2015-05-31)
 
 - Enhancements
