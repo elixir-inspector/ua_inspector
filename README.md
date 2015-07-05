@@ -31,6 +31,10 @@ Using `mix ua_inspector.download.databases` you can store local copies of the
 supported parser databases in the configured path. The databases are taken from
 the [piwik/device-detector](https://github.com/piwik/device-detector) project.
 
+In addition to the parser databases you need to fetch the short code maps
+using `mix ua_inspector.download.short_code_maps`. After conversion to yaml
+files they are stored in the configured database directory.
+
 The local path of the downloaded files will be shown to you upon command
 invocation.
 

@@ -4,8 +4,10 @@
 
 - Enhancements
   - Bots are included in the detection
+  - Short code mappings are fetched and parsed on demand
 
 - Backwards incompatible changes
+  - Short code maps are no longer included in the repository
   - Renamed mix task `databases.download` to `download.databases`
 
 ## v0.7.0 (2015-05-31)

@@ -24,6 +24,22 @@ defmodule UAInspector.ShortCodeMap do
       def remote, do: @file_remote
       def var,    do: @file_var
 
+      def load(path) do
+        map = Path.join(path, local)
+
+        if File.regular?(map) do
+          map
+          |> unquote(__MODULE__).load_map()
+          |> parse_map()
+        end
+      end
+
+      def parse_map([]),              do: :ok
+      def parse_map([ entry | map ])  do
+        store_entry(entry)
+        parse_map(map)
+      end
+
       def to_long(short) do
         list
         |> Enum.find({ short, short }, fn ({ s, _ }) -> short == s end)
@@ -49,9 +65,13 @@ defmodule UAInspector.ShortCodeMap do
   defcallback list() :: list
 
   @doc """
-  Loads a short code mapping.
+  Stores a mapping entry.
+
+  If necessary a data conversion is made from the raw data passed
+  directly out of the database file and the actual data needed when
+  querying the database.
   """
-  defcallback load() :: no_return
+  defcallback store_entry(entry :: any) :: boolean
 
   @doc """
   Returns the long representation for a short name.
@@ -66,4 +86,14 @@ defmodule UAInspector.ShortCodeMap do
   Unknown names are returned unmodified.
   """
   defcallback to_short(String.t) :: String.t
+
+  @doc """
+  Parses a yaml mapping file and returns the contents.
+  """
+  @spec load_map(String.t) :: any
+  def load_map(file) do
+    file
+    |> :yamerl_constr.file([ :str_node_as_binary ])
+    |> hd()
+  end
 end

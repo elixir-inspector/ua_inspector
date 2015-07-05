@@ -13,9 +13,7 @@ defmodule UAInspector.ShortCodeMap.OSs do
 
   @ets_table :ua_inspector_short_code_map_oss
 
-  def load() do
-    UAInspector.ShortCodes.OS.list |> Enum.each fn (code) ->
-      :ets.insert_new(@ets_table, code)
-    end
+  def store_entry([{ short, long }]) do
+    :ets.insert_new(@ets_table, { short, long })
   end
 end
