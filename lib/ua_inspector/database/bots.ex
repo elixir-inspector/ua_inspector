@@ -8,10 +8,10 @@ defmodule UAInspector.Database.Bots do
   alias UAInspector.Util
 
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+  @sources         [{ "", "bots.yml", "#{ @source_base_url }/bots.yml" }]
 
   @ets_counter :bots
   @ets_table   :ua_inspector_database_bots
-  @sources [{ "", "bots.yml", "#{ @source_base_url }/bots.yml" }]
 
   def store_entry(data, _type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)

@@ -7,15 +7,11 @@ defmodule UAInspector.Database.Clients do
 
   alias UAInspector.Util
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
-
-  @ets_counter :clients
-  @ets_table   :ua_inspector_database_clients
-
   # files ordered according to
   # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
   # to prevent false detections
-  @sources [
+  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
+  @sources         [
     { "feed reader", "clients.feed_readers.yml", "#{ @source_base_url }/feed_readers.yml" },
     { "mobile app",  "clients.mobile_apps.yml",  "#{ @source_base_url }/mobile_apps.yml" },
     { "mediaplayer", "clients.mediaplayers.yml", "#{ @source_base_url }/mediaplayers.yml" },
@@ -23,6 +19,9 @@ defmodule UAInspector.Database.Clients do
     { "browser",     "clients.browsers.yml",     "#{ @source_base_url }/browsers.yml" },
     { "library",     "clients.libraries.yml",    "#{ @source_base_url }/libraries.yml" }
   ]
+
+  @ets_counter :clients
+  @ets_table   :ua_inspector_database_clients
 
   def store_entry(data, type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)

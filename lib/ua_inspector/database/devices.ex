@@ -7,15 +7,11 @@ defmodule UAInspector.Database.Devices do
 
   alias UAInspector.Util
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device"
-
-  @ets_counter :devices
-  @ets_table   :ua_inspector_database_devices
-
   # files ordered according to
   # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
   # to prevent false detections
-  @sources [
+  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device"
+  @sources         [
     { "hbbtv",   "devices.televisions.yml",           "#{ @source_base_url }/televisions.yml" },
     { "regular", "devices.consoles.yml",              "#{ @source_base_url }/consoles.yml" },
     { "regular", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
@@ -23,6 +19,9 @@ defmodule UAInspector.Database.Devices do
     { "regular", "devices.portable_media_player.yml", "#{ @source_base_url }/portable_media_player.yml" },
     { "regular", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" }
   ]
+
+  @ets_counter :devices
+  @ets_table   :ua_inspector_database_devices
 
   def store_entry({ brand, data }, type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)

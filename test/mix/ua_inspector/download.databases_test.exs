@@ -36,16 +36,22 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
       Mix.Tasks.UAInspector.Download.Databases.run(["--force"])
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
-      databases = UAInspector.Database.Bots.sources ++
-                  UAInspector.Database.Clients.sources ++
-                  UAInspector.Database.Devices.sources ++
-                  UAInspector.Database.OSs.sources
+      databases = [
+        UAInspector.Database.Bots,
+        UAInspector.Database.BrowserEngines,
+        UAInspector.Database.Clients,
+        UAInspector.Database.Devices,
+        UAInspector.Database.OSs,
+        UAInspector.Database.VendorFragments
+      ]
 
-      for { local, _remote } <- databases do
-        [ test_path, local ]
+      for database <- databases do
+        for { _type, local, _remote } <- database.sources do
+          [ test_path, local ]
           |> Path.join()
           |> File.exists?
           |> assert
+        end
       end
     end
 

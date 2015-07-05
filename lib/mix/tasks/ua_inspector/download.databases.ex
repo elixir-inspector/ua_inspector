@@ -35,33 +35,32 @@ defmodule Mix.Tasks.UAInspector.Download.Databases do
 
   defp run_confirmed(true) do
     :ok = Download.prepare_database_path()
-
-    download()
+    :ok =
+         [
+           Database.Bots,
+           Database.BrowserEngines,
+           Database.Clients,
+           Database.Devices,
+           Database.OSs,
+           Database.VendorFragments
+         ]
+      |> download()
 
     Mix.shell.info "Download complete!"
 
     :ok
   end
 
+  defp download([]),                      do: :ok
+  defp download([ database | databases ]) do
+    for { _type, local, remote } <- database.sources do
+      target = Path.join([ Config.database_path, local ])
 
-  defp download() do
-    databases = Database.Bots.sources ++
-                Database.BrowserEngines.sources ++
-                Database.Clients.sources ++
-                Database.Devices.sources ++
-                Database.OSs.sources ++
-                Database.VendorFragments.sources
-
-    for { _type, local, remote } <- databases do
-      download_database(local, remote)
+      Mix.shell.info ".. downloading: #{ local }"
+      File.write! target, Mix.Utils.read_path!(remote)
     end
-  end
 
-  defp download_database(local, remote) do
-    target = Path.join([ Config.database_path, local ])
-
-    Mix.shell.info ".. downloading: #{ local }"
-    File.write! target, Mix.Utils.read_path!(remote)
+    download(databases)
   end
 end
 
