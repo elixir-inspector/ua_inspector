@@ -9,6 +9,7 @@ defmodule UAInspector.ShortCodeMap.OSs do
 
   @file_local  "short_codes.oss.yml"
   @file_remote "#{ @remote_base }/Parser/OperatingSystem.php"
+  @file_var    "operatingSystems"
 
   @ets_table :ua_inspector_short_code_map_oss
 

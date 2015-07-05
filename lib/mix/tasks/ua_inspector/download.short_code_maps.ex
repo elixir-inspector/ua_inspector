@@ -13,6 +13,7 @@ defmodule Mix.Tasks.UAInspector.Download.ShortCodeMaps do
   use Mix.Task
 
   alias Mix.UAInspector.Download
+  alias Mix.UAInspector.ShortCodeMap, as: Util
 
   alias UAInspector.Config
   alias UAInspector.ShortCodeMap
@@ -48,10 +49,18 @@ defmodule Mix.Tasks.UAInspector.Download.ShortCodeMaps do
 
   defp download([]),            do: :ok
   defp download([ map | maps ]) do
-    target = Path.join([ Config.database_path, map.local ])
+    yaml = Path.join([ Config.database_path, map.local ])
+    temp = "#{ yaml }.tmp"
 
     Mix.shell.info ".. downloading: #{ map.local }"
-    File.write! target, Mix.Utils.read_path!(map.remote)
+    File.write! temp, Mix.Utils.read_path!(map.remote)
+
+    :ok =
+         map.var
+      |> Util.extract(temp)
+      |> Util.write_yaml(yaml)
+
+    File.rm! temp
 
     download(maps)
   end

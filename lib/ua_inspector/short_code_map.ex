@@ -22,6 +22,7 @@ defmodule UAInspector.ShortCodeMap do
       def list,   do: :ets.tab2list(@ets_table)
       def local,  do: @file_local
       def remote, do: @file_remote
+      def var,    do: @file_var
 
       def to_long(short) do
         list
