@@ -1,4 +1,5 @@
 language: elixir
+sudo:     false
 
 env:
   - MIX_ENV=test TEST_ENV=ex_unit
