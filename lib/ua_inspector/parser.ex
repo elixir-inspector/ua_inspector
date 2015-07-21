@@ -41,15 +41,21 @@ defmodule UAInspector.Parser do
   @spec parse(String.t) :: map
   def parse(ua) do
     case Parser.Bot.parse(ua) do
-      :unknown ->
-        ua
-        |> assemble_result()
-        |> maybe_fix_android()
-        |> maybe_fix_windows()
-        |> maybe_detect_desktop()
-
-      bot -> bot
+      :unknown -> parse_client(ua)
+      bot      -> bot
     end
+  end
+
+  @doc """
+  Parses a user agent without checking for bots.
+  """
+  @spec parse_client(String.t) :: map
+  def parse_client(ua) do
+    ua
+    |> assemble_result()
+    |> maybe_fix_android()
+    |> maybe_fix_windows()
+    |> maybe_detect_desktop()
   end
 
 

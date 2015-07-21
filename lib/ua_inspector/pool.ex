@@ -45,4 +45,15 @@ defmodule UAInspector.Pool do
       &GenServer.call(&1, { :parse, ua })
     )
   end
+
+  @doc """
+  Sends a client parse request to a pool worker.
+  """
+  @spec parse_client(String.t) :: map
+  def parse_client(ua) do
+    :poolboy.transaction(
+      @pool_name,
+      &GenServer.call(&1, { :parse_client, ua })
+    )
+  end
 end

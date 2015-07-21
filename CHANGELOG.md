@@ -4,6 +4,7 @@
 
 - Enhancements
   - Convenience method to check if user agent belongs to a bot (`bot?/1`)
+  - Convenience method to parse without checking for bots (`parse_client/1`)
 
 ## v0.8.0 (2015-07-09)
 

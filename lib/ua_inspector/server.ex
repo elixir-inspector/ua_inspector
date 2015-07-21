@@ -18,4 +18,8 @@ defmodule UAInspector.Server do
   def handle_call({ :parse, ua }, _from, state) do
     { :reply, UAInspector.Parser.parse(ua), state }
   end
+
+  def handle_call({ :parse_client, ua }, _from, state) do
+    { :reply, UAInspector.Parser.parse_client(ua), state }
+  end
 end

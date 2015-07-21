@@ -44,4 +44,11 @@ defmodule UAInspector.ParserTest do
 
     assert parsed == UAInspector.parse(agent)
   end
+
+  test "parse_client" do
+    agent  = "generic crawler agentx"
+    parsed = %Result{ user_agent: agent }
+
+    assert parsed == UAInspector.parse_client(agent)
+  end
 end

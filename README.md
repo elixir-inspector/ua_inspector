@@ -123,6 +123,18 @@ iex(2)> UAInspector.bot? "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; com
 false
 ```
 
+To parse the client information for a user without checking for bots:
+
+```elixir
+iex(1)> UAInspector.bot? "generic crawler agent"
+%UAInspector.Result{
+  user_agent: "generic crawler agent"
+  client:     :unknown,
+  device:     %UAInspector.Result.Device{},
+  os:         :unknown
+}
+```
+
 
 ## Resources
 

@@ -38,4 +38,10 @@ defmodule UAInspector do
   """
   @spec parse(String.t) :: map
   defdelegate parse(ua), to: UAInspector.Pool
+
+  @doc """
+  Parses a user agent without checking for bots.
+  """
+  @spec parse_client(String.t) :: map
+  defdelegate parse_client(ua), to: UAInspector.Pool
 end
