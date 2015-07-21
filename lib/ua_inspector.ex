@@ -26,6 +26,13 @@ defmodule UAInspector do
     sup
   end
 
+
+  @doc """
+  Checks if a user agent is a known bot.
+  """
+  @spec bot?(String.t) :: boolean
+  defdelegate bot?(ua), to: UAInspector.Pool
+
   @doc """
   Parses a user agent.
   """

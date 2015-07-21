@@ -111,6 +111,18 @@ assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
 When a bot agent is detected the result with be a `UAInspector.Result.Bot`
 struct instead of `UAInspector.Result`.
 
+### Convenience Methods
+
+To perform only a quick check if a user agents belongs to a bot:
+
+```elixir
+iex(1)> UAInspector.bot? "generic crawler agent"
+true
+
+iex(2)> UAInspector.bot? "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36"
+false
+```
+
 
 ## Resources
 

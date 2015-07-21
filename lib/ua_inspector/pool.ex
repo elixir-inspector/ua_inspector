@@ -23,6 +23,18 @@ defmodule UAInspector.Pool do
     :poolboy.child_spec(@pool_name, opts, [])
   end
 
+
+  @doc """
+  Sends a bot check request to a pool worker.
+  """
+  @spec bot?(String.t) :: boolean
+  def bot?(ua) do
+    :poolboy.transaction(
+      @pool_name,
+      &GenServer.call(&1, { :is_bot, ua })
+    )
+  end
+
   @doc """
   Sends a parse request to a pool worker.
   """

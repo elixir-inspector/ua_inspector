@@ -26,6 +26,15 @@ defmodule UAInspector.Parser do
   """
   defcallback parse(ua :: String.t) :: atom | map
 
+
+  @doc """
+  Checks if a user agent is a known bot.
+  """
+  @spec bot?(String.t) :: boolean
+  def bot?(ua) do
+    :unknown != Parser.Bot.parse(ua)
+  end
+
   @doc """
   Parses a given user agent string.
   """
