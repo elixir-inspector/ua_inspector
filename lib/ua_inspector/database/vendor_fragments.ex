@@ -15,7 +15,7 @@ defmodule UAInspector.Database.VendorFragments do
 
   def store_entry({ brand, regexes }, _type) do
     counter = UAInspector.Databases.update_counter(@ets_counter)
-    regexes = regexes |> Enum.map( &Util.build_regex(&1) )
+    regexes = regexes |> Enum.map( &Util.build_regex/1 )
 
     entry = %{
       brand:   brand,

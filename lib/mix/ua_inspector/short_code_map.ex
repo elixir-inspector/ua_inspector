@@ -47,6 +47,6 @@ defmodule Mix.UAInspector.ShortCodeMap do
     source
     |> String.strip()
     |> String.split("\n")
-    |> Enum.map( &parse_mapping(&1) )
+    |> Enum.map( &parse_mapping/1 )
   end
 end
