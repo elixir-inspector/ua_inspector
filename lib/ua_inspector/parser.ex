@@ -3,8 +3,6 @@ defmodule UAInspector.Parser do
   Parser module to call individual data parsers and aggregate the results.
   """
 
-  use Behaviour
-
   alias UAInspector.Parser
   alias UAInspector.Result
   alias UAInspector.ShortCodeMap
@@ -24,7 +22,7 @@ defmodule UAInspector.Parser do
       iex> parse("--- undetectable ---")
       :unknown
   """
-  defcallback parse(ua :: String.t) :: atom | map
+  @callback parse(ua :: String.t) :: atom | map
 
 
   @doc """

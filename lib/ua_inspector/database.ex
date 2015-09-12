@@ -3,8 +3,6 @@ defmodule UAInspector.Database do
   Basic database module providing minimal functions.
   """
 
-  use Behaviour
-
   defmacro __using__(_opts) do
     quote do
       @before_compile unquote(__MODULE__)
@@ -45,27 +43,27 @@ defmodule UAInspector.Database do
   @doc """
   Initializes (sets up) the database.
   """
-  defcallback init() :: atom | :ets.tid
+  @callback init() :: atom | :ets.tid
 
   @doc """
   Returns all database entries as a list.
   """
-  defcallback list() :: list
+  @callback list() :: list
 
   @doc """
   Loads a database file.
   """
-  defcallback load(path :: String.t) :: no_return
+  @callback load(path :: String.t) :: no_return
 
   @doc """
   Traverses the database and passes each entry to the storage function.
   """
-  defcallback parse_database(entries :: list, type :: String.t) :: :ok
+  @callback parse_database(entries :: list, type :: String.t) :: :ok
 
   @doc """
   Returns the database sources.
   """
-  defcallback sources() :: list
+  @callback sources() :: list
 
   @doc """
   Stores a database entry.
@@ -74,7 +72,7 @@ defmodule UAInspector.Database do
   directly out of the database file and the actual data needed when
   querying the database.
   """
-  defcallback store_entry(entry :: any, type :: String.t) :: boolean
+  @callback store_entry(entry :: any, type :: String.t) :: boolean
 
   @doc """
   Parses a yaml database file and returns the contents.

@@ -3,8 +3,6 @@ defmodule UAInspector.ShortCodeMap do
   Basic short code map module providing minimal functions.
   """
 
-  use Behaviour
-
   defmacro __using__(_opts) do
     quote do
       @before_compile unquote(__MODULE__)
@@ -57,12 +55,12 @@ defmodule UAInspector.ShortCodeMap do
   @doc """
   Initializes (sets up) the short code map.
   """
-  defcallback init() :: atom | :ets.tid
+  @callback init() :: atom | :ets.tid
 
   @doc """
   Returns all database entries as a list.
   """
-  defcallback list() :: list
+  @callback list() :: list
 
   @doc """
   Stores a mapping entry.
@@ -71,21 +69,21 @@ defmodule UAInspector.ShortCodeMap do
   directly out of the database file and the actual data needed when
   querying the database.
   """
-  defcallback store_entry(entry :: any) :: boolean
+  @callback store_entry(entry :: any) :: boolean
 
   @doc """
   Returns the long representation for a short name.
 
   Unknown names are returned unmodified.
   """
-  defcallback to_long(String.t) :: String.t
+  @callback to_long(String.t) :: String.t
 
   @doc """
   Returns the short representation for a long name.
 
   Unknown names are returned unmodified.
   """
-  defcallback to_short(String.t) :: String.t
+  @callback to_short(String.t) :: String.t
 
   @doc """
   Parses a yaml mapping file and returns the contents.
