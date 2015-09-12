@@ -24,7 +24,7 @@ defmodule UAInspector.Mixfile do
   def deps(:docs) do
     deps(:prod) ++
       [ { :earmark, "~> 0.1", optional: true },
-        { :ex_doc,  "~> 0.7", optional: true } ]
+        { :ex_doc,  "~> 0.8", optional: true } ]
   end
 
   def deps(:test) do
