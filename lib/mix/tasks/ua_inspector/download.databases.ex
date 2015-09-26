@@ -54,13 +54,26 @@ defmodule Mix.Tasks.UAInspector.Download.Databases do
   defp download([]),                      do: :ok
   defp download([ database | databases ]) do
     for { _type, local, remote } <- database.sources do
+      Mix.shell.info ".. downloading: #{ local }"
+
       target = Path.join([ Config.database_path, local ])
 
-      Mix.shell.info ".. downloading: #{ local }"
-      File.write! target, Mix.Utils.read_path!(remote)
+      download_database(remote, target)
     end
 
     download(databases)
+  end
+
+  if Version.match?(System.version, ">= 1.1.0") do
+    defp download_database(remote, local) do
+      { :ok, content } = Mix.Utils.read_path(remote)
+
+      File.write! local, content
+    end
+  else
+    defp download_database(remote, local) do
+      File.write! local, Mix.Utils.read_path!(remote)
+    end
   end
 end
 

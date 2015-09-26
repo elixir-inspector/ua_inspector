@@ -49,11 +49,12 @@ defmodule Mix.Tasks.UAInspector.Download.ShortCodeMaps do
 
   defp download([]),            do: :ok
   defp download([ map | maps ]) do
+    Mix.shell.info ".. downloading: #{ map.local }"
+
     yaml = Path.join([ Config.database_path, map.local ])
     temp = "#{ yaml }.tmp"
 
-    Mix.shell.info ".. downloading: #{ map.local }"
-    File.write! temp, Mix.Utils.read_path!(map.remote)
+    download_database(map.remote, temp)
 
     :ok =
          map.var
@@ -63,6 +64,18 @@ defmodule Mix.Tasks.UAInspector.Download.ShortCodeMaps do
     File.rm! temp
 
     download(maps)
+  end
+
+  if Version.match?(System.version, ">= 1.1.0") do
+    defp download_database(remote, local) do
+      { :ok, content } = Mix.Utils.read_path(remote)
+
+      File.write! local, content
+    end
+  else
+    defp download_database(remote, local) do
+      File.write! local, Mix.Utils.read_path!(remote)
+    end
   end
 end
 
