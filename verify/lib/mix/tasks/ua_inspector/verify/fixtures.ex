@@ -37,10 +37,14 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
   def download([]),                    do: :ok
   def download([ fixture | fixtures ]) do
     Mix.shell.info ".. downloading: #{ fixture }"
-    File.write!(
-      download_path(fixture),
-      Mix.Utils.read_path!("#{ @fixture_base_url }/#{ fixture }")
-    )
+
+    if Version.match?(System.version, ">= 1.1.0") do
+      { :ok, content } = Mix.Utils.read_path("#{ @fixture_base_url }/#{ fixture }")
+    else
+      content = Mix.Utils.read_path!("#{ @fixture_base_url }/#{ fixture }")
+    end
+
+    File.write! download_path(fixture), content
 
     download(fixtures)
   end
