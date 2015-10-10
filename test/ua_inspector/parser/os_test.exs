@@ -12,9 +12,9 @@ defmodule UAInspector.Parser.OSTest do
   end
 
   test "#2" do
-    agent  = "Mozilla/5.0 (Linux; Android 4.0.4; ALCATEL ONE TOUCH 997D Build/IMM76D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"
+    agent  = "Mozilla/5.0 (Linux; Android 4.4.2; Omega 5.0 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 GSA/3.4.16.1149292.arm"
     parsed = UAInspector.parse(agent)
-    result = %Result.OS{ name: "Android", version: "4.0.4" }
+    result = %Result.OS{ name: "Android", platform: "ARM", version: "4.4.2" }
 
     assert parsed.os == result
   end

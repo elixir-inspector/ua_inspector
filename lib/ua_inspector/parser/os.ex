@@ -23,12 +23,14 @@ defmodule UAInspector.Parser.OS do
 
 
   defp parse_data(ua, entry) do
-    name    = resolve_name(ua, entry)
-    version = resolve_version(ua, entry)
+    name     = resolve_name(ua, entry)
+    platform = resolve_platform(ua)
+    version  = resolve_version(ua, entry)
 
     %Result.OS{
-      name:    name,
-      version: version
+      name:     name,
+      platform: platform,
+      version:  version
     }
   end
 
@@ -51,5 +53,23 @@ defmodule UAInspector.Parser.OS do
     |> Util.uncapture(captures)
     |> Util.sanitize_version()
     |> Util.maybe_unknown()
+  end
+
+
+  @platforms [
+    { "ARM", Util.build_regex("arm") },
+    { "x64", Util.build_regex("WOW64|x64|win64|amd64|x86_64") },
+    { "x86", Util.build_regex("i[0-9]86|i86pc") }
+  ]
+
+  defp resolve_platform(ua), do: resolve_platform(ua, @platforms)
+
+  defp resolve_platform(_,  []),                          do: :unknown
+  defp resolve_platform(ua, [{ id, regex } | platforms ]) do
+    if Regex.match?(regex, ua) do
+      id
+    else
+      resolve_platform(ua, platforms)
+    end
   end
 end

@@ -71,8 +71,9 @@ iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleW
     type:  "tablet"
   },
   os: %UAInspector.Result.OS{
-    name:    "iOS",
-    version: "7.0.4"
+    name:     "iOS",
+    platform: :unknown,
+    version:  "7.0.4"
   },
 }
 

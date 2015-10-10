@@ -4,7 +4,8 @@ defmodule UAInspector.Result.OS do
   """
 
   defstruct [
-    name:    :unknown,
-    version: :unknown
+    name:     :unknown,
+    platform: :unknown,
+    version:  :unknown
   ]
 end
