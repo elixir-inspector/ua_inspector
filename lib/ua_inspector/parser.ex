@@ -52,6 +52,7 @@ defmodule UAInspector.Parser do
     ua
     |> assemble_result()
     |> maybe_fix_android()
+    |> maybe_fix_opera_tv_store()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
   end
@@ -120,6 +121,20 @@ defmodule UAInspector.Parser do
     :lt != Version.compare(version, "3.0.0")
     && :lt == Version.compare(version, "4.0.0")
   end
+
+
+  # assume "Opera TV Store" to be a tv
+  @is_opera_tv_store Util.build_regex("Opera TV Store")
+
+  defp maybe_fix_opera_tv_store(%{ device: %{ type: :unknown }} = result) do
+    if Regex.match?(@is_opera_tv_store, result.user_agent) do
+      %{ result | device: %{ result.device | type: "tv" }}
+    else
+      result
+    end
+  end
+
+  defp maybe_fix_opera_tv_store(result), do: result
 
 
   # assume windows 8 with touch capability is a tablet

@@ -96,4 +96,13 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert parsed.device == result
   end
+
+  test "#13" do
+    agent  = "Opera/9.80 (Linux mips; Opera TV Store/5477) Presto/2.12.362 Version/12.10 Model/Changhong-MST6328"
+    parsed = UAInspector.parse(agent)
+
+    result = %Result.Device{ type: "tv" }
+
+    assert parsed.device == result
+  end
 end
