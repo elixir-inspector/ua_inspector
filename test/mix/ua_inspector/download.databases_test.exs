@@ -3,6 +3,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
 
   import ExUnit.CaptureIO
 
+  @tag :download
   test "aborted download" do
     Mix.shell(Mix.Shell.IO)
 
@@ -15,6 +16,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
     assert String.contains?(console, "Download aborted")
   end
 
+  @tag :download
   test "confirmed download" do
     Mix.shell(Mix.Shell.IO)
 
@@ -25,6 +27,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
     assert String.contains?(console, "Really download? [Yn]")
   end
 
+  @tag :download
   test "forceable download" do
     Mix.shell(Mix.Shell.IO)
 
@@ -60,6 +63,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
     File.rm_rf! test_path
   end
 
+  @tag :download
   test "missing configuration" do
     Mix.shell(Mix.Shell.IO)
 
