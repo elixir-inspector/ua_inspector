@@ -21,7 +21,7 @@ You should also update your applications to include all necessary projects:
 
 ```elixir
 def application do
-  [ applications: [ :ua_inspector, :yamerl ] ]
+  [ applications: [ :ua_inspector ]]
 end
 ```
 
