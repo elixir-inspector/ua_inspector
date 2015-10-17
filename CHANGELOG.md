@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.9.0-dev
+## v0.9.0 (2015-10-17)
 
 - Enhancements
   - Convenience method to check if user agent belongs to a bot (`bot?/1`)
