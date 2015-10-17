@@ -23,12 +23,12 @@ defmodule UAInspector.Databases do
   def init(_) do
     _tid = :ets.new(@ets_table, [ :set, :protected, :named_table ])
 
-    Database.Bots.init()
-    Database.BrowserEngines.init()
-    Database.Clients.init()
-    Database.Devices.init()
-    Database.OSs.init()
-    Database.VendorFragments.init()
+    _ = Database.Bots.init()
+    _ = Database.BrowserEngines.init()
+    _ = Database.Clients.init()
+    _ = Database.Devices.init()
+    _ = Database.OSs.init()
+    _ = Database.VendorFragments.init()
 
     counters = [
       bots:             0,
@@ -48,12 +48,12 @@ defmodule UAInspector.Databases do
   # GenServer callbacks
 
   def handle_call({ :load, path }, _from, state) do
-    Database.Bots.load(path)
-    Database.BrowserEngines.load(path)
-    Database.Clients.load(path)
-    Database.Devices.load(path)
-    Database.OSs.load(path)
-    Database.VendorFragments.load(path)
+    :ok = Database.Bots.load(path)
+    :ok = Database.BrowserEngines.load(path)
+    :ok = Database.Clients.load(path)
+    :ok = Database.Devices.load(path)
+    :ok = Database.OSs.load(path)
+    :ok = Database.VendorFragments.load(path)
 
     { :reply, :ok, state }
   end

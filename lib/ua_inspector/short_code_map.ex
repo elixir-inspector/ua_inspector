@@ -30,6 +30,8 @@ defmodule UAInspector.ShortCodeMap do
           |> unquote(__MODULE__).load_map()
           |> parse_map()
         end
+
+        :ok
       end
 
       def parse_map([]),              do: :ok
@@ -58,9 +60,14 @@ defmodule UAInspector.ShortCodeMap do
   @callback init() :: atom | :ets.tid
 
   @doc """
-  Returns all database entries as a list.
+  Returns all short code map entries as a list.
   """
   @callback list() :: list
+
+  @doc """
+  Loads a short code map.
+  """
+  @callback load(path :: String.t) :: :ok
 
   @doc """
   Stores a mapping entry.
@@ -91,6 +98,7 @@ defmodule UAInspector.ShortCodeMap do
   @spec load_map(String.t) :: any
   def load_map(file) do
     file
+    |> to_char_list()
     |> :yamerl_constr.file([ :str_node_as_binary ])
     |> hd()
   end

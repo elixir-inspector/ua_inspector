@@ -30,6 +30,8 @@ defmodule UAInspector.Database do
             |> parse_database(type)
           end
         end
+
+        :ok
       end
 
       def parse_database([],                  _type), do: :ok
@@ -53,7 +55,7 @@ defmodule UAInspector.Database do
   @doc """
   Loads a database file.
   """
-  @callback load(path :: String.t) :: no_return
+  @callback load(path :: String.t) :: :ok
 
   @doc """
   Traverses the database and passes each entry to the storage function.
@@ -80,6 +82,7 @@ defmodule UAInspector.Database do
   @spec load_database(String.t) :: any
   def load_database(file) do
     file
+    |> to_char_list()
     |> :yamerl_constr.file([ :str_node_as_binary ])
     |> hd()
   end

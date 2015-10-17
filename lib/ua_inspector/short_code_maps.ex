@@ -19,8 +19,8 @@ defmodule UAInspector.ShortCodeMaps do
   end
 
   def init(_) do
-    ShortCodeMap.DeviceBrands.init()
-    ShortCodeMap.OSs.init()
+    _ = ShortCodeMap.DeviceBrands.init()
+    _ = ShortCodeMap.OSs.init()
 
     { :ok, [] }
   end
@@ -29,8 +29,8 @@ defmodule UAInspector.ShortCodeMaps do
   # GenServer callbacks
 
   def handle_call({ :load, path }, _from, state) do
-    ShortCodeMap.DeviceBrands.load(path)
-    ShortCodeMap.OSs.load(path)
+    :ok = ShortCodeMap.DeviceBrands.load(path)
+    :ok = ShortCodeMap.OSs.load(path)
 
     { :reply, :ok, state }
   end
