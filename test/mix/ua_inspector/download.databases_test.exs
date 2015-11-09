@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
+defmodule Mix.UAInspector.Download.DatabasesTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
@@ -8,7 +8,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
     Mix.shell(Mix.Shell.IO)
 
     console = capture_io fn ->
-      Mix.Tasks.UAInspector.Download.Databases.run([])
+      Mix.UAInspector.Download.Databases.run([])
 
       IO.write "n"
     end
@@ -21,7 +21,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
     Mix.shell(Mix.Shell.IO)
 
     console = capture_io [capture_prompt: true], fn ->
-      Mix.Tasks.UAInspector.Download.Databases.run([])
+      Mix.UAInspector.Download.Databases.run([])
     end
 
     assert String.contains?(console, "Really download? [Yn]")
@@ -36,7 +36,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
 
     console = capture_io fn ->
       Application.put_env(:ua_inspector, :database_path, test_path)
-      Mix.Tasks.UAInspector.Download.Databases.run(["--force"])
+      Mix.UAInspector.Download.Databases.run(["--force"])
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
       databases = [
@@ -73,7 +73,7 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
       # capture regular output as well
       capture_io fn ->
         Application.put_env(:ua_inspector, :database_path, nil)
-        Mix.Tasks.UAInspector.Download.Databases.run([])
+        Mix.UAInspector.Download.Databases.run([])
         Application.put_env(:ua_inspector, :database_path, orig_path)
       end
     end

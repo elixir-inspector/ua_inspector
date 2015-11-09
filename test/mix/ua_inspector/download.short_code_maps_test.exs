@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.ShortCodeMaps.DownloadTest do
+defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
@@ -8,7 +8,7 @@ defmodule Mix.Tasks.UAInspector.ShortCodeMaps.DownloadTest do
     Mix.shell(Mix.Shell.IO)
 
     console = capture_io fn ->
-      Mix.Tasks.UAInspector.Download.ShortCodeMaps.run([])
+      Mix.UAInspector.Download.ShortCodeMaps.run([])
 
       IO.write "n"
     end
@@ -21,7 +21,7 @@ defmodule Mix.Tasks.UAInspector.ShortCodeMaps.DownloadTest do
     Mix.shell(Mix.Shell.IO)
 
     console = capture_io [capture_prompt: true], fn ->
-      Mix.Tasks.UAInspector.Download.ShortCodeMaps.run([])
+      Mix.UAInspector.Download.ShortCodeMaps.run([])
     end
 
     assert String.contains?(console, "Really download? [Yn]")
@@ -36,7 +36,7 @@ defmodule Mix.Tasks.UAInspector.ShortCodeMaps.DownloadTest do
 
     console = capture_io fn ->
       Application.put_env(:ua_inspector, :database_path, test_path)
-      Mix.Tasks.UAInspector.Download.ShortCodeMaps.run(["--force"])
+      Mix.UAInspector.Download.ShortCodeMaps.run(["--force"])
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
       maps = [
@@ -67,7 +67,7 @@ defmodule Mix.Tasks.UAInspector.ShortCodeMaps.DownloadTest do
       # capture regular output as well
       capture_io fn ->
         Application.put_env(:ua_inspector, :database_path, nil)
-        Mix.Tasks.UAInspector.Download.ShortCodeMaps.run([])
+        Mix.UAInspector.Download.ShortCodeMaps.run([])
         Application.put_env(:ua_inspector, :database_path, orig_path)
       end
     end

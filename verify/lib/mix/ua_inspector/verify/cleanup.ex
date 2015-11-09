@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.Verify.Cleanup do
+defmodule Mix.UAInspector.Verify.Cleanup do
   @moduledoc """
   Cleans up testcases.
   """

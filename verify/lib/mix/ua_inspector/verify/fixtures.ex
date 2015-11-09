@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
+defmodule Mix.UAInspector.Verify.Fixtures do
   @moduledoc """
   Utility module to bundle/download verification fixtures.
   """
@@ -49,7 +49,7 @@ defmodule Mix.Tasks.UAInspector.Verify.Fixtures do
     download(fixtures)
   end
 
-  def download_path,       do: Path.join(__DIR__, "../../../../../fixtures") |> Path.expand()
+  def download_path,       do: Path.join(__DIR__, "../../../../fixtures") |> Path.expand()
   def download_path(file), do: Path.join(download_path, file)
   def list,                do: @fixtures
 
