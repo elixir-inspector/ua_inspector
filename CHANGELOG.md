@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.10.0-dev
+## v0.10.0 (2015-11-10)
 
 - Bug fixes
   - Fixes problems with mix tasks under case insensitive file systems
