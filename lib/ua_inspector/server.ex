@@ -15,6 +15,10 @@ defmodule UAInspector.Server do
     { :reply, UAInspector.Parser.bot?(ua), state }
   end
 
+  def handle_call({ :is_hbbtv, ua }, _from, state) do
+    { :reply, UAInspector.Parser.hbbtv?(ua), state }
+  end
+
   def handle_call({ :parse, ua }, _from, state) do
     { :reply, UAInspector.Parser.parse(ua), state }
   end

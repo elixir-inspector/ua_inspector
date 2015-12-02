@@ -34,6 +34,17 @@ defmodule UAInspector.Parser do
   end
 
   @doc """
+  Checks if a user agent is a HbbTV and returns its version if so.
+  """
+  @spec hbbtv?(String.t) :: false | String.t
+  def hbbtv?(ua) do
+    case Parser.Device.parse_hbbtv_version(ua) do
+      nil     -> false
+      version -> version
+    end
+  end
+
+  @doc """
   Parses a given user agent string.
   """
   @spec parse(String.t) :: map

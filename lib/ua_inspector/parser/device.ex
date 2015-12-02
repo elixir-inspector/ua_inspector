@@ -10,7 +10,7 @@ defmodule UAInspector.Parser.Device do
   alias UAInspector.Result
   alias UAInspector.Util
 
-  @hbbtv          Util.build_regex("HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})")
+  @hbbtv          Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @android_mobile Util.build_regex("Android; Mobile;")
   @android_tablet Util.build_regex("Android; Tablet;")
 
@@ -26,6 +26,16 @@ defmodule UAInspector.Parser.Device do
     |> maybe_parse_vendor(ua)
   end
 
+  @doc """
+  Parses the version out of a (possible) HbbTV user agent.
+  """
+  @spec parse_hbbtv_version(String.t) :: nil | String.t
+  def parse_hbbtv_version(ua) do
+    case Regex.run(@hbbtv, ua) do
+      nil      -> nil
+      captures -> List.last(captures)
+    end
+  end
 
   defp maybe_no_model(:unknown, device) do
     %Result.Device{

@@ -33,6 +33,11 @@ defmodule UAInspector.ParserTest do
     refute UAInspector.bot?("regular user agent")
   end
 
+  test "hbbtv?" do
+    assert "1.1.1" == UAInspector.hbbtv?("agent containing HbbTV/1.1.1 (; ;) information")
+    refute UAInspector.hbbtv?("generic user agent")
+  end
+
   test "parse" do
     agent  = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
     parsed = %Result{

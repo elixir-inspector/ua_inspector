@@ -34,6 +34,12 @@ defmodule UAInspector do
   defdelegate bot?(ua), to: UAInspector.Pool
 
   @doc """
+  Checks if a user agent is a HbbTV and returns its version if so.
+  """
+  @spec hbbtv?(String.t) :: false | String.t
+  defdelegate hbbtv?(ua), to: UAInspector.Pool
+
+  @doc """
   Parses a user agent.
   """
   @spec parse(String.t) :: map

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.11.0-dev
+
+- Enhancements
+  - HbbTV version can be fetched using `hbbtv?/1`
+
 ## v0.10.0 (2015-11-10)
 
 - Bug fixes

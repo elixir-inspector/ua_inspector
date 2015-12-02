@@ -36,6 +36,17 @@ defmodule UAInspector.Pool do
   end
 
   @doc """
+  Sends a HbbTV check request to a pool worker..
+  """
+  @spec hbbtv?(String.t) :: false | String.t
+  def hbbtv?(ua) do
+    :poolboy.transaction(
+      @pool_name,
+      &GenServer.call(&1, { :is_hbbtv, ua })
+    )
+  end
+
+  @doc """
   Sends a parse request to a pool worker.
   """
   @spec parse(String.t) :: map
