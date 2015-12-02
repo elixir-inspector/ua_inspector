@@ -63,6 +63,7 @@ defmodule UAInspector.Parser do
     ua
     |> assemble_result()
     |> maybe_fix_android()
+    |> maybe_fix_android_chrome()
     |> maybe_fix_opera_tv_store()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
@@ -131,6 +132,33 @@ defmodule UAInspector.Parser do
   defp tablet_android?(version) do
     :lt != Version.compare(version, "3.0.0")
     && :lt == Version.compare(version, "4.0.0")
+  end
+
+
+  defp maybe_fix_android_chrome(%{ client: %{ name: "Chrome" },
+                                   device: %{ type: :unknown },
+                                   os:     %{ name: "Android" }} = result) do
+    fix_android_chrome(result)
+  end
+
+  defp maybe_fix_android_chrome(%{ client: %{ name: "Chrome Mobile" },
+                                   device: %{ type: :unknown },
+                                   os:     %{ name: "Android" }} = result) do
+    fix_android_chrome(result)
+  end
+
+  defp maybe_fix_android_chrome(result), do: result
+
+
+  @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* Mobile")
+
+  defp fix_android_chrome(result) do
+    type = case Regex.match?(@is_chrome_smartphone, result.user_agent) do
+      true  -> "smartphone"
+      false -> "tablet"
+    end
+
+    %{ result | device: %{ result.device | type: type }}
   end
 
 

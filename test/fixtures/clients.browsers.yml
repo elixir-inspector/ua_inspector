@@ -21,3 +21,9 @@
 - regex: '(?:iPod|iPad|iPhone).+Version/(\d+[\.\d]+)'
   name: 'Mobile Safari'
   version: '$1'
+
+- regex: 'Chrome(?:/(\d+[\.\d]+))? Mobile'
+  name: 'Chrome Mobile'
+
+- regex: 'Chrome(?:/(\d+[\.\d]+))?'
+  name: 'Chrome'
