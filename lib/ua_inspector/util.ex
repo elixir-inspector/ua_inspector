@@ -11,7 +11,7 @@ defmodule UAInspector.Util do
   """
   @spec build_regex(regex :: String.t) :: Regex.t
   def build_regex(regex) do
-    "(?:^|[^A-Z0-9\_\-])(?:" <> regex <> ")"
+    "(?:^|[^A-Z0-9\_\-]|sprd-)(?:" <> regex <> ")"
     |> Regex.compile!([ :caseless ])
   end
 
@@ -26,11 +26,13 @@ defmodule UAInspector.Util do
   Sanitizes a model string.
   """
   @spec sanitize_model(model :: String.t) :: String.t
-  def sanitize_model(""),   do: ""
-  def sanitize_model(model) do
+  def sanitize_model(""),      do: ""
+  def sanitize_model("Build"), do: ""
+  def sanitize_model(model)    do
     model
     |> String.replace(~r/\$(\d)/, "")
     |> String.replace("_", " ")
+    |> String.replace(~r/ TD$/, "")
     |> String.strip()
   end
 

@@ -27,3 +27,6 @@
 
 - regex: 'Chrome(?:/(\d+[\.\d]+))?'
   name: 'Chrome'
+
+- regex: 'Kylo(?:/(\d+[\.\d]+))?'
+  name: 'Kylo'

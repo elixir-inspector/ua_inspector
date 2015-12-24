@@ -64,6 +64,7 @@ defmodule UAInspector.Parser do
     |> assemble_result()
     |> maybe_fix_android()
     |> maybe_fix_android_chrome()
+    |> maybe_fix_kylo_tv()
     |> maybe_fix_opera_tv_store()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
@@ -160,6 +161,15 @@ defmodule UAInspector.Parser do
 
     %{ result | device: %{ result.device | type: type }}
   end
+
+
+  # assume "Kylo" browsers to be a tv
+  defp maybe_fix_kylo_tv(%{ client: %{ name: "Kylo" },
+                            device: %{ type: :unknown }} = result) do
+    %{ result | device: %{ result.device | type: "tv" }}
+  end
+
+  defp maybe_fix_kylo_tv(result), do: result
 
 
   # assume "Opera TV Store" to be a tv

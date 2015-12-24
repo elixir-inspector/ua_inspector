@@ -126,4 +126,12 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert :unknown == parsed.device.type
   end
+
+  test "#17" do
+    agent  = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2) Gecko/20100222 Firefox/3.6 Kylo/0.6.1.70394"
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{ type: "tv" }
+
+    assert parsed.device == result
+  end
 end
