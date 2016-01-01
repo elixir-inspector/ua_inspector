@@ -62,9 +62,9 @@ defmodule UAInspector.Parser do
   def parse_client(ua) do
     ua
     |> assemble_result()
+    |> maybe_detect_tv()
     |> maybe_fix_android()
     |> maybe_fix_android_chrome()
-    |> maybe_fix_kylo_tv()
     |> maybe_fix_opera_tv_store()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
@@ -91,6 +91,20 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_detect_desktop(result), do: result
+
+
+  # assume some browsers to be a tv
+  defp maybe_detect_tv(%{ client: %{ name: "Kylo" },
+                          device: %{ type: :unknown }} = result) do
+    %{ result | device: %{ result.device | type: "tv" }}
+  end
+
+  defp maybe_detect_tv(%{ client: %{ name: "Espial TV Browser" },
+                          device: %{ type: :unknown }} = result) do
+    %{ result | device: %{ result.device | type: "tv" }}
+  end
+
+  defp maybe_detect_tv(result), do: result
 
 
   # Android <  2.0.0 is always a smartphone
@@ -161,15 +175,6 @@ defmodule UAInspector.Parser do
 
     %{ result | device: %{ result.device | type: type }}
   end
-
-
-  # assume "Kylo" browsers to be a tv
-  defp maybe_fix_kylo_tv(%{ client: %{ name: "Kylo" },
-                            device: %{ type: :unknown }} = result) do
-    %{ result | device: %{ result.device | type: "tv" }}
-  end
-
-  defp maybe_fix_kylo_tv(result), do: result
 
 
   # assume "Opera TV Store" to be a tv
