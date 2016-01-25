@@ -10,10 +10,11 @@ defmodule Mix.UAInspector.ShortCodeMap do
   """
   @spec extract(String.t, String.t) :: list
   def extract(var, file) do
-    source = File.read! file
+    re_opts = [ :dotall, { :newline, :anycrlf }, :multiline, :ungreedy ]
+    source  = File.read! file
 
     "\\$#{ var } = array\\((?<map>.*)\\);"
-    |> Regex.compile!("smr")
+    |> Regex.compile!(re_opts)
     |> Regex.named_captures(source)
     |> Map.get("map", "")
     |> parse_source()
