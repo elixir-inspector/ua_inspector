@@ -19,11 +19,11 @@ defmodule UAInspector do
       UAInspector.Pool.child_spec
     ]
 
-    sup = Supervisor.start_link(children, options)
-    :ok = Config.database_path |> Databases.load()
-    :ok = Config.database_path |> ShortCodeMaps.load()
+    { :ok, sup } = Supervisor.start_link(children, options)
+    :ok          = Config.database_path |> Databases.load()
+    :ok          = Config.database_path |> ShortCodeMaps.load()
 
-    sup
+    { :ok, sup }
   end
 
 
