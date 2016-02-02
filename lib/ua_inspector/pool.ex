@@ -14,7 +14,7 @@ defmodule UAInspector.Pool do
   @doc """
   Returns poolboy child specification for supervision tree.
   """
-  @spec child_spec :: tuple
+  @spec child_spec :: Supervisor.Spec.spec
   def child_spec do
     opts =
          @pool_options
