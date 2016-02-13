@@ -11,6 +11,10 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   @spec cleanup(testcase :: map) :: map
   def cleanup(testcase) do
     testcase
+    |> cleanup_bot_category()
+    |> cleanup_bot_url()
+    |> cleanup_bot_producer_name()
+    |> cleanup_bot_producer_url()
     |> cleanup_client_engine()
     |> cleanup_client_version()
     |> cleanup_device_brand()
@@ -24,6 +28,26 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> unshorten_device_brand()
   end
 
+
+  defp cleanup_bot_category(%{ bot: %{ category: :null }} = testcase) do
+    put_in(testcase, [ :bot, :category ], "")
+  end
+  defp cleanup_bot_category(testcase), do: testcase
+
+  defp cleanup_bot_url(%{ bot: %{ url: :null }} = testcase) do
+    put_in(testcase, [ :bot, :url ], "")
+  end
+  defp cleanup_bot_url(testcase), do: testcase
+
+  defp cleanup_bot_producer_name(%{ bot: %{ producer: %{ name: :null }}} = testcase) do
+    put_in(testcase, [ :bot, :producer, :name ], "")
+  end
+  defp cleanup_bot_producer_name(testcase), do: testcase
+
+  defp cleanup_bot_producer_url(%{ bot: %{ producer: %{ url: :null }}} = testcase) do
+    put_in(testcase, [ :bot, :producer, :url ], "")
+  end
+  defp cleanup_bot_producer_url(testcase), do: testcase
 
   defp cleanup_client_engine(%{ client: %{ engine: :null }} = testcase) do
     put_in(testcase, [ :client, :engine ], :unknown)

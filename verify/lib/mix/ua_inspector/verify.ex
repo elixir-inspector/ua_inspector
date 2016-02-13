@@ -30,8 +30,23 @@ defmodule Mix.UAInspector.Verify do
       && testcase.os == maybe_from_struct(result.os)
     else
       # bot
-      testcase.user_agent == result.user_agent
-      && testcase.name == result.name
+      acc =
+        testcase.user_agent == result.user_agent
+        && testcase.bot.name == result.name
+
+      if acc && Map.has_key?(testcase.bot, :category) do
+        acc = acc && testcase.bot.category == result.category
+      end
+
+      if acc && Map.has_key?(testcase.bot, :url) do
+        acc = acc && testcase.bot.url == result.url
+      end
+
+      if acc && Map.has_key?(testcase.bot, :producer) do
+        acc = acc && testcase.bot.producer == maybe_from_struct(result.producer)
+      end
+
+      acc
     end
   end
 
