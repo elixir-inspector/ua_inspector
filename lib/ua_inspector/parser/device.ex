@@ -13,6 +13,7 @@ defmodule UAInspector.Parser.Device do
   @hbbtv          Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
+  @opera_tablet   Util.build_regex("Opera Tablet")
 
   def parse(ua) do
     device = case Regex.match?(@hbbtv, ua) do
@@ -23,6 +24,7 @@ defmodule UAInspector.Parser.Device do
     device
     |> maybe_parse_type(ua, @android_mobile, "smartphone")
     |> maybe_parse_type(ua, @android_tablet, "tablet")
+    |> maybe_parse_type(ua, @opera_tablet, "tablet")
     |> maybe_parse_vendor(ua)
   end
 

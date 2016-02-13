@@ -143,4 +143,11 @@ defmodule UAInspector.Parser.DeviceTest do
     assert parsed.device.type == "tv"
     assert parsed.client.name == "Espial TV Browser"
   end
+
+  test "#19" do
+    agent  = "Opera/9.80 (Android 2.2.1; Linux; Opera Tablet/ADR-1301080958) Presto/2.11.355 Version/12.10"
+    parsed = UAInspector.parse(agent)
+
+    assert parsed.device.type == "tablet"
+  end
 end
