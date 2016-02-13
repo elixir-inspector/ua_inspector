@@ -39,20 +39,30 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     :ok
   end
 
+
   def download([]),                    do: :ok
   def download([ fixture | fixtures ]) do
     Mix.shell.info ".. downloading: #{ fixture }"
 
-    if Version.match?(System.version, ">= 1.1.0") do
-      { :ok, content } = Mix.Utils.read_path("#{ @fixture_base_url }/#{ fixture }")
-    else
-      content = Mix.Utils.read_path!("#{ @fixture_base_url }/#{ fixture }")
-    end
+    remote = "#{ @fixture_base_url }/#{ fixture }"
+    local  = download_path(fixture)
 
-    File.write! download_path(fixture), content
-
+    download_fixture(remote, local)
     download(fixtures)
   end
+
+  if Version.match?(System.version, ">= 1.1.0") do
+    defp download_fixture(remote, local) do
+      { :ok, content } = Mix.Utils.read_path(remote)
+
+      File.write! local, content
+    end
+  else
+    defp download_fixture(remote, local) do
+      File.write! local, Mix.Utils.read_path!(remote)
+    end
+  end
+
 
   def download_path,       do: Path.join(__DIR__, "../../../../fixtures") |> Path.expand()
   def download_path(file), do: Path.join(download_path, file)
