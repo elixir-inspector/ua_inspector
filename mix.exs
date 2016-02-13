@@ -5,15 +5,19 @@ defmodule UAInspector.Mixfile do
   @url_github "https://github.com/elixytics/ua_inspector"
 
   def project do
-    [ app:           :ua_inspector,
-      name:          "UAInspector",
+    [ app:     :ua_inspector,
+      name:    "UAInspector",
+      version: "0.11.0-dev",
+      elixir:  "~> 1.0",
+      deps:    deps,
+
+      build_embedded:  Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+
       description:   "User agent parser library",
-      package:       package,
-      version:       "0.11.0-dev",
-      elixir:        "~> 1.0",
-      deps:          deps(Mix.env),
       docs:          docs,
-      test_coverage: [ tool: ExCoveralls ]]
+      package:       package,
+      test_coverage: [ tool: ExCoveralls ] ]
   end
 
   def application do
@@ -21,34 +25,28 @@ defmodule UAInspector.Mixfile do
       mod:          { UAInspector, [] } ]
   end
 
-  def deps(:docs) do
-    deps(:prod) ++
-      [ { :earmark, "~> 0.1",  optional: true },
-        { :ex_doc,  "~> 0.11", optional: true } ]
-  end
+  defp deps do
+    [ { :earmark, "~> 0.1",  only: :docs },
+      { :ex_doc,  "~> 0.11", only: :docs },
 
-  def deps(:test) do
-    deps(:prod) ++
-      [ { :dialyze,     "~> 0.2", optional: true },
-        { :excoveralls, "~> 0.4", optional: true } ]
-  end
+      { :dialyze,     "~> 0.2", only: :test },
+      { :excoveralls, "~> 0.4", only: :test },
 
-  def deps(_) do
-    [ { :poolboy, "~> 1.0" },
+      { :poolboy, "~> 1.0" },
       { :yamerl,  github: "yakaz/yamerl" } ]
   end
 
-  def docs do
+  defp docs do
     [ extras:     [ "CHANGELOG.md", "README.md" ],
       main:       "readme",
       source_ref: "master",
       source_url: @url_github ]
   end
 
-  def package do
+  defp package do
     %{ files:       [ "CHANGELOG.md", "LICENSE", "mix.exs", "README.md", "lib" ],
        licenses:    [ "Apache 2.0" ],
        links:       %{ "Docs" => @url_docs, "GitHub" => @url_github },
-       maintainers: [ "Marc Neudert" ]}
+       maintainers: [ "Marc Neudert" ] }
   end
 end
