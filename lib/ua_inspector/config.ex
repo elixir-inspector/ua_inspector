@@ -10,6 +10,7 @@ defmodule UAInspector.Config do
   def database_path do
     case Application.get_env(:ua_inspector, :database_path, nil) do
       nil  -> nil
+      {_, env_var} -> System.get_env(env_var)
       path -> path |> Path.expand()
     end
   end
