@@ -3,24 +3,18 @@ defmodule UAInspector.ShortCodeMap do
   Basic short code map module providing minimal functions.
   """
 
-  defmacro __using__(_opts) do
+  defmacro __using__(opts) do
     quote do
-      @before_compile unquote(__MODULE__)
-
       @behaviour unquote(__MODULE__)
-    end
-  end
 
-  defmacro __before_compile__(_env) do
-    quote do
       def init() do
-        :ets.new(@ets_table, [ :set, :protected, :named_table ])
+        :ets.new(unquote(opts[:ets_table]), [ :set, :protected, :named_table ])
       end
 
-      def list,   do: :ets.tab2list(@ets_table)
-      def local,  do: @file_local
-      def remote, do: @file_remote
-      def var,    do: @file_var
+      def list,   do: :ets.tab2list(unquote(opts[:ets_table]))
+      def local,  do: unquote(opts[:file_local])
+      def remote, do: unquote(opts[:file_remote])
+      def var,    do: unquote(opts[:file_var])
 
       def load(path) do
         map = Path.join(path, local)
