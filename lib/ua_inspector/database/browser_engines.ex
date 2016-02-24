@@ -3,18 +3,18 @@ defmodule UAInspector.Database.BrowserEngines do
   UAInspector browser engine information database.
   """
 
-  use UAInspector.Database
+  @ets_table       :ua_inspector_database_browser_engines
+  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
+
+  use UAInspector.Database, [
+    ets_table: @ets_table,
+    sources:   [{ "", "browser_engines.yml", "#{ @source_base_url }/browser_engine.yml" }]
+  ]
 
   alias UAInspector.Util
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
-  @sources         [{ "", "browser_engines.yml", "#{ @source_base_url }/browser_engine.yml" }]
-
-  @ets_counter :browser_engines
-  @ets_table   :ua_inspector_database_browser_engines
-
   def store_entry(data, _type) do
-    counter = UAInspector.Databases.update_counter(@ets_counter)
+    counter = UAInspector.Databases.update_counter(:browser_engines)
     data    = Enum.into(data, %{})
 
     entry = %{

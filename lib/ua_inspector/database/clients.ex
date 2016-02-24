@@ -3,28 +3,28 @@ defmodule UAInspector.Database.Clients do
   UAInspector client information database.
   """
 
-  use UAInspector.Database
+  @ets_table       :ua_inspector_database_clients
+  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
+
+  use UAInspector.Database, [
+    ets_table: @ets_table,
+    sources:   [
+      # files ordered according to
+      # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
+      # to prevent false detections
+      { "feed reader", "clients.feed_readers.yml", "#{ @source_base_url }/feed_readers.yml" },
+      { "mobile app",  "clients.mobile_apps.yml",  "#{ @source_base_url }/mobile_apps.yml" },
+      { "mediaplayer", "clients.mediaplayers.yml", "#{ @source_base_url }/mediaplayers.yml" },
+      { "pim",         "clients.pim.yml",          "#{ @source_base_url }/pim.yml" },
+      { "browser",     "clients.browsers.yml",     "#{ @source_base_url }/browsers.yml" },
+      { "library",     "clients.libraries.yml",    "#{ @source_base_url }/libraries.yml" }
+    ]
+  ]
 
   alias UAInspector.Util
 
-  # files ordered according to
-  # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
-  # to prevent false detections
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
-  @sources         [
-    { "feed reader", "clients.feed_readers.yml", "#{ @source_base_url }/feed_readers.yml" },
-    { "mobile app",  "clients.mobile_apps.yml",  "#{ @source_base_url }/mobile_apps.yml" },
-    { "mediaplayer", "clients.mediaplayers.yml", "#{ @source_base_url }/mediaplayers.yml" },
-    { "pim",         "clients.pim.yml",          "#{ @source_base_url }/pim.yml" },
-    { "browser",     "clients.browsers.yml",     "#{ @source_base_url }/browsers.yml" },
-    { "library",     "clients.libraries.yml",    "#{ @source_base_url }/libraries.yml" }
-  ]
-
-  @ets_counter :clients
-  @ets_table   :ua_inspector_database_clients
-
   def store_entry(data, type) do
-    counter = UAInspector.Databases.update_counter(@ets_counter)
+    counter = UAInspector.Databases.update_counter(:clients)
     data    = Enum.into(data, %{})
 
     entry = %{

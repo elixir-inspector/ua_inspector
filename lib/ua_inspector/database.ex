@@ -3,25 +3,22 @@ defmodule UAInspector.Database do
   Basic database module providing minimal functions.
   """
 
-  defmacro __using__(_opts) do
+  defmacro __using__(opts) do
     quote do
-      @before_compile unquote(__MODULE__)
-
       @behaviour unquote(__MODULE__)
-    end
-  end
 
-  defmacro __before_compile__(_env) do
-    quote do
       def init() do
-        :ets.new(@ets_table, [ :ordered_set, :protected, :named_table ])
+        :ets.new(
+          unquote(opts[:ets_table]),
+          [ :ordered_set, :protected, :named_table ]
+        )
       end
 
-      def list,    do: :ets.tab2list(@ets_table)
-      def sources, do: @sources
+      def list,    do: :ets.tab2list(unquote(opts[:ets_table]))
+      def sources, do: unquote(opts[:sources])
 
       def load(path) do
-        for { type, local, _remote } <- @sources do
+        for { type, local, _remote } <- sources do
           database = Path.join(path, local)
 
           if File.regular?(database) do
