@@ -46,8 +46,13 @@ configuration:
 ```elixir
 use Mix.Config
 
+# static configuration
 config :ua_inspector,
   database_path: Path.join(Mix.Utils.mix_home, "ua_inspector")
+
+# system environment configuration
+config :ua_inspector,
+  database_path: { :system, "SOME_SYSTEM_ENV_VARIABLE" }
 ```
 
 The shown path is the default download path used by the mix task.

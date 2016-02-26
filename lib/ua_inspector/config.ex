@@ -8,9 +8,10 @@ defmodule UAInspector.Config do
   """
   @spec database_path :: String.t | nil
   def database_path do
-    case Application.get_env(:ua_inspector, :database_path, nil) do
-      nil  -> nil
-      path -> path |> Path.expand()
+    case Application.get_env(:ua_inspector, :database_path) do
+      nil              -> nil
+      { :system, var } -> var |> System.get_env()
+      path             -> path |> Path.expand()
     end
   end
 end
