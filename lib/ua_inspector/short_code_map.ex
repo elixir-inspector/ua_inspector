@@ -95,6 +95,16 @@ defmodule UAInspector.ShortCodeMap do
   @callback load(path :: String.t) :: :ok
 
   @doc """
+  Returns the local filename for this map.
+  """
+  @callback local() :: String.t
+
+  @doc """
+  Returns the remote path for this map.
+  """
+  @callback remote() :: String.t
+
+  @doc """
   Returns the long representation for a short name.
 
   Unknown names are returned unmodified.
@@ -107,6 +117,11 @@ defmodule UAInspector.ShortCodeMap do
   Unknown names are returned unmodified.
   """
   @callback to_short(String.t) :: String.t
+
+  @doc """
+  Returns a name representation for this map.
+  """
+  @callback var() :: String.t
 
 
   # Internal methods
