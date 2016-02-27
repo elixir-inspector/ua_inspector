@@ -6,6 +6,7 @@ defmodule UAInspector do
   use Application
 
   alias UAInspector.Config
+  alias UAInspector.Database
   alias UAInspector.Databases
   alias UAInspector.ShortCodeMap
   alias UAInspector.ShortCodeMaps
@@ -15,7 +16,12 @@ defmodule UAInspector do
 
     options  = [ strategy: :one_for_one, name: UAInspector.Supervisor ]
     children = [
-      worker(Databases, []),
+      worker(Database.Bots, []),
+      worker(Database.BrowserEngines, []),
+      worker(Database.Clients, []),
+      worker(Database.Devices, []),
+      worker(Database.OSs, []),
+      worker(Database.VendorFragments, []),
 
       worker(ShortCodeMap.DeviceBrands, []),
       worker(ShortCodeMap.OSs, []),

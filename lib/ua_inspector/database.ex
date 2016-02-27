@@ -5,9 +5,18 @@ defmodule UAInspector.Database do
 
   defmacro __using__(opts) do
     quote do
+      use GenServer
+
       @behaviour unquote(__MODULE__)
 
-      def init() do
+
+      # GenServer lifecycle
+
+      def start_link() do
+        GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+      end
+
+      def init(_) do
         ets_opts = [ :ordered_set, :protected, :named_table ]
 
         _ = :ets.new(unquote(opts[:ets_counter]), ets_opts)
@@ -15,13 +24,13 @@ defmodule UAInspector.Database do
 
         _ = :ets.insert(unquote(opts[:ets_counter]), [ index: 0 ])
 
-        :ok
+        { :ok, %{} }
       end
 
-      def list,    do: :ets.tab2list(unquote(opts[:ets_table]))
-      def sources, do: unquote(opts[:sources])
 
-      def load(path) do
+      # GenServer callbacks
+
+      def handle_call({ :load, path }, _from, state) do
         for { type, local, _remote } <- sources do
           database = Path.join(path, local)
 
@@ -32,15 +41,25 @@ defmodule UAInspector.Database do
           end
         end
 
-        :ok
+        { :reply, :ok, state }
       end
 
-      def parse_database([],                  _type), do: :ok
-      def parse_database([ entry | database ], type)  do
+
+      # Public methods
+
+      def load(path), do: GenServer.call(__MODULE__, { :load, path })
+
+      def list,    do: :ets.tab2list(unquote(opts[:ets_table]))
+      def sources, do: unquote(opts[:sources])
+
+
+      # Internal methods
+
+      defp parse_database([],                  _type), do: :ok
+      defp parse_database([ entry | database ], type)  do
         store_entry(entry, type)
         parse_database(database, type)
       end
-
 
       defp increment_counter() do
         :ets.update_counter(unquote(opts[:ets_counter]), :index, 1)
@@ -48,10 +67,15 @@ defmodule UAInspector.Database do
     end
   end
 
+  # GenServer lifecycle
+
   @doc """
-  Initializes (sets up) the database.
+  Starts the short code map server.
   """
-  @callback init() :: atom
+  @callback start_link() :: GenServer.on_start
+
+
+  # Public methods
 
   @doc """
   Returns all database entries as a list.
@@ -64,14 +88,12 @@ defmodule UAInspector.Database do
   @callback load(path :: String.t) :: :ok
 
   @doc """
-  Traverses the database and passes each entry to the storage function.
-  """
-  @callback parse_database(entries :: list, type :: String.t) :: :ok
-
-  @doc """
   Returns the database sources.
   """
   @callback sources() :: list
+
+
+  # Internal methods
 
   @doc """
   Stores a database entry.
@@ -81,6 +103,9 @@ defmodule UAInspector.Database do
   querying the database.
   """
   @callback store_entry(entry :: any, type :: String.t) :: boolean
+
+
+  # Utility methods
 
   @doc """
   Parses a yaml database file and returns the contents.
