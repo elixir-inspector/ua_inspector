@@ -3,8 +3,8 @@
 ## v0.11.0-dev
 
 - Enhancements
-    - Path can be configured by accessing the system environment ([#5](https://github.com/elixytics/ua_inspector/pull/5))
     - HbbTV version can be fetched using `hbbtv?/1`
+    - Path can be configured by accessing the system environment ([#5](https://github.com/elixytics/ua_inspector/pull/5))
 
 ## v0.10.0 (2015-11-10)
 
