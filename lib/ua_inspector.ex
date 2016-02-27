@@ -7,6 +7,7 @@ defmodule UAInspector do
 
   alias UAInspector.Config
   alias UAInspector.Databases
+  alias UAInspector.ShortCodeMap
   alias UAInspector.ShortCodeMaps
 
   def start(_type, _args) do
@@ -15,7 +16,10 @@ defmodule UAInspector do
     options  = [ strategy: :one_for_one, name: UAInspector.Supervisor ]
     children = [
       worker(Databases, []),
-      worker(ShortCodeMaps, []),
+
+      worker(ShortCodeMap.DeviceBrands, []),
+      worker(ShortCodeMap.OSs, []),
+
       UAInspector.Pool.child_spec
     ]
 

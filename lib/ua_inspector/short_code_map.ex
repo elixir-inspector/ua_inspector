@@ -5,18 +5,30 @@ defmodule UAInspector.ShortCodeMap do
 
   defmacro __using__(opts) do
     quote do
+      use GenServer
+
       @behaviour unquote(__MODULE__)
 
-      def init() do
-        :ets.new(unquote(opts[:ets_table]), [ :set, :protected, :named_table ])
+
+      # GenServer lifecycle
+
+      def start_link() do
+        GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
       end
 
-      def list,   do: :ets.tab2list(unquote(opts[:ets_table]))
-      def local,  do: unquote(opts[:file_local])
-      def remote, do: unquote(opts[:file_remote])
-      def var,    do: unquote(opts[:file_var])
+      def init(_) do
+        ets_table = unquote(opts[:ets_table])
+        ets_opts  = [ :set, :protected, :named_table ]
 
-      def load(path) do
+        _ = :ets.new(ets_table, ets_opts)
+
+        { :ok, %{} }
+      end
+
+
+      # GenServer callbacks
+
+      def handle_call({ :load, path }, _from, state) do
         map = Path.join(path, local)
 
         if File.regular?(map) do
@@ -25,14 +37,18 @@ defmodule UAInspector.ShortCodeMap do
           |> parse_map()
         end
 
-        :ok
+        { :reply, :ok, state }
       end
 
-      def parse_map([]),              do: :ok
-      def parse_map([ entry | map ])  do
-        store_entry(entry)
-        parse_map(map)
-      end
+
+      # Public methods
+
+      def load(path), do: GenServer.call(__MODULE__, { :load, path })
+
+      def list,   do: :ets.tab2list(unquote(opts[:ets_table]))
+      def local,  do: unquote(opts[:file_local])
+      def remote, do: unquote(opts[:file_remote])
+      def var,    do: unquote(opts[:file_var])
 
       def to_long(short) do
         list
@@ -45,13 +61,28 @@ defmodule UAInspector.ShortCodeMap do
         |> Enum.find({ long, long }, fn ({ _, l }) -> long == l end)
         |> elem(0)
       end
+
+
+      # Internal methods
+
+      defp parse_map([]),              do: :ok
+      defp parse_map([ entry | map ])  do
+        store_entry(entry)
+        parse_map(map)
+      end
     end
   end
 
+
+  # GenServer lifecycle
+
   @doc """
-  Initializes (sets up) the short code map.
+  Starts the short code map server.
   """
-  @callback init() :: atom | :ets.tid
+  @callback start_link() :: GenServer.on_start
+
+
+  # Public methods
 
   @doc """
   Returns all short code map entries as a list.
@@ -62,15 +93,6 @@ defmodule UAInspector.ShortCodeMap do
   Loads a short code map.
   """
   @callback load(path :: String.t) :: :ok
-
-  @doc """
-  Stores a mapping entry.
-
-  If necessary a data conversion is made from the raw data passed
-  directly out of the database file and the actual data needed when
-  querying the database.
-  """
-  @callback store_entry(entry :: any) :: boolean
 
   @doc """
   Returns the long representation for a short name.
@@ -85,6 +107,21 @@ defmodule UAInspector.ShortCodeMap do
   Unknown names are returned unmodified.
   """
   @callback to_short(String.t) :: String.t
+
+
+  # Internal methods
+
+  @doc """
+  Stores a mapping entry.
+
+  If necessary a data conversion is made from the raw data passed
+  directly out of the database file and the actual data needed when
+  querying the database.
+  """
+  @callback store_entry(entry :: any) :: boolean
+
+
+  # Utility methods
 
   @doc """
   Parses a yaml mapping file and returns the contents.
