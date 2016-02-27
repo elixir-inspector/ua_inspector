@@ -7,8 +7,6 @@ defmodule UAInspector.Databases do
 
   alias UAInspector.Database
 
-  @ets_table :ua_inspector_databases
-
 
   # GenServer lifecycle
 
@@ -21,25 +19,12 @@ defmodule UAInspector.Databases do
   end
 
   def init(_) do
-    _tid = :ets.new(@ets_table, [ :set, :protected, :named_table ])
-
     _ = Database.Bots.init()
     _ = Database.BrowserEngines.init()
     _ = Database.Clients.init()
     _ = Database.Devices.init()
     _ = Database.OSs.init()
     _ = Database.VendorFragments.init()
-
-    counters = [
-      bots:             0,
-      browser_engines:  0,
-      clients:          0,
-      devices:          0,
-      oss:              0,
-      vendor_fragments: 0
-    ]
-
-    :ets.insert(@ets_table, counters)
 
     { :ok, [] }
   end
@@ -67,12 +52,4 @@ defmodule UAInspector.Databases do
   @spec load(String.t) :: :ok
   def load(nil),  do: :ok
   def load(path), do: GenServer.call(__MODULE__, { :load, path })
-
-  @doc """
-  Updates the database entry counter.
-
-  Use only within server connection!
-  """
-  @spec update_counter(atom) :: integer
-  def update_counter(counter), do: :ets.update_counter(@ets_table, counter, 1)
 end

@@ -7,14 +7,15 @@ defmodule UAInspector.Database.BrowserEngines do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
 
   use UAInspector.Database, [
-    ets_table: @ets_table,
-    sources:   [{ "", "browser_engines.yml", "#{ @source_base_url }/browser_engine.yml" }]
+    ets_counter: :ua_inspector_database_browser_engines_counter,
+    ets_table:   @ets_table,
+    sources:     [{ "", "browser_engines.yml", "#{ @source_base_url }/browser_engine.yml" }]
   ]
 
   alias UAInspector.Util
 
   def store_entry(data, _type) do
-    counter = UAInspector.Databases.update_counter(:browser_engines)
+    counter = increment_counter()
     data    = Enum.into(data, %{})
 
     entry = %{

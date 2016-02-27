@@ -7,14 +7,15 @@ defmodule UAInspector.Database.OSs do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
 
   use UAInspector.Database, [
-    ets_table: @ets_table,
-    sources:   [{ "", "oss.yml", "#{ @source_base_url }/oss.yml" }]
+    ets_counter: :ua_inspector_database_oss_counter,
+    ets_table:   @ets_table,
+    sources:     [{ "", "oss.yml", "#{ @source_base_url }/oss.yml" }]
   ]
 
   alias UAInspector.Util
 
   def store_entry(data, _type) do
-    counter = UAInspector.Databases.update_counter(:oss)
+    counter = increment_counter()
     data    = Enum.into(data, %{})
 
     entry = %{

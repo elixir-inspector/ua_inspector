@@ -7,8 +7,9 @@ defmodule UAInspector.Database.Clients do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
 
   use UAInspector.Database, [
-    ets_table: @ets_table,
-    sources:   [
+    ets_counter: :ua_inspector_database_clients_counter,
+    ets_table:   @ets_table,
+    sources:     [
       # files ordered according to
       # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
       # to prevent false detections
@@ -24,7 +25,7 @@ defmodule UAInspector.Database.Clients do
   alias UAInspector.Util
 
   def store_entry(data, type) do
-    counter = UAInspector.Databases.update_counter(:clients)
+    counter = increment_counter()
     data    = Enum.into(data, %{})
 
     entry = %{

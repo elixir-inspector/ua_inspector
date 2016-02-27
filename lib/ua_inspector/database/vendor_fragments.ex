@@ -7,14 +7,15 @@ defmodule UAInspector.Database.VendorFragments do
   @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
 
   use UAInspector.Database, [
-    ets_table: @ets_table,
-    sources:   [{ "", "vendorfragments.yml", "#{ @source_base_url }/vendorfragments.yml" }]
+    ets_counter: :ua_inspector_database_vendor_fragments_counter,
+    ets_table:   @ets_table,
+    sources:     [{ "", "vendorfragments.yml", "#{ @source_base_url }/vendorfragments.yml" }]
   ]
 
   alias UAInspector.Util
 
   def store_entry({ brand, regexes }, _type) do
-    counter = UAInspector.Databases.update_counter(:vendor_fragments)
+    counter = increment_counter()
     regexes = regexes |> Enum.map( &Util.build_regex/1 )
 
     entry = %{

@@ -8,10 +8,14 @@ defmodule UAInspector.Database do
       @behaviour unquote(__MODULE__)
 
       def init() do
-        :ets.new(
-          unquote(opts[:ets_table]),
-          [ :ordered_set, :protected, :named_table ]
-        )
+        ets_opts = [ :ordered_set, :protected, :named_table ]
+
+        _ = :ets.new(unquote(opts[:ets_counter]), ets_opts)
+        _ = :ets.new(unquote(opts[:ets_table]), ets_opts)
+
+        _ = :ets.insert(unquote(opts[:ets_counter]), [ index: 0 ])
+
+        :ok
       end
 
       def list,    do: :ets.tab2list(unquote(opts[:ets_table]))
@@ -36,13 +40,18 @@ defmodule UAInspector.Database do
         store_entry(entry, type)
         parse_database(database, type)
       end
+
+
+      defp increment_counter() do
+        :ets.update_counter(unquote(opts[:ets_counter]), :index, 1)
+      end
     end
   end
 
   @doc """
   Initializes (sets up) the database.
   """
-  @callback init() :: atom | :ets.tid
+  @callback init() :: atom
 
   @doc """
   Returns all database entries as a list.
