@@ -7,6 +7,8 @@ defmodule UAInspector.Database do
     quote do
       use GenServer
 
+      alias unquote(__MODULE__).State
+
       @behaviour unquote(__MODULE__)
 
 
@@ -17,18 +19,22 @@ defmodule UAInspector.Database do
       end
 
       def init(_) do
-        ets_opts = [ :ordered_set, :protected, :named_table ]
+        ets_opts = [ :protected, :ordered_set ]
 
-        _ = :ets.new(unquote(opts[:ets_counter]), ets_opts)
-        _ = :ets.new(unquote(opts[:ets_table]), ets_opts)
+        ets_counter = :ets.new(__MODULE__.Counter, ets_opts)
+        ets_tid     = :ets.new(__MODULE__, ets_opts)
 
-        _ = :ets.insert(unquote(opts[:ets_counter]), [ index: 0 ])
+        _ = :ets.insert(ets_counter, [ index: 0 ])
 
-        { :ok, %{} }
+        { :ok, %State{ ets_counter: ets_counter, ets_tid: ets_tid }}
       end
 
 
       # GenServer callbacks
+
+      def handle_call(:ets_tid, _from, state) do
+        { :reply, state.ets_tid, state }
+      end
 
       def handle_call({ :load, path }, _from, state) do
         for { type, local, _remote } <- sources do
@@ -37,7 +43,7 @@ defmodule UAInspector.Database do
           if File.regular?(database) do
             database
             |> unquote(__MODULE__).load_database()
-            |> parse_database(type)
+            |> parse_database(type, state)
           end
         end
 
@@ -47,23 +53,23 @@ defmodule UAInspector.Database do
 
       # Public methods
 
+      def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
+
       def load(path), do: GenServer.call(__MODULE__, { :load, path })
 
-      def list,    do: :ets.tab2list(unquote(opts[:ets_table]))
       def sources, do: unquote(opts[:sources])
 
 
       # Internal methods
 
-      defp parse_database([],                  _type), do: :ok
-      defp parse_database([ entry | database ], type)  do
-        store_entry(entry, type)
-        parse_database(database, type)
-      end
+      defp parse_database([ entry | database ], type, state)  do
+        data  = entry |> to_ets(type)
+        index = :ets.update_counter(state.ets_counter, :index, 1)
+        _     = :ets.insert(state.ets_tid, { index, data })
 
-      defp increment_counter() do
-        :ets.update_counter(unquote(opts[:ets_counter]), :index, 1)
+        parse_database(database, type, state)
       end
+      defp parse_database([], _, _), do: :ok
     end
   end
 
@@ -96,13 +102,13 @@ defmodule UAInspector.Database do
   # Internal methods
 
   @doc """
-  Stores a database entry.
+  Converts a raw entry to its ets representation.
 
   If necessary a data conversion is made from the raw data passed
   directly out of the database file and the actual data needed when
   querying the database.
   """
-  @callback store_entry(entry :: any, type :: String.t) :: boolean
+  @callback to_ets(entry :: any, type :: String.t) :: term
 
 
   # Utility methods
