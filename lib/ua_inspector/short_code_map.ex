@@ -7,6 +7,8 @@ defmodule UAInspector.ShortCodeMap do
     quote do
       use GenServer
 
+      alias unquote(__MODULE__).State
+
       @behaviour unquote(__MODULE__)
 
 
@@ -17,16 +19,17 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       def init(_) do
-        ets_table = unquote(opts[:ets_table])
-        ets_opts  = [ :set, :protected, :named_table ]
+        ets_tid = :ets.new(__MODULE__, [ :protected, :set ])
 
-        _ = :ets.new(ets_table, ets_opts)
-
-        { :ok, %{} }
+        { :ok, %State{ ets_tid: ets_tid }}
       end
 
 
       # GenServer callbacks
+
+      def handle_call(:ets_tid, _from, state) do
+        { :reply, state.ets_tid, state }
+      end
 
       def handle_call({ :load, path }, _from, state) do
         map = Path.join(path, local)
@@ -34,7 +37,7 @@ defmodule UAInspector.ShortCodeMap do
         if File.regular?(map) do
           map
           |> unquote(__MODULE__).load_map()
-          |> parse_map()
+          |> parse_map(state)
         end
 
         { :reply, :ok, state }
@@ -43,9 +46,10 @@ defmodule UAInspector.ShortCodeMap do
 
       # Public methods
 
+      def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
+
       def load(path), do: GenServer.call(__MODULE__, { :load, path })
 
-      def list,   do: :ets.tab2list(unquote(opts[:ets_table]))
       def local,  do: unquote(opts[:file_local])
       def remote, do: unquote(opts[:file_remote])
       def var,    do: unquote(opts[:file_var])
@@ -65,11 +69,13 @@ defmodule UAInspector.ShortCodeMap do
 
       # Internal methods
 
-      defp parse_map([]),              do: :ok
-      defp parse_map([ entry | map ])  do
-        store_entry(entry)
-        parse_map(map)
+      defp parse_map([ entry | map ], state)  do
+        data = entry |> to_ets()
+        _    = :ets.insert(state.ets_tid, data)
+
+        parse_map(map, state)
       end
+      defp parse_map([], _), do: :ok
     end
   end
 
@@ -127,13 +133,13 @@ defmodule UAInspector.ShortCodeMap do
   # Internal methods
 
   @doc """
-  Stores a mapping entry.
+  Converts a raw entry to its ets representation.
 
   If necessary a data conversion is made from the raw data passed
   directly out of the database file and the actual data needed when
   querying the database.
   """
-  @callback store_entry(entry :: any) :: boolean
+  @callback to_ets(entry :: any) :: term
 
 
   # Utility methods
