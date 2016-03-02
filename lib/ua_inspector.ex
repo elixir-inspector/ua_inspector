@@ -14,17 +14,10 @@ defmodule UAInspector do
 
     options  = [ strategy: :one_for_one, name: UAInspector.Supervisor ]
     children = [
-      worker(Database.Bots, []),
-      worker(Database.BrowserEngines, []),
-      worker(Database.Clients, []),
-      worker(Database.Devices, []),
-      worker(Database.OSs, []),
-      worker(Database.VendorFragments, []),
+      UAInspector.Pool.child_spec,
 
-      worker(ShortCodeMap.DeviceBrands, []),
-      worker(ShortCodeMap.OSs, []),
-
-      UAInspector.Pool.child_spec
+      supervisor(Database.Supervisor, []),
+      supervisor(ShortCodeMap.Supervisor, [])
     ]
 
     { :ok, sup } = Supervisor.start_link(children, options)
