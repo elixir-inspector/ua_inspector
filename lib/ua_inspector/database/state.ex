@@ -4,12 +4,12 @@ defmodule UAInspector.Database.State do
   """
 
   defstruct [
-    ets_counter: nil,
-    ets_tid:     nil
+    ets_index: 0,
+    ets_tid:   nil
   ]
 
   @opaque t :: %__MODULE__{
-    ets_counter: :ets.tid,
-    ets_tid:     :ets.tid
+    ets_index: non_neg_integer,
+    ets_tid:   :ets.tid
   }
 end

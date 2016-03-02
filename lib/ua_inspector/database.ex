@@ -19,14 +19,9 @@ defmodule UAInspector.Database do
       end
 
       def init(_) do
-        ets_opts = [ :protected, :ordered_set ]
+        ets_tid = :ets.new(__MODULE__, [ :protected, :ordered_set ])
 
-        ets_counter = :ets.new(__MODULE__.Counter, ets_opts)
-        ets_tid     = :ets.new(__MODULE__, ets_opts)
-
-        _ = :ets.insert(ets_counter, [ index: 0 ])
-
-        { :ok, %State{ ets_counter: ets_counter, ets_tid: ets_tid }}
+        { :ok, %State{ ets_tid: ets_tid }}
       end
 
 
@@ -37,15 +32,7 @@ defmodule UAInspector.Database do
       end
 
       def handle_call({ :load, path }, _from, state) do
-        for { type, local, _remote } <- sources do
-          database = Path.join(path, local)
-
-          if File.regular?(database) do
-            database
-            |> unquote(__MODULE__).load_database()
-            |> parse_database(type, state)
-          end
-        end
+        state = load_sources(sources, path, state)
 
         { :reply, :ok, state }
       end
@@ -62,14 +49,28 @@ defmodule UAInspector.Database do
 
       # Internal methods
 
+      defp load_sources([{ type, local, _remote } | sources ], path, state) do
+        database = Path.join(path, local)
+
+        if File.regular?(database) do
+          state =
+               database
+            |> unquote(__MODULE__).load_database()
+            |> parse_database(type, state)
+        end
+
+        load_sources(sources, path, state)
+      end
+      defp load_sources([], _, state), do: state
+
       defp parse_database([ entry | database ], type, state)  do
         data  = entry |> to_ets(type)
-        index = :ets.update_counter(state.ets_counter, :index, 1)
+        index = state.ets_index + 1
         _     = :ets.insert(state.ets_tid, { index, data })
 
-        parse_database(database, type, state)
+        parse_database(database, type, %{ state | ets_index: index })
       end
-      defp parse_database([], _, _), do: :ok
+      defp parse_database([], _, state), do: state
     end
   end
 
