@@ -5,10 +5,6 @@ defmodule UAInspector do
 
   use Application
 
-  alias UAInspector.Config
-  alias UAInspector.Database
-  alias UAInspector.ShortCodeMap
-
   def start(_type, _args) do
     import Supervisor.Spec
 
@@ -16,15 +12,11 @@ defmodule UAInspector do
     children = [
       UAInspector.Pool.child_spec,
 
-      supervisor(Database.Supervisor, []),
-      supervisor(ShortCodeMap.Supervisor, [])
+      supervisor(UAInspector.Database.Supervisor, []),
+      supervisor(UAInspector.ShortCodeMap.Supervisor, [])
     ]
 
-    { :ok, sup } = Supervisor.start_link(children, options)
-    :ok          = load_databases()
-    :ok          = load_short_code_maps()
-
-    { :ok, sup }
+    Supervisor.start_link(children, options)
   end
 
 
@@ -51,25 +43,4 @@ defmodule UAInspector do
   """
   @spec parse_client(String.t) :: map
   defdelegate parse_client(ua), to: UAInspector.Pool
-
-
-  defp load_databases() do
-    path = Config.database_path
-
-    :ok = Database.Bots.load(path)
-    :ok = Database.BrowserEngines.load(path)
-    :ok = Database.Clients.load(path)
-    :ok = Database.Devices.load(path)
-    :ok = Database.OSs.load(path)
-    :ok = Database.VendorFragments.load(path)
-    :ok
-  end
-
-  defp load_short_code_maps() do
-    path = Config.database_path
-
-    :ok = ShortCodeMap.DeviceBrands.load(path)
-    :ok = ShortCodeMap.OSs.load(path)
-    :ok
-  end
 end

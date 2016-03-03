@@ -7,6 +7,8 @@ defmodule UAInspector.ShortCodeMap do
     quote do
       use GenServer
 
+      alias UAInspector.Config
+
       alias unquote(__MODULE__).State
 
       @behaviour unquote(__MODULE__)
@@ -20,8 +22,10 @@ defmodule UAInspector.ShortCodeMap do
 
       def init(_) do
         ets_tid = :ets.new(__MODULE__, [ :protected, :set ])
+        state   = %State{ ets_tid: ets_tid }
+        state   = load_map(state)
 
-        { :ok, %State{ ets_tid: ets_tid }}
+        { :ok, state }
       end
 
 
@@ -31,24 +35,10 @@ defmodule UAInspector.ShortCodeMap do
         { :reply, state.ets_tid, state }
       end
 
-      def handle_call({ :load, path }, _from, state) do
-        map = Path.join(path, local)
-
-        if File.regular?(map) do
-          map
-          |> unquote(__MODULE__).load_map()
-          |> parse_map(state)
-        end
-
-        { :reply, :ok, state }
-      end
-
 
       # Public methods
 
       def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
-
-      def load(path), do: GenServer.call(__MODULE__, { :load, path })
 
       def local,  do: unquote(opts[:file_local])
       def remote, do: unquote(opts[:file_remote])
@@ -69,13 +59,25 @@ defmodule UAInspector.ShortCodeMap do
 
       # Internal methods
 
+      defp load_map(state) do
+        map = Config.database_path |> Path.join(local)
+
+        case File.regular?(map) do
+          false -> state
+          true  ->
+            map
+            |> unquote(__MODULE__).read_map()
+            |> parse_map(state)
+        end
+      end
+
       defp parse_map([ entry | map ], state)  do
         data = entry |> to_ets()
         _    = :ets.insert(state.ets_tid, data)
 
         parse_map(map, state)
       end
-      defp parse_map([], _), do: :ok
+      defp parse_map([], state), do: state
     end
   end
 
@@ -94,11 +96,6 @@ defmodule UAInspector.ShortCodeMap do
   Returns all short code map entries as a list.
   """
   @callback list() :: list
-
-  @doc """
-  Loads a short code map.
-  """
-  @callback load(path :: String.t) :: :ok
 
   @doc """
   Returns the local filename for this map.
@@ -145,10 +142,10 @@ defmodule UAInspector.ShortCodeMap do
   # Utility methods
 
   @doc """
-  Parses a yaml mapping file and returns the contents.
+  Reads a yaml mapping file and returns the contents.
   """
-  @spec load_map(String.t) :: any
-  def load_map(file) do
+  @spec read_map(String.t) :: any
+  def read_map(file) do
     file
     |> to_char_list()
     |> :yamerl_constr.file([ :str_node_as_binary ])

@@ -3,8 +3,10 @@
 ## v0.11.0-dev
 
 - Enhancements
+    - Databases are reloaded if a storage process gets restarted.
     - HbbTV version can be fetched using `hbbtv?/1`
     - Path can be configured by accessing the system environment ([#5](https://github.com/elixytics/ua_inspector/pull/5))
+    - Short code mappings are reloaded if a storage process gets restarted.
 
 ## v0.10.0 (2015-11-10)
 

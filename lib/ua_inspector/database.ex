@@ -7,6 +7,8 @@ defmodule UAInspector.Database do
     quote do
       use GenServer
 
+      alias UAInspector.Config
+
       alias unquote(__MODULE__).State
 
       @behaviour unquote(__MODULE__)
@@ -20,8 +22,10 @@ defmodule UAInspector.Database do
 
       def init(_) do
         ets_tid = :ets.new(__MODULE__, [ :protected, :ordered_set ])
+        state   = %State{ ets_tid: ets_tid }
+        state   = load_sources(sources, Config.database_path, state)
 
-        { :ok, %State{ ets_tid: ets_tid }}
+        { :ok, state }
       end
 
 
@@ -31,18 +35,10 @@ defmodule UAInspector.Database do
         { :reply, state.ets_tid, state }
       end
 
-      def handle_call({ :load, path }, _from, state) do
-        state = load_sources(sources, path, state)
-
-        { :reply, :ok, state }
-      end
-
 
       # Public methods
 
       def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
-
-      def load(path), do: GenServer.call(__MODULE__, { :load, path })
 
       def sources, do: unquote(opts[:sources])
 
@@ -55,7 +51,7 @@ defmodule UAInspector.Database do
         if File.regular?(database) do
           state =
                database
-            |> unquote(__MODULE__).load_database()
+            |> unquote(__MODULE__).read_database()
             |> parse_database(type, state)
         end
 
@@ -90,11 +86,6 @@ defmodule UAInspector.Database do
   @callback list() :: list
 
   @doc """
-  Loads a database file.
-  """
-  @callback load(path :: String.t) :: :ok
-
-  @doc """
   Returns the database sources.
   """
   @callback sources() :: list
@@ -115,10 +106,10 @@ defmodule UAInspector.Database do
   # Utility methods
 
   @doc """
-  Parses a yaml database file and returns the contents.
+  Reads a yaml database file and returns the contents.
   """
-  @spec load_database(String.t) :: any
-  def load_database(file) do
+  @spec read_database(String.t) :: any
+  def read_database(file) do
     file
     |> to_char_list()
     |> :yamerl_constr.file([ :str_node_as_binary ])
