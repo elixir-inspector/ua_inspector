@@ -8,6 +8,7 @@ defmodule UAInspector.Database do
       use GenServer
 
       alias UAInspector.Config
+      alias UAInspector.Util.YAML
 
       alias unquote(__MODULE__).State
 
@@ -51,7 +52,7 @@ defmodule UAInspector.Database do
         if File.regular?(database) do
           state =
                database
-            |> unquote(__MODULE__).read_database()
+            |> YAML.read_file()
             |> parse_database(type, state)
         end
 
@@ -101,18 +102,4 @@ defmodule UAInspector.Database do
   querying the database.
   """
   @callback to_ets(entry :: any, type :: String.t) :: term
-
-
-  # Utility methods
-
-  @doc """
-  Reads a yaml database file and returns the contents.
-  """
-  @spec read_database(String.t) :: any
-  def read_database(file) do
-    file
-    |> to_char_list()
-    |> :yamerl_constr.file([ :str_node_as_binary ])
-    |> hd()
-  end
 end

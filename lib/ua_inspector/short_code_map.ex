@@ -8,6 +8,7 @@ defmodule UAInspector.ShortCodeMap do
       use GenServer
 
       alias UAInspector.Config
+      alias UAInspector.Util.YAML
 
       alias unquote(__MODULE__).State
 
@@ -66,7 +67,7 @@ defmodule UAInspector.ShortCodeMap do
           false -> state
           true  ->
             map
-            |> unquote(__MODULE__).read_map()
+            |> YAML.read_file()
             |> parse_map(state)
         end
       end
@@ -137,18 +138,4 @@ defmodule UAInspector.ShortCodeMap do
   querying the database.
   """
   @callback to_ets(entry :: any) :: term
-
-
-  # Utility methods
-
-  @doc """
-  Reads a yaml mapping file and returns the contents.
-  """
-  @spec read_map(String.t) :: any
-  def read_map(file) do
-    file
-    |> to_char_list()
-    |> :yamerl_constr.file([ :str_node_as_binary ])
-    |> hd()
-  end
 end
