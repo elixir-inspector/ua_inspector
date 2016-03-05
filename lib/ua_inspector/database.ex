@@ -22,9 +22,11 @@ defmodule UAInspector.Database do
       end
 
       def init(_) do
-        ets_tid = :ets.new(__MODULE__, [ :protected, :ordered_set ])
-        state   = %State{ ets_tid: ets_tid }
-        state   = load_sources(sources, Config.database_path, state)
+        ets_opts = [ :protected, :ordered_set, read_concurrency: true ]
+        ets_tid  = :ets.new(__MODULE__, ets_opts)
+
+        state = %State{ ets_tid: ets_tid }
+        state = load_sources(sources, Config.database_path, state)
 
         { :ok, state }
       end

@@ -22,9 +22,11 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       def init(_) do
-        ets_tid = :ets.new(__MODULE__, [ :protected, :set ])
-        state   = %State{ ets_tid: ets_tid }
-        state   = load_map(state)
+        ets_opts = [ :protected, :set, read_concurrency: true ]
+        ets_tid  = :ets.new(__MODULE__, ets_opts)
+
+        state = %State{ ets_tid: ets_tid }
+        state = load_map(state)
 
         { :ok, state }
       end
