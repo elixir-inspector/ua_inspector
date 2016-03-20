@@ -5,6 +5,10 @@ defmodule Mix.UAInspector.Download do
 
   alias UAInspector.Config
 
+  @readme_path       Path.join(__DIR__, "../files/README.md") |> Path.expand()
+  @readme_content    @readme_path |> File.read!
+  @external_resource @readme_path
+
   @doc """
   Prints an error because of missing configuration values.
   """
@@ -47,10 +51,9 @@ defmodule Mix.UAInspector.Download do
   # internal methods
 
   defp document_database_path() do
-    readme_src = Path.join(__DIR__, "../files/README.md")
     readme_tgt = Path.join(Config.database_path, "README.md")
 
-    File.copy! readme_src, readme_tgt
+    File.write! readme_tgt, @readme_content
 
     :ok
   end
