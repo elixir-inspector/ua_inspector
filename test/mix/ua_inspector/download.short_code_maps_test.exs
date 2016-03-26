@@ -40,6 +40,7 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
       Application.put_env(:ua_inspector, :database_path, orig_path)
 
       maps = [
+        UAInspector.ShortCodeMap.ClientBrowsers,
         UAInspector.ShortCodeMap.DeviceBrands,
         UAInspector.ShortCodeMap.MobileBrowsers,
         UAInspector.ShortCodeMap.OSs

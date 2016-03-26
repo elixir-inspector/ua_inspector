@@ -20,6 +20,7 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
   @behaviour Mix.Task
 
   @maps [
+    ShortCodeMap.ClientBrowsers,
     ShortCodeMap.DeviceBrands,
     ShortCodeMap.MobileBrowsers,
     ShortCodeMap.OSs
