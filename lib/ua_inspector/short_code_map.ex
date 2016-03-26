@@ -46,6 +46,7 @@ defmodule UAInspector.ShortCodeMap do
       def file_local,  do: unquote(opts[:file_local])
       def file_remote, do: unquote(opts[:file_remote])
       def var_name,    do: unquote(opts[:var_name])
+      def var_type,    do: unquote(opts[:var_type])
 
       def to_long(short) do
         list
@@ -128,6 +129,11 @@ defmodule UAInspector.ShortCodeMap do
   Returns a name representation for this map.
   """
   @callback var_name() :: String.t
+
+  @doc """
+  Returns a type representation for this map.
+  """
+  @callback var_type() :: :hash
 
 
   # Internal methods

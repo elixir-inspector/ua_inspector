@@ -8,7 +8,8 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
   use UAInspector.ShortCodeMap, [
     file_local:  "short_codes.device_brands.yml",
     file_remote: "#{ @remote_base }/Parser/Device/DeviceParserAbstract.php",
-    var_name:    "deviceBrands"
+    var_name:    "deviceBrands",
+    var_type:    :hash
   ]
 
   def to_ets([{ short, long }]), do: { short, long }

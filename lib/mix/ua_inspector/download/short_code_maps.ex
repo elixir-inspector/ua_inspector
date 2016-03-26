@@ -58,7 +58,7 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
 
     :ok =
          map.var_name
-      |> Util.extract(temp)
+      |> Util.extract(map.var_type, temp)
       |> Util.write_yaml(yaml)
 
     File.rm! temp

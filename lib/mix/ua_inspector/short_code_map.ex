@@ -8,8 +8,8 @@ defmodule Mix.UAInspector.ShortCodeMap do
 
   Returns the complete list of all mapping tuples.
   """
-  @spec extract(String.t, String.t) :: list
-  def extract(var, file) do
+  @spec extract(String.t, :hash, String.t) :: list
+  def extract(var, :hash, file) do
     re_opts = [ :dotall, { :newline, :anycrlf }, :multiline, :ungreedy ]
     source  = File.read! file
 
