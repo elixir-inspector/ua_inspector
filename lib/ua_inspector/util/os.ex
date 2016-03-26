@@ -48,8 +48,8 @@ defmodule UAInspector.Util.OS do
   @doc """
   Checks whether an operating system is treated as "desktop only".
   """
-  @spec desktop_only?(name :: String.t) :: boolean
-  def desktop_only?(name) do
+  @spec desktop_only?(os :: map | :unknown) :: boolean
+  def desktop_only?(%{ name: name }) do
     short_code = name |> ShortCodeMap.OSs.to_short()
 
     case family(short_code) do
@@ -57,6 +57,8 @@ defmodule UAInspector.Util.OS do
       family -> Enum.any?(@desktopFamilies, &( &1 == family ))
     end
   end
+
+  def desktop_only?(_), do: false
 
   @doc """
   Returns the OS family for an OS short code.
