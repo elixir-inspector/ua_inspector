@@ -45,7 +45,7 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
       ]
 
       for map <- maps do
-        [ test_path, map.local ]
+        [ test_path, map.file_local ]
         |> Path.join()
         |> File.exists?
         |> assert

@@ -8,7 +8,7 @@ defmodule UAInspector.ShortCodeMap.OSs do
   use UAInspector.ShortCodeMap, [
     file_local:  "short_codes.oss.yml",
     file_remote: "#{ @remote_base }/Parser/OperatingSystem.php",
-    file_var:    "operatingSystems",
+    var_name:    "operatingSystems",
   ]
 
   def to_ets([{ short, long }]), do: { short, long }

@@ -49,15 +49,15 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
 
   defp download([]),            do: :ok
   defp download([ map | maps ]) do
-    Mix.shell.info ".. downloading: #{ map.local }"
+    Mix.shell.info ".. downloading: #{ map.file_local }"
 
-    yaml = Path.join([ Config.database_path, map.local ])
+    yaml = Path.join([ Config.database_path, map.file_local ])
     temp = "#{ yaml }.tmp"
 
-    download_database(map.remote, temp)
+    download_database(map.file_remote, temp)
 
     :ok =
-         map.var
+         map.var_name
       |> Util.extract(temp)
       |> Util.write_yaml(yaml)
 

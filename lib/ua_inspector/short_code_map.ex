@@ -43,9 +43,9 @@ defmodule UAInspector.ShortCodeMap do
 
       def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
 
-      def local,  do: unquote(opts[:file_local])
-      def remote, do: unquote(opts[:file_remote])
-      def var,    do: unquote(opts[:file_var])
+      def file_local,  do: unquote(opts[:file_local])
+      def file_remote, do: unquote(opts[:file_remote])
+      def var_name,    do: unquote(opts[:var_name])
 
       def to_long(short) do
         list
@@ -63,7 +63,7 @@ defmodule UAInspector.ShortCodeMap do
       # Internal methods
 
       defp load_map(state) do
-        map = Config.database_path |> Path.join(local)
+        map = Config.database_path |> Path.join(file_local)
 
         case File.regular?(map) do
           false -> state
@@ -96,19 +96,19 @@ defmodule UAInspector.ShortCodeMap do
   # Public methods
 
   @doc """
-  Returns all short code map entries as a list.
-  """
-  @callback list() :: list
-
-  @doc """
   Returns the local filename for this map.
   """
-  @callback local() :: String.t
+  @callback file_local() :: String.t
 
   @doc """
   Returns the remote path for this map.
   """
-  @callback remote() :: String.t
+  @callback file_remote() :: String.t
+
+  @doc """
+  Returns all short code map entries as a list.
+  """
+  @callback list() :: list
 
   @doc """
   Returns the long representation for a short name.
@@ -127,7 +127,7 @@ defmodule UAInspector.ShortCodeMap do
   @doc """
   Returns a name representation for this map.
   """
-  @callback var() :: String.t
+  @callback var_name() :: String.t
 
 
   # Internal methods
