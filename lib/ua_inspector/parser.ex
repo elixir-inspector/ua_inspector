@@ -82,7 +82,10 @@ defmodule UAInspector.Parser do
 
 
   defp maybe_detect_desktop(%{ device: %{ type: :unknown }} = result) do
-    case Util.OS.desktop_only?(result.os) do
+    desktop_only = Util.OS.desktop_only?(result.os)
+    mobile_only  = Util.Client.mobile_only?(result.client)
+
+    case desktop_only && !mobile_only do
       true  -> %{ result | device: %{ result.device | type: "desktop" }}
       false -> result
     end
