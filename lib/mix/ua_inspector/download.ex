@@ -23,10 +23,11 @@ defmodule Mix.UAInspector.Download do
   """
   @spec prepare_database_path() :: :ok
   def prepare_database_path() do
-    case File.dir?(Config.database_path) do
-      true  -> document_database_path()
-      false -> setup_database_path()
+    unless File.dir?(Config.database_path) do
+      setup_database_path()
     end
+
+    document_database_path()
   end
 
   @doc """
@@ -60,7 +61,5 @@ defmodule Mix.UAInspector.Download do
 
   defp setup_database_path() do
     Config.database_path |> File.mkdir_p!
-
-    document_database_path()
   end
 end
