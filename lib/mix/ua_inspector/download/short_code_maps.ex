@@ -19,6 +19,12 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
 
   @behaviour Mix.Task
 
+  @maps [
+    ShortCodeMap.DeviceBrands,
+    ShortCodeMap.MobileBrowsers,
+    ShortCodeMap.OSs
+  ]
+
   def run(args) do
     Mix.shell.info "UAInspector Short Code Map Download"
 
@@ -38,9 +44,7 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
 
   defp run_confirmed(true) do
     :ok = Download.prepare_database_path()
-    :ok =
-         [ ShortCodeMap.DeviceBrands, ShortCodeMap.OSs ]
-      |> download()
+    :ok = @maps |> download()
 
     Mix.shell.info "Download complete!"
 
@@ -59,7 +63,7 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
     :ok =
          map.var_name
       |> Util.extract(map.var_type, temp)
-      |> Util.write_yaml(yaml)
+      |> Util.write_yaml(map.var_type, yaml)
 
     File.rm! temp
 

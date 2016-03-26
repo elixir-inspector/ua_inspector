@@ -41,6 +41,7 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
 
       maps = [
         UAInspector.ShortCodeMap.DeviceBrands,
+        UAInspector.ShortCodeMap.MobileBrowsers,
         UAInspector.ShortCodeMap.OSs
       ]
 

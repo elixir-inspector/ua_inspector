@@ -8,8 +8,8 @@ defmodule Mix.UAInspector.ShortCodeMap do
 
   Returns the complete list of all mapping tuples.
   """
-  @spec extract(String.t, :hash, String.t) :: list
-  def extract(var, :hash, file) do
+  @spec extract(String.t, :hash | :list, String.t) :: list
+  def extract(var, type, file) do
     re_opts = [ :dotall, { :newline, :anycrlf }, :multiline, :ungreedy ]
     source  = File.read! file
 
@@ -17,14 +17,14 @@ defmodule Mix.UAInspector.ShortCodeMap do
     |> Regex.compile!(re_opts)
     |> Regex.named_captures(source)
     |> Map.get("map", "")
-    |> parse_source()
+    |> parse_source(type)
   end
 
   @doc """
   Writes yaml file for a list of short code mappings.
   """
-  @spec write_yaml(list, String.t) :: :ok
-  def write_yaml(map, file) do
+  @spec write_yaml(list, :hash | :list, String.t) :: :ok
+  def write_yaml(map, :hash, file) do
     { :ok, _ } = file |> File.open([ :write ], fn (outfile) ->
       for { short, long } <- map do
         outfile |> IO.write("- \"#{ short }\": \"#{ long }\"\n")
@@ -34,20 +34,45 @@ defmodule Mix.UAInspector.ShortCodeMap do
     :ok
   end
 
+  def write_yaml(map, :list, file) do
+    { :ok, _ } = file |> File.open([ :write ], fn (outfile) ->
+      for item <- map do
+        outfile |> IO.write("- \"#{ item }\"\n")
+      end
+    end)
 
-  defp mapping_to_tuple([ _, short, long ]), do: { short, long }
+    :ok
+  end
 
-  defp parse_mapping(mapping) do
+
+  defp mapping_to_entry([ _, item ]),        do: item
+  defp mapping_to_entry([ _, short, long ]), do: { short, long }
+
+  defp parse_mapping(mapping, :hash) do
     "'(.+)' => '(.+)'"
     |> Regex.compile!()
     |> Regex.run(mapping)
-    |> mapping_to_tuple()
+    |> mapping_to_entry()
   end
 
-  defp parse_source(source) do
+  defp parse_mapping(mapping, :list) do
+    "'(.+)'"
+    |> Regex.compile!([ :ungreedy ])
+    |> Regex.run(mapping)
+    |> mapping_to_entry()
+  end
+
+  defp parse_source(source, :hash) do
     source
     |> String.strip()
     |> String.split("\n")
-    |> Enum.map( &parse_mapping/1 )
+    |> Enum.map( &parse_mapping(&1, :hash) )
+  end
+
+  defp parse_source(source, :list) do
+    source
+    |> String.strip()
+    |> String.split(",")
+    |> Enum.map( &parse_mapping(&1, :list) )
   end
 end

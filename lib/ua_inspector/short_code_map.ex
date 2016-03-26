@@ -133,7 +133,7 @@ defmodule UAInspector.ShortCodeMap do
   @doc """
   Returns a type representation for this map.
   """
-  @callback var_type() :: :hash
+  @callback var_type() :: :hash | :list
 
 
   # Internal methods
