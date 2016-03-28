@@ -35,11 +35,11 @@ defmodule UAInspector.Mixfile do
   end
 
   defp deps do
-    [ { :earmark, "~> 0.1",  only: :docs },
+    [ { :earmark, "~> 0.2",  only: :docs },
       { :ex_doc,  "~> 0.11", only: :docs },
 
       { :dialyze,     "~> 0.2", only: :test },
-      { :excoveralls, "~> 0.4", only: :test },
+      { :excoveralls, "~> 0.5", only: :test },
 
       { :poolboy, "~> 1.0" },
       { :yamerl,  github: "yakaz/yamerl" } ]
