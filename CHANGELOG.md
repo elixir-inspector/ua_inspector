@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.11.0-dev
+## v0.11.0 (2016-03-28)
 
 - Enhancements
     - Databases are reloaded if a storage process gets restarted
