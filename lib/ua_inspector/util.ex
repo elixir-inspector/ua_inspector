@@ -19,8 +19,9 @@ defmodule UAInspector.Util do
   Replaces an empty string with `:unknown`.
   """
   @spec maybe_unknown(data :: String.t) :: :unknown | String.t
-  def maybe_unknown(""),   do: :unknown
-  def maybe_unknown(data), do: data
+  def maybe_unknown("Unknown"), do: :unknown
+  def maybe_unknown(""),        do: :unknown
+  def maybe_unknown(data),      do: data
 
   @doc """
   Sanitizes a model string.
