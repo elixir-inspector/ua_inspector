@@ -45,6 +45,7 @@ defmodule Mix.UAInspector.ShortCodeMap do
   end
 
 
+  defp mapping_to_entry(nil),                do: nil
   defp mapping_to_entry([ _, item ]),        do: item
   defp mapping_to_entry([ _, short, long ]), do: { short, long }
 
