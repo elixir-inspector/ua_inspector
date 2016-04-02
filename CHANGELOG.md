@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.11.1 (2016-04-02)
+
+- Bug fixes
+    - Properly handles short code map files after upstream changes
+
 ## v0.11.0 (2016-03-28)
 
 - Enhancements
