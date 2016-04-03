@@ -1,7 +1,6 @@
 defmodule UAInspector.Mixfile do
   use Mix.Project
 
-  @url_docs "http://hexdocs.pm/ua_inspector"
   @url_github "https://github.com/elixytics/ua_inspector"
 
   def project do
@@ -55,7 +54,7 @@ defmodule UAInspector.Mixfile do
   defp package do
     %{ files:       [ "CHANGELOG.md", "LICENSE", "mix.exs", "README.md", "lib" ],
        licenses:    [ "Apache 2.0" ],
-       links:       %{ "Docs" => @url_docs, "GitHub" => @url_github },
+       links:       %{ "GitHub" => @url_github },
        maintainers: [ "Marc Neudert" ] }
   end
 end
