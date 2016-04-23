@@ -8,7 +8,7 @@ defmodule UAInspector.Result do
   defstruct [
     user_agent: "",
     client:     :unknown,
-    device:     %Result.Device{},
+    device:     :unknown,
     os:         :unknown
   ]
 end
