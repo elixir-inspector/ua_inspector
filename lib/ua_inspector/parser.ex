@@ -68,6 +68,7 @@ defmodule UAInspector.Parser do
     |> maybe_fix_opera_tv_store()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
+    |> maybe_unknown_device()
   end
 
 
@@ -218,4 +219,13 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_windows(result), do: result
+
+
+  defp maybe_unknown_device(%{ device: %{ type:  :unknown,
+                                          brand: :unknown,
+                                          model: :unknown }} = result) do
+    %{ result | device: :unknown }
+  end
+
+  defp maybe_unknown_device(result), do: result
 end

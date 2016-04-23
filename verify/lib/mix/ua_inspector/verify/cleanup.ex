@@ -25,6 +25,7 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> cleanup_os_version()
     |> remove_client_short_name()
     |> remove_os_short_name()
+    |> remove_unknown_device()
     |> unshorten_device_brand()
   end
 
@@ -126,6 +127,15 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     %{ testcase | os: Map.delete(testcase.os, :short_name) }
   end
   defp remove_os_short_name(testcase), do: testcase
+
+
+  defp remove_unknown_device(%{ device: %{ type:  :unknown,
+                                           brand: :unknown,
+                                           model: :unknown }} = result) do
+    %{ result | device: :unknown }
+  end
+
+  defp remove_unknown_device(result), do: result
 
 
   def unshorten_device_brand(%{ device: %{ brand: brand }} = testcase) do

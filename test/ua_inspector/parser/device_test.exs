@@ -124,7 +124,7 @@ defmodule UAInspector.Parser.DeviceTest do
     agent  = "Mozilla/5.0 (Linux; Android 4.4; CT1000 Build/KRT16S) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36"
     parsed = UAInspector.parse(agent)
 
-    assert :unknown == parsed.device.type
+    assert :unknown == parsed.device
   end
 
 
