@@ -11,6 +11,10 @@ defmodule UAInspector.Util.YAML do
     path
     |> to_char_list()
     |> :yamerl_constr.file([ :str_node_as_binary ])
-    |> hd()
+    |> maybe_hd()
   end
+
+
+  defp maybe_hd([]),   do: []
+  defp maybe_hd(data), do: hd(data)
 end
