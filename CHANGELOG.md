@@ -2,9 +2,9 @@
 
 ## v0.12.0-dev
 
-- Backwarsd incompatible changes
-    - Completely unkonwn devices now yield `:unknown` instead of
-      a struct with all values set to `:unkonwn`
+- Backwards incompatible changes
+    - Completely unknown devices now yield `:unknown` instead of
+      a struct with all values set to `:unknown`
 
 ## v0.11.1 (2016-04-02)
 

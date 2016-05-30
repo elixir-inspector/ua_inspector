@@ -8,7 +8,7 @@ defmodule UAInspector.Util.Client do
   @doc """
   Checks whether a client browser is treated as "mobile only".
   """
-  @spec mobile_only?(client :: map | :unkonwn) :: boolean
+  @spec mobile_only?(client :: map | :unknown) :: boolean
   def mobile_only?(%{ name: name }) do
     short_code = name |> ShortCodeMap.ClientBrowsers.to_short()
 
