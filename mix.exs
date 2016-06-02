@@ -29,7 +29,7 @@ defmodule UAInspector.Mixfile do
   end
 
   def application do
-    [ applications: [ :poolboy, :yamerl ],
+    [ applications: [ :logger, :poolboy, :yamerl ],
       mod:          { UAInspector, [] } ]
   end
 

@@ -7,6 +7,8 @@ defmodule UAInspector.ShortCodeMap do
     quote do
       use GenServer
 
+      require Logger
+
       alias UAInspector.Config
       alias UAInspector.Util.YAML
 
@@ -67,8 +69,11 @@ defmodule UAInspector.ShortCodeMap do
         map = Config.database_path |> Path.join(file_local)
 
         case File.regular?(map) do
-          false -> state
-          true  ->
+          false ->
+            Logger.info "failed to load short code map: #{ map }"
+            state
+
+          true ->
             map
             |> YAML.read_file()
             |> parse_map(state)

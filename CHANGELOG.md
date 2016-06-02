@@ -2,6 +2,10 @@
 
 ## v0.12.0-dev
 
+- Enhancements
+    - If the initial load of a short code map (during process initialisation)
+      fails a message will be sent through `Logger.info/1`
+
 - Backwards incompatible changes
     - Completely unknown devices now yield `:unknown` instead of
       a struct with all values set to `:unknown`
