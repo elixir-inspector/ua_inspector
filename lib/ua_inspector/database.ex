@@ -7,6 +7,8 @@ defmodule UAInspector.Database do
     quote do
       use GenServer
 
+      require Logger
+
       alias UAInspector.Config
       alias UAInspector.Util.YAML
 
@@ -50,10 +52,13 @@ defmodule UAInspector.Database do
 
       defp load_sources([{ type, local, _remote } | sources ], path, state) do
         database = Path.join(path, local)
+        state    = case File.regular?(database) do
+          false ->
+            Logger.info "failed to load database: #{ database }"
+            state
 
-        if File.regular?(database) do
-          state =
-               database
+          true  ->
+            database
             |> YAML.read_file()
             |> parse_database(type, state)
         end

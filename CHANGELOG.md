@@ -3,6 +3,8 @@
 ## v0.12.0-dev
 
 - Enhancements
+    - If the initial load of a database (during process initialisiation)
+      fails a message will be sent through `Logger.info/1`
     - If the initial load of a short code map (during process initialisation)
       fails a message will be sent through `Logger.info/1`
 
