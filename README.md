@@ -12,8 +12,7 @@ required dependencies:
 
 ```elixir
 defp deps do
-  [ { :ua_inspector, "~> 0.11" },
-    { :yamerl,       github: "yakaz/yamerl" } ]
+  [{ :ua_inspector, "~> 0.11" }]
 end
 ```
 
@@ -151,7 +150,6 @@ These tests are all tagged `:download` to allow skipping them.
 ## Resources
 
 - [piwik/device-detector](https://github.com/piwik/device-detector)
-- [yamerl](https://github.com/yakaz/yamerl)
 
 
 ## License

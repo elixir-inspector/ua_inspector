@@ -41,7 +41,7 @@ defmodule UAInspector.Mixfile do
       { :excoveralls, "~> 0.5", only: :test },
 
       { :poolboy, "~> 1.0" },
-      { :yamerl,  github: "yakaz/yamerl" } ]
+      { :yamerl,  "~> 0.3" } ]
   end
 
   defp docs do
