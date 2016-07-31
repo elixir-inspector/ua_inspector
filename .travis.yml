@@ -1,5 +1,8 @@
-language: elixir
-sudo:     false
+language:    elixir
+elixir:      1.2.0
+otp_release: 18.0
+
+sudo: false
 
 env:
   - MIX_ENV=test TEST_ENV=ex_unit

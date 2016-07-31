@@ -11,6 +11,8 @@
 - Backwards incompatible changes
     - Completely unknown devices now yield `:unknown` instead of
       a struct with all values set to `:unknown`
+    - Minimum required elixir version is now "~> 1.2"
+    - Minimum required erlang version is now "~> 18.0"
 
 ## v0.11.1 (2016-04-02)
 

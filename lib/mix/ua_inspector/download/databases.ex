@@ -64,15 +64,9 @@ defmodule Mix.UAInspector.Download.Databases do
     download(databases)
   end
 
-  if Version.match?(System.version, ">= 1.1.0") do
-    defp download_database(remote, local) do
-      { :ok, content } = Mix.Utils.read_path(remote)
+  defp download_database(remote, local) do
+    { :ok, content } = Mix.Utils.read_path(remote)
 
-      File.write! local, content
-    end
-  else
-    defp download_database(remote, local) do
-      File.write! local, Mix.Utils.read_path!(remote)
-    end
+    File.write! local, content
   end
 end
