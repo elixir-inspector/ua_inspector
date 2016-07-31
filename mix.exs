@@ -8,7 +8,7 @@ defmodule UAInspector.Mixfile do
       name:    "UAInspector",
       version: "0.12.0-dev",
       elixir:  "~> 1.2",
-      deps:    deps,
+      deps:    deps(),
 
       build_embedded:  Mix.env == :prod,
       start_permanent: Mix.env == :prod,
@@ -23,8 +23,8 @@ defmodule UAInspector.Mixfile do
       ],
 
       description:   "User agent parser library",
-      docs:          docs,
-      package:       package,
+      docs:          docs(),
+      package:       package(),
       test_coverage: [ tool: ExCoveralls ] ]
   end
 

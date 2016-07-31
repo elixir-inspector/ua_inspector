@@ -28,7 +28,7 @@ defmodule UAInspector.Database do
         ets_tid  = :ets.new(__MODULE__, ets_opts)
 
         state = %State{ ets_tid: ets_tid }
-        state = load_sources(sources, Config.database_path, state)
+        state = load_sources(sources(), Config.database_path, state)
 
         { :ok, state }
       end

@@ -51,13 +51,13 @@ defmodule UAInspector.ShortCodeMap do
       def var_type,    do: unquote(opts[:var_type])
 
       def to_long(short) do
-        list
+        list()
         |> Enum.find({ short, short }, fn ({ s, _ }) -> short == s end)
         |> elem(1)
       end
 
       def to_short(long) do
-        list
+        list()
         |> Enum.find({ long, long }, fn ({ _, l }) -> long == l end)
         |> elem(0)
       end
@@ -66,7 +66,7 @@ defmodule UAInspector.ShortCodeMap do
       # Internal methods
 
       defp load_map(state) do
-        map = Config.database_path |> Path.join(file_local)
+        map = Config.database_path |> Path.join(file_local())
 
         case File.regular?(map) do
           false ->
