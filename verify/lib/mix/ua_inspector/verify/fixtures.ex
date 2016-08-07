@@ -52,25 +52,19 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     download(fixtures)
   end
 
-  if Version.match?(System.version, ">= 1.1.0") do
-    defp download_fixture(remote, local) do
-      { :ok, content } = Mix.Utils.read_path(remote)
 
-      File.write! local, content
-    end
-  else
-    defp download_fixture(remote, local) do
-      File.write! local, Mix.Utils.read_path!(remote)
-    end
+  defp download_fixture(remote, local) do
+    { :ok, content } = Mix.Utils.read_path(remote)
+
+    File.write! local, content
   end
 
-
   def download_path,       do: Path.join(__DIR__, "../../../../fixtures") |> Path.expand()
-  def download_path(file), do: Path.join(download_path, file)
+  def download_path(file), do: Path.join(download_path(), file)
   def list,                do: @fixtures
 
   def setup() do
-    File.rm_rf! download_path
-    File.mkdir_p! download_path
+    File.rm_rf! download_path()
+    File.mkdir_p! download_path()
   end
 end
