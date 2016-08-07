@@ -1,7 +1,5 @@
 use Mix.Config
 
-env_config = Path.expand("#{ Mix.env }.exs", __DIR__)
-
-if File.exists?(env_config) do
-  import_config(env_config)
-end
+config :ua_inspector,
+  database_path: Path.join(__DIR__, "../test/fixtures"),
+  pool:          [ max_overflow: 0, size: 1 ]
