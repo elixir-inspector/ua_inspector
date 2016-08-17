@@ -56,6 +56,24 @@ config :ua_inspector,
 
 The shown path is the default download path used by the mix task.
 
+#### Configuration (HTTP client)
+
+The database is downloaded using
+[`:hackney`](https://github.com/benoitc/hackney). To pass custom configuration
+values to hackney you can use the key `:http_opts` in your config:
+
+```elixir
+config :ua_inspector,
+  http_opts: [ proxy: "http://mycompanyproxy.com" ]
+```
+
+These values are expanded if using aforementioned `{ :system, "SOME_VAR" }`
+rule and then passed unmodified to the client process.
+
+Please see
+[`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)
+for a complete list of available options.
+
 
 ## Usage
 

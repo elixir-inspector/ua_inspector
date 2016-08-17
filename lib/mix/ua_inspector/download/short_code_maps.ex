@@ -72,7 +72,7 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
   end
 
   defp download_database(remote, local) do
-    { :ok, content } = Mix.Utils.read_path(remote)
+    { :ok, content } = Download.read_remote(remote)
 
     File.write! local, content
   end

@@ -29,7 +29,7 @@ defmodule UAInspector.Mixfile do
   end
 
   def application do
-    [ applications: [ :logger, :poolboy, :yamerl ],
+    [ applications: [ :hackney, :logger, :poolboy, :yamerl ],
       mod:          { UAInspector, [] } ]
   end
 
@@ -39,6 +39,7 @@ defmodule UAInspector.Mixfile do
       { :dialyze,     "~> 0.2", only: :test },
       { :excoveralls, "~> 0.5", only: :test },
 
+      { :hackney, "~> 1.0" },
       { :poolboy, "~> 1.0" },
       { :yamerl,  "~> 0.3" } ]
   end

@@ -3,6 +3,9 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   Utility module to bundle/download verification fixtures.
   """
 
+  alias Mix.UAInspector.Download
+
+
   @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
 
   @fixtures [
@@ -30,6 +33,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "unknown.yml"
   ]
 
+
   def download() do
     Mix.shell.info "Download path: #{ download_path }"
 
@@ -54,7 +58,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
 
 
   defp download_fixture(remote, local) do
-    { :ok, content } = Mix.Utils.read_path(remote)
+    { :ok, content } = Download.read_remote(remote)
 
     File.write! local, content
   end

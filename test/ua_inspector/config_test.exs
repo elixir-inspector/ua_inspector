@@ -11,6 +11,7 @@ defmodule UAInspector.ConfigTest do
     end
   end
 
+
   test "application configuration" do
     path = "/configuration/by/application/configuration"
 
@@ -33,5 +34,19 @@ defmodule UAInspector.ConfigTest do
     Application.put_env(:ua_inspector, :database_path, nil)
 
     assert nil == Config.database_path
+  end
+
+
+  test "nested system environment access" do
+    var = "UA_INSPECTOR_NESTED_CONFIG"
+    val = "very-nested"
+
+    System.put_env(var, val)
+
+    Application.put_env(:ua_inspector, :test_only, deep: { :system, var })
+
+    assert [ deep: val ] == Config.get(:test_only)
+
+    Application.delete_env(:ua_inspector, :test_only)
   end
 end

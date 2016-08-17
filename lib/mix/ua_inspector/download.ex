@@ -31,6 +31,19 @@ defmodule Mix.UAInspector.Download do
   end
 
   @doc """
+  Reads a database file from its remote location.
+  """
+  @spec read_remote(String.t) :: { :ok, term } | { :error, term }
+  def read_remote(path) do
+    Application.ensure_all_started(:hackney)
+
+    http_opts             = Application.get_env(:ua_inspector, :http_opts, [])
+    { :ok, _, _, client } = :hackney.get(path, [], [], http_opts)
+
+    :hackney.body(client)
+  end
+
+  @doc """
   Asks a user to confirm the download.
 
   To skip confirmation the argument `--force` can be passed to the mix task.

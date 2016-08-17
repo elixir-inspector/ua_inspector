@@ -3,6 +3,8 @@
 ## v0.12.0-dev
 
 - Enhancements
+    - Database downloads are done using hackney in order to prepare an
+      upcoming auto-update feature
     - If the initial load of a database (during process initialisiation)
       fails a message will be sent through `Logger.info/1`
     - If the initial load of a short code map (during process initialisation)
@@ -11,6 +13,8 @@
 - Backwards incompatible changes
     - Completely unknown devices now yield `:unknown` instead of
       a struct with all values set to `:unknown`
+    - Downloads are now done using `:hackney` instead of `mix`. This may force
+      you to manually reconfigure the client
     - Minimum required elixir version is now "~> 1.2"
     - Minimum required erlang version is now "~> 18.0"
 
