@@ -34,16 +34,19 @@ defmodule Mix.UAInspector.Verify do
         testcase.user_agent == result.user_agent
         && testcase.bot.name == result.name
 
-      if acc && Map.has_key?(testcase.bot, :category) do
-        acc = acc && testcase.bot.category == result.category
+      acc = case Map.has_key?(testcase.bot, :category) do
+        true  -> acc && testcase.bot.category == result.category
+        false -> acc
       end
 
-      if acc && Map.has_key?(testcase.bot, :url) do
-        acc = acc && testcase.bot.url == result.url
+      acc = case Map.has_key?(testcase.bot, :url) do
+        true  -> acc && testcase.bot.url == result.url
+        false -> acc
       end
 
-      if acc && Map.has_key?(testcase.bot, :producer) do
-        acc = acc && testcase.bot.producer == maybe_from_struct(result.producer)
+      acc = case Map.has_key?(testcase.bot, :producer) do
+        true  -> acc && testcase.bot.producer == maybe_from_struct(result.producer)
+        false -> acc
       end
 
       acc

@@ -57,8 +57,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     %{ testcase | client: :unknown }
   end
   defp cleanup_client_engine(%{ client: client } = testcase) do
-    if not Map.has_key?(client, :engine) do
-      client = Map.put(client, :engine, :unknown)
+    client = case Map.has_key?(client, :engine) do
+      true  -> client
+      false -> Map.put(client, :engine, :unknown)
     end
 
     %{ testcase | client: client }
@@ -94,8 +95,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
 
 
   defp cleanup_os_entry(%{ os: os } = testcase) do
-    if [] == Map.keys(os) do
-      os = :unknown
+    os = case Map.keys(os) do
+      [] -> :unknown
+      _  -> os
     end
 
     %{ testcase | os: os }
