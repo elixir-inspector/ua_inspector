@@ -17,9 +17,7 @@ defmodule UAInspector.Mixfile do
         coveralls:          :test,
         'coveralls.detail': :test,
         'coveralls.travis': :test,
-        dialyze:            :test,
-        docs:               :docs,
-        'hex.docs':         :docs
+        dialyze:            :test
       ],
 
       description:   "User agent parser library",
@@ -34,7 +32,7 @@ defmodule UAInspector.Mixfile do
   end
 
   defp deps do
-    [ { :ex_doc, "~> 0.13", only: :docs },
+    [ { :ex_doc, ">= 0.0.0", only: :dev },
 
       { :dialyze,     "~> 0.2", only: :test },
       { :excoveralls, "~> 0.5", only: :test },
