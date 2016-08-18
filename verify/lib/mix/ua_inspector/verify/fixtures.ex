@@ -35,7 +35,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
 
 
   def download() do
-    Mix.shell.info "Download path: #{ download_path }"
+    Mix.shell.info "Download path: #{ download_path() }"
 
     setup()
     download(@fixtures)
