@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.12.0-dev
+## v0.12.0 (2016-08-18)
 
 - Enhancements
     - Database downloads are done using hackney in order to prepare an
