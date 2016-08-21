@@ -61,20 +61,26 @@ The shown path is the default download path used by the mix task.
 The base url of database files is configurable:
 
 ```elixir
-remote_upstream = "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+remote_database  = "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+remote_shortcode = "https://raw.githubusercontent.com/piwik/device-detector/master"
 
 config :ua_inspector,
   remote_path: [
-    bot:             "#{ remote_upstream }",
-    browser_engine:  "#{ remote_upstream }/client",
-    client:          "#{ remote_upstream }/client",
-    device:          "#{ remote_upstream }/device",
-    os:              "#{ remote_upstream }",
-    vendor_fragment: "#{ remote_upstream }"
+    bot:             "#{ remote_database }",
+    browser_engine:  "#{ remote_database }/client",
+    client:          "#{ remote_database }/client",
+    device:          "#{ remote_database }/device",
+    os:              "#{ remote_database }",
+    short_code_map:  "#{ remote_shortcode }",
+    vendor_fragment: "#{ remote_database }"
   ]
 ```
 
 Shown configuration is used as the default location during download.
+
+For the time being the detailed path append to the remote path is not
+configurable. This is a major caveat for the short code mappings and subject
+to change.
 
 #### Configuration (HTTP client)
 

@@ -3,11 +3,9 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
   Device Brand Short Code Map.
   """
 
-  @remote_base "https://raw.githubusercontent.com/piwik/device-detector/master"
-
   use UAInspector.ShortCodeMap, [
     file_local:  "short_codes.device_brands.yml",
-    file_remote: "#{ @remote_base }/Parser/Device/DeviceParserAbstract.php",
+    file_remote: "Parser/Device/DeviceParserAbstract.php",
     var_name:    "deviceBrands",
     var_type:    :hash
   ]

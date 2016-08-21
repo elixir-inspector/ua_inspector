@@ -3,11 +3,9 @@ defmodule UAInspector.ShortCodeMap.OSs do
   Operating System Short Code Map.
   """
 
-  @remote_base "https://raw.githubusercontent.com/piwik/device-detector/master"
-
   use UAInspector.ShortCodeMap, [
     file_local:  "short_codes.oss.yml",
-    file_remote: "#{ @remote_base }/Parser/OperatingSystem.php",
+    file_remote: "Parser/OperatingSystem.php",
     var_name:    "operatingSystems",
     var_type:    :hash
   ]

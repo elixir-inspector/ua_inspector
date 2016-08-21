@@ -3,14 +3,16 @@ defmodule UAInspector.Config do
   Utility module to simplify access to configuration values.
   """
 
-  @remote_upstream "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
-  @remote_defaults [
-    bot:             "#{ @remote_upstream }",
-    browser_engine:  "#{ @remote_upstream }/client",
-    client:          "#{ @remote_upstream }/client",
-    device:          "#{ @remote_upstream }/device",
-    os:              "#{ @remote_upstream }",
-    vendor_fragment: "#{ @remote_upstream }"
+  @remote_database  "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+  @remote_shortcode "https://raw.githubusercontent.com/piwik/device-detector/master"
+  @remote_defaults  [
+    bot:             "#{ @remote_database}",
+    browser_engine:  "#{ @remote_database }/client",
+    client:          "#{ @remote_database }/client",
+    device:          "#{ @remote_database }/device",
+    os:              "#{ @remote_database }",
+    short_code_map:  "#{ @remote_shortcode }",
+    vendor_fragment: "#{ @remote_database }"
   ]
 
 

@@ -3,11 +3,9 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   Client Browser Short Code Map.
   """
 
-  @remote_base "https://raw.githubusercontent.com/piwik/device-detector/master"
-
   use UAInspector.ShortCodeMap, [
     file_local:  "short_codes.client_browsers.yml",
-    file_remote: "#{ @remote_base }/Parser/Client/Browser.php",
+    file_remote: "Parser/Client/Browser.php",
     var_name:    "availableBrowsers",
     var_type:    :hash
   ]

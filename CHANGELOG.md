@@ -5,6 +5,7 @@
 - Enhancements
     - Remote url of database files is now configurable. Due to naming changes
       a complete re-download is necessary
+    - Remote url of short code map files is now configurable
 
 ## v0.12.0 (2016-08-18)
 

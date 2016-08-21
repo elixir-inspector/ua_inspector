@@ -46,7 +46,7 @@ defmodule UAInspector.ShortCodeMap do
       def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
 
       def file_local,  do: unquote(opts[:file_local])
-      def file_remote, do: unquote(opts[:file_remote])
+      def file_remote, do: Config.database_url(:short_code_map, unquote(opts[:file_remote]))
       def var_name,    do: unquote(opts[:var_name])
       def var_type,    do: unquote(opts[:var_type])
 
