@@ -3,10 +3,9 @@ defmodule UAInspector.Database.Bots do
   UAInspector bot information database.
   """
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
-
   use UAInspector.Database, [
-    sources: [{ "", "bots.yml", "#{ @source_base_url }/bots.yml" }]
+    sources: [{ "", "bots.yml" }],
+    type:    :bot
   ]
 
   alias UAInspector.Util

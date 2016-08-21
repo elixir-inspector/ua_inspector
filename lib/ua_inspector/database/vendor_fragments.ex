@@ -3,10 +3,9 @@ defmodule UAInspector.Database.VendorFragments do
   UAInspector vendor fragment information database.
   """
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
-
   use UAInspector.Database, [
-    sources: [{ "", "vendorfragments.yml", "#{ @source_base_url }/vendorfragments.yml" }]
+    sources: [{ "", "vendorfragments.yml" }],
+    type:    :vendor_fragment
   ]
 
   alias UAInspector.Util

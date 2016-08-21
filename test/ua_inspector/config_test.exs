@@ -14,11 +14,15 @@ defmodule UAInspector.ConfigTest do
 
   test "application configuration" do
     path = "/configuration/by/application/configuration"
+    url  = "http://some.host/path/to/database"
 
     Application.put_env(:ua_inspector, :database_path, path)
+    Application.put_env(:ua_inspector, :remote_path, [ foo: url ])
 
     assert path == Config.database_path
+    assert "#{ url }/bar.yml" == Config.database_url(:foo, "bar.yml")
   end
+
 
   test "system environment configuration" do
     path = "/configuration/by/system/environment"

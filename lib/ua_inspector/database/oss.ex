@@ -3,10 +3,9 @@ defmodule UAInspector.Database.OSs do
   UAInspector operating system information database.
   """
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
-
   use UAInspector.Database, [
-    sources: [{ "", "oss.yml", "#{ @source_base_url }/oss.yml" }]
+    sources: [{ "", "oss.yml" }],
+    type:    :os
   ]
 
   alias UAInspector.Util

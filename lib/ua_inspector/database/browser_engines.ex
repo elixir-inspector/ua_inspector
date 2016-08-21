@@ -3,10 +3,9 @@ defmodule UAInspector.Database.BrowserEngines do
   UAInspector browser engine information database.
   """
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/client"
-
   use UAInspector.Database, [
-    sources: [{ "", "browser_engines.yml", "#{ @source_base_url }/browser_engine.yml" }]
+    sources: [{ "", "browser_engine.yml" }],
+    type:    :browser_engine
   ]
 
   alias UAInspector.Util

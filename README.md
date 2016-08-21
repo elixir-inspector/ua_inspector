@@ -56,6 +56,26 @@ config :ua_inspector,
 
 The shown path is the default download path used by the mix task.
 
+#### Configuration (Database Files)
+
+The base url of database files is configurable:
+
+```elixir
+remote_upstream = "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+
+config :ua_inspector,
+  remote_path: [
+    bot:             "#{ remote_upstream }",
+    browser_engine:  "#{ remote_upstream }/client",
+    client:          "#{ remote_upstream }/client",
+    device:          "#{ remote_upstream }/device",
+    os:              "#{ remote_upstream }",
+    vendor_fragment: "#{ remote_upstream }"
+  ]
+```
+
+Shown configuration is used as the default location during download.
+
 #### Configuration (HTTP client)
 
 The database is downloaded using

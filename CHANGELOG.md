@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.13.0-dev
+
+- Enhancements
+    - Remote url of database files is now configurable. Due to naming changes
+      a complete re-download is necessary
+
 ## v0.12.0 (2016-08-18)
 
 - Enhancements

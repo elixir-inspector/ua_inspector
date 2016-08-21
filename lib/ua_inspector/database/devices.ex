@@ -3,20 +3,19 @@ defmodule UAInspector.Database.Devices do
   UAInspector device information database.
   """
 
-  @source_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/regexes/device"
-
   use UAInspector.Database, [
     sources: [
       # files ordered according to
       # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
       # to prevent false detections
-      { "hbbtv",   "devices.televisions.yml",           "#{ @source_base_url }/televisions.yml" },
-      { "regular", "devices.consoles.yml",              "#{ @source_base_url }/consoles.yml" },
-      { "regular", "devices.car_browsers.yml",          "#{ @source_base_url }/car_browsers.yml" },
-      { "regular", "devices.cameras.yml",               "#{ @source_base_url }/cameras.yml" },
-      { "regular", "devices.portable_media_player.yml", "#{ @source_base_url }/portable_media_player.yml" },
-      { "regular", "devices.mobiles.yml",               "#{ @source_base_url }/mobiles.yml" }
-    ]
+      { "hbbtv",   "televisions.yml" },
+      { "regular", "consoles.yml" },
+      { "regular", "car_browsers.yml" },
+      { "regular", "cameras.yml" },
+      { "regular", "portable_media_player.yml" },
+      { "regular", "mobiles.yml" }
+    ],
+    type: :device
   ]
 
   alias UAInspector.Util

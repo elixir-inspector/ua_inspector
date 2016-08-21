@@ -3,6 +3,17 @@ defmodule UAInspector.Config do
   Utility module to simplify access to configuration values.
   """
 
+  @remote_upstream "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
+  @remote_defaults [
+    bot:             "#{ @remote_upstream }",
+    browser_engine:  "#{ @remote_upstream }/client",
+    client:          "#{ @remote_upstream }/client",
+    device:          "#{ @remote_upstream }/device",
+    os:              "#{ @remote_upstream }",
+    vendor_fragment: "#{ @remote_upstream }"
+  ]
+
+
   @doc """
   Provides access to configuration values with optional environment lookup.
   """
@@ -32,6 +43,20 @@ defmodule UAInspector.Config do
       nil  -> nil
       path -> Path.expand(path)
     end
+  end
+
+  @doc """
+  Returns the remote url of a database file.
+  """
+  @spec database_url(atom, String.t) :: String.t
+  def database_url(type, file) do
+    file   = String.replace_leading(file, "/", "")
+    remote =
+      [ :remote_path, type ]
+      |> get(@remote_defaults[type])
+      |> String.replace_trailing("/", "")
+
+    "#{ remote }/#{ file }"
   end
 
 

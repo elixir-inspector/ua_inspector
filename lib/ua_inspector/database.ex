@@ -45,8 +45,16 @@ defmodule UAInspector.Database do
 
       def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
 
-      def sources, do: unquote(opts[:sources])
 
+      @sources Enum.map unquote(opts[:sources]), fn ({ t, file }) ->
+        {
+          t,
+          "#{ unquote(opts[:type]) }.#{ file }",
+          Config.database_url(unquote(opts[:type]), file)
+        }
+      end
+
+      def sources, do: @sources
 
       # Internal methods
 
