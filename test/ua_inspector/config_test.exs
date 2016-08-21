@@ -37,6 +37,16 @@ defmodule UAInspector.ConfigTest do
   end
 
 
+  test "deep key access" do
+    Application.put_env(:ua_inspector, :test_deep, [ deep: [ foo: :bar ]])
+
+    assert [ deep: [ foo: :bar ]] == Config.get([ :test_deep])
+    assert :bar == Config.get([ :test_deep, :deep, :foo ])
+
+    assert :moep == Config.get([ :unknown, :deep ], :moep)
+  end
+
+
   test "nested system environment access" do
     var = "UA_INSPECTOR_NESTED_CONFIG"
     val = "very-nested"
@@ -46,6 +56,7 @@ defmodule UAInspector.ConfigTest do
     Application.put_env(:ua_inspector, :test_only, deep: { :system, var })
 
     assert [ deep: val ] == Config.get(:test_only)
+    assert val == Config.get([ :test_only, :deep ])
 
     Application.delete_env(:ua_inspector, :test_only)
   end
