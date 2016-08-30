@@ -3,7 +3,40 @@ defmodule Mix.UAInspector.Download.DatabasesTest do
 
   import ExUnit.CaptureIO
 
-  @tag :download
+
+  setup_all do
+    # setup internal testing webserver
+    Application.ensure_all_started(:inets)
+
+    fixture_path       = Path.join([ __DIR__, '../../fixtures' ]) |> Path.expand()
+    httpd_opts         = [ port:          0,
+                           server_name:   'ua_inspector_test',
+                           server_root:   fixture_path |> to_char_list,
+                           document_root: fixture_path |> to_char_list ]
+    { :ok, httpd_pid } = :inets.start(:httpd, httpd_opts)
+
+    # configure app to use testing webserver
+    remote_paths    = Application.get_env(:ua_inspector, :remote_path)
+    remote_internal = "http://localhost:#{ :httpd.info(httpd_pid)[:port] }/"
+    :ok      = Application.put_env(
+      :ua_inspector,
+      :remote_path,
+      [
+        bot:             remote_internal,
+        browser_engine:  remote_internal,
+        client:          remote_internal,
+        device:          remote_internal,
+        os:              remote_internal,
+        vendor_fragment: remote_internal
+      ]
+    )
+
+    on_exit fn ->
+      Application.put_env(:ua_inspector, :remote_path, remote_paths)
+    end
+  end
+
+
   test "aborted download" do
     Mix.shell(Mix.Shell.IO)
 
@@ -16,7 +49,6 @@ defmodule Mix.UAInspector.Download.DatabasesTest do
     assert String.contains?(console, "Download aborted")
   end
 
-  @tag :download
   test "confirmed download" do
     Mix.shell(Mix.Shell.IO)
 
@@ -27,7 +59,6 @@ defmodule Mix.UAInspector.Download.DatabasesTest do
     assert String.contains?(console, "Really download? [Yn]")
   end
 
-  @tag :download
   test "forceable download" do
     Mix.shell(Mix.Shell.IO)
 
@@ -63,7 +94,6 @@ defmodule Mix.UAInspector.Download.DatabasesTest do
     File.rm_rf! test_path
   end
 
-  @tag :download
   test "missing configuration" do
     Mix.shell(Mix.Shell.IO)
 

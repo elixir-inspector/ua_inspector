@@ -185,12 +185,6 @@ iex(1)> UAInspector.bot? "generic crawler agent"
 ```
 
 
-## Testing
-
-Some (mix task) tests may download files from the internet.
-These tests are all tagged `:download` to allow skipping them.
-
-
 ## Resources
 
 - [piwik/device-detector](https://github.com/piwik/device-detector)
