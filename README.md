@@ -54,8 +54,6 @@ config :ua_inspector,
   database_path: { :system, "SOME_SYSTEM_ENV_VARIABLE" }
 ```
 
-The shown path is the default download path used by the mix task.
-
 #### Configuration (Database Files)
 
 The base url of database files is configurable:
