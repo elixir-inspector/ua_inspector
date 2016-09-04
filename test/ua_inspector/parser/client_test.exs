@@ -6,7 +6,7 @@ defmodule UAInspector.Parser.ClientTest do
   test "#1" do
     agent  = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)"
     parsed = UAInspector.parse(agent)
-    result = %Result.Client{ engine: "Trident", name: "Internet Explorer", type: "browser", version: "9.0" }
+    result = %Result.Client{ engine: "Trident", engine_version: "5.0", name: "Internet Explorer", type: "browser", version: "9.0" }
 
     assert parsed.client == result
   end

@@ -29,13 +29,24 @@ defmodule UAInspector.Parser.Client do
     engine  = maybe_resolve_engine(entry.type, entry.engine, ua, version)
 
     %Result.Client{
-      engine:  engine,
-      name:    name,
-      type:    entry.type,
-      version: version
+      engine:         engine,
+      engine_version: find_engine_version(ua, engine),
+      name:           name,
+      type:           entry.type,
+      version:        version
     }
   end
 
+
+  defp find_engine_version(_,  :unknown), do: :unknown
+  defp find_engine_version(ua, engine)    do
+    regex = ~r/#{ engine }\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))/i
+
+    case Regex.run(regex, ua) do
+      nil                -> :unknown
+      [ _, version ]     -> version
+    end
+  end
 
   defp maybe_resolve_engine("browser", engine_data, ua, version) do
     engine = case resolve_engine(engine_data, version) do

@@ -3,6 +3,7 @@
 ## v0.13.0-dev
 
 - Enhancements
+    - Engine versions are extracted
     - Remote url of database files is now configurable. Due to naming changes
       a complete re-download is necessary
     - Remote url of short code map files is now configurable

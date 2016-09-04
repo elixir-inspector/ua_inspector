@@ -16,6 +16,7 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> cleanup_bot_producer_name()
     |> cleanup_bot_producer_url()
     |> cleanup_client_engine()
+    |> cleanup_client_engine_version()
     |> cleanup_client_version()
     |> cleanup_device_brand()
     |> cleanup_device_model()
@@ -65,6 +66,20 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     %{ testcase | client: client }
   end
   defp cleanup_client_engine(testcase), do: testcase
+
+
+  defp cleanup_client_engine_version(%{ client: %{ engine_version: :null }} = testcase) do
+    put_in(testcase, [ :client, :engine_version ], :unknown)
+  end
+  defp cleanup_client_engine_version(%{ client: client } = testcase) when is_map(client) do
+    client = case Map.has_key?(client, :engine_version) do
+      true  -> client
+      false -> Map.put(client, :engine_version, :unknown)
+    end
+
+    %{ testcase | client: client }
+  end
+  defp cleanup_client_engine_version(testcase), do: testcase
 
 
   defp cleanup_client_version(%{ client: %{ version: :null }} = testcase) do
