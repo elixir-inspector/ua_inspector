@@ -19,7 +19,7 @@ defmodule UAInspector.Config do
   @doc """
   Provides access to configuration values with optional environment lookup.
   """
-  @spec get(atom | list, term) :: term
+  @spec get(atom | [atom], term) :: term
   def get(key, default \\ nil)
 
   def get(key, default) when is_atom(key) do

@@ -35,7 +35,7 @@ defmodule Mix.UAInspector.Download do
   """
   @spec read_remote(String.t) :: { :ok, term } | { :error, term }
   def read_remote(path) do
-    Application.ensure_all_started(:hackney)
+    { :ok, _ } = Application.ensure_all_started(:hackney)
 
     http_opts             = Application.get_env(:ua_inspector, :http_opts, [])
     { :ok, _, _, client } = :hackney.get(path, [], [], http_opts)
