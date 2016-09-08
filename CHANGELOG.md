@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.13.0-dev
+## v0.13.0 (2016-09-08)
 
 - Enhancements
     - Engine versions are extracted

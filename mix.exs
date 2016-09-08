@@ -6,7 +6,7 @@ defmodule UAInspector.Mixfile do
   def project do
     [ app:     :ua_inspector,
       name:    "UAInspector",
-      version: "0.13.0-dev",
+      version: "0.13.0",
       elixir:  "~> 1.2",
       deps:    deps(),
 
@@ -45,7 +45,7 @@ defmodule UAInspector.Mixfile do
   defp docs do
     [ extras:     [ "CHANGELOG.md", "README.md" ],
       main:       "readme",
-      source_ref: "master",
+      source_ref: "v0.13.0",
       source_url: @url_github ]
   end
 
