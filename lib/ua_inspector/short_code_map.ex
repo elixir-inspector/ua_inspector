@@ -10,9 +10,8 @@ defmodule UAInspector.ShortCodeMap do
       require Logger
 
       alias UAInspector.Config
+      alias UAInspector.Storage.State
       alias UAInspector.Util.YAML
-
-      alias unquote(__MODULE__).State
 
       @behaviour unquote(__MODULE__)
 

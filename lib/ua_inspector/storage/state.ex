@@ -1,6 +1,6 @@
-defmodule UAInspector.Database.State do
+defmodule UAInspector.Storage.State do
   @moduledoc """
-  State definition for databases.
+  State definition for storage processes.
   """
 
   defstruct [
