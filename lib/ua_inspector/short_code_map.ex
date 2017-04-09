@@ -5,7 +5,7 @@ defmodule UAInspector.ShortCodeMap do
 
   defmacro __using__(opts) do
     quote do
-      use GenServer
+      use UAInspector.Storage.Server
 
       require Logger
 
@@ -17,10 +17,6 @@ defmodule UAInspector.ShortCodeMap do
 
 
       # GenServer lifecycle
-
-      def start_link() do
-        GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
-      end
 
       def init(_) do
         ets_opts = [ :protected, :set, read_concurrency: true ]
@@ -41,8 +37,6 @@ defmodule UAInspector.ShortCodeMap do
 
 
       # Public methods
-
-      def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
 
       def file_local,  do: unquote(opts[:file_local])
       def file_remote, do: Config.database_url(:short_code_map, unquote(opts[:file_remote]))
@@ -90,14 +84,6 @@ defmodule UAInspector.ShortCodeMap do
   end
 
 
-  # GenServer lifecycle
-
-  @doc """
-  Starts the short code map server.
-  """
-  @callback start_link() :: GenServer.on_start
-
-
   # Public methods
 
   @doc """
@@ -109,11 +95,6 @@ defmodule UAInspector.ShortCodeMap do
   Returns the remote path for this map.
   """
   @callback file_remote() :: String.t
-
-  @doc """
-  Returns all short code map entries as a list.
-  """
-  @callback list() :: list
 
   @doc """
   Returns the long representation for a short name.

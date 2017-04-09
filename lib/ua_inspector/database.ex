@@ -5,7 +5,7 @@ defmodule UAInspector.Database do
 
   defmacro __using__(opts) do
     quote do
-      use GenServer
+      use UAInspector.Storage.Server
 
       require Logger
 
@@ -17,10 +17,6 @@ defmodule UAInspector.Database do
 
 
       # GenServer lifecycle
-
-      def start_link() do
-        GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
-      end
 
       def init(_) do
         ets_opts = [ :protected, :ordered_set, read_concurrency: true ]
@@ -41,9 +37,6 @@ defmodule UAInspector.Database do
 
 
       # Public methods
-
-      def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
-
 
       def sources do
         Enum.map unquote(opts[:sources]), fn ({ t, file }) ->
@@ -86,20 +79,8 @@ defmodule UAInspector.Database do
     end
   end
 
-  # GenServer lifecycle
-
-  @doc """
-  Starts the short code map server.
-  """
-  @callback start_link() :: GenServer.on_start
-
 
   # Public methods
-
-  @doc """
-  Returns all database entries as a list.
-  """
-  @callback list() :: list
 
   @doc """
   Returns the database sources.
