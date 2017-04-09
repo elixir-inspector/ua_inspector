@@ -3,11 +3,9 @@ defmodule Mix.UAInspector.Download do
   Utility module to support download tasks.
   """
 
+  alias Mix.UAInspector.README
   alias UAInspector.Config
 
-  @readme_path       Path.join(__DIR__, "../files/README.md") |> Path.expand()
-  @readme_content    @readme_path |> File.read!
-  @external_resource @readme_path
 
   @doc """
   Prints an error because of missing configuration values.
@@ -27,7 +25,7 @@ defmodule Mix.UAInspector.Download do
       setup_database_path()
     end
 
-    document_database_path()
+    README.put(Config.database_path)
   end
 
   @doc """
@@ -61,16 +59,6 @@ defmodule Mix.UAInspector.Download do
     end
   end
 
-
-  # internal methods
-
-  defp document_database_path() do
-    readme_tgt = Path.join(Config.database_path, "README.md")
-
-    File.write! readme_tgt, @readme_content
-
-    :ok
-  end
 
   defp setup_database_path() do
     Config.database_path |> File.mkdir_p!
