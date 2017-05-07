@@ -52,6 +52,11 @@ config :ua_inspector,
 # system environment configuration
 config :ua_inspector,
   database_path: { :system, "SOME_SYSTEM_ENV_VARIABLE" }
+
+# system environment configuration with default
+# (default will only be used if environment variable is UNSET)
+config :ua_inspector,
+  database_path: { :system, "SOME_SYSTEM_ENV_VARIABLE", "/custom/default" }
 ```
 
 #### Configuration (Database Files)
@@ -92,7 +97,8 @@ config :ua_inspector,
 ```
 
 These values are expanded if using aforementioned `{ :system, "SOME_VAR" }`
-rule and then passed unmodified to the client process.
+(or `{ :system, "SOME_VAR", "default" }`) rule and then passed unmodified
+to the client process.
 
 Please see
 [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)

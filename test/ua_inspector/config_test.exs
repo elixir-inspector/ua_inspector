@@ -34,6 +34,16 @@ defmodule UAInspector.ConfigTest do
     assert path == Config.database_path
   end
 
+  test "system environment configuration (with default)" do
+    path = "/configuration/by/system/environment"
+    var  = "UA_INSPECTOR_CONFIG_TEST_DEFAULT"
+
+    Application.put_env(:ua_inspector, :database_path, { :system, var, path })
+    System.delete_env(var)
+
+    assert path == Config.database_path
+  end
+
   test "missing configuration" do
     Application.put_env(:ua_inspector, :database_path, nil)
 
