@@ -71,19 +71,20 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp cleanup_client_engine_version(%{ client: %{ engine_version: :null }} = testcase) do
     put_in(testcase, [ :client, :engine_version ], :unknown)
   end
+  defp cleanup_client_engine_version(%{ client: %{ engine_version: version }} = testcase) do
+    put_in(testcase, [ :client, :engine_version ], to_string(version))
+  end
   defp cleanup_client_engine_version(%{ client: client } = testcase) when is_map(client) do
-    client = case Map.has_key?(client, :engine_version) do
-      true  -> client
-      false -> Map.put(client, :engine_version, :unknown)
-    end
-
-    %{ testcase | client: client }
+    %{ testcase | client: Map.put(client, :engine_version, :unknown) }
   end
   defp cleanup_client_engine_version(testcase), do: testcase
 
 
   defp cleanup_client_version(%{ client: %{ version: :null }} = testcase) do
     put_in(testcase, [ :client, :version ], :unknown)
+  end
+  defp cleanup_client_version(%{ client: %{ version: version }} = testcase) do
+    put_in(testcase, [ :client, :version ], to_string(version))
   end
   defp cleanup_client_version(testcase), do: testcase
 
@@ -128,6 +129,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
 
   defp cleanup_os_version(%{ os: %{ version: :null }} = testcase) do
     put_in(testcase, [ :os, :version ], :unknown)
+  end
+  defp cleanup_os_version(%{ os: %{ version: version }} = testcase) do
+    put_in(testcase, [ :os, :version ], to_string(version))
   end
   defp cleanup_os_version(testcase), do: testcase
 
