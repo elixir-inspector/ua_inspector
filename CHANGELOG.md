@@ -3,8 +3,15 @@
 ## v0.14.0-dev
 
 - Enhancements
+    - Empty user agents (`""` or `nil`) now return a result without performing
+      an actual lookup. By definition an empty user agent is never detected
+      as a bot
     - System environment configuration can set an optional default value
       to be used if the environment variable is unset
+
+- Bug fixes
+    - Properly handles `nil` values passed to the lookup functions
+      ([#7](https://github.com/elixytics/ua_inspector/issues/7))
 
 ## v0.13.0 (2016-09-08)
 
