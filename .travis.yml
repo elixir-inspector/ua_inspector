@@ -1,12 +1,18 @@
-language:    elixir
-elixir:      1.2.0
-otp_release: 18.0
+language: elixir
+sudo:     false
 
-sudo: false
-
-env:
-  - MIX_ENV=test TEST_ENV=ex_unit
-  - MIX_ENV=prod TEST_ENV=verify
-
-script:        . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_script.sh
-after_success: . ${TRAVIS_BUILD_DIR}/travis/${TEST_ENV}_after_success.sh
+jobs:
+  include:
+    - stage:         test
+      elixir:        1.2.0
+      otp_release:   18.0
+      env:           MIX_ENV=test
+      after_success: mix coveralls.travis
+    - stage:       verify
+      elixir:      1.2.0
+      otp_release: 18.0
+      env:         MIX_ENV=prod
+      script: |-
+        cd "${TRAVIS_BUILD_DIR}/verify"
+        mix compile
+        mix ua_inspector.verify
