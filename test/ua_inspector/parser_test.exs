@@ -13,31 +13,28 @@ defmodule UAInspector.ParserTest do
     assert parsed == UAInspector.parse(agent)
   end
 
-  test "parse empty" do
+
+  test "empty user agents" do
+    refute UAInspector.bot?(nil)
+    refute UAInspector.bot?("")
+
+    refute UAInspector.hbbtv?(nil)
+    refute UAInspector.hbbtv?(nil)
+
     assert UAInspector.parse(nil) == %Result{ user_agent: nil }
     assert UAInspector.parse("")  == %Result{ user_agent: "" }
-  end
 
-  test "parse unknown" do
-    agent  = "some unknown user agent"
-    parsed = %Result{ user_agent: agent }
-
-    assert parsed == UAInspector.parse(agent)
+    assert UAInspector.parse_client(nil) == %Result{ user_agent: nil }
+    assert UAInspector.parse_client("")  == %Result{ user_agent: "" }
   end
 
 
   test "bot?" do
-    refute UAInspector.bot?(nil)
-    refute UAInspector.bot?("")
-
     assert UAInspector.bot?("generic crawler agent")
     refute UAInspector.bot?("regular user agent")
   end
 
   test "hbbtv?" do
-    refute UAInspector.hbbtv?(nil)
-    refute UAInspector.hbbtv?(nil)
-
     assert "1.1.1" == UAInspector.hbbtv?("agent containing HbbTV/1.1.1 (; ;) information")
     refute UAInspector.hbbtv?("generic user agent")
   end
@@ -54,15 +51,17 @@ defmodule UAInspector.ParserTest do
     assert parsed == UAInspector.parse(agent)
   end
 
+  test "parse unknown" do
+    agent  = "some unknown user agent"
+    parsed = %Result{ user_agent: agent }
+
+    assert parsed == UAInspector.parse(agent)
+  end
+
   test "parse_client" do
     agent  = "generic crawler agentx"
     parsed = %Result{ user_agent: agent }
 
     assert parsed == UAInspector.parse_client(agent)
-  end
-
-  test "parse_client empty" do
-    assert UAInspector.parse_client(nil) == %Result{ user_agent: nil }
-    assert UAInspector.parse_client("")  == %Result{ user_agent: "" }
   end
 end
