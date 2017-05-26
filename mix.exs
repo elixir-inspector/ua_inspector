@@ -27,7 +27,7 @@ defmodule UAInspector.Mixfile do
 
   def application do
     [ applications: [ :hackney, :logger, :poolboy, :yamerl ],
-      mod:          { UAInspector, [] } ]
+      mod:          { UAInspector.Application, [] } ]
   end
 
   defp deps do
