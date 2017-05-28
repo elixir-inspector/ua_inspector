@@ -1,7 +1,5 @@
-defmodule UAInspector.Application do
-  @moduledoc """
-  UAInspector Application
-  """
+defmodule UAInspector.App do
+  @moduledoc false
 
   use Application
 
