@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.14.0-dev
+## v0.14.0 (2017-05-31)
 
 - Enhancements
     - Empty user agents (`""` or `nil`) now return a result without performing
