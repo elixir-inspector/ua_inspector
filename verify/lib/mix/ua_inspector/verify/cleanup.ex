@@ -54,6 +54,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp cleanup_client_engine(%{ client: %{ engine: :null }} = testcase) do
     put_in(testcase, [ :client, :engine ], :unknown)
   end
+  defp cleanup_client_engine(%{ client: %{ engine: "" }} = testcase) do
+    put_in(testcase, [ :client, :engine ], :unknown)
+  end
   defp cleanup_client_engine(%{ client: :null } = testcase) do
     %{ testcase | client: :unknown }
   end
@@ -69,6 +72,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
 
 
   defp cleanup_client_engine_version(%{ client: %{ engine_version: :null }} = testcase) do
+    put_in(testcase, [ :client, :engine_version ], :unknown)
+  end
+  defp cleanup_client_engine_version(%{ client: %{ engine_version: "" }} = testcase) do
     put_in(testcase, [ :client, :engine_version ], :unknown)
   end
   defp cleanup_client_engine_version(%{ client: %{ engine_version: version }} = testcase) do
