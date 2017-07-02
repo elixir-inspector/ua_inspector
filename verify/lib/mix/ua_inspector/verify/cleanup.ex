@@ -24,6 +24,13 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     [ :os, :version ]
   ]
 
+  @number_to_string [
+    [ :client, :engine_version ],
+    [ :client, :version ],
+    [ :device, :model ],
+    [ :os, :version ]
+  ]
+
 
   @doc """
   Cleans up a test case.
@@ -33,12 +40,10 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     testcase
     |> convert_empty(@empty_to_quotes,  "")
     |> convert_empty(@empty_to_unknown, :unknown)
+    |> convert_numbers(@number_to_string)
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()
-    |> cleanup_client_version()
-    |> cleanup_device_model()
     |> cleanup_os_entry()
-    |> cleanup_os_version()
     |> remove_client_short_name()
     |> remove_os_short_name()
     |> remove_unknown_device()
@@ -59,6 +64,18 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   end
 
 
+  defp convert_numbers(testcase, []), do: testcase
+  defp convert_numbers(testcase, [ path | paths ]) do
+    case get_in(testcase, path) do
+      v when is_number(v) -> put_in(testcase, path, to_string(v))
+      _                   -> testcase
+    end
+    |> convert_numbers(paths)
+  rescue
+    FunctionClauseError -> convert_numbers(testcase, paths)
+  end
+
+
   defp cleanup_client_engine(%{ client: client } = testcase) when is_map(client) do
     client = case Map.has_key?(client, :engine) do
       true  -> client
@@ -70,9 +87,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp cleanup_client_engine(testcase), do: testcase
 
 
-  defp cleanup_client_engine_version(%{ client: %{ engine_version: version }} = testcase) when is_number(version) do
-    put_in(testcase, [ :client, :engine_version ], to_string(version))
-  end
   defp cleanup_client_engine_version(%{ client: client } = testcase) when is_map(client) do
     client = case Map.has_key?(client, :engine_version) do
       true  -> client
@@ -84,18 +98,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp cleanup_client_engine_version(testcase), do: testcase
 
 
-  defp cleanup_client_version(%{ client: %{ version: version }} = testcase) when is_number(version) do
-    put_in(testcase, [ :client, :version ], to_string(version))
-  end
-  defp cleanup_client_version(testcase), do: testcase
-
-
-  defp cleanup_device_model(%{ device: %{ model: model }} = testcase) when is_number(model) do
-    put_in(testcase, [ :device, :model ], to_string(model))
-  end
-  defp cleanup_device_model(testcase), do: testcase
-
-
   defp cleanup_os_entry(%{ os: os } = testcase) do
     os = case Map.keys(os) do
       [] -> :unknown
@@ -105,12 +107,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     %{ testcase | os: os }
   end
   defp cleanup_os_entry(testcase), do: testcase
-
-
-  defp cleanup_os_version(%{ os: %{ version: version }} = testcase) when is_number(version) do
-    put_in(testcase, [ :os, :version ], to_string(version))
-  end
-  defp cleanup_os_version(testcase), do: testcase
 
 
   defp remove_client_short_name(%{ client: :unknown } = testcase), do: testcase
