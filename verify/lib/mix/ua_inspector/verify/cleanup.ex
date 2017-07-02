@@ -5,24 +5,39 @@ defmodule Mix.UAInspector.Verify.Cleanup do
 
   alias UAInspector.ShortCodeMap.DeviceBrands
 
+  @empty_to_quotes [
+    [ :bot, :category ],
+    [ :bot, :producer, :name ],
+    [ :bot, :producer, :url ],
+    [ :bot, :url ]
+  ]
+
+  @empty_to_unknown [
+    [ :client ],
+    [ :client, :engine ],
+    [ :client, :engine_version ],
+    [ :client, :version ],
+    [ :device, :brand ],
+    [ :device, :model ],
+    [ :device, :type ],
+    [ :os, :platform ],
+    [ :os, :version ]
+  ]
+
+
   @doc """
   Cleans up a test case.
   """
   @spec cleanup(testcase :: map) :: map
   def cleanup(testcase) do
     testcase
-    |> cleanup_bot_category()
-    |> cleanup_bot_url()
-    |> cleanup_bot_producer_name()
-    |> cleanup_bot_producer_url()
+    |> convert_empty(@empty_to_quotes,  "")
+    |> convert_empty(@empty_to_unknown, :unknown)
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()
     |> cleanup_client_version()
-    |> cleanup_device_brand()
     |> cleanup_device_model()
-    |> cleanup_device_type()
     |> cleanup_os_entry()
-    |> cleanup_os_platform()
     |> cleanup_os_version()
     |> remove_client_short_name()
     |> remove_os_short_name()
@@ -31,36 +46,20 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   end
 
 
-  defp cleanup_bot_category(%{ bot: %{ category: :null }} = testcase) do
-    put_in(testcase, [ :bot, :category ], "")
+  defp convert_empty(testcase, [], _), do: testcase
+  defp convert_empty(testcase, [ path | paths ], replacement) do
+    case get_in(testcase, path) do
+      :null-> put_in(testcase, path, replacement)
+      ""   -> put_in(testcase, path, replacement)
+      _    -> testcase
+    end
+    |> convert_empty(paths, replacement)
+  rescue
+    FunctionClauseError -> convert_empty(testcase, paths, replacement)
   end
-  defp cleanup_bot_category(testcase), do: testcase
 
-  defp cleanup_bot_url(%{ bot: %{ url: :null }} = testcase) do
-    put_in(testcase, [ :bot, :url ], "")
-  end
-  defp cleanup_bot_url(testcase), do: testcase
 
-  defp cleanup_bot_producer_name(%{ bot: %{ producer: %{ name: :null }}} = testcase) do
-    put_in(testcase, [ :bot, :producer, :name ], "")
-  end
-  defp cleanup_bot_producer_name(testcase), do: testcase
-
-  defp cleanup_bot_producer_url(%{ bot: %{ producer: %{ url: :null }}} = testcase) do
-    put_in(testcase, [ :bot, :producer, :url ], "")
-  end
-  defp cleanup_bot_producer_url(testcase), do: testcase
-
-  defp cleanup_client_engine(%{ client: %{ engine: :null }} = testcase) do
-    put_in(testcase, [ :client, :engine ], :unknown)
-  end
-  defp cleanup_client_engine(%{ client: %{ engine: "" }} = testcase) do
-    put_in(testcase, [ :client, :engine ], :unknown)
-  end
-  defp cleanup_client_engine(%{ client: :null } = testcase) do
-    %{ testcase | client: :unknown }
-  end
-  defp cleanup_client_engine(%{ client: client } = testcase) do
+  defp cleanup_client_engine(%{ client: client } = testcase) when is_map(client) do
     client = case Map.has_key?(client, :engine) do
       true  -> client
       false -> Map.put(client, :engine, :unknown)
@@ -71,49 +70,30 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp cleanup_client_engine(testcase), do: testcase
 
 
-  defp cleanup_client_engine_version(%{ client: %{ engine_version: :null }} = testcase) do
-    put_in(testcase, [ :client, :engine_version ], :unknown)
-  end
-  defp cleanup_client_engine_version(%{ client: %{ engine_version: "" }} = testcase) do
-    put_in(testcase, [ :client, :engine_version ], :unknown)
-  end
-  defp cleanup_client_engine_version(%{ client: %{ engine_version: version }} = testcase) do
+  defp cleanup_client_engine_version(%{ client: %{ engine_version: version }} = testcase) when is_number(version) do
     put_in(testcase, [ :client, :engine_version ], to_string(version))
   end
   defp cleanup_client_engine_version(%{ client: client } = testcase) when is_map(client) do
-    %{ testcase | client: Map.put(client, :engine_version, :unknown) }
+    client = case Map.has_key?(client, :engine_version) do
+      true  -> client
+      false -> Map.put(client, :engine_version, :unknown)
+    end
+
+    %{ testcase | client: client }
   end
   defp cleanup_client_engine_version(testcase), do: testcase
 
 
-  defp cleanup_client_version(%{ client: %{ version: :null }} = testcase) do
-    put_in(testcase, [ :client, :version ], :unknown)
-  end
-  defp cleanup_client_version(%{ client: %{ version: version }} = testcase) do
+  defp cleanup_client_version(%{ client: %{ version: version }} = testcase) when is_number(version) do
     put_in(testcase, [ :client, :version ], to_string(version))
   end
   defp cleanup_client_version(testcase), do: testcase
 
 
-  defp cleanup_device_brand(%{ device: %{ brand: :null }} = testcase) do
-    put_in(testcase, [ :device, :brand ], :unknown)
-  end
-  defp cleanup_device_brand(testcase), do: testcase
-
-
-  defp cleanup_device_model(%{ device: %{ model: :null }} = testcase) do
-    put_in(testcase, [ :device, :model ], :unknown)
-  end
-  defp cleanup_device_model(%{ device: %{ model: model }} = testcase) do
+  defp cleanup_device_model(%{ device: %{ model: model }} = testcase) when is_number(model) do
     put_in(testcase, [ :device, :model ], to_string(model))
   end
   defp cleanup_device_model(testcase), do: testcase
-
-
-  defp cleanup_device_type(%{ device: %{ type: :null }} = testcase) do
-    put_in(testcase, [ :device, :type ], :unknown)
-  end
-  defp cleanup_device_type(testcase), do: testcase
 
 
   defp cleanup_os_entry(%{ os: os } = testcase) do
@@ -127,16 +107,7 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp cleanup_os_entry(testcase), do: testcase
 
 
-  defp cleanup_os_platform(%{ os: %{ platform: :null }} = testcase) do
-    put_in(testcase, [ :os, :platform ], :unknown)
-  end
-  defp cleanup_os_platform(testcase), do: testcase
-
-
-  defp cleanup_os_version(%{ os: %{ version: :null }} = testcase) do
-    put_in(testcase, [ :os, :version ], :unknown)
-  end
-  defp cleanup_os_version(%{ os: %{ version: version }} = testcase) do
+  defp cleanup_os_version(%{ os: %{ version: version }} = testcase) when is_number(version) do
     put_in(testcase, [ :os, :version ], to_string(version))
   end
   defp cleanup_os_version(testcase), do: testcase
