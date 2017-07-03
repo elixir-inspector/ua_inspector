@@ -44,6 +44,17 @@ defmodule UAInspector.ConfigTest do
     assert path == Config.database_path
   end
 
+
+  test "priv relative datgabase path" do
+    priv_dir = :code.priv_dir(:ua_inspector)
+    path = "#{priv_dir}/some/path"
+
+    Application.put_env(:ua_inspector, :database_path, { :priv, :ua_inspector, "some/path" })
+
+    assert path == Config.database_path
+  end
+
+
   test "missing configuration" do
     Application.put_env(:ua_inspector, :database_path, nil)
 
