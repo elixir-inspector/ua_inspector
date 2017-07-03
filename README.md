@@ -57,6 +57,10 @@ config :ua_inspector,
 # (default will only be used if environment variable is UNSET)
 config :ua_inspector,
   database_path: { :system, "SOME_SYSTEM_ENV_VARIABLE", "/custom/default" }
+
+# relative to priv directory
+config :ua_inspector,
+  database_path: { :priv, :my_app, "/some/priv/path" }
 ```
 
 #### Configuration (Database Files)
