@@ -41,7 +41,7 @@ defmodule UAInspector.Config do
   """
   @spec database_path :: String.t | nil
   def database_path do
-    case get(:database_path) do
+    case get_maybe_priv_path(:database_path) do
       nil  -> nil
       path -> Path.expand(path)
     end
@@ -61,6 +61,12 @@ defmodule UAInspector.Config do
     "#{ remote }/#{ file }"
   end
 
+  defp get_maybe_priv_path(key) do
+    case get(key) do
+      {:priv, app, path} -> :code.priv_dir(app) |> Path.join(path)
+      path               -> path
+    end
+  end
 
   defp maybe_fetch_system(config) when is_list(config) do
     Enum.map config, fn
