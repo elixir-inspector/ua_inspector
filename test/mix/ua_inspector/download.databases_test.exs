@@ -3,6 +3,8 @@ defmodule Mix.UAInspector.Download.DatabasesTest do
 
   import ExUnit.CaptureIO
 
+  alias UAInspector.Util
+
 
   setup_all do
     # setup internal testing webserver
@@ -11,8 +13,8 @@ defmodule Mix.UAInspector.Download.DatabasesTest do
     fixture_path       = Path.join([ __DIR__, '../../fixtures' ]) |> Path.expand()
     httpd_opts         = [ port:          0,
                            server_name:   'ua_inspector_test',
-                           server_root:   fixture_path |> to_char_list,
-                           document_root: fixture_path |> to_char_list ]
+                           server_root:   Util.to_charlist(fixture_path),
+                           document_root: Util.to_charlist(fixture_path) ]
     { :ok, httpd_pid } = :inets.start(:httpd, httpd_opts)
 
     # configure app to use testing webserver

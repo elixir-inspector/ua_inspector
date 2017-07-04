@@ -3,6 +3,9 @@ defmodule Mix.UAInspector.ShortCodeMap do
   Utility module to extract short code maps from source files.
   """
 
+  alias UAInspector.Util
+
+
   @doc """
   Extracts the map defined with variable name `var` from the file `file`.
 
@@ -65,14 +68,14 @@ defmodule Mix.UAInspector.ShortCodeMap do
 
   defp parse_source(source, :hash) do
     source
-    |> String.strip()
+    |> Util.trim()
     |> String.split("\n")
     |> Enum.map( &parse_mapping(&1, :hash) )
   end
 
   defp parse_source(source, :list) do
     source
-    |> String.strip()
+    |> Util.trim()
     |> String.split(",")
     |> Enum.map( &parse_mapping(&1, :list) )
   end
