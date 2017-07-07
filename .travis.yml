@@ -6,22 +6,22 @@ jobs:
     - &test
       stage:         test
       elixir:        1.2.6
-      otp_release:   18.0
+      otp_release:   18.3
       env:           MIX_ENV=test
       after_success: mix coveralls.travis
     - <<: *test
       elixir:        1.3.4
       after_success: true
     - <<: *test
-      elixir:        1.4.4
+      elixir:        1.4.5
       after_success: true
     - <<: *test
-      elixir:        1.4.4
-      otp_release:   19.0
+      elixir:        1.4.5
+      otp_release:   19.3
       after_success: true
     - stage:       verify
       elixir:      1.2.6
-      otp_release: 18.0
+      otp_release: 18.3
       env:         MIX_ENV=prod
       script: |-
         cd "${TRAVIS_BUILD_DIR}/verify"
