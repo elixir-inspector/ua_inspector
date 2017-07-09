@@ -16,12 +16,35 @@ defp deps do
 end
 ```
 
-You should also update your applications to include all necessary projects:
+### Application/Supervisor Setup
+
+Probably the easiest way to manage startup is by simply
+adding `:ua_inspector` to the list of applications:
 
 ```elixir
 def application do
   [ applications: [ :ua_inspector ]]
 end
+```
+
+A second possible approach is to take care of supervision yourself. This
+means you should add `:ua_inspector` to your included applications instead:
+
+```elixir
+def application do
+  [ included_applications: [ :ua_inspector ]]
+end
+```
+
+And also add the appropriate `UAInspector.Supervisor` to your hierarchy:
+
+```elixir
+# in your application/supervisor
+children = [
+  # ...
+  supervisor(UAInspector.Supervisor, [])
+  # ..
+]
 ```
 
 ### Parser Databases
