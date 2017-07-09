@@ -22,7 +22,7 @@ defmodule Mix.UAInspector.Download do
   @spec prepare_database_path() :: :ok
   def prepare_database_path() do
     unless File.dir?(Config.database_path) do
-      setup_database_path()
+      File.mkdir_p!(Config.database_path)
     end
 
     README.put(Config.database_path)
@@ -57,10 +57,5 @@ defmodule Mix.UAInspector.Download do
       true -> true
       _    -> "Really download?" |> Mix.shell.yes?()
     end
-  end
-
-
-  defp setup_database_path() do
-    Config.database_path |> File.mkdir_p!
   end
 end
