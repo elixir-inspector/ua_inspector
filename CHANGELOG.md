@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.15.0-dev
+
+- Enhancements
+    - Supervision can now be done without starting the application
+      ([#8](https://github.com/elixytics/ua_inspector/pulls/8))
+
 ## v0.14.0 (2017-05-31)
 
 - Enhancements
