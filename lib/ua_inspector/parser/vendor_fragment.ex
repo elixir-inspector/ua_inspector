@@ -7,11 +7,11 @@ defmodule UAInspector.Parser.VendorFragment do
 
   alias UAInspector.Database.VendorFragments
 
-  def parse(ua), do: parse(ua, VendorFragments.list)
+  def parse(ua), do: parse(ua, VendorFragments.list())
 
+  defp parse(_, []), do: :unknown
 
-  defp parse(_,  []),                             do: :unknown
-  defp parse(ua, [{ _index, entry } | database ]) do
+  defp parse(ua, [{_index, entry} | database]) do
     if parse_brand(ua, entry.regexes) do
       entry.brand
     else
@@ -19,9 +19,9 @@ defmodule UAInspector.Parser.VendorFragment do
     end
   end
 
+  defp parse_brand(_, []), do: false
 
-  defp parse_brand(_,  []),                 do: false
-  defp parse_brand(ua, [ regex | regexes ]) do
+  defp parse_brand(ua, [regex | regexes]) do
     if Regex.match?(regex, ua) do
       true
     else

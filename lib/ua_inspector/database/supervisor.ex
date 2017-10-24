@@ -10,7 +10,7 @@ defmodule UAInspector.Database.Supervisor do
   @doc """
   Starts the database supervisor.
   """
-  @spec start_link(term) :: Supervisor.on_start
+  @spec start_link(term) :: Supervisor.on_start()
   def start_link(default \\ []) do
     Supervisor.start_link(__MODULE__, default)
   end

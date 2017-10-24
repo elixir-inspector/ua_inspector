@@ -3,10 +3,9 @@ defmodule UAInspector.Database.Bots do
   UAInspector bot information database.
   """
 
-  use UAInspector.Database, [
-    sources: [{ "", "bots.yml" }],
-    type:    :bot
-  ]
+  use UAInspector.Database,
+    sources: [{"", "bots.yml"}],
+    type: :bot
 
   alias UAInspector.Util
 
@@ -15,17 +14,18 @@ defmodule UAInspector.Database.Bots do
 
     %{
       category: data["category"],
-      name:     data["name"],
+      name: data["name"],
       producer: producer_info(data["producer"]),
-      regex:    Util.build_regex(data["regex"]),
-      url:      data["url"]
+      regex: Util.build_regex(data["regex"]),
+      url: data["url"]
     }
   end
 
   defp producer_info(nil), do: nil
+
   defp producer_info(info) do
     info = Enum.into(info, %{})
 
-    %{ name: info["name"], url: info["url"] }
+    %{name: info["name"], url: info["url"]}
   end
 end

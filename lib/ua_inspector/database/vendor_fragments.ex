@@ -3,18 +3,17 @@ defmodule UAInspector.Database.VendorFragments do
   UAInspector vendor fragment information database.
   """
 
-  use UAInspector.Database, [
-    sources: [{ "", "vendorfragments.yml" }],
-    type:    :vendor_fragment
-  ]
+  use UAInspector.Database,
+    sources: [{"", "vendorfragments.yml"}],
+    type: :vendor_fragment
 
   alias UAInspector.Util
 
-  def to_ets({ brand, regexes }, _type) do
-    regexes = regexes |> Enum.map( &Util.build_regex/1 )
+  def to_ets({brand, regexes}, _type) do
+    regexes = regexes |> Enum.map(&Util.build_regex/1)
 
     %{
-      brand:   brand,
+      brand: brand,
       regexes: regexes
     }
   end

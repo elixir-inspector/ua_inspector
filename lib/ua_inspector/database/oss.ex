@@ -3,10 +3,9 @@ defmodule UAInspector.Database.OSs do
   UAInspector operating system information database.
   """
 
-  use UAInspector.Database, [
-    sources: [{ "", "oss.yml" }],
-    type:    :os
-  ]
+  use UAInspector.Database,
+    sources: [{"", "oss.yml"}],
+    type: :os
 
   alias UAInspector.Util
 
@@ -14,8 +13,8 @@ defmodule UAInspector.Database.OSs do
     data = Enum.into(data, %{})
 
     %{
-      name:    data["name"],
-      regex:   Util.build_regex(data["regex"]),
+      name: data["name"],
+      regex: Util.build_regex(data["regex"]),
       version: data["version"]
     }
   end

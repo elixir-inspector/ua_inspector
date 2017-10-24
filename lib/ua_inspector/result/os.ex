@@ -4,14 +4,12 @@ defmodule UAInspector.Result.OS do
   """
 
   @type t :: %__MODULE__{
-    name:     String.t | :unknown,
-    platform: String.t | :unknown,
-    version:  String.t | :unknown
-  }
+          name: String.t() | :unknown,
+          platform: String.t() | :unknown,
+          version: String.t() | :unknown
+        }
 
-  defstruct [
-    name:     :unknown,
-    platform: :unknown,
-    version:  :unknown
-  ]
+  defstruct name: :unknown,
+            platform: :unknown,
+            version: :unknown
 end

@@ -4,7 +4,9 @@ defmodule UAInspector.Parser.BotTest do
   alias UAInspector.Result
 
   test "#1" do
-    agent  = "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36"
+    agent =
+      "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36"
+
     parsed = UAInspector.parse(agent)
 
     assert "Search bot" == parsed.category
@@ -12,9 +14,9 @@ defmodule UAInspector.Parser.BotTest do
   end
 
   test "#2" do
-    agent  = "generic crawler agent"
+    agent = "generic crawler agent"
     parsed = UAInspector.parse(agent)
-    result = %Result.Bot{ user_agent: agent, name: "Generic Bot" }
+    result = %Result.Bot{user_agent: agent, name: "Generic Bot"}
 
     assert parsed == result
   end

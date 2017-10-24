@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   @moduledoc false
-  @shortdoc  "Downloads parser short code maps"
+  @shortdoc "Downloads parser short code maps"
 
   use Mix.Task
 

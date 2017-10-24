@@ -15,55 +15,51 @@ defmodule UAInspector.ShortCodeMap do
 
       @behaviour unquote(__MODULE__)
 
-
       # GenServer lifecycle
 
       def init(_) do
-        ets_opts = [ :protected, :set, read_concurrency: true ]
-        ets_tid  = :ets.new(__MODULE__, ets_opts)
+        ets_opts = [:protected, :set, read_concurrency: true]
+        ets_tid = :ets.new(__MODULE__, ets_opts)
 
-        state = %State{ ets_tid: ets_tid }
+        state = %State{ets_tid: ets_tid}
         state = load_map(state)
 
-        { :ok, state }
+        {:ok, state}
       end
-
 
       # GenServer callbacks
 
       def handle_call(:ets_tid, _from, state) do
-        { :reply, state.ets_tid, state }
+        {:reply, state.ets_tid, state}
       end
-
 
       # Public methods
 
-      def file_local,  do: unquote(opts[:file_local])
+      def file_local, do: unquote(opts[:file_local])
       def file_remote, do: Config.database_url(:short_code_map, unquote(opts[:file_remote]))
-      def var_name,    do: unquote(opts[:var_name])
-      def var_type,    do: unquote(opts[:var_type])
+      def var_name, do: unquote(opts[:var_name])
+      def var_type, do: unquote(opts[:var_type])
 
       def to_long(short) do
         list()
-        |> Enum.find({ short, short }, fn ({ s, _ }) -> short == s end)
+        |> Enum.find({short, short}, fn {s, _} -> short == s end)
         |> elem(1)
       end
 
       def to_short(long) do
         list()
-        |> Enum.find({ long, long }, fn ({ _, l }) -> long == l end)
+        |> Enum.find({long, long}, fn {_, l} -> long == l end)
         |> elem(0)
       end
-
 
       # Internal methods
 
       defp load_map(state) do
-        map = Config.database_path |> Path.join(file_local())
+        map = Config.database_path() |> Path.join(file_local())
 
         case File.regular?(map) do
           false ->
-            Logger.info "failed to load short code map: #{ map }"
+            Logger.info("failed to load short code map: #{map}")
             state
 
           true ->
@@ -73,53 +69,52 @@ defmodule UAInspector.ShortCodeMap do
         end
       end
 
-      defp parse_map([ entry | map ], state)  do
+      defp parse_map([entry | map], state) do
         data = entry |> to_ets()
-        _    = :ets.insert(state.ets_tid, data)
+        _ = :ets.insert(state.ets_tid, data)
 
         parse_map(map, state)
       end
+
       defp parse_map([], state), do: state
     end
   end
-
 
   # Public methods
 
   @doc """
   Returns the local filename for this map.
   """
-  @callback file_local() :: String.t
+  @callback file_local() :: String.t()
 
   @doc """
   Returns the remote path for this map.
   """
-  @callback file_remote() :: String.t
+  @callback file_remote() :: String.t()
 
   @doc """
   Returns the long representation for a short name.
 
   Unknown names are returned unmodified.
   """
-  @callback to_long(String.t) :: String.t
+  @callback to_long(String.t()) :: String.t()
 
   @doc """
   Returns the short representation for a long name.
 
   Unknown names are returned unmodified.
   """
-  @callback to_short(String.t) :: String.t
+  @callback to_short(String.t()) :: String.t()
 
   @doc """
   Returns a name representation for this map.
   """
-  @callback var_name() :: String.t
+  @callback var_name() :: String.t()
 
   @doc """
   Returns a type representation for this map.
   """
   @callback var_type() :: :hash | :list
-
 
   # Internal methods
 

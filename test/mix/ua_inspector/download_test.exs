@@ -15,6 +15,6 @@ defmodule Mix.UAInspector.DownloadTest do
     assert File.exists?(test_readme)
     assert File.stat!(orig_readme).size == File.stat!(test_readme).size
 
-    File.rm_rf! test_path
+    File.rm_rf!(test_path)
   end
 end

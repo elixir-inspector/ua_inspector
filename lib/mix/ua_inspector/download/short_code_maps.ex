@@ -16,7 +16,6 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
   alias UAInspector.Config
   alias UAInspector.ShortCodeMap
 
-
   @behaviour Mix.Task
 
   @maps [
@@ -27,18 +26,16 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
   ]
 
   def run(args) do
-    Mix.shell.info "UAInspector Short Code Map Download"
+    Mix.shell().info("UAInspector Short Code Map Download")
 
-    case Config.database_path do
+    case Config.database_path() do
       nil -> Download.exit_unconfigured()
-      _   -> Download.request_confirmation(args) |> run_confirmed()
+      _ -> Download.request_confirmation(args) |> run_confirmed()
     end
   end
 
-
-
   defp run_confirmed(false) do
-    Mix.shell.info "Download aborted!"
+    Mix.shell().info("Download aborted!")
 
     :ok
   end
@@ -47,33 +44,34 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
     :ok = Download.prepare_database_path()
     :ok = @maps |> download()
 
-    Mix.shell.info "Download complete!"
+    Mix.shell().info("Download complete!")
 
     :ok
   end
 
-  defp download([]),            do: :ok
-  defp download([ map | maps ]) do
-    Mix.shell.info ".. downloading: #{ map.file_local }"
+  defp download([]), do: :ok
 
-    yaml = Path.join([ Config.database_path, map.file_local ])
-    temp = "#{ yaml }.tmp"
+  defp download([map | maps]) do
+    Mix.shell().info(".. downloading: #{map.file_local}")
+
+    yaml = Path.join([Config.database_path(), map.file_local])
+    temp = "#{yaml}.tmp"
 
     download_database(map.file_remote, temp)
 
     :ok =
-         map.var_name
+      map.var_name
       |> Util.extract(map.var_type, temp)
       |> Util.write_yaml(map.var_type, yaml)
 
-    File.rm! temp
+    File.rm!(temp)
 
     download(maps)
   end
 
   defp download_database(remote, local) do
-    { :ok, content } = Download.read_remote(remote)
+    {:ok, content} = Download.read_remote(remote)
 
-    File.write! local, content
+    File.write!(local, content)
   end
 end

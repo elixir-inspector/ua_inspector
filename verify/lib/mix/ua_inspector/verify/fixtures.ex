@@ -5,7 +5,6 @@ defmodule Mix.UAInspector.Verify.Fixtures do
 
   alias Mix.UAInspector.Download
 
-
   @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
 
   @fixtures [
@@ -34,42 +33,40 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "unknown.yml"
   ]
 
-
   def download() do
-    Mix.shell.info "Download path: #{ download_path() }"
+    Mix.shell().info("Download path: #{download_path()}")
 
     setup()
     download(@fixtures)
 
-    Mix.shell.info "Download complete!"
+    Mix.shell().info("Download complete!")
     :ok
   end
 
+  def download([]), do: :ok
 
-  def download([]),                    do: :ok
-  def download([ fixture | fixtures ]) do
-    Mix.shell.info ".. downloading: #{ fixture }"
+  def download([fixture | fixtures]) do
+    Mix.shell().info(".. downloading: #{fixture}")
 
-    remote = "#{ @fixture_base_url }/#{ fixture }"
-    local  = download_path(fixture)
+    remote = "#{@fixture_base_url}/#{fixture}"
+    local = download_path(fixture)
 
     download_fixture(remote, local)
     download(fixtures)
   end
 
-
   defp download_fixture(remote, local) do
-    { :ok, content } = Download.read_remote(remote)
+    {:ok, content} = Download.read_remote(remote)
 
-    File.write! local, content
+    File.write!(local, content)
   end
 
-  def download_path,       do: Path.join(__DIR__, "../../../../fixtures") |> Path.expand()
+  def download_path, do: Path.join(__DIR__, "../../../../fixtures") |> Path.expand()
   def download_path(file), do: Path.join(download_path(), file)
-  def list,                do: @fixtures
+  def list, do: @fixtures
 
   def setup() do
-    File.rm_rf! download_path()
-    File.mkdir_p! download_path()
+    File.rm_rf!(download_path())
+    File.mkdir_p!(download_path())
   end
 end

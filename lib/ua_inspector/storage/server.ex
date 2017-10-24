@@ -9,13 +9,11 @@ defmodule UAInspector.Storage.Server do
 
       @behaviour unquote(__MODULE__)
 
-
       # GenServer lifecycle
 
       def start_link() do
         GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
       end
-
 
       # Public methods
 
@@ -23,14 +21,12 @@ defmodule UAInspector.Storage.Server do
     end
   end
 
-
   # GenServer lifecycle
 
   @doc """
   Starts the database server.
   """
-  @callback start_link() :: GenServer.on_start
-
+  @callback start_link() :: GenServer.on_start()
 
   # Public methods
 

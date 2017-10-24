@@ -3,12 +3,11 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
   Device Brand Short Code Map.
   """
 
-  use UAInspector.ShortCodeMap, [
-    file_local:  "short_codes.device_brands.yml",
+  use UAInspector.ShortCodeMap,
+    file_local: "short_codes.device_brands.yml",
     file_remote: "Parser/Device/DeviceParserAbstract.php",
-    var_name:    "deviceBrands",
-    var_type:    :hash
-  ]
+    var_name: "deviceBrands",
+    var_type: :hash
 
-  def to_ets([{ short, long }]), do: { short, long }
+  def to_ets([{short, long}]), do: {short, long}
 end

@@ -5,7 +5,7 @@ defmodule UAInspector.ShortCodeMap.DeviceBrandsTest do
 
   test "device brand" do
     assert "Google" == DeviceBrands.to_long("GO")
-    assert "GO"     == DeviceBrands.to_short("Google")
+    assert "GO" == DeviceBrands.to_short("Google")
   end
 
   test "device brand not convertible" do

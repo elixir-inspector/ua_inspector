@@ -4,12 +4,10 @@ defmodule UAInspector.Result.BotProducer do
   """
 
   @type t :: %__MODULE__{
-    name: String.t | :unknown,
-    url:  String.t | :unknown
-  }
+          name: String.t() | :unknown,
+          url: String.t() | :unknown
+        }
 
-  defstruct [
-    name: :unknown,
-    url:  :unknown
-  ]
+  defstruct name: :unknown,
+            url: :unknown
 end

@@ -3,10 +3,9 @@ defmodule UAInspector.Database.BrowserEngines do
   UAInspector browser engine information database.
   """
 
-  use UAInspector.Database, [
-    sources: [{ "", "browser_engine.yml" }],
-    type:    :browser_engine
-  ]
+  use UAInspector.Database,
+    sources: [{"", "browser_engine.yml"}],
+    type: :browser_engine
 
   alias UAInspector.Util
 
@@ -14,7 +13,7 @@ defmodule UAInspector.Database.BrowserEngines do
     data = Enum.into(data, %{})
 
     %{
-      name:  data["name"],
+      name: data["name"],
       regex: Util.build_regex(data["regex"])
     }
   end

@@ -5,7 +5,7 @@ defmodule UAInspector.ShortCodeMap.OSsTest do
 
   test "OS name" do
     assert "Fedora" == OSs.to_long("FED")
-    assert "FED"    == OSs.to_short("Fedora")
+    assert "FED" == OSs.to_short("Fedora")
   end
 
   test "OS name not convertible" do

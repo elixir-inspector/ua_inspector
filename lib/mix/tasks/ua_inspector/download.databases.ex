@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.UaInspector.Download.Databases do
   @moduledoc false
-  @shortdoc  "Downloads parser databases"
+  @shortdoc "Downloads parser databases"
 
   use Mix.Task
 
