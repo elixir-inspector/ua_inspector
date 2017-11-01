@@ -203,11 +203,11 @@ false
 To parse the client information for a user without checking for bots:
 
 ```elixir
-iex(1)> UAInspector.bot? "generic crawler agent"
+iex(1)> UAInspector.parse_client "generic crawler agent"
 %UAInspector.Result{
   user_agent: "generic crawler agent"
   client:     :unknown,
-  device:     %UAInspector.Result.Device{},
+  device:     :unknown,
   os:         :unknown
 }
 ```
