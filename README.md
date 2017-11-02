@@ -127,6 +127,21 @@ Please see
 [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)
 for a complete list of available options.
 
+#### Configuration (Worker Pool)
+
+All parsing requests are internally done using a `:poolboy` worker pool. The
+behaviour of this pool can be configured:
+
+```elixir
+config :ua_inspector,
+  pool: [ max_overflow: 10, size: 5 ]
+```
+
+As these options are passed unmodified please look at the official
+[poolboy documentation](https://github.com/devinus/poolboy) for details.
+
+Defaults are defined in the module `UAInspector.Pool`.
+
 
 ## Usage
 
