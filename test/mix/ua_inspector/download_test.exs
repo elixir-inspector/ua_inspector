@@ -9,7 +9,7 @@ defmodule Mix.UAInspector.DownloadTest do
     Mix.UAInspector.Download.prepare_database_path()
     Application.put_env(:ua_inspector, :database_path, orig_path)
 
-    orig_readme = Path.join(__DIR__, "../../../lib/mix/files/README.md") |> Path.expand()
+    orig_readme = Path.join(:code.priv_dir(:ua_inspector), "README.md")
     test_readme = Path.join(test_path, "README.md") |> Path.expand()
 
     assert File.exists?(test_readme)

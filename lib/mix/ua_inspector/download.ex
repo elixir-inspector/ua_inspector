@@ -24,7 +24,7 @@ defmodule Mix.UAInspector.Download do
       File.mkdir_p!(Config.database_path())
     end
 
-    README.put(Config.database_path())
+    README.write()
   end
 
   @doc """

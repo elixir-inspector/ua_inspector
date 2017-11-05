@@ -3,19 +3,25 @@ defmodule Mix.UAInspector.README do
   Utility module to handle README.md in download folders.
   """
 
-  @readme_path Path.join(__DIR__, "../files/README.md") |> Path.expand()
-  @readme_content @readme_path |> File.read!()
+  alias UAInspector.Config
 
-  @external_resource @readme_path
+  @readme "README.md"
 
   @doc """
-  Puts the UAInspector README.md into a folder.
+  Returns the path to the local copy of the README file.
   """
-  @spec put(String.t()) :: :ok
-  def put(path) do
-    readme_tgt = Path.join(path, "README.md")
+  @spec path :: Path.t()
+  def path(), do: Path.join(Config.database_path(), @readme)
 
-    File.write!(readme_tgt, @readme_content)
+  @doc """
+  Copies the README.md file to the download folder.
+  """
+  @spec write() :: :ok
+  def write() do
+    source = Path.join(:code.priv_dir(:ua_inspector), "README.md")
+    target = path()
+
+    {:ok, _} = File.copy(source, target)
     :ok
   end
 end
