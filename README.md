@@ -60,6 +60,9 @@ files they are stored in the configured database directory.
 The local path of the downloaded files will be shown to you upon command
 invocation.
 
+After downloading the databases an informational README file will be placed
+in the database path with a link to the default database sources.
+
 ### Configuration
 
 Add the path to the user agent database you want to use to your project
