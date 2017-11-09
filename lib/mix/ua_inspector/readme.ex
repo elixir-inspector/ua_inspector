@@ -5,23 +5,32 @@ defmodule Mix.UAInspector.README do
 
   alias UAInspector.Config
 
-  @readme "README.md"
+  @readme "ua_inspector.readme.md"
 
   @doc """
   Returns the path to the local copy of the README file.
   """
-  @spec path :: Path.t()
-  def path(), do: Path.join(Config.database_path(), @readme)
+  @spec path_local :: Path.t()
+  def path_local(), do: Path.join(Config.database_path(), @readme)
+
+  @doc """
+  Returns the path of the README file distributed in priv_dir.
+  """
+  @spec path_priv :: Path.t()
+  def path_priv(), do: Path.join(:code.priv_dir(:ua_inspector), @readme)
 
   @doc """
   Copies the README.md file to the download folder.
   """
   @spec write() :: :ok
   def write() do
-    source = Path.join(:code.priv_dir(:ua_inspector), "README.md")
-    target = path()
+    path_local = Path.dirname(path_local())
 
-    {:ok, _} = File.copy(source, target)
+    unless File.dir?(path_local) do
+      File.mkdir_p!(path_local)
+    end
+
+    {:ok, _} = File.copy(path_priv(), path_local())
     :ok
   end
 end
