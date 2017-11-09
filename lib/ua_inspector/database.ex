@@ -18,19 +18,25 @@ defmodule UAInspector.Database do
       # GenServer lifecycle
 
       def init(_) do
-        ets_opts = [:protected, :ordered_set, read_concurrency: true]
-        ets_tid = :ets.new(__MODULE__, ets_opts)
+        :ok = GenServer.cast(__MODULE__, :reload_databases)
 
-        state = %State{ets_tid: ets_tid}
-        state = load_sources(sources(), Config.database_path(), state)
-
-        {:ok, state}
+        {:ok, %State{}}
       end
 
       # GenServer callbacks
 
       def handle_call(:ets_tid, _from, state) do
         {:reply, state.ets_tid, state}
+      end
+
+      def handle_cast(:reload_databases, state) do
+        ets_opts = [:protected, :ordered_set, read_concurrency: true]
+        ets_tid = :ets.new(__MODULE__, ets_opts)
+
+        state = %State{ets_tid: ets_tid}
+        state = load_sources(sources(), Config.database_path(), state)
+
+        {:noreply, state}
       end
 
       # Public methods

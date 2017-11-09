@@ -21,6 +21,8 @@ defmodule UAInspector.Database.InitTest do
     log =
       capture_io(:user, fn ->
         Database.Bots.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -32,6 +34,8 @@ defmodule UAInspector.Database.InitTest do
     log =
       capture_io(:user, fn ->
         Database.BrowserEngines.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -43,6 +47,8 @@ defmodule UAInspector.Database.InitTest do
     log =
       capture_io(:user, fn ->
         Database.Clients.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -54,6 +60,8 @@ defmodule UAInspector.Database.InitTest do
     log =
       capture_io(:user, fn ->
         Database.Devices.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -65,6 +73,8 @@ defmodule UAInspector.Database.InitTest do
     log =
       capture_io(:user, fn ->
         Database.OSs.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -76,6 +86,8 @@ defmodule UAInspector.Database.InitTest do
     log =
       capture_io(:user, fn ->
         Database.VendorFragments.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
