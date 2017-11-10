@@ -20,10 +20,17 @@ defmodule Mix.UAInspector.README do
   def path_priv(), do: Path.join(:code.priv_dir(:ua_inspector), @readme)
 
   @doc """
-  Copies the README.md file to the download folder.
+  Writes the informational README file if remote database is the default.
   """
-  @spec write() :: :ok
+  @spec write :: :ok
   def write() do
+    case Config.default_remote_database?() do
+      true -> do_write()
+      false -> :ok
+    end
+  end
+
+  defp do_write() do
     dirname_local = Path.dirname(path_local())
 
     unless File.dir?(dirname_local) do

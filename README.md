@@ -60,8 +60,9 @@ files they are stored in the configured database directory.
 The local path of the downloaded files will be shown to you upon command
 invocation.
 
-After downloading the databases an informational README file will be placed
-in the database path with a link to the default database sources.
+When using the mix task and a default remote configuration for at least one
+of the database types an informational README is placed next to the downloaded
+file(s).
 
 ### Configuration
 

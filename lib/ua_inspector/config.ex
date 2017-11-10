@@ -61,6 +61,18 @@ defmodule UAInspector.Config do
     "#{remote}/#{file}"
   end
 
+  @doc """
+  Returns whether the remote database (at least one type) matches the default.
+  """
+  @spec default_remote_database? :: boolean
+  def default_remote_database? do
+    Enum.any?(Keyword.keys(@remote_defaults), fn type ->
+      default = @remote_defaults[type]
+
+      get([:remote_path, type], default) == default
+    end)
+  end
+
   defp maybe_fetch_system(config) when is_list(config) do
     Enum.map(config, fn
       {k, v} -> {k, maybe_fetch_system(v)}

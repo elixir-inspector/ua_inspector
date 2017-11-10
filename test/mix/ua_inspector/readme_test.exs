@@ -5,6 +5,7 @@ defmodule Mix.UAInspector.READMETest do
 
   setup_all do
     orig_path = Application.get_env(:ua_inspector, :database_path)
+    remote_path = Application.get_env(:ua_inspector, :remote_path)
     test_path = Path.join(__DIR__, "../../downloads") |> Path.expand()
 
     :ok = Application.put_env(:ua_inspector, :database_path, test_path)
@@ -13,13 +14,28 @@ defmodule Mix.UAInspector.READMETest do
     on_exit(fn ->
       _ = File.rm_rf!(test_path)
       :ok = Application.put_env(:ua_inspector, :database_path, orig_path)
+      :ok = Application.put_env(:ua_inspector, :remote_path, remote_path)
     end)
   end
 
-  test "database path readme creation" do
+  test "README creation for default remote" do
+    test_remote_path = [
+      bot: "--ignore-value--",
+      browser_engine: "--ignore-value--",
+      client: "--ignore-value--",
+      device: "--ignore-value--",
+      os: "--ignore-value--",
+      short_code_map: "--ignore-value--",
+      vendor_fragment: "--ignore-value--"
+    ]
+
+    :ok = Application.put_env(:ua_inspector, :remote_path, test_remote_path)
+    :ok = README.write()
+
     refute File.exists?(README.path_local())
 
-    README.write()
+    :ok = Application.delete_env(:ua_inspector, :remote_path)
+    :ok = README.write()
 
     assert File.exists?(README.path_local())
   end
