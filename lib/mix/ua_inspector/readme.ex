@@ -24,7 +24,10 @@ defmodule Mix.UAInspector.README do
   """
   @spec write :: :ok
   def write() do
-    case Config.default_remote_database?() do
+    default? = Config.default_remote_database?()
+    readme? = !Config.get(:skip_download_readme)
+
+    case default? && readme? do
       true -> do_write()
       false -> :ok
     end

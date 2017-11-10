@@ -35,6 +35,12 @@ defmodule Mix.UAInspector.READMETest do
     refute File.exists?(README.path_local())
 
     :ok = Application.delete_env(:ua_inspector, :remote_path)
+    :ok = Application.put_env(:ua_inspector, :skip_download_readme, true)
+    :ok = README.write()
+
+    refute File.exists?(README.path_local())
+
+    :ok = Application.delete_env(:ua_inspector, :skip_download_readme)
     :ok = README.write()
 
     assert File.exists?(README.path_local())

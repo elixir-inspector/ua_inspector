@@ -60,9 +60,14 @@ files they are stored in the configured database directory.
 The local path of the downloaded files will be shown to you upon command
 invocation.
 
-When using the mix task and a default remote configuration for at least one
-of the database types an informational README is placed next to the downloaded
-file(s).
+When using both the mix task and a default remote configuration for at least
+one type of database an informational README is placed next to the downloaded
+file(s). This behaviour can be deactivated by configuration:
+
+```elixir
+config :ua_inspector,
+  skip_download_readme: true
+```
 
 ### Configuration
 
