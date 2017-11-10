@@ -24,10 +24,10 @@ defmodule Mix.UAInspector.README do
   """
   @spec write() :: :ok
   def write() do
-    path_local = Path.dirname(path_local())
+    dirname_local = Path.dirname(path_local())
 
-    unless File.dir?(path_local) do
-      File.mkdir_p!(path_local)
+    unless File.dir?(dirname_local) do
+      File.mkdir_p!(dirname_local)
     end
 
     {:ok, _} = File.copy(path_priv(), path_local())
