@@ -14,6 +14,7 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   alias Mix.UAInspector.Download
   alias UAInspector.Config
   alias UAInspector.Database
+  alias UAInspector.Downloader
 
   use Mix.Task
 
@@ -66,7 +67,8 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   end
 
   defp download_database(remote, local) do
-    {:ok, content} = Download.read_remote(remote)
+    {:ok, _} = Application.ensure_all_started(:hackney)
+    {:ok, content} = Downloader.read_remote(remote)
 
     File.write!(local, content)
   end
