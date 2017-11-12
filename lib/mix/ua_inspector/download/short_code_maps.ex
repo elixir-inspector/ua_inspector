@@ -11,9 +11,9 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
   """
 
   alias Mix.UAInspector.Download
-  alias Mix.UAInspector.ShortCodeMap, as: Util
 
   alias UAInspector.Config
+  alias UAInspector.Downloader.ShortCodeMapConverter
   alias UAInspector.ShortCodeMap
 
   @behaviour Mix.Task
@@ -61,8 +61,8 @@ defmodule Mix.UAInspector.Download.ShortCodeMaps do
 
     :ok =
       map.var_name
-      |> Util.extract(map.var_type, temp)
-      |> Util.write_yaml(map.var_type, yaml)
+      |> ShortCodeMapConverter.extract(map.var_type, temp)
+      |> ShortCodeMapConverter.write_yaml(map.var_type, yaml)
 
     File.rm!(temp)
 

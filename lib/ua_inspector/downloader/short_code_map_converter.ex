@@ -1,6 +1,6 @@
-defmodule Mix.UAInspector.ShortCodeMap do
+defmodule UAInspector.Downloader.ShortCodeMapConverter do
   @moduledoc """
-  Utility module to extract short code maps from source files.
+  Utility module to extract short code maps from php sources into yaml files.
   """
 
   alias UAInspector.Util
