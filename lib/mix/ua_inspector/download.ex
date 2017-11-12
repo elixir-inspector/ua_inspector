@@ -3,8 +3,8 @@ defmodule Mix.UAInspector.Download do
   Utility module to support download tasks.
   """
 
-  alias Mix.UAInspector.README
   alias UAInspector.Config
+  alias UAInspector.Downloader.README
 
   @doc """
   Prints an error because of missing configuration values.

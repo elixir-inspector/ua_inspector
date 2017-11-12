@@ -1,7 +1,7 @@
-defmodule Mix.UAInspector.READMETest do
+defmodule UAInspector.Downloader.READMETest do
   use ExUnit.Case, async: false
 
-  alias Mix.UAInspector.README
+  alias UAInspector.Downloader.README
 
   setup_all do
     orig_path = Application.get_env(:ua_inspector, :database_path)

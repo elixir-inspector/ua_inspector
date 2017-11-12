@@ -1,4 +1,4 @@
-defmodule Mix.UAInspector.README do
+defmodule UAInspector.Downloader.README do
   @moduledoc """
   Utility module to handle README.md in download folders.
   """
