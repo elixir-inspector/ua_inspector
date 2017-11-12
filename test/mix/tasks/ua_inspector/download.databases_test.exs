@@ -1,15 +1,16 @@
-defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
+defmodule Mix.Tasks.UaInspector.Download.DatabasesTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
 
+  alias Mix.Tasks.UaInspector.Download.Databases, as: MixTask
   alias UAInspector.Util
 
   setup_all do
     # setup internal testing webserver
     Application.ensure_all_started(:inets)
 
-    fixture_path = Path.join([__DIR__, '../../fixtures']) |> Path.expand()
+    fixture_path = Path.join([__DIR__, '../../../fixtures']) |> Path.expand()
 
     httpd_opts = [
       port: 0,
@@ -24,7 +25,16 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
     remote_paths = Application.get_env(:ua_inspector, :remote_path)
     remote_internal = "http://localhost:#{:httpd.info(httpd_pid)[:port]}/"
 
-    :ok = Application.put_env(:ua_inspector, :remote_path, short_code_map: remote_internal)
+    test_remote_path = [
+      bot: remote_internal,
+      browser_engine: remote_internal,
+      client: remote_internal,
+      device: remote_internal,
+      os: remote_internal,
+      vendor_fragment: remote_internal
+    ]
+
+    :ok = Application.put_env(:ua_inspector, :remote_path, test_remote_path)
 
     on_exit(fn ->
       Application.put_env(:ua_inspector, :remote_path, remote_paths)
@@ -36,7 +46,7 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
 
     console =
       capture_io(fn ->
-        Mix.UAInspector.Download.ShortCodeMaps.run([])
+        MixTask.run([])
 
         IO.write("n")
       end)
@@ -49,7 +59,7 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
 
     console =
       capture_io([capture_prompt: true], fn ->
-        Mix.UAInspector.Download.ShortCodeMaps.run([])
+        MixTask.run([])
       end)
 
     assert String.contains?(console, "Really download? [Yn]")
@@ -64,21 +74,25 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
     console =
       capture_io(fn ->
         Application.put_env(:ua_inspector, :database_path, test_path)
-        Mix.UAInspector.Download.ShortCodeMaps.run(["--force"])
+        MixTask.run(["--force"])
         Application.put_env(:ua_inspector, :database_path, orig_path)
 
-        maps = [
-          UAInspector.ShortCodeMap.ClientBrowsers,
-          UAInspector.ShortCodeMap.DeviceBrands,
-          UAInspector.ShortCodeMap.MobileBrowsers,
-          UAInspector.ShortCodeMap.OSs
+        databases = [
+          UAInspector.Database.Bots,
+          UAInspector.Database.BrowserEngines,
+          UAInspector.Database.Clients,
+          UAInspector.Database.Devices,
+          UAInspector.Database.OSs,
+          UAInspector.Database.VendorFragments
         ]
 
-        for map <- maps do
-          [test_path, map.file_local]
-          |> Path.join()
-          |> File.exists?()
-          |> assert
+        for database <- databases do
+          for {_type, local, _remote} <- database.sources do
+            [test_path, local]
+            |> Path.join()
+            |> File.exists?()
+            |> assert
+          end
         end
       end)
 
@@ -97,7 +111,7 @@ defmodule Mix.UAInspector.ShortCodeMaps.DownloadTest do
         # capture regular output as well
         capture_io(fn ->
           Application.put_env(:ua_inspector, :database_path, nil)
-          Mix.UAInspector.Download.ShortCodeMaps.run([])
+          MixTask.run([])
           Application.put_env(:ua_inspector, :database_path, orig_path)
         end)
       end)
