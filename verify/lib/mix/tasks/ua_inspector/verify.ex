@@ -57,8 +57,8 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp maybe_download(quick: true), do: :ok
 
   defp maybe_download(_) do
-    :ok = Mix.UAInspector.Download.Databases.run(["--force"])
-    :ok = Mix.UAInspector.Download.ShortCodeMaps.run(["--force"])
+    :ok = Mix.Tasks.UaInspector.Download.Databases.run(["--force"])
+    :ok = Mix.Tasks.UaInspector.Download.ShortCodeMaps.run(["--force"])
     :ok = Verify.Fixtures.download()
 
     Mix.shell().info("=== Skip downloads using '--quick' ===")

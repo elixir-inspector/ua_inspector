@@ -4,6 +4,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   """
 
   alias Mix.UAInspector.Download
+  alias UAInspector.Downloader
 
   @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
 
@@ -56,7 +57,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   end
 
   defp download_fixture(remote, local) do
-    {:ok, content} = Download.read_remote(remote)
+    {:ok, content} = Downloader.read_remote(remote)
 
     File.write!(local, content)
   end
