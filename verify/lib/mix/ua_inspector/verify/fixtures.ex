@@ -3,7 +3,6 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   Utility module to bundle/download verification fixtures.
   """
 
-  alias Mix.UAInspector.Download
   alias UAInspector.Downloader
 
   @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
