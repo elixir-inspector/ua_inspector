@@ -18,6 +18,15 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
 
   use Mix.Task
 
+  @databases [
+    Database.Bots,
+    Database.BrowserEngines,
+    Database.Clients,
+    Database.Devices,
+    Database.OSs,
+    Database.VendorFragments
+  ]
+
   def run(args) do
     Mix.shell().info("UAInspector Database Download")
 
@@ -34,18 +43,9 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   end
 
   defp run_confirmed(true) do
+    {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Download.prepare_database_path()
-
-    :ok =
-      [
-        Database.Bots,
-        Database.BrowserEngines,
-        Database.Clients,
-        Database.Devices,
-        Database.OSs,
-        Database.VendorFragments
-      ]
-      |> download()
+    :ok = download(@databases)
 
     Mix.shell().info("Download complete!")
 
@@ -60,16 +60,9 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
 
       target = Path.join([Config.database_path(), local])
 
-      download_database(remote, target)
+      Downloader.download_file(remote, target)
     end
 
     download(databases)
-  end
-
-  defp download_database(remote, local) do
-    {:ok, _} = Application.ensure_all_started(:hackney)
-    {:ok, content} = Downloader.read_remote(remote)
-
-    File.write!(local, content)
   end
 end

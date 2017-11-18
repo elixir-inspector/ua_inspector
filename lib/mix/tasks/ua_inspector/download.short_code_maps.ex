@@ -43,8 +43,9 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   end
 
   defp run_confirmed(true) do
+    {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Download.prepare_database_path()
-    :ok = @maps |> download()
+    :ok = download(@maps)
 
     Mix.shell().info("Download complete!")
 
@@ -59,7 +60,7 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
     yaml = Path.join([Config.database_path(), map.file_local])
     temp = "#{yaml}.tmp"
 
-    download_database(map.file_remote, temp)
+    Downloader.download_file(map.file_remote, temp)
 
     :ok =
       map.var_name
@@ -69,12 +70,5 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
     File.rm!(temp)
 
     download(maps)
-  end
-
-  defp download_database(remote, local) do
-    {:ok, _} = Application.ensure_all_started(:hackney)
-    {:ok, content} = Downloader.read_remote(remote)
-
-    File.write!(local, content)
   end
 end
