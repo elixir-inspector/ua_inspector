@@ -8,6 +8,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   use Mix.Task
 
   alias Mix.UAInspector.Verify
+  alias UAInspector.Downloader
 
   def run(args) do
     {opts, _argv, _errors} = OptionParser.parse(args)
@@ -57,6 +58,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp maybe_download(quick: true), do: :ok
 
   defp maybe_download(_) do
+    {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download()
     :ok = Verify.Fixtures.download()
 
