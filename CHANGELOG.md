@@ -7,6 +7,10 @@
       ([#8](https://github.com/elixytics/ua_inspector/pulls/8))
     - The database downloader has been promoted to a directly usable module
 
+- Bug fixes
+    - If a device has no type configured in the database previously `nil` was
+      returned instead of the expected `:unknown`
+
 ## v0.14.0 (2017-05-31)
 
 - Enhancements

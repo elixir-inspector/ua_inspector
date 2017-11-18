@@ -114,7 +114,7 @@ defmodule UAInspector.Parser.Device do
 
     %Result.Device{
       brand: brand_str,
-      type: model.device,
+      type: model.device || :unknown,
       model: model_str
     }
   end
