@@ -4,7 +4,6 @@ defmodule Mix.UAInspector.Download do
   """
 
   alias UAInspector.Config
-  alias UAInspector.Downloader.README
 
   @doc """
   Prints an error because of missing configuration values.
@@ -13,18 +12,6 @@ defmodule Mix.UAInspector.Download do
   def exit_unconfigured() do
     Mix.shell().error("Database path not configured.")
     Mix.shell().error("See README.md for details.")
-  end
-
-  @doc """
-  Prepares the local database path for downloads.
-  """
-  @spec prepare_database_path() :: :ok
-  def prepare_database_path() do
-    unless File.dir?(Config.database_path()) do
-      File.mkdir_p!(Config.database_path())
-    end
-
-    README.write()
   end
 
   @doc """

@@ -60,6 +60,9 @@ files they are stored in the configured database directory.
 The local path of the downloaded files will be shown to you upon command
 invocation.
 
+If you want to download the database files using your application you can
+directly call `UAInspector.Downloader.download/0`.
+
 When using both the mix task and a default remote configuration for at least
 one type of database an informational README is placed next to the downloaded
 file(s). This behaviour can be deactivated by configuration:

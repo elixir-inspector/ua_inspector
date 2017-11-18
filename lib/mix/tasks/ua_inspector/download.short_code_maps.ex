@@ -15,17 +15,8 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   alias Mix.UAInspector.Download
   alias UAInspector.Config
   alias UAInspector.Downloader
-  alias UAInspector.Downloader.ShortCodeMapConverter
-  alias UAInspector.ShortCodeMap
 
   use Mix.Task
-
-  @maps [
-    ShortCodeMap.ClientBrowsers,
-    ShortCodeMap.DeviceBrands,
-    ShortCodeMap.MobileBrowsers,
-    ShortCodeMap.OSs
-  ]
 
   def run(args) do
     Mix.shell().info("UAInspector Short Code Map Download")
@@ -44,31 +35,10 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
 
   defp run_confirmed(true) do
     {:ok, _} = Application.ensure_all_started(:hackney)
-    :ok = Download.prepare_database_path()
-    :ok = download(@maps)
+    :ok = Downloader.download(:short_code_maps)
 
     Mix.shell().info("Download complete!")
 
     :ok
-  end
-
-  defp download([]), do: :ok
-
-  defp download([map | maps]) do
-    Mix.shell().info(".. downloading: #{map.file_local}")
-
-    yaml = Path.join([Config.database_path(), map.file_local])
-    temp = "#{yaml}.tmp"
-
-    Downloader.download_file(map.file_remote, temp)
-
-    :ok =
-      map.var_name
-      |> ShortCodeMapConverter.extract(map.var_type, temp)
-      |> ShortCodeMapConverter.write_yaml(map.var_type, yaml)
-
-    File.rm!(temp)
-
-    download(maps)
   end
 end

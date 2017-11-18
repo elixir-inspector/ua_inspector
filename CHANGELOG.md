@@ -5,6 +5,7 @@
 - Enhancements
     - Supervision can now be done without starting the application
       ([#8](https://github.com/elixytics/ua_inspector/pulls/8))
+    - The database downloader has been promoted to a directly usable module
 
 ## v0.14.0 (2017-05-31)
 
