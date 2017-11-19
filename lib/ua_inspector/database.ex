@@ -18,7 +18,7 @@ defmodule UAInspector.Database do
       # GenServer lifecycle
 
       def init(_) do
-        :ok = GenServer.cast(__MODULE__, :reload_databases)
+        :ok = GenServer.cast(__MODULE__, :reload)
 
         {:ok, %State{}}
       end
@@ -29,7 +29,7 @@ defmodule UAInspector.Database do
         {:reply, state.ets_tid, state}
       end
 
-      def handle_cast(:reload_databases, state) do
+      def handle_cast(:reload, state) do
         ets_opts = [:protected, :ordered_set, read_concurrency: true]
         ets_tid = :ets.new(__MODULE__, ets_opts)
 
