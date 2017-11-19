@@ -3,6 +3,8 @@
 ## v0.15.0-dev
 
 - Enhancements
+    - All databases can be reloaded (asynchronously) using
+      `UAInspector.reload_databases/0`
     - Supervision can now be done without starting the application
       ([#8](https://github.com/elixytics/ua_inspector/pulls/8))
     - The database downloader has been promoted to a directly usable module
