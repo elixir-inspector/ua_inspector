@@ -21,6 +21,8 @@ defmodule UAInspector.ShortCodeMap.InitTest do
     log =
       capture_io(:user, fn ->
         ShortCodeMap.ClientBrowsers.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -32,6 +34,8 @@ defmodule UAInspector.ShortCodeMap.InitTest do
     log =
       capture_io(:user, fn ->
         ShortCodeMap.DeviceBrands.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
@@ -43,6 +47,8 @@ defmodule UAInspector.ShortCodeMap.InitTest do
     log =
       capture_io(:user, fn ->
         ShortCodeMap.MobileBrowsers.init(:ignored)
+
+        :timer.sleep(100)
         Logger.flush()
       end)
 
