@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UaInspector.Download.Databases do
+defmodule Mix.Tasks.UAInspector.Download.Databases do
   @moduledoc """
   Fetches parser databases from the
   [piwik/device-detector](https://github.com/piwik/device-detector)

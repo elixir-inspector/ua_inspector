@@ -1,9 +1,9 @@
-defmodule Mix.Tasks.UaInspector.Download.ShortCodeMapsTest do
+defmodule Mix.Tasks.UAInspector.Download.ShortCodeMapsTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
 
-  alias Mix.Tasks.UaInspector.Download.ShortCodeMaps, as: MixTask
+  alias Mix.Tasks.UAInspector.Download.ShortCodeMaps, as: MixTask
   alias UAInspector.Util
 
   setup_all do

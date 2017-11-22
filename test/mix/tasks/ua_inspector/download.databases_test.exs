@@ -1,9 +1,9 @@
-defmodule Mix.Tasks.UaInspector.Download.DatabasesTest do
+defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
 
-  alias Mix.Tasks.UaInspector.Download.Databases, as: MixTask
+  alias Mix.Tasks.UAInspector.Download.Databases, as: MixTask
   alias UAInspector.Util
 
   setup_all do

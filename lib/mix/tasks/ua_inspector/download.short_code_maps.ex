@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
+defmodule Mix.Tasks.UAInspector.Download.ShortCodeMaps do
   @moduledoc """
   Fetches short code map listings from the
   [piwik/device-detector](https://github.com/piwik/device-detector)
