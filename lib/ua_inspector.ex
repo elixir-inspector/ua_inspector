@@ -34,8 +34,8 @@ defmodule UAInspector do
   @doc """
   Reloads all databases.
   """
-  @spec reload_databases() :: :ok
-  def reload_databases() do
+  @spec reload() :: :ok
+  def reload() do
     [
       Database.Bots,
       Database.BrowserEngines,

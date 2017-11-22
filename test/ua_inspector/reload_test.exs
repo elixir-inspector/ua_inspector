@@ -19,7 +19,7 @@ defmodule UAInspector.ReloadTest do
     assert UAInspector.parse(agent) == unknown
 
     Application.put_env(:ua_inspector, :database_path, app_database_path)
-    UAInspector.reload_databases()
+    UAInspector.reload()
     :timer.sleep(100)
 
     refute UAInspector.parse(agent) == unknown
