@@ -30,10 +30,7 @@ defmodule UAInspector.Database do
       end
 
       def handle_cast(:reload, _state) do
-        ets_opts = [:protected, :ordered_set, read_concurrency: true]
-        ets_tid = :ets.new(__MODULE__, ets_opts)
-
-        state = %State{ets_tid: ets_tid}
+        state = %State{ets_tid: create_ets_table()}
         state = load_sources(sources(), Config.database_path(), state)
 
         {:noreply, state}
@@ -52,6 +49,13 @@ defmodule UAInspector.Database do
       end
 
       # Internal methods
+
+      defp create_ets_table() do
+        ets_name = __MODULE__
+        ets_opts = [:protected, :ordered_set, read_concurrency: true]
+
+        :ets.new(ets_name, ets_opts)
+      end
 
       defp load_sources([{type, local, _remote} | sources], path, state) do
         database = Path.join(path, local)
