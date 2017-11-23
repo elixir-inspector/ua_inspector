@@ -29,7 +29,7 @@ defmodule UAInspector.Database do
         {:reply, state.ets_tid, state}
       end
 
-      def handle_cast(:reload, state) do
+      def handle_cast(:reload, _state) do
         ets_opts = [:protected, :ordered_set, read_concurrency: true]
         ets_tid = :ets.new(__MODULE__, ets_opts)
 
