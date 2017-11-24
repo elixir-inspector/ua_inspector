@@ -29,9 +29,11 @@ defmodule UAInspector.Database do
         {:reply, state.ets_tid, state}
       end
 
-      def handle_cast(:reload, _state) do
+      def handle_cast(:reload, %State{ets_tid: old_ets_tid}) do
         state = %State{ets_tid: create_ets_table()}
         state = load_sources(sources(), Config.database_path(), state)
+
+        drop_ets_table(old_ets_tid)
 
         {:noreply, state}
       end
@@ -55,6 +57,16 @@ defmodule UAInspector.Database do
         ets_opts = [:protected, :ordered_set, read_concurrency: true]
 
         :ets.new(ets_name, ets_opts)
+      end
+
+      defp drop_ets_table(ets_tid) do
+        true =
+          case :ets.info(ets_tid) do
+            :undefined -> true
+            _ -> :ets.delete(ets_tid)
+          end
+
+        :ok
       end
 
       defp load_sources([{type, local, _remote} | sources], path, state) do
