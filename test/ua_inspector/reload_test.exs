@@ -1,7 +1,7 @@
 defmodule UAInspector.ReloadTest do
   use ExUnit.Case, async: false
 
-  import ExUnit.CaptureIO
+  import ExUnit.CaptureLog
 
   test "reloading databases" do
     agent =
@@ -10,10 +10,9 @@ defmodule UAInspector.ReloadTest do
     app_database_path = Application.get_env(:ua_inspector, :database_path)
     unknown = %UAInspector.Result{user_agent: agent}
 
-    capture_io(:user, fn ->
+    capture_log(fn ->
       Application.put_env(:ua_inspector, :database_path, __DIR__)
       restart_supervisor()
-      Logger.flush()
     end)
 
     assert UAInspector.parse(agent) == unknown

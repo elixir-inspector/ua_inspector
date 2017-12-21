@@ -1,7 +1,7 @@
 defmodule UAInspector.Database.InitTest do
   use ExUnit.Case, async: false
 
-  import ExUnit.CaptureIO
+  import ExUnit.CaptureLog
 
   alias UAInspector.Database
 
@@ -19,11 +19,9 @@ defmodule UAInspector.Database.InitTest do
 
   test "log info when load fails (bots)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         Database.Bots.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -32,11 +30,9 @@ defmodule UAInspector.Database.InitTest do
 
   test "log info when load fails (browser engines)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         Database.BrowserEngines.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -45,11 +41,9 @@ defmodule UAInspector.Database.InitTest do
 
   test "log info when load fails (clients)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         Database.Clients.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -58,11 +52,9 @@ defmodule UAInspector.Database.InitTest do
 
   test "log info when load fails (devices)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         Database.Devices.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -71,11 +63,9 @@ defmodule UAInspector.Database.InitTest do
 
   test "log info when load fails (operating systems)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         Database.OSs.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -84,11 +74,9 @@ defmodule UAInspector.Database.InitTest do
 
   test "log info when load fails (vendor fragments)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         Database.VendorFragments.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")

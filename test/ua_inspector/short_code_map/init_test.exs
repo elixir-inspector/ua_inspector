@@ -1,7 +1,7 @@
 defmodule UAInspector.ShortCodeMap.InitTest do
   use ExUnit.Case, async: false
 
-  import ExUnit.CaptureIO
+  import ExUnit.CaptureLog
 
   alias UAInspector.ShortCodeMap
 
@@ -19,11 +19,9 @@ defmodule UAInspector.ShortCodeMap.InitTest do
 
   test "log info when load fails (client browsers)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         ShortCodeMap.ClientBrowsers.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -32,11 +30,9 @@ defmodule UAInspector.ShortCodeMap.InitTest do
 
   test "log info when load fails (device brands)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         ShortCodeMap.DeviceBrands.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
@@ -45,11 +41,9 @@ defmodule UAInspector.ShortCodeMap.InitTest do
 
   test "log info when load fails (mobile browsers)" do
     log =
-      capture_io(:user, fn ->
+      capture_log(fn ->
         ShortCodeMap.MobileBrowsers.init(:ignored)
-
         :timer.sleep(100)
-        Logger.flush()
       end)
 
     assert String.contains?(log, "failed")
