@@ -11,6 +11,8 @@ defmodule UAInspector.Server do
     GenServer.start_link(__MODULE__, default)
   end
 
+  def init(state), do: {:ok, state}
+
   def handle_call({:is_bot, ua}, _from, state) do
     {:reply, UAInspector.Parser.bot?(ua), state}
   end
