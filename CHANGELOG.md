@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.15.0-dev
+## v0.15.0 (2017-12-30)
 
 - Enhancements
     - All databases can be reloaded (asynchronously) using
