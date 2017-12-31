@@ -37,7 +37,7 @@ defmodule UAInspector.Mixfile do
       {:excoveralls, "~> 0.8", only: :test},
       {:hackney, "~> 1.0"},
       {:poolboy, "~> 1.0"},
-      {:yamerl, "~> 0.4"}
+      {:yamerl, "~> 0.6"}
     ]
   end
 
