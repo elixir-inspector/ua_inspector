@@ -4,7 +4,6 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
   import ExUnit.CaptureIO
 
   alias Mix.Tasks.UAInspector.Download.Databases, as: MixTask
-  alias UAInspector.Util
 
   setup_all do
     # setup internal testing webserver
@@ -15,8 +14,8 @@ defmodule Mix.Tasks.UAInspector.Download.DatabasesTest do
     httpd_opts = [
       port: 0,
       server_name: 'ua_inspector_test',
-      server_root: Util.to_charlist(fixture_path),
-      document_root: Util.to_charlist(fixture_path)
+      server_root: String.to_charlist(fixture_path),
+      document_root: String.to_charlist(fixture_path)
     ]
 
     {:ok, httpd_pid} = :inets.start(:httpd, httpd_opts)

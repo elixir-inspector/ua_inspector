@@ -3,8 +3,6 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   Utility module to extract short code maps from php sources into yaml files.
   """
 
-  alias UAInspector.Util
-
   @doc """
   Extracts the map defined with variable name `var` from the file `file`.
 
@@ -68,14 +66,14 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
 
   defp parse_source(source, :hash) do
     source
-    |> Util.trim()
+    |> String.trim()
     |> String.split("\n")
     |> Enum.map(&parse_mapping(&1, :hash))
   end
 
   defp parse_source(source, :list) do
     source
-    |> Util.trim()
+    |> String.trim()
     |> String.split(",")
     |> Enum.map(&parse_mapping(&1, :list))
   end

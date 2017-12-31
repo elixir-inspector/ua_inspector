@@ -8,7 +8,7 @@ defmodule UAInspector.Mixfile do
       app: :ua_inspector,
       name: "UAInspector",
       version: "0.16.0-dev",
-      elixir: "~> 1.2",
+      elixir: "~> 1.3",
       deps: deps(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,

@@ -35,7 +35,7 @@ defmodule UAInspector.Util do
     |> String.replace(~r/\$(\d)/, "")
     |> String.replace("_", " ")
     |> String.replace(~r/ TD$/, "")
-    |> __MODULE__.trim()
+    |> String.trim()
   end
 
   @doc """
@@ -43,7 +43,7 @@ defmodule UAInspector.Util do
   """
   @spec sanitize_name(name :: String.t()) :: String.t()
   def sanitize_name(""), do: ""
-  def sanitize_name(name), do: __MODULE__.trim(name)
+  def sanitize_name(name), do: String.trim(name)
 
   @doc """
   Sanitizes a version string.
@@ -56,7 +56,7 @@ defmodule UAInspector.Util do
     |> String.replace(~r/\$(\d)/, "")
     |> String.replace(~r/\.$/, "")
     |> String.replace("_", ".")
-    |> __MODULE__.trim()
+    |> String.trim()
   end
 
   @doc """
@@ -124,22 +124,5 @@ defmodule UAInspector.Util do
     data
     |> String.replace("\$#{index}", capture)
     |> uncapture(captures, index + 1)
-  end
-
-  # compatibility hack for elixir 1.2.x
-  if Version.match?(System.version(), "~> 1.2.0") do
-    def to_charlist(string), do: String.to_char_list(string)
-  else
-    @doc false
-    def to_charlist(string), do: String.to_charlist(string)
-  end
-
-  # compatibility hack for elixir 1.2.x
-  if Version.match?(System.version(), "~> 1.2.0") do
-    @doc false
-    def trim(string), do: String.strip(string)
-  else
-    @doc false
-    def trim(string), do: String.trim(string)
   end
 end
