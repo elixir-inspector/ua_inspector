@@ -113,8 +113,8 @@ defmodule UAInspector.Util.OS do
   def proper_case(os) do
     ShortCodeMap.OSs.list()
     |> Enum.find({os, os}, fn {_, o} ->
-         String.downcase(os) == String.downcase(o)
-       end)
+      String.downcase(os) == String.downcase(o)
+    end)
     |> elem(1)
   end
 
