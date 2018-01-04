@@ -154,6 +154,18 @@ As these options are passed unmodified please look at the official
 
 Defaults are defined in the module `UAInspector.Pool`.
 
+### Reloading
+
+Sometimes (for example after downloading a new database set) it is required to
+reload the internal database. This can be done asynchronously:
+
+```elixir
+UAInspector.reload()
+```
+
+This process is handled in the background, so for some time the old data will
+be used for lookups.
+
 
 ## Usage
 
