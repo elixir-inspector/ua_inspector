@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.15.1-dev
+
+- Bug fixes
+    - Broken module naming for the mix download tasks has been fixed
+      ([#12](https://github.com/elixytics/ua_inspector/issues/12))
+
 ## v0.15.0 (2017-12-30)
 
 - Enhancements
