@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.16.1-dev
+## v0.16.1 (2018-01-17)
 
 - Bug fixes
     - Broken module naming for the mix download tasks has been fixed
