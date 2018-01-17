@@ -5,6 +5,12 @@
 - Backwards incompatible changes
     - Minimum required elixir version is now "~> 1.3"
 
+## v0.15.1 (2018-01-17)
+
+- Bug fixes
+    - Broken module naming for the mix download tasks has been fixed
+      ([#12](https://github.com/elixytics/ua_inspector/issues/12))
+
 ## v0.15.0 (2017-12-30)
 
 - Enhancements
