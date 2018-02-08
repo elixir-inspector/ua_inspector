@@ -1,4 +1,5 @@
 _build/
+data/
 deps/
 doc/
 test/downloads/
