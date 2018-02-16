@@ -3,8 +3,8 @@ defmodule UAInspector.Config do
   Utility module to simplify access to configuration values.
   """
 
-  @remote_database "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
-  @remote_shortcode "https://raw.githubusercontent.com/piwik/device-detector/master"
+  @remote_database "https://raw.githubusercontent.com/matomo-org/device-detector/master/regexes"
+  @remote_shortcode "https://raw.githubusercontent.com/matomo-org/device-detector/master"
   @remote_defaults [
     bot: "#{@remote_database}",
     browser_engine: "#{@remote_database}/client",

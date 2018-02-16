@@ -51,7 +51,8 @@ children = [
 
 Using `mix ua_inspector.download.databases` you can store local copies of the
 supported parser databases in the configured path. The databases are taken from
-the [piwik/device-detector](https://github.com/piwik/device-detector) project.
+the [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
+project.
 
 In addition to the parser databases you need to fetch the short code maps
 using `mix ua_inspector.download.short_code_maps`. After conversion to yaml
@@ -99,8 +100,8 @@ config :ua_inspector,
 The base url of database files is configurable:
 
 ```elixir
-remote_database  = "https://raw.githubusercontent.com/piwik/device-detector/master/regexes"
-remote_shortcode = "https://raw.githubusercontent.com/piwik/device-detector/master"
+remote_database  = "https://raw.githubusercontent.com/matomo-org/device-detector/master/regexes"
+remote_shortcode = "https://raw.githubusercontent.com/matomo-org/device-detector/master"
 
 config :ua_inspector,
   remote_path: [
@@ -254,7 +255,7 @@ iex(1)> UAInspector.parse_client "generic crawler agent"
 
 ## Resources
 
-- [piwik/device-detector](https://github.com/piwik/device-detector)
+- [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
 
 
 ## License
@@ -262,5 +263,5 @@ iex(1)> UAInspector.parse_client "generic crawler agent"
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 The parser databases are taken from the
-[piwik/device-detector](https://github.com/piwik/device-detector)
+[matomo-org/device-detector](https://github.com/matomo-org/device-detector)
 project. See there for detailed license information about the data contained.

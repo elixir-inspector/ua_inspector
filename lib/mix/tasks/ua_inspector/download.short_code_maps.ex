@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   @moduledoc """
   Fetches short code map listings from the
-  [piwik/device-detector](https://github.com/piwik/device-detector)
+  [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
   project.
 
   The listings are extracted from the original PHP source files and stored

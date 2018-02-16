@@ -6,7 +6,7 @@ defmodule UAInspector.Database.Devices do
   use UAInspector.Database,
     sources: [
       # files ordered according to
-      # https://github.com/piwik/device-detector/blob/master/DeviceDetector.php
+      # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php
       # to prevent false detections
       {"hbbtv", "televisions.yml"},
       {"regular", "consoles.yml"},

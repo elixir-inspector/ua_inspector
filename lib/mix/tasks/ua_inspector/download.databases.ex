@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.UaInspector.Download.Databases do
   @moduledoc """
   Fetches parser databases from the
-  [piwik/device-detector](https://github.com/piwik/device-detector)
+  [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
   project.
 
   The files will be stored inside your configured path.

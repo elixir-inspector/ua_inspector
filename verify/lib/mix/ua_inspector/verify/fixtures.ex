@@ -5,7 +5,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
 
   alias UAInspector.Downloader
 
-  @fixture_base_url "https://raw.githubusercontent.com/piwik/device-detector/master/Tests/fixtures"
+  @fixture_base_url "https://raw.githubusercontent.com/matomo-org/device-detector/master/Tests/fixtures"
 
   @fixtures [
     "bots.yml",
