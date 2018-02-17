@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.17.0-dev
+
+- Enhancements
+    - References to `piwik` (like database URLs) have been updated to reflect
+      the rename to `matomo`
+
 ## v0.16.1 (2018-01-17)
 
 - Bug fixes
