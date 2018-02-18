@@ -12,7 +12,7 @@ required dependencies:
 
 ```elixir
 defp deps do
-  [{ :ua_inspector, "~> 0.16" }]
+  [{ :ua_inspector, "~> 0.17" }]
 end
 ```
 

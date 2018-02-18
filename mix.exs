@@ -7,7 +7,7 @@ defmodule UAInspector.Mixfile do
     [
       app: :ua_inspector,
       name: "UAInspector",
-      version: "0.17.0-dev",
+      version: "0.17.0",
       elixir: "~> 1.3",
       deps: deps(),
       description: "User agent parser library",
@@ -43,7 +43,7 @@ defmodule UAInspector.Mixfile do
     [
       extras: ["CHANGELOG.md", "README.md"],
       main: "readme",
-      source_ref: "master",
+      source_ref: "v0.17.0",
       source_url: @url_github
     ]
   end

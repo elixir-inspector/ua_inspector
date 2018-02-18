@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.17.0-dev
+## v0.17.0 (2018-02-18)
 
 - Enhancements
     - References to `piwik` (like database URLs) have been updated to reflect
