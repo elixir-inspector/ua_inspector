@@ -85,6 +85,12 @@ use Mix.Config
 config :ua_inspector,
   database_path: Path.join(Mix.Utils.mix_home, "ua_inspector")
 
+# dynamic configuration
+# { mod, fun } tuple without arguments
+# called upon supervisor (re-) start
+config :ua_inspector
+  init: { MyInitModule, :my_init_fun }
+
 # system environment configuration
 config :ua_inspector,
   database_path: { :system, "SOME_SYSTEM_ENV_VARIABLE" }

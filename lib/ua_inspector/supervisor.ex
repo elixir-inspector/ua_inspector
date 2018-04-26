@@ -5,6 +5,8 @@ defmodule UAInspector.Supervisor do
 
   use Supervisor
 
+  alias UAInspector.Config
+
   @doc """
   Starts the supervisor.
   """
@@ -15,6 +17,12 @@ defmodule UAInspector.Supervisor do
 
   @doc false
   def init(_default) do
+    :ok =
+      case Config.get(:init) do
+        nil -> :ok
+        {mod, fun} -> apply(mod, fun, [])
+      end
+
     options = [strategy: :one_for_one, name: __MODULE__]
 
     children = [
