@@ -1,4 +1,4 @@
-defmodule UAInspector.Server do
+defmodule UAInspector.Pool.Worker do
   @moduledoc """
   UAInspector poolboy worker (server).
   """

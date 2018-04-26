@@ -8,7 +8,7 @@ defmodule UAInspector.Pool do
   @pool_name :ua_inspector_pool
   @pool_options [
     name: {:local, @pool_name},
-    worker_module: UAInspector.Server,
+    worker_module: UAInspector.Pool.Worker,
     size: 5,
     max_overflow: 10
   ]
