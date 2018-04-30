@@ -7,6 +7,11 @@
       `{ mod, fun }` tuple for the config key `:init`. This method will be
       called without arguments
 
+- Soft deprecations (no warnings)
+    - Support for `{ :system, "ENV_VARIABLE" }` configuration has been
+      removed from the documentation. It will eventually be removed completely
+      after a proper deprecation phase
+
 ## v0.17.0 (2018-02-18)
 
 - Enhancements
