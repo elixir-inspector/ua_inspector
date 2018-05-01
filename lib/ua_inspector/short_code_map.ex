@@ -33,10 +33,9 @@ defmodule UAInspector.ShortCodeMap do
         ets_opts = [:protected, :set, read_concurrency: true]
         ets_tid = :ets.new(__MODULE__, ets_opts)
 
-        state = %State{ets_tid: ets_tid}
-        state = load_map(state)
+        :ok = load_map(ets_tid)
 
-        {:noreply, state}
+        {:noreply, %State{ets_tid: ets_tid}}
       end
 
       # Public methods
@@ -60,29 +59,29 @@ defmodule UAInspector.ShortCodeMap do
 
       # Internal methods
 
-      defp load_map(state) do
+      defp load_map(ets_tid) do
         map = Config.database_path() |> Path.join(file_local())
 
         case File.regular?(map) do
           false ->
             Logger.info("failed to load short code map: #{map}")
-            state
+            :ok
 
           true ->
             map
             |> YAML.read_file()
-            |> parse_map(state)
+            |> parse_map(ets_tid)
         end
       end
 
-      defp parse_map([entry | map], state) do
+      defp parse_map([entry | map], ets_tid) do
         data = to_ets(entry)
-        _ = :ets.insert(state.ets_tid, data)
+        _ = :ets.insert(ets_tid, data)
 
-        parse_map(map, state)
+        parse_map(map, ets_tid)
       end
 
-      defp parse_map([], state), do: state
+      defp parse_map([], _ets_tid), do: :ok
     end
   end
 
