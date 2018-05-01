@@ -31,9 +31,9 @@ defmodule UAInspector.Database do
 
       def handle_cast(:reload, %State{ets_tid: old_ets_tid}) do
         state = %State{ets_tid: create_ets_table()}
-        state = load_sources(sources(), Config.database_path(), state)
 
-        drop_ets_table(old_ets_tid)
+        :ok = load_sources(sources(), Config.database_path(), state.ets_tid)
+        :ok = drop_ets_table(old_ets_tid)
 
         {:noreply, state}
       end
@@ -69,32 +69,34 @@ defmodule UAInspector.Database do
         :ok
       end
 
-      defp load_sources(sources, path, state) do
-        Enum.reduce(sources, state, fn {type, local, _remote}, acc_state ->
-          database = Path.join(path, local)
+      defp load_sources(sources, path, ets_tid) do
+        _ =
+          Enum.reduce(sources, 0, fn {type, local, _remote}, acc_index ->
+            database = Path.join(path, local)
 
-          case File.regular?(database) do
-            false ->
-              Logger.info("failed to load database: #{database}")
-              acc_state
+            case File.regular?(database) do
+              false ->
+                Logger.info("failed to load database: #{database}")
+                acc_index
 
-            true ->
-              database
-              |> YAML.read_file()
-              |> parse_database(type, acc_state)
-          end
-        end)
+              true ->
+                database
+                |> YAML.read_file()
+                |> parse_database(type, ets_tid, acc_index)
+            end
+          end)
+
+        :ok
       end
 
-      defp parse_database([entry | database], type, state) do
+      defp parse_database([entry | database], type, ets_tid, index) do
         data = to_ets(entry, type)
-        index = state.ets_index + 1
-        _ = :ets.insert(state.ets_tid, {index, data})
+        _ = :ets.insert(ets_tid, {index, data})
 
-        parse_database(database, type, %{state | ets_index: index})
+        parse_database(database, type, ets_tid, index + 1)
       end
 
-      defp parse_database([], _, state), do: state
+      defp parse_database([], _, _ets_tid, index), do: index
     end
   end
 
