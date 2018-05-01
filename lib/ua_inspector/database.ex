@@ -69,25 +69,22 @@ defmodule UAInspector.Database do
         :ok
       end
 
-      defp load_sources([{type, local, _remote} | sources], path, state) do
-        database = Path.join(path, local)
+      defp load_sources(sources, path, state) do
+        Enum.reduce(sources, state, fn {type, local, _remote}, acc_state ->
+          database = Path.join(path, local)
 
-        state =
           case File.regular?(database) do
             false ->
               Logger.info("failed to load database: #{database}")
-              state
+              acc_state
 
             true ->
               database
               |> YAML.read_file()
-              |> parse_database(type, state)
+              |> parse_database(type, acc_state)
           end
-
-        load_sources(sources, path, state)
+        end)
       end
-
-      defp load_sources([], _, state), do: state
 
       defp parse_database([entry | database], type, state) do
         data = entry |> to_ets(type)
