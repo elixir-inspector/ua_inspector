@@ -87,7 +87,7 @@ defmodule UAInspector.Database do
       end
 
       defp parse_database([entry | database], type, state) do
-        data = entry |> to_ets(type)
+        data = to_ets(entry, type)
         index = state.ets_index + 1
         _ = :ets.insert(state.ets_tid, {index, data})
 

@@ -76,7 +76,7 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       defp parse_map([entry | map], state) do
-        data = entry |> to_ets()
+        data = to_ets(entry)
         _ = :ets.insert(state.ets_tid, data)
 
         parse_map(map, state)
