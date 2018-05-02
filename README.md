@@ -88,6 +88,7 @@ config :ua_inspector,
 # dynamic configuration
 # { mod, fun } tuple without arguments
 # called upon supervisor (re-) start
+# and when running the mix download task
 config :ua_inspector
   init: { MyInitModule, :my_init_fun }
 ```

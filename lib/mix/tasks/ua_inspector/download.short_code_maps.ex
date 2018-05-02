@@ -21,6 +21,8 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   def run(args) do
     Mix.shell().info("UAInspector Short Code Map Download")
 
+    :ok = Config.init_env()
+
     case Config.database_path() do
       nil -> Download.exit_unconfigured()
       _ -> Download.request_confirmation(args) |> run_confirmed()

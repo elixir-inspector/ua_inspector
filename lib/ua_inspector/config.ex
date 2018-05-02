@@ -73,6 +73,17 @@ defmodule UAInspector.Config do
     end)
   end
 
+  @doc """
+  Calls the optionally configured init method.
+  """
+  @spec init_env() :: :ok
+  def init_env() do
+    case get(:init) do
+      nil -> :ok
+      {mod, fun} -> apply(mod, fun, [])
+    end
+  end
+
   defp maybe_fetch_system(config) when is_list(config) do
     Enum.map(config, fn
       {k, v} -> {k, maybe_fetch_system(v)}

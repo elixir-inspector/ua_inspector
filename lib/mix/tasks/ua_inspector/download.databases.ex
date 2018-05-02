@@ -20,6 +20,8 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   def run(args) do
     Mix.shell().info("UAInspector Database Download")
 
+    :ok = Config.init_env()
+
     case Config.database_path() do
       nil -> Download.exit_unconfigured()
       _ -> Download.request_confirmation(args) |> run_confirmed()

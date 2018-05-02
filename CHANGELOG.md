@@ -3,9 +3,9 @@
 ## v0.18.0-dev
 
 - Enhancements
-    - Configuration can be done on supervisor (re-) start by setting a
-      `{ mod, fun }` tuple for the config key `:init`. This method will be
-      called without arguments
+    - Configuration can be done on supervisor (re-) start or when running the
+      mix download tasks by setting a `{ mod, fun }` tuple for the config key
+      `:init`. This method will be called without arguments.
 
 - Soft deprecations (no warnings)
     - Support for `{ :system, "ENV_VARIABLE" }` configuration has been
