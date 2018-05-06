@@ -24,7 +24,8 @@ defmodule Mix.UAInspector.Download do
     Mix.shell().info("Download path: #{Config.database_path()}")
     Mix.shell().info("This command will overwrite any existing files!")
 
-    {opts, _argv, _errors} = OptionParser.parse(args, aliases: [f: :force])
+    {opts, _argv, _errors} =
+      OptionParser.parse(args, strict: [force: :boolean], aliases: [f: :force])
 
     case opts[:force] do
       true -> true

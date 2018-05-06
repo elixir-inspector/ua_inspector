@@ -11,7 +11,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   alias UAInspector.Downloader
 
   def run(args) do
-    {opts, _argv, _errors} = OptionParser.parse(args)
+    {opts, _argv, _errors} = OptionParser.parse(args, strict: [quick: :boolean])
 
     :ok = maybe_download(opts)
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
