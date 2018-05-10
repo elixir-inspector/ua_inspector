@@ -137,16 +137,16 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android(result), do: result
 
-  defp maybe_fix_ios(%{brand: :unknown, os: %{name: "Apple TV"}} = result) do
-    %{result | brand: %{result.brand | name: "Apple"}}
+  defp maybe_fix_ios(%{device: %{brand: :unknown}, os: %{name: "Apple TV"}} = result) do
+    %{result | device: %{result.device | brand: "Apple"}}
   end
 
-  defp maybe_fix_ios(%{brand: :unknown, os: %{name: "iOS"}} = result) do
-    %{result | brand: %{result.brand | name: "Apple"}}
+  defp maybe_fix_ios(%{device: %{brand: :unknown}, os: %{name: "iOS"}} = result) do
+    %{result | device: %{result.device | brand: "Apple"}}
   end
 
-  defp maybe_fix_ios(%{brand: :unknown, os: %{name: "Mac"}} = result) do
-    %{result | brand: %{result.brand | name: "Apple"}}
+  defp maybe_fix_ios(%{device: %{brand: :unknown}, os: %{name: "Mac"}} = result) do
+    %{result | device: %{result.device | brand: "Apple"}}
   end
 
   defp maybe_fix_ios(result), do: result
