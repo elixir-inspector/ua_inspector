@@ -62,6 +62,7 @@ defmodule UAInspector.Parser do
     ua
     |> assemble_result()
     |> maybe_detect_tv()
+    |> maybe_fix_ios()
     |> maybe_fix_android()
     |> maybe_fix_android_chrome()
     |> maybe_fix_opera_tv_store()
@@ -135,6 +136,20 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_android(result), do: result
+
+  defp maybe_fix_ios(%{brand: :unknown, os: %{name: "Apple TV"}} = result) do
+    %{result | brand: %{result.brand | name: "Apple"}}
+  end
+
+  defp maybe_fix_ios(%{brand: :unknown, os: %{name: "iOS"}} = result) do
+    %{result | brand: %{result.brand | name: "Apple"}}
+  end
+
+  defp maybe_fix_ios(%{brand: :unknown, os: %{name: "Mac"}} = result) do
+    %{result | brand: %{result.brand | name: "Apple"}}
+  end
+
+  defp maybe_fix_ios(result), do: result
 
   defp smartphone_android?(version) do
     :lt == Version.compare(version, "2.0.0")
