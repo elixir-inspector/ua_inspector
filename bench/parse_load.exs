@@ -12,14 +12,17 @@ agentstream =
 Enum.each([2, 4, 8, 16, 32], fn parallel ->
   IO.puts("Starting parallel: #{parallel}")
 
-  for _ <- 1..parallel do
-    Task.async(fn ->
-      agentstream
-      |> Enum.take(1000)
-      |> Enum.each(&UAInspector.parse/1)
+  {us, _} =
+    :timer.tc(fn ->
+      for _ <- 1..parallel do
+        Task.async(fn ->
+          agentstream
+          |> Enum.take(1000)
+          |> Enum.each(&UAInspector.parse/1)
+        end)
+      end
+      |> Enum.map(&Task.await(&1, :infinity))
     end)
-  end
-  |> Enum.map(&Task.await(&1, :infinity))
 
-  IO.puts("done")
+  IO.puts("done in #{us} microseconds")
 end)
