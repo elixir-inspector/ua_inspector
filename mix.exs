@@ -9,11 +9,13 @@ defmodule UAInspector.Mixfile do
       name: "UAInspector",
       version: "0.18.0-dev",
       elixir: "~> 1.3",
+      aliases: aliases(),
       deps: deps(),
       description: "User agent parser library",
       docs: docs(),
       package: package(),
       preferred_cli_env: [
+        "bench.parse": :bench,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.travis": :test
@@ -26,6 +28,12 @@ defmodule UAInspector.Mixfile do
     [
       applications: [:hackney, :logger, :poolboy, :yamerl],
       mod: {UAInspector.App, []}
+    ]
+  end
+
+  defp aliases() do
+    [
+      "bench.parse": "run bench/parse.exs"
     ]
   end
 
