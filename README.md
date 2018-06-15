@@ -272,6 +272,14 @@ iex(1)> UAInspector.parse_client("generic crawler agent")
 }
 ```
 
+## Benchmark
+
+A (minimal) benchmark script is included:
+
+```shell
+mix bench.parse
+```
+
 ## Resources
 
 - [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
