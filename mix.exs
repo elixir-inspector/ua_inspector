@@ -33,7 +33,11 @@ defmodule UAInspector.Mixfile do
 
   defp aliases() do
     [
-      "bench.parse": "run bench/parse.exs"
+      "bench.parse": [
+        "ua_inspector.download.databases --force",
+        "ua_inspector.download.short_code_maps --force",
+        "run bench/parse.exs"
+      ]
     ]
   end
 
