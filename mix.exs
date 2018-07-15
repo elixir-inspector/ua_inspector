@@ -43,6 +43,7 @@ defmodule UAInspector.Mixfile do
 
   defp deps do
     [
+      {:benchee, "~> 0.11.0", only: :bench, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:excoveralls, "~> 0.8", only: :test, runtime: false},
       {:hackney, "~> 1.0"},
