@@ -120,6 +120,16 @@ For the time being the detailed path append to the remote path is not
 configurable. This is a major caveat for the short code mappings and subject
 to change.
 
+### Configuration (ETS Cleanup)
+
+When reloading the old database is deleted with a configurable delay. The delay
+is defined in milliseconds with a default of `30_000`.
+
+```elixir
+config :ua_inspector,
+  ets_cleanup_delay: 30_000
+```
+
 ### Configuration (HTTP client)
 
 The database is downloaded using

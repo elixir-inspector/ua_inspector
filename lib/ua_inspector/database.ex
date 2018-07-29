@@ -15,7 +15,7 @@ defmodule UAInspector.Database do
 
       @behaviour unquote(__MODULE__)
 
-      @drop_delay 30_000
+      @ets_cleanup_delay_default 30_000
 
       # GenServer lifecycle
 
@@ -35,7 +35,7 @@ defmodule UAInspector.Database do
         state = %State{ets_tid: create_ets_table()}
 
         :ok = load_sources(sources(), Config.database_path(), state.ets_tid)
-        _ = Process.send_after(self(), {:drop_ets_table, old_ets_tid}, @drop_delay)
+        :ok = schedule_ets_cleanup(old_ets_tid)
 
         {:noreply, state}
       end
@@ -113,6 +113,16 @@ defmodule UAInspector.Database do
       end
 
       defp parse_database([], _, _ets_tid, index), do: index
+
+      defp schedule_ets_cleanup(ets_tid) do
+        Process.send_after(
+          self(),
+          {:drop_ets_table, ets_tid},
+          Config.get(:ets_cleanup_delay, @ets_cleanup_delay_default)
+        )
+
+        :ok
+      end
     end
   end
 
