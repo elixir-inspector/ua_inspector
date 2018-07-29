@@ -9,6 +9,9 @@
     - Old data tables are deleted with a configurable delay after reloading
       to avoid race conditions (and the resulting empty lookup responses)
 
+- Bug fixes
+    - ETS tables of short code maps are now properly cleaned after reload
+
 - Soft deprecations (no warnings)
     - Support for `{ :system, "ENV_VARIABLE" }` configuration has been
       removed from the documentation. It will eventually be removed completely

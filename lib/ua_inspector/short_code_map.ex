@@ -15,6 +15,8 @@ defmodule UAInspector.ShortCodeMap do
 
       @behaviour unquote(__MODULE__)
 
+      @ets_cleanup_delay_default 30_000
+
       # GenServer lifecycle
 
       def init(_) do
@@ -29,11 +31,27 @@ defmodule UAInspector.ShortCodeMap do
         {:reply, state.ets_tid, state}
       end
 
-      def handle_cast(:reload, state) do
+      def handle_cast(:reload, %State{ets_tid: old_ets_tid} = state) do
         state = %State{ets_tid: create_ets_table()}
+
         :ok = load_map(state.ets_tid)
+        :ok = schedule_ets_cleanup(old_ets_tid)
 
         {:noreply, state}
+      end
+
+      def handle_info({:drop_ets_table, nil}, state), do: {:noreply, state}
+
+      def handle_info({:drop_ets_table, ets_tid}, state) do
+        case state.ets_tid == ets_tid do
+          true ->
+            # ignore call!
+            {:noreply, state}
+
+          false ->
+            :ok = drop_ets_table(ets_tid)
+            {:noreply, state}
+        end
       end
 
       # Public methods
@@ -64,6 +82,16 @@ defmodule UAInspector.ShortCodeMap do
         :ets.new(ets_name, ets_opts)
       end
 
+      defp drop_ets_table(ets_tid) do
+        true =
+          case :ets.info(ets_tid) do
+            :undefined -> true
+            _ -> :ets.delete(ets_tid)
+          end
+
+        :ok
+      end
+
       defp load_map(ets_tid) do
         map = Config.database_path() |> Path.join(file_local())
 
@@ -87,6 +115,16 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       defp parse_map([], _ets_tid), do: :ok
+
+      defp schedule_ets_cleanup(ets_tid) do
+        Process.send_after(
+          self(),
+          {:drop_ets_table, ets_tid},
+          Config.get(:ets_cleanup_delay, @ets_cleanup_delay_default)
+        )
+
+        :ok
+      end
     end
   end
 
