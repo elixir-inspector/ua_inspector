@@ -37,7 +37,7 @@ defmodule UAInspector.Pool do
   end
 
   @doc """
-  Sends a HbbTV check request to a pool worker..
+  Sends a HbbTV check request to a pool worker.
   """
   @spec hbbtv?(String.t()) :: false | String.t()
   def hbbtv?(nil), do: false

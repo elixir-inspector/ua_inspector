@@ -9,7 +9,11 @@ required dependencies:
 
 ```elixir
 defp deps do
-  [{ :ua_inspector, "~> 0.17" }]
+  [
+    # ...
+    {:ua_inspector, "~> 0.17"},
+    # ...
+  ]
 end
 ```
 
@@ -23,7 +27,7 @@ def application do
   [
     applications: [
       # ...
-      :ua_inspector
+      :ua_inspector,
       # ...
     ]
   ]
@@ -40,7 +44,7 @@ def application do
   [
     included_applications: [
       # ...
-      :ua_inspector
+      :ua_inspector,
       # ...
     ]
   ]
