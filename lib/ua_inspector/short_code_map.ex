@@ -30,12 +30,10 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       def handle_cast(:reload, state) do
-        ets_opts = [:protected, :set, read_concurrency: true]
-        ets_tid = :ets.new(__MODULE__, ets_opts)
+        state = %State{ets_tid: create_ets_table()}
+        :ok = load_map(state.ets_tid)
 
-        :ok = load_map(ets_tid)
-
-        {:noreply, %State{ets_tid: ets_tid}}
+        {:noreply, state}
       end
 
       # Public methods
@@ -58,6 +56,13 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       # Internal methods
+
+      defp create_ets_table() do
+        ets_name = __MODULE__
+        ets_opts = [:protected, :ordered_set, read_concurrency: true]
+
+        :ets.new(ets_name, ets_opts)
+      end
 
       defp load_map(ets_tid) do
         map = Config.database_path() |> Path.join(file_local())
