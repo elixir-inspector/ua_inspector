@@ -15,6 +15,8 @@ defmodule UAInspector.Database do
 
       @behaviour unquote(__MODULE__)
 
+      @drop_delay 30_000
+
       # GenServer lifecycle
 
       def init(_) do
@@ -33,9 +35,23 @@ defmodule UAInspector.Database do
         state = %State{ets_tid: create_ets_table()}
 
         :ok = load_sources(sources(), Config.database_path(), state.ets_tid)
-        :ok = drop_ets_table(old_ets_tid)
+        _ = Process.send_after(self(), {:drop_ets_table, old_ets_tid}, @drop_delay)
 
         {:noreply, state}
+      end
+
+      def handle_info({:drop_ets_table, nil}, state), do: {:noreply, state}
+
+      def handle_info({:drop_ets_table, ets_tid}, state) do
+        case state.ets_tid == ets_tid do
+          true ->
+            # ignore call!
+            {:noreply, state}
+
+          false ->
+            :ok = drop_ets_table(ets_tid)
+            {:noreply, state}
+        end
       end
 
       # Public methods

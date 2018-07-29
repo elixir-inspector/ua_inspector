@@ -6,6 +6,8 @@
     - Configuration can be done on supervisor (re-) start or when running the
       mix download tasks by setting a `{ mod, fun }` tuple for the config key
       `:init`. This method will be called without arguments.
+    - Old data tables are deleted with a 30 second delay after reloading
+      to avoid race conditions (and the resulting empty lookup responses)
 
 - Soft deprecations (no warnings)
     - Support for `{ :system, "ENV_VARIABLE" }` configuration has been
