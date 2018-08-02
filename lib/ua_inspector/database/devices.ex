@@ -40,7 +40,7 @@ defmodule UAInspector.Database.Devices do
         %{
           brand: nil,
           device: device,
-          model: data["model"],
+          model: data["model"] || "",
           regex: Util.build_regex(data["regex"])
         }
       ]
@@ -51,7 +51,7 @@ defmodule UAInspector.Database.Devices do
         %{
           brand: model["brand"],
           device: model["device"] || device,
-          model: model["model"],
+          model: model["model"] || "",
           regex: Util.build_regex(model["regex"])
         }
       end)

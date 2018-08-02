@@ -24,10 +24,10 @@ defmodule UAInspector.Database.Clients do
 
     %{
       engine: data["engine"],
-      name: data["name"],
+      name: data["name"] || "",
       regex: Util.build_regex(data["regex"]),
       type: type,
-      version: data["version"] |> to_string()
+      version: to_string(data["version"]) || ""
     }
   end
 end

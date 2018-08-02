@@ -85,7 +85,7 @@ defmodule UAInspector.Parser.Client do
   defp resolve_name(ua, entry) do
     captures = Regex.run(entry.regex, ua)
 
-    (entry.name || "")
+    entry.name
     |> Util.uncapture(captures)
     |> Util.sanitize_name()
     |> Util.maybe_unknown()
@@ -94,7 +94,7 @@ defmodule UAInspector.Parser.Client do
   defp resolve_version(ua, entry) do
     captures = Regex.run(entry.regex, ua)
 
-    (entry.version || "")
+    entry.version
     |> Util.uncapture(captures)
     |> Util.sanitize_version()
     |> Util.maybe_unknown()

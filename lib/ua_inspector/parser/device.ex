@@ -105,12 +105,12 @@ defmodule UAInspector.Parser.Device do
     captures = Regex.run(model.regex, ua)
 
     model_str =
-      (model.model || "")
+      model.model
       |> Util.uncapture(captures)
       |> Util.sanitize_model()
       |> Util.maybe_unknown()
 
-    brand_str = (model.brand || device.brand) |> Util.maybe_unknown()
+    brand_str = Util.maybe_unknown(model.brand || device.brand)
 
     %Result.Device{
       brand: brand_str,
