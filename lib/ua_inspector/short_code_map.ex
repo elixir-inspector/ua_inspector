@@ -10,6 +10,7 @@ defmodule UAInspector.ShortCodeMap do
       require Logger
 
       alias UAInspector.Config
+      alias UAInspector.Storage.ETS
       alias UAInspector.Storage.State
       alias UAInspector.Util.YAML
 
@@ -32,7 +33,7 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       def handle_cast(:reload, %State{ets_tid: old_ets_tid} = state) do
-        state = %State{ets_tid: create_ets_table()}
+        state = %State{ets_tid: ETS.create(__MODULE__)}
 
         :ok = load_map(state.ets_tid)
         :ok = schedule_ets_cleanup(old_ets_tid)
@@ -49,7 +50,7 @@ defmodule UAInspector.ShortCodeMap do
             {:noreply, state}
 
           false ->
-            :ok = drop_ets_table(ets_tid)
+            :ok = ETS.delete(ets_tid)
             {:noreply, state}
         end
       end
@@ -74,23 +75,6 @@ defmodule UAInspector.ShortCodeMap do
       end
 
       # Internal methods
-
-      defp create_ets_table() do
-        ets_name = __MODULE__
-        ets_opts = [:protected, :ordered_set, read_concurrency: true]
-
-        :ets.new(ets_name, ets_opts)
-      end
-
-      defp drop_ets_table(ets_tid) do
-        true =
-          case :ets.info(ets_tid) do
-            :undefined -> true
-            _ -> :ets.delete(ets_tid)
-          end
-
-        :ok
-      end
 
       defp load_map(ets_tid) do
         map = Config.database_path() |> Path.join(file_local())
