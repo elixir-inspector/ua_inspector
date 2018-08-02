@@ -41,9 +41,9 @@ defmodule UAInspector.ShortCodeMap do
         {:noreply, state}
       end
 
-      def handle_info({:drop_ets_table, nil}, state), do: {:noreply, state}
+      def handle_info({:delete_ets_table, nil}, state), do: {:noreply, state}
 
-      def handle_info({:drop_ets_table, ets_tid}, state) do
+      def handle_info({:delete_ets_table, ets_tid}, state) do
         case state.ets_tid == ets_tid do
           true ->
             # ignore call!
@@ -103,7 +103,7 @@ defmodule UAInspector.ShortCodeMap do
       defp schedule_ets_cleanup(ets_tid) do
         Process.send_after(
           self(),
-          {:drop_ets_table, ets_tid},
+          {:delete_ets_table, ets_tid},
           Config.get(:ets_cleanup_delay, @ets_cleanup_delay_default)
         )
 
