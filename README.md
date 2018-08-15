@@ -11,7 +11,7 @@ required dependencies:
 defp deps do
   [
     # ...
-    {:ua_inspector, "~> 0.17"},
+    {:ua_inspector, "~> 0.18"},
     # ...
   ]
 end

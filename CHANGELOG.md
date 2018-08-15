@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.18.0-dev
+## v0.18.0 (2018-08-15)
 
 - Enhancements
     - Configuration can be done on supervisor (re-) start or when running the
