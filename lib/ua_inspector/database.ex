@@ -35,7 +35,7 @@ defmodule UAInspector.Database do
       def handle_cast(:reload, %State{ets_tid: old_ets_tid}) do
         state = %State{ets_tid: ETS.create(__MODULE__)}
 
-        :ok = load_sources(sources(), Config.database_path(), state.ets_tid)
+        :ok = load(state.ets_tid)
         :ok = schedule_ets_cleanup(old_ets_tid)
 
         {:noreply, state}
@@ -69,10 +69,10 @@ defmodule UAInspector.Database do
 
       # Internal methods
 
-      defp load_sources(sources, path, ets_tid) do
+      defp load(ets_tid) do
         _ =
-          Enum.reduce(sources, 0, fn {type, local, _remote}, acc_index ->
-            database = Path.join(path, local)
+          Enum.reduce(sources(), 0, fn {type, local, _remote}, acc_index ->
+            database = Config.database_path() |> Path.join(local)
 
             case File.regular?(database) do
               false ->

@@ -35,7 +35,7 @@ defmodule UAInspector.ShortCodeMap do
       def handle_cast(:reload, %State{ets_tid: old_ets_tid} = state) do
         state = %State{ets_tid: ETS.create(__MODULE__)}
 
-        :ok = load_map(state.ets_tid)
+        :ok = load(state.ets_tid)
         :ok = schedule_ets_cleanup(old_ets_tid)
 
         {:noreply, state}
@@ -76,7 +76,7 @@ defmodule UAInspector.ShortCodeMap do
 
       # Internal methods
 
-      defp load_map(ets_tid) do
+      defp load(ets_tid) do
         map = Config.database_path() |> Path.join(file_local())
 
         case File.regular?(map) do
