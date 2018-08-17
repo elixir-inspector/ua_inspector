@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.19.0-dev
+
+- Enhancements
+    - Finding the data table is now done via a named lookup table instead
+      of calling the database state server
+
 ## v0.18.0 (2018-08-15)
 
 - Enhancements

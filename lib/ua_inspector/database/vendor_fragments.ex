@@ -4,6 +4,7 @@ defmodule UAInspector.Database.VendorFragments do
   """
 
   use UAInspector.Database,
+    ets_prefix: :ua_inspector_db_vendor_fragments,
     sources: [{"", "vendorfragments.yml"}],
     type: :vendor_fragment
 

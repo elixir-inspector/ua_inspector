@@ -4,6 +4,7 @@ defmodule UAInspector.Database.Devices do
   """
 
   use UAInspector.Database,
+    ets_prefix: :ua_inspector_db_devices,
     sources: [
       # files ordered according to
       # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php

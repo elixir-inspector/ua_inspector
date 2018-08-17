@@ -5,7 +5,7 @@ defmodule UAInspector.Database do
 
   defmacro __using__(opts) do
     quote do
-      use UAInspector.Storage.Server
+      use UAInspector.Storage.Server, ets_prefix: unquote(opts[:ets_prefix])
 
       require Logger
 

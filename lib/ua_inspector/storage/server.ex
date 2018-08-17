@@ -3,7 +3,7 @@ defmodule UAInspector.Storage.Server do
   Base behaviour for all storage processes.
   """
 
-  defmacro __using__(_opts) do
+  defmacro __using__(opts) do
     quote do
       use GenServer
 
@@ -14,6 +14,8 @@ defmodule UAInspector.Storage.Server do
       @behaviour unquote(__MODULE__)
 
       @ets_cleanup_delay_default 30_000
+      @ets_data_table_name :"#{unquote(opts[:ets_prefix])}_data"
+      @ets_lookup_table_name :"#{unquote(opts[:ets_prefix])}_lookup"
 
       # GenServer lifecycle
 
@@ -29,43 +31,42 @@ defmodule UAInspector.Storage.Server do
 
       # GenServer callbacks
 
-      def handle_call(:ets_tid, _from, state) do
-        {:reply, state.ets_tid, state}
-      end
+      def handle_info({:drop_data_table, nil}, state), do: {:noreply, state}
 
-      def handle_cast(:reload, %State{ets_tid: old_ets_tid}) do
-        state = %State{ets_tid: ETS.create(__MODULE__)}
-
-        :ok = do_reload(state.ets_tid)
-        :ok = schedule_ets_cleanup(old_ets_tid)
+      def handle_info({:drop_data_table, ets_tid}, state) do
+        :ok = ETS.delete(ets_tid)
 
         {:noreply, state}
       end
 
-      def handle_info({:delete_ets_table, nil}, state), do: {:noreply, state}
+      def handle_cast(:reload, state) do
+        @ets_lookup_table_name = ETS.create_lookup(@ets_lookup_table_name)
+        old_ets_tid = ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name)
+        new_ets_tid = ETS.create_data(@ets_data_table_name)
 
-      def handle_info({:delete_ets_table, ets_tid}, state) do
-        case state.ets_tid == ets_tid do
-          true ->
-            # ignore call!
-            {:noreply, state}
+        :ok = do_reload(new_ets_tid)
 
-          false ->
-            :ok = ETS.delete(ets_tid)
-            {:noreply, state}
-        end
+        :ok = schedule_data_cleanup(old_ets_tid)
+        :ok = ETS.update_data(@ets_lookup_table_name, @ets_data_table_name, new_ets_tid)
+
+        {:noreply, state}
       end
 
       # Public methods
 
-      def list, do: GenServer.call(__MODULE__, :ets_tid) |> :ets.tab2list()
+      def list() do
+        case ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name) do
+          nil -> []
+          ets_tid -> :ets.tab2list(ets_tid)
+        end
+      end
 
       # Internal methods
 
-      defp schedule_ets_cleanup(ets_tid) do
+      defp schedule_data_cleanup(ets_tid) do
         Process.send_after(
           self(),
-          {:delete_ets_table, ets_tid},
+          {:drop_data_table, ets_tid},
           Config.get(:ets_cleanup_delay, @ets_cleanup_delay_default)
         )
 

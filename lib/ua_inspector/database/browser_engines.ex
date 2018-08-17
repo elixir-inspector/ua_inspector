@@ -4,6 +4,7 @@ defmodule UAInspector.Database.BrowserEngines do
   """
 
   use UAInspector.Database,
+    ets_prefix: :ua_inspector_db_browser_engines,
     sources: [{"", "browser_engine.yml"}],
     type: :browser_engine
 

@@ -4,6 +4,7 @@ defmodule UAInspector.Database.OSs do
   """
 
   use UAInspector.Database,
+    ets_prefix: :ua_inspector_db_oss,
     sources: [{"", "oss.yml"}],
     type: :os
 
