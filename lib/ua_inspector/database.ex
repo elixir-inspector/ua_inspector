@@ -10,8 +10,6 @@ defmodule UAInspector.Database do
       require Logger
 
       alias UAInspector.Config
-      alias UAInspector.Storage.ETS
-      alias UAInspector.Storage.State
       alias UAInspector.Util.YAML
 
       # Public methods
