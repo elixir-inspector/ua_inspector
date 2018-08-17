@@ -35,7 +35,7 @@ defmodule UAInspector.ShortCodeMap do
 
       # Internal methods
 
-      defp load(ets_tid) do
+      defp do_reload(ets_tid) do
         map = Config.database_path() |> Path.join(file_local())
 
         case File.regular?(map) do

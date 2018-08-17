@@ -36,7 +36,7 @@ defmodule UAInspector.Storage.Server do
       def handle_cast(:reload, %State{ets_tid: old_ets_tid}) do
         state = %State{ets_tid: ETS.create(__MODULE__)}
 
-        :ok = load(state.ets_tid)
+        :ok = do_reload(state.ets_tid)
         :ok = schedule_ets_cleanup(old_ets_tid)
 
         {:noreply, state}

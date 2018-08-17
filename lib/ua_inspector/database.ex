@@ -26,7 +26,7 @@ defmodule UAInspector.Database do
 
       # Internal methods
 
-      defp load(ets_tid) do
+      defp do_reload(ets_tid) do
         _ =
           Enum.reduce(sources(), 0, fn {type, local, _remote}, acc_index ->
             database = Config.database_path() |> Path.join(local)
