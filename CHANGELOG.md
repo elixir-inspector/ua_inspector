@@ -8,6 +8,11 @@
     - Finding the data table is now done via a named lookup table instead
       of calling the database state server
 
+- Soft deprecations (no warnings)
+    - The individual download tasks for databases and short code maps have
+      been removed from the documentation. They are still completely functional
+      but will eventually be removed after a proper deprecation phase
+
 ## v0.18.0 (2018-08-15)
 
 - Enhancements

@@ -172,10 +172,6 @@ The databases are taken from the
 [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
 project.
 
-To individually download either only the parser databases or just the
-short code maps you can use `mix ua_inspector.download.databases` and
-`mix ua_inspector.download.short_code_maps`.
-
 The local path of the downloaded files will be shown to you upon command
 invocation.
 
