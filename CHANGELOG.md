@@ -3,6 +3,8 @@
 ## v0.19.0-dev
 
 - Enhancements
+    - All database files (parser databases and short code maps) can be
+      downloaded using a single mix task `ua_inspector.download`
     - Finding the data table is now done via a named lookup table instead
       of calling the database state server
 

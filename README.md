@@ -166,14 +166,15 @@ Defaults are defined in the module `UAInspector.Pool`.
 
 ## Parser Databases
 
-Using `mix ua_inspector.download.databases` you can store local copies of the
-supported parser databases in the configured path. The databases are taken from
-the [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
+Using `mix ua_inspector.download` you can store local copies of the
+supported parser databases and short code maps in the configured path.
+The databases are taken from the
+[matomo-org/device-detector](https://github.com/matomo-org/device-detector)
 project.
 
-In addition to the parser databases you need to fetch the short code maps
-using `mix ua_inspector.download.short_code_maps`. After conversion to yaml
-files they are stored in the configured database directory.
+To individually download either only the parser databases or just the
+short code maps you can use `mix ua_inspector.download.databases` and
+`mix ua_inspector.download.short_code_maps`.
 
 The local path of the downloaded files will be shown to you upon command
 invocation.
