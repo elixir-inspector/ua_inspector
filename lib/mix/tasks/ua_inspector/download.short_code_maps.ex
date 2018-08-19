@@ -10,7 +10,7 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   `mix ua_inspector.download.short_code_maps`
   """
 
-  @shortdoc "Downloads parser short code maps"
+  @shortdoc "Downloads UAInspector parser short code maps"
 
   alias Mix.UAInspector.Download
   alias UAInspector.Config

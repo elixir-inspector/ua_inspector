@@ -9,7 +9,7 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   `mix ua_inspector.download.databases`
   """
 
-  @shortdoc "Downloads parser databases"
+  @shortdoc "Downloads UAInspector parser databases"
 
   alias Mix.UAInspector.Download
   alias UAInspector.Config
@@ -18,7 +18,7 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   use Mix.Task
 
   def run(args) do
-    Mix.shell().info("UAInspector Database Download")
+    Mix.shell().info("UAInspector Parser Database Download")
 
     :ok = Config.init_env()
 
