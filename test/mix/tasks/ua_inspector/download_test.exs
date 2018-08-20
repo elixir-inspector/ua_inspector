@@ -108,7 +108,6 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
           |> File.exists?()
           |> assert
         end
-
       end)
 
     assert String.contains?(console, test_path)
