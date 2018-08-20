@@ -82,7 +82,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp unravel_list([[_] = cases]), do: cases
   defp unravel_list([cases]), do: cases
 
-  defp verify([]), do: nil
+  defp verify([]), do: :ok
 
   defp verify([testcase | testcases]) do
     testcase = testcase |> parse() |> Verify.Cleanup.cleanup()
@@ -93,24 +93,46 @@ defmodule Mix.Tasks.UaInspector.Verify do
         verify(testcases)
 
       false ->
-        IO.puts("-- verification failed --")
-        IO.puts("user_agent: #{testcase[:user_agent]}")
-        IO.puts("testcase: #{inspect(testcase)}")
-        IO.puts("result: #{inspect(result)}")
+        {
+          :error,
+          %{
+            user_agent: testcase[:user_agent],
+            testcase: testcase,
+            result: result
+          }
+        }
+    end
+  end
+
+  defp verify_all(fixtures) do
+    fixtures
+    |> Enum.map(fn fixture -> {fixture, Task.async(fn -> verify_fixture(fixture) end)} end)
+    |> Enum.map(fn {fixture, task} -> {fixture, Task.await(task, :infinity)} end)
+    |> Enum.reject(fn {_fixture, result} -> :ok == result end)
+    |> case do
+      [] -> :ok
+      errors ->
+        Enum.map(errors, fn
+          {fixture, {:error, :enoent}} ->
+            Mix.shell().error("Missing fixture file: #{fixture}")
+
+          {fixture, {:error, error}} ->
+            Mix.shell().error("-- verification failed (#{fixture}) --")
+            Mix.shell().info("user_agent: #{error[:user_agent]}")
+            Mix.shell().info("testcase: #{inspect(error[:testcase])}")
+            Mix.shell().info("result: #{inspect(error[:result])}")
+        end)
 
         throw("verification failed")
     end
   end
 
-  defp verify_all([]), do: :ok
-
-  defp verify_all([fixture | fixtures]) do
-    testfile = fixture |> Verify.Fixtures.download_path()
+  defp verify_fixture(fixture) do
+    testfile = Verify.Fixtures.download_path(fixture)
 
     case File.exists?(testfile) do
       false ->
-        Mix.shell().error("Fixture file #{fixture} missing.")
-        Mix.shell().error("Please run without '--quick' param to download it!")
+        {:error, :enoent}
 
       true ->
         testcases =
@@ -121,8 +143,6 @@ defmodule Mix.Tasks.UaInspector.Verify do
         Mix.shell().info(".. verifying: #{fixture} (#{length(testcases)} tests)")
         verify(testcases)
     end
-
-    verify_all(fixtures)
   end
 
   defp wait_until_ready(0), do: UAInspector.ready?()
