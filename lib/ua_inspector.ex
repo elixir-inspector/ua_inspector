@@ -32,6 +32,30 @@ defmodule UAInspector do
   defdelegate parse_client(ua), to: Pool
 
   @doc """
+  Checks if there is data to use in lookups.
+
+  The check is done against all currently available internal data tables.
+
+  An empty database is any of the lookup modules considered to be "not ready".
+  """
+  @spec ready?() :: boolean
+  def ready?() do
+    [
+      Database.Bots,
+      Database.BrowserEngines,
+      Database.Clients,
+      Database.Devices,
+      Database.OSs,
+      Database.VendorFragments,
+      ShortCodeMap.ClientBrowsers,
+      ShortCodeMap.DeviceBrands,
+      ShortCodeMap.MobileBrowsers,
+      ShortCodeMap.OSs
+    ]
+    |> Enum.all?(fn database -> [] != database.list() end)
+  end
+
+  @doc """
   Reloads all databases.
   """
   @spec reload() :: :ok

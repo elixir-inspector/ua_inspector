@@ -15,6 +15,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
     :ok = maybe_download(opts)
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
+    true = wait_until_ready(5000)
 
     Verify.Fixtures.list() |> verify_all()
 
@@ -122,5 +123,18 @@ defmodule Mix.Tasks.UaInspector.Verify do
     end
 
     verify_all(fixtures)
+  end
+
+  defp wait_until_ready(0), do: UAInspector.ready?()
+
+  defp wait_until_ready(timeout) do
+    case UAInspector.ready?() do
+      true ->
+        true
+
+      false ->
+        :timer.sleep(10)
+        wait_until_ready(timeout - 10)
+    end
   end
 end

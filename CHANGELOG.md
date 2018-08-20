@@ -7,6 +7,8 @@
       downloaded using a single mix task `ua_inspector.download`
     - Finding the data table is now done via a named lookup table instead
       of calling the database state server
+    - If you need to check if all databases are loaded (i.e. "no longer empty")
+      you can use `UAInspector.ready?/0`
 
 - Soft deprecations (no warnings)
     - The individual download tasks for databases and short code maps have

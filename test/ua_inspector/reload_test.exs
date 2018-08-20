@@ -21,6 +21,7 @@ defmodule UAInspector.ReloadTest do
     UAInspector.reload()
     :timer.sleep(100)
 
+    assert UAInspector.ready?()
     refute UAInspector.parse(agent) == unknown
   end
 

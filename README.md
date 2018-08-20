@@ -259,6 +259,11 @@ UAInspector.reload()
 This process is handled in the background, so for some time the old data will
 be used for lookups.
 
+If you need to check if the database is still empty or (at least partially!)
+loaded, you can use `UAInspector.ready?/0`. Please be aware that this method
+checks the current state and not what will happen after a (potentially running)
+reload is finished.
+
 ### Convenience Methods
 
 To perform only a quick check if a user agents belongs to a bot:
