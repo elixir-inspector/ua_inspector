@@ -21,7 +21,8 @@ defmodule UAInspector.Database.Supervisor do
       worker(Database.Bots, []),
       worker(Database.BrowserEngines, []),
       worker(Database.Clients, []),
-      worker(Database.Devices, []),
+      worker(Database.DevicesHbbTV, []),
+      worker(Database.DevicesRegular, []),
       worker(Database.OSs, []),
       worker(Database.VendorFragments, [])
     ]

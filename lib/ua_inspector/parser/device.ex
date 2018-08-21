@@ -5,7 +5,8 @@ defmodule UAInspector.Parser.Device do
 
   use UAInspector.Parser
 
-  alias UAInspector.Database.Devices
+  alias UAInspector.Database.DevicesHbbTV
+  alias UAInspector.Database.DevicesRegular
   alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
   alias UAInspector.Util
@@ -65,27 +66,27 @@ defmodule UAInspector.Parser.Device do
 
   defp maybe_parse_vendor(device, _), do: device
 
-  defp parse(_, [], _), do: :unknown
+  defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, entry} | database], type) do
-    if type == entry.type && Regex.match?(entry.regex, ua) do
+  defp parse(ua, [{_index, entry} | database]) do
+    if Regex.match?(entry.regex, ua) do
       ua
       |> parse_model(entry, entry.models)
       |> maybe_no_model(entry)
     else
-      parse(ua, database, type)
+      parse(ua, database)
     end
   end
 
   defp parse_hbbtv(ua) do
-    case parse(ua, Devices.list(), "hbbtv") do
+    case parse(ua, DevicesHbbTV.list()) do
       :unknown -> %Result.Device{type: "tv"}
       device -> device
     end
   end
 
   defp parse_regular(ua) do
-    case parse(ua, Devices.list(), "regular") do
+    case parse(ua, DevicesRegular.list()) do
       :unknown -> %Result.Device{}
       device -> device
     end

@@ -50,10 +50,21 @@ defmodule UAInspector.Database.InitTest do
     assert String.contains?(log, @pathname)
   end
 
-  test "log info when load fails (devices)" do
+  test "log info when load fails (hbbtv devices)" do
     log =
       capture_log(fn ->
-        Database.Devices.init(:ignored)
+        Database.DevicesHbbTV.init(:ignored)
+        :timer.sleep(100)
+      end)
+
+    assert String.contains?(log, "failed")
+    assert String.contains?(log, @pathname)
+  end
+
+  test "log info when load fails (regular devices)" do
+    log =
+      capture_log(fn ->
+        Database.DevicesRegular.init(:ignored)
         :timer.sleep(100)
       end)
 

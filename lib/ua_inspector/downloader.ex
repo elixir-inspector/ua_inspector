@@ -13,7 +13,8 @@ defmodule UAInspector.Downloader do
     Database.Bots,
     Database.BrowserEngines,
     Database.Clients,
-    Database.Devices,
+    Database.DevicesHbbTV,
+    Database.DevicesRegular,
     Database.OSs,
     Database.VendorFragments
   ]

@@ -81,7 +81,8 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
           UAInspector.Database.Bots,
           UAInspector.Database.BrowserEngines,
           UAInspector.Database.Clients,
-          UAInspector.Database.Devices,
+          UAInspector.Database.DevicesHbbTV,
+          UAInspector.Database.DevicesRegular,
           UAInspector.Database.OSs,
           UAInspector.Database.VendorFragments
         ]

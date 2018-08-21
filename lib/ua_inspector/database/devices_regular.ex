@@ -1,20 +1,19 @@
-defmodule UAInspector.Database.Devices do
+defmodule UAInspector.Database.DevicesRegular do
   @moduledoc """
-  UAInspector device information database.
+  UAInspector regular device information database.
   """
 
   use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_devices,
+    ets_prefix: :ua_inspector_db_devices_regular,
     sources: [
       # files ordered according to
       # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php
       # to prevent false detections
-      {"hbbtv", "televisions.yml"},
-      {"regular", "consoles.yml"},
-      {"regular", "car_browsers.yml"},
-      {"regular", "cameras.yml"},
-      {"regular", "portable_media_player.yml"},
-      {"regular", "mobiles.yml"}
+      {"", "consoles.yml"},
+      {"", "car_browsers.yml"},
+      {"", "cameras.yml"},
+      {"", "portable_media_player.yml"},
+      {"", "mobiles.yml"}
     ],
     type: :device
 
