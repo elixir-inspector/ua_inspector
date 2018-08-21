@@ -110,7 +110,9 @@ defmodule Mix.Tasks.UaInspector.Verify do
     |> Enum.map(fn {fixture, task} -> {fixture, Task.await(task, :infinity)} end)
     |> Enum.reject(fn {_fixture, result} -> :ok == result end)
     |> case do
-      [] -> :ok
+      [] ->
+        :ok
+
       errors ->
         Enum.map(errors, fn
           {fixture, {:error, :enoent}} ->
