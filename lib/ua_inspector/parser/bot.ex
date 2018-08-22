@@ -10,29 +10,25 @@ defmodule UAInspector.Parser.Bot do
 
   def parse(ua), do: parse(ua, Bots.list())
 
-  defp assemble_result(result, ua) do
-    %Result.Bot{
-      user_agent: ua,
-      name: result.name,
-      category: result.category || :unknown,
-      producer: assemble_result_producer(result.producer),
-      url: result.url || :unknown
-    }
-  end
-
-  defp assemble_result_producer(nil), do: %Result.BotProducer{}
-
-  defp assemble_result_producer(result) do
-    %Result.BotProducer{name: result.name, url: result.url}
-  end
-
   defp parse(_, []), do: :unknown
 
   defp parse(ua, [{_index, entry} | database]) do
     if Regex.match?(entry.regex, ua) do
-      entry |> assemble_result(ua)
+      %Result.Bot{
+        user_agent: ua,
+        name: entry.name,
+        category: entry.category,
+        producer: producer_info(entry.producer),
+        url: entry.url
+      }
     else
       parse(ua, database)
     end
+  end
+
+  defp producer_info(nil), do: %Result.BotProducer{}
+
+  defp producer_info(result) do
+    %Result.BotProducer{name: result.name, url: result.url}
   end
 end
