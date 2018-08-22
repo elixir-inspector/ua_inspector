@@ -3,9 +3,9 @@ defmodule UAInspector.Parser.VendorFragment do
   UAInspector vendor fragment information parser.
   """
 
-  use UAInspector.Parser
-
   alias UAInspector.Database.VendorFragments
+
+  @behaviour UAInspector.Parser
 
   def parse(ua), do: parse(ua, VendorFragments.list())
 

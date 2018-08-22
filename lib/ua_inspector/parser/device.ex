@@ -3,13 +3,13 @@ defmodule UAInspector.Parser.Device do
   UAInspector device information parser.
   """
 
-  use UAInspector.Parser
-
   alias UAInspector.Database.DevicesHbbTV
   alias UAInspector.Database.DevicesRegular
   alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
   alias UAInspector.Util
+
+  @behaviour UAInspector.Parser
 
   @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")

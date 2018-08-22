@@ -3,10 +3,10 @@ defmodule UAInspector.Parser.Bot do
   UAInspector bot information parser.
   """
 
-  use UAInspector.Parser
-
   alias UAInspector.Database.Bots
   alias UAInspector.Result
+
+  @behaviour UAInspector.Parser
 
   def parse(ua), do: parse(ua, Bots.list())
 

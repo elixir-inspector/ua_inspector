@@ -3,11 +3,11 @@ defmodule UAInspector.Parser.OS do
   UAInspector operating system information parser.
   """
 
-  use UAInspector.Parser
-
   alias UAInspector.Database.OSs
   alias UAInspector.Result
   alias UAInspector.Util
+
+  @behaviour UAInspector.Parser
 
   def parse(ua), do: parse(ua, OSs.list())
 

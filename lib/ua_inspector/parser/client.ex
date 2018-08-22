@@ -3,12 +3,12 @@ defmodule UAInspector.Parser.Client do
   UAInspector client information parser.
   """
 
-  use UAInspector.Parser
-
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine
   alias UAInspector.Result
   alias UAInspector.Util
+
+  @behaviour UAInspector.Parser
 
   def parse(ua), do: parse(ua, Clients.list())
 

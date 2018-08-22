@@ -8,12 +8,6 @@ defmodule UAInspector.Parser do
   alias UAInspector.ShortCodeMap
   alias UAInspector.Util
 
-  defmacro __using__(_opts) do
-    quote do
-      @behaviour unquote(__MODULE__)
-    end
-  end
-
   @doc """
   Parses information from a user agent.
 

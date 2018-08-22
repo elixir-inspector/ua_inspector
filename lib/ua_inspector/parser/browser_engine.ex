@@ -3,9 +3,9 @@ defmodule UAInspector.Parser.BrowserEngine do
   UAInspector browser engine information parser.
   """
 
-  use UAInspector.Parser
-
   alias UAInspector.Database.BrowserEngines
+
+  @behaviour UAInspector.Parser
 
   def parse(ua), do: parse(ua, BrowserEngines.list())
 
