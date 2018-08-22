@@ -9,7 +9,6 @@ defmodule UAInspector.Storage.Server do
 
       alias UAInspector.Config
       alias UAInspector.Storage.ETS
-      alias UAInspector.Storage.State
 
       @behaviour unquote(__MODULE__)
 
@@ -23,10 +22,10 @@ defmodule UAInspector.Storage.Server do
         GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
       end
 
-      def init(_) do
+      def init(state) do
         :ok = GenServer.cast(__MODULE__, :reload)
 
-        {:ok, %State{}}
+        {:ok, state}
       end
 
       # GenServer callbacks
