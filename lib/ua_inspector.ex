@@ -1,6 +1,6 @@
 defmodule UAInspector do
   @moduledoc """
-  UA Inspector - User agent parser library
+  UAInspector - User agent parser library
   """
 
   alias UAInspector.Database

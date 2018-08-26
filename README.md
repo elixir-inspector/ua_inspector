@@ -1,10 +1,10 @@
-# UA Inspector
+# UAInspector
 
 User agent parser library.
 
 ## Package Setup
 
-To use UA Inspector with your projects, edit your `mix.exs` file and add the
+To use UAInspector with your projects, edit your `mix.exs` file and add the
 required dependencies:
 
 ```elixir
@@ -64,7 +64,7 @@ children = [
 
 ## Application Configuration
 
-To start using UA Inspector you need to at least configure a `:database_path`.
+To start using UAInspector you need to at least configure a `:database_path`.
 
 ### Configuration (static)
 
