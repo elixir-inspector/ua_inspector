@@ -23,7 +23,6 @@ jobs:
     - stage: verify
       elixir: 1.7.1
       otp_release: 21.0
-      env: MIX_ENV=prod
       script: |-
         cd "${TRAVIS_BUILD_DIR}/verify"
         mix ua_inspector.verify
