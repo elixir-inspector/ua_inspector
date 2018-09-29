@@ -28,7 +28,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     {:ok, _} =
       File.open(file, [:write], fn outfile ->
         for {short, long} <- map do
-          outfile |> IO.write("- \"#{short}\": \"#{long}\"\n")
+          IO.write(outfile, "- \"#{short}\": \"#{long}\"\n")
         end
       end)
 
@@ -39,7 +39,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     {:ok, _} =
       File.open(file, [:write], fn outfile ->
         for item <- map do
-          outfile |> IO.write("- \"#{item}\"\n")
+          IO.write(outfile, "- \"#{item}\"\n")
         end
       end)
 
