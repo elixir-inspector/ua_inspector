@@ -51,6 +51,7 @@ defmodule UAInspector do
       ShortCodeMap.ClientBrowsers,
       ShortCodeMap.DeviceBrands,
       ShortCodeMap.MobileBrowsers,
+      ShortCodeMap.OSFamilies,
       ShortCodeMap.OSs
     ]
     |> Enum.all?(fn database -> [] != database.list() end)
@@ -72,6 +73,7 @@ defmodule UAInspector do
       ShortCodeMap.ClientBrowsers,
       ShortCodeMap.DeviceBrands,
       ShortCodeMap.MobileBrowsers,
+      ShortCodeMap.OSFamilies,
       ShortCodeMap.OSs
     ]
     |> Enum.each(fn database -> GenServer.cast(database, :reload) end)

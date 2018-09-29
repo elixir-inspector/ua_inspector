@@ -16,56 +16,6 @@ defmodule UAInspector.Util.OS do
     "Windows"
   ]
 
-  @osFamilies [
-    {"Android", ["AND", "CYN", "RZD", "MLD", "MCD"]},
-    {"AmigaOS", ["AMG", "MOR"]},
-    {"Apple TV", ["ATV"]},
-    {"BlackBerry", ["BLB", "QNX"]},
-    {"Brew", ["BMP"]},
-    {"BeOS", ["BEO", "HAI"]},
-    {"Chrome OS", ["COS"]},
-    {"Firefox OS", ["FOS"]},
-    {"Gaming Console", ["WII", "PS3"]},
-    {"Google TV", ["GTV"]},
-    {"IBM", ["OS2"]},
-    {"iOS", ["IOS"]},
-    {"RISC OS", ["ROS"]},
-    {
-      "GNU/Linux",
-      [
-        "LIN",
-        "ARL",
-        "DEB",
-        "KNO",
-        "MIN",
-        "UBT",
-        "KBT",
-        "XBT",
-        "LBT",
-        "FED",
-        "RHT",
-        "VLN",
-        "MDR",
-        "GNT",
-        "SAB",
-        "SLW",
-        "SSE",
-        "CES",
-        "BTR",
-        "YNS",
-        "SAF"
-      ]
-    },
-    {"Mac", ["MAC"]},
-    {"Mobile Gaming Console", ["PSP", "NDS", "XBX"]},
-    {"Other Mobile", ["WOS", "POS", "SBA", "TIZ", "SMG"]},
-    {"Symbian", ["SYM", "SYS", "SY3", "S60", "S40"]},
-    {"Unix", ["SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", "INF"]},
-    {"WebTV", ["WTV"]},
-    {"Windows", ["WIN"]},
-    {"Windows Mobile", ["WPH", "WMO", "WCE", "WRT"]}
-  ]
-
   @doc """
   Checks whether an operating system is treated as "desktop only".
   """
@@ -88,7 +38,9 @@ defmodule UAInspector.Util.OS do
   """
   @spec family(short_code :: String.t()) :: String.t() | nil
   def family(short_code) do
-    lookup = Enum.find(@osFamilies, &in_family?(short_code, &1))
+    lookup =
+      ShortCodeMap.OSFamilies.list()
+      |> Enum.find(&in_family?(short_code, &1))
 
     case lookup do
       {name, _} -> name

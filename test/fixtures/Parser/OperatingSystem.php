@@ -8,4 +8,9 @@ class OperatingSystem
         'NBS' => 'NetBSD',
         'OBS' => 'OpenBSD'
     );
+
+    protected static $osFamilies = array(
+        'Chrome OS'  => array('COS'),
+        'Firefox OS' => array('FOS', 'KOS')
+    );
 }

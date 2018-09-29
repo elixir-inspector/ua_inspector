@@ -21,6 +21,7 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
       worker(ShortCodeMap.ClientBrowsers, []),
       worker(ShortCodeMap.DeviceBrands, []),
       worker(ShortCodeMap.MobileBrowsers, []),
+      worker(ShortCodeMap.OSFamilies, []),
       worker(ShortCodeMap.OSs, [])
     ]
 

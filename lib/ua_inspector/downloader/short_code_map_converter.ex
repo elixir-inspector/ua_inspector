@@ -8,7 +8,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
 
   Returns the complete list of all mapping tuples.
   """
-  @spec extract(String.t(), :hash | :list, String.t()) :: list
+  @spec extract(String.t(), :hash | :hash_with_list | :list, String.t()) :: list
   def extract(var, type, file) do
     re_opts = [:dotall, {:newline, :anycrlf}, :multiline, :ungreedy]
     source = File.read!(file)
@@ -23,12 +23,29 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   @doc """
   Writes yaml file for a list of short code mappings.
   """
-  @spec write_yaml(list, :hash | :list, String.t()) :: :ok
+  @spec write_yaml(list, :hash | :hash_with_list | :list, String.t()) :: :ok
   def write_yaml(map, :hash, file) do
     {:ok, _} =
       File.open(file, [:write], fn outfile ->
         for {short, long} <- map do
           IO.write(outfile, "- \"#{short}\": \"#{long}\"\n")
+        end
+      end)
+
+    :ok
+  end
+
+  def write_yaml(map, :hash_with_list, file) do
+    {:ok, _} =
+      File.open(file, [:write], fn outfile ->
+        for {entry, elements} <- map do
+          elementstring =
+            elements
+            |> Enum.map(&("  - \"#{&1}\""))
+            |> Enum.join("\n")
+
+          IO.write(outfile, "- \"#{entry}\":\n")
+          IO.write(outfile, "#{elementstring}\n")
         end
       end)
 
@@ -50,11 +67,29 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   defp mapping_to_entry([_, item]), do: item
   defp mapping_to_entry([_, short, long]), do: {short, long}
 
+  defp mapping_to_entry_list({entry, elements}) do
+    {
+      entry,
+      elements
+      |> String.split(",")
+      |> Enum.map(&String.trim/1)
+      |> Enum.map(&String.trim(&1, "'"))
+    }
+  end
+
   defp parse_mapping(mapping, :hash) do
     "'(.+)' => '(.+)'"
     |> Regex.compile!()
     |> Regex.run(mapping)
     |> mapping_to_entry()
+  end
+
+  defp parse_mapping(mapping, :hash_with_list) do
+    "'(.+)' +=> array\\((.+)\\)"
+    |> Regex.compile!()
+    |> Regex.run(mapping)
+    |> mapping_to_entry()
+    |> mapping_to_entry_list()
   end
 
   defp parse_mapping(mapping, :list) do
@@ -69,6 +104,13 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     |> String.trim()
     |> String.split("\n")
     |> Enum.map(&parse_mapping(&1, :hash))
+  end
+
+  defp parse_source(source, :hash_with_list) do
+    source
+    |> String.trim()
+    |> String.split("\n")
+    |> Enum.map(&parse_mapping(&1, :hash_with_list))
   end
 
   defp parse_source(source, :list) do

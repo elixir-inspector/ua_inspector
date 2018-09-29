@@ -9,6 +9,8 @@
       of calling the database state server
     - If you need to check if all databases are loaded (i.e. "no longer empty")
       you can use `UAInspector.ready?/0`
+    - OS Families are no longer hardcoded inside `Util.OS` but
+      read from the original source and stored in a short code map
     - Reloading will now issue a warning if no database path is configured
       while resuming operation with an empty database
 
