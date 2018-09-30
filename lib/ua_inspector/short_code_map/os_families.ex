@@ -1,6 +1,6 @@
 defmodule UAInspector.ShortCodeMap.OSFamilies do
   @moduledoc """
-  Operating System Short Code Map.
+  Operating System Families Map.
   """
 
   use UAInspector.ShortCodeMap,
