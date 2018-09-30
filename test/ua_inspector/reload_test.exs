@@ -4,7 +4,9 @@ defmodule UAInspector.ReloadTest do
   import ExUnit.CaptureLog
 
   test "reloading databases" do
-    agent = "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
+    agent =
+      "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
+
     unknown = %UAInspector.Result{user_agent: agent}
 
     db_path = Application.get_env(:ua_inspector, :database_path)
@@ -18,14 +20,14 @@ defmodule UAInspector.ReloadTest do
       end)
 
     assert log =~ ~r/no database path.*/i
-    refute UAInspector.ready?
+    refute UAInspector.ready?()
     assert UAInspector.parse(agent) == unknown
 
     Application.put_env(:ua_inspector, :database_path, db_path)
     UAInspector.reload()
     :timer.sleep(100)
 
-    assert UAInspector.ready?
+    assert UAInspector.ready?()
     refute UAInspector.parse(agent) == unknown
   end
 end

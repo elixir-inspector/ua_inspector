@@ -41,7 +41,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
         for {entry, elements} <- map do
           elementstring =
             elements
-            |> Enum.map(&("  - \"#{&1}\""))
+            |> Enum.map(&"  - \"#{&1}\"")
             |> Enum.join("\n")
 
           IO.write(outfile, "- \"#{entry}\":\n")
