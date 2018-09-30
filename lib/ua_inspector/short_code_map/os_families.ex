@@ -10,5 +10,5 @@ defmodule UAInspector.ShortCodeMap.OSFamilies do
     var_name: "osFamilies",
     var_type: :hash_with_list
 
-  def to_ets([{short, long}]), do: {short, long}
+  def to_ets([{family, codes}]), do: {family, codes}
 end
