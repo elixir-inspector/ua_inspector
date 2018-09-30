@@ -5,27 +5,20 @@ defmodule UAInspector.Util.OS do
 
   alias UAInspector.ShortCodeMap
 
-  @desktopFamilies [
-    "AmigaOS",
-    "BeOS",
-    "Chrome OS",
-    "GNU/Linux",
-    "IBM",
-    "Mac",
-    "Unix",
-    "Windows"
-  ]
-
   @doc """
   Checks whether an operating system is treated as "desktop only".
   """
   @spec desktop_only?(os :: map | :unknown) :: boolean
   def desktop_only?(%{name: name}) do
-    short_code = name |> ShortCodeMap.OSs.to_short()
+    short_code = ShortCodeMap.OSs.to_short(name)
 
     case family(short_code) do
-      nil -> false
-      family -> Enum.any?(@desktopFamilies, &(&1 == family))
+      nil ->
+        false
+
+      family ->
+        ShortCodeMap.DesktopFamilies.list()
+        |> Enum.any?(&(&1 == {family}))
     end
   end
 

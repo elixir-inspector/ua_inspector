@@ -19,6 +19,7 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
   def init(_default) do
     children = [
       worker(ShortCodeMap.ClientBrowsers, []),
+      worker(ShortCodeMap.DesktopFamilies, []),
       worker(ShortCodeMap.DeviceBrands, []),
       worker(ShortCodeMap.MobileBrowsers, []),
       worker(ShortCodeMap.OSFamilies, []),

@@ -11,6 +11,9 @@
       you can use `UAInspector.ready?/0`
     - OS Families are no longer hardcoded inside `Util.OS` but
       read from the original source and stored in a short code map
+    - OS Families used for desktop detection are no longer hardcoded
+      inside `Util.OS` but read from the original source and stored
+      in a short code map
     - Reloading will now issue a warning if no database path is configured
       while resuming operation with an empty database
 

@@ -21,6 +21,7 @@ defmodule UAInspector.Downloader do
 
   @short_code_maps [
     ShortCodeMap.ClientBrowsers,
+    ShortCodeMap.DesktopFamilies,
     ShortCodeMap.DeviceBrands,
     ShortCodeMap.MobileBrowsers,
     ShortCodeMap.OSFamilies,
