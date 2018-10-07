@@ -40,7 +40,7 @@ defmodule UAInspector.Parser do
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t()) :: map
+  @spec parse(String.t()) :: Result.t()
   def parse(ua) do
     case Parser.Bot.parse(ua) do
       :unknown -> parse_client(ua)
@@ -51,7 +51,7 @@ defmodule UAInspector.Parser do
   @doc """
   Parses a user agent without checking for bots.
   """
-  @spec parse_client(String.t()) :: map
+  @spec parse_client(String.t()) :: Result.t()
   def parse_client(ua) do
     ua
     |> assemble_result()

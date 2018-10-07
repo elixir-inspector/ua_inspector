@@ -5,6 +5,7 @@ defmodule UAInspector do
 
   alias UAInspector.Database
   alias UAInspector.Pool
+  alias UAInspector.Result
   alias UAInspector.ShortCodeMap
 
   @doc """
@@ -22,13 +23,13 @@ defmodule UAInspector do
   @doc """
   Parses a user agent.
   """
-  @spec parse(String.t()) :: map
+  @spec parse(String.t()) :: Result.t()
   defdelegate parse(ua), to: Pool
 
   @doc """
   Parses a user agent without checking for bots.
   """
-  @spec parse_client(String.t()) :: map
+  @spec parse_client(String.t()) :: Result.t()
   defdelegate parse_client(ua), to: Pool
 
   @doc """

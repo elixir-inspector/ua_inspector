@@ -50,7 +50,7 @@ defmodule UAInspector.Pool do
   @doc """
   Sends a parse request to a pool worker.
   """
-  @spec parse(String.t()) :: map
+  @spec parse(String.t()) :: Result.t()
   def parse(nil), do: %Result{user_agent: nil}
   def parse(""), do: %Result{user_agent: ""}
 
@@ -61,7 +61,7 @@ defmodule UAInspector.Pool do
   @doc """
   Sends a client parse request to a pool worker.
   """
-  @spec parse_client(String.t()) :: map
+  @spec parse_client(String.t()) :: Result.t()
   def parse_client(nil), do: %Result{user_agent: nil}
   def parse_client(""), do: %Result{user_agent: ""}
 
