@@ -4,8 +4,7 @@ User agent parser library.
 
 ## Package Setup
 
-To use UAInspector with your projects, edit your `mix.exs` file and add the
-required dependencies:
+To use UAInspector with your projects, edit your `mix.exs` file and add the required dependencies:
 
 ```elixir
 defp deps do
@@ -19,8 +18,7 @@ end
 
 ### Package Startup (application)
 
-Probably the easiest way to manage startup is by simply
-adding `:ua_inspector` to the list of applications:
+Probably the easiest way to manage startup is by simply adding `:ua_inspector` to the list of applications:
 
 ```elixir
 def application do
@@ -36,8 +34,7 @@ end
 
 ### Package Startup (manual supervision)
 
-A second possible approach is to take care of supervision yourself. This
-means you should add `:ua_inspector` to your included applications instead:
+A second possible approach is to take care of supervision yourself. This means you should add `:ua_inspector` to your included applications instead:
 
 ```elixir
 def application do
@@ -77,12 +74,9 @@ config :ua_inspector,
 
 ### Configuration (dynamic)
 
-If there are any reasons you cannot use a pre-defined configuration you
-can also configure an initializer module to be called before starting
-the application supervisor. This function is expected to always return `:ok`.
+If there are any reasons you cannot use a pre-defined configuration you can also configure an initializer module to be called before starting the application supervisor. This function is expected to always return `:ok`.
 
-This may be the most suitable configuration if you have the databases located
-in the `:priv_dir` of your application.
+This may be the most suitable configuration if you have the databases located in the `:priv_dir` of your application.
 
 ```elixir
 config :ua_inspector,
@@ -120,14 +114,11 @@ config :ua_inspector,
 
 Shown configuration is used as the default location during download.
 
-For the time being the detailed path append to the remote path is not
-configurable. This is a major caveat for the short code mappings and subject
-to change.
+For the time being the detailed path append to the remote path is not configurable. This is a major caveat for the short code mappings and subject to change.
 
 ### Configuration (ETS Cleanup)
 
-When reloading the old database is deleted with a configurable delay. The delay
-is defined in milliseconds with a default of `30_000`.
+When reloading the old database is deleted with a configurable delay. The delay is defined in milliseconds with a default of `30_000`.
 
 ```elixir
 config :ua_inspector,
@@ -136,51 +127,37 @@ config :ua_inspector,
 
 ### Configuration (HTTP client)
 
-The database is downloaded using
-[`:hackney`](https://github.com/benoitc/hackney). To pass custom configuration
-values to hackney you can use the key `:http_opts` in your config:
+The database is downloaded using [`:hackney`](https://github.com/benoitc/hackney). To pass custom configuration values to hackney you can use the key `:http_opts` in your config:
 
 ```elixir
 config :ua_inspector,
   http_opts: [proxy: "http://mycompanyproxy.com"]
 ```
 
-Please see
-[`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)
-for a complete list of available options.
+Please see [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5) for a complete list of available options.
 
 ### Configuration (Worker Pool)
 
-All parsing requests are internally done using a `:poolboy` worker pool. The
-behaviour of this pool can be configured:
+All parsing requests are internally done using a `:poolboy` worker pool. The behaviour of this pool can be configured:
 
 ```elixir
 config :ua_inspector,
   pool: [max_overflow: 10, size: 5]
 ```
 
-As these options are passed unmodified please look at the official
-[poolboy documentation](https://github.com/devinus/poolboy) for details.
+As these options are passed unmodified please look at the official [poolboy documentation](https://github.com/devinus/poolboy) for details.
 
 Defaults are defined in the module `UAInspector.Pool`.
 
 ## Parser Databases
 
-Using `mix ua_inspector.download` you can store local copies of the
-supported parser databases and short code maps in the configured path.
-The databases are taken from the
-[matomo-org/device-detector](https://github.com/matomo-org/device-detector)
-project.
+Using `mix ua_inspector.download` you can store local copies of the supported parser databases and short code maps in the configured path. The databases are taken from the [matomo-org/device-detector](https://github.com/matomo-org/device-detector) project.
 
-The local path of the downloaded files will be shown to you upon command
-invocation.
+The local path of the downloaded files will be shown to you upon command invocation.
 
-If you want to download the database files using your application you can
-directly call `UAInspector.Downloader.download/0`.
+If you want to download the database files using your application you can directly call `UAInspector.Downloader.download/0`.
 
-When using both the mix task and a default remote configuration for at least
-one type of database an informational README is placed next to the downloaded
-file(s). This behaviour can be deactivated by configuration:
+When using both the mix task and a default remote configuration for at least one type of database an informational README is placed next to the downloaded file(s). This behaviour can be deactivated by configuration:
 
 ```elixir
 config :ua_inspector,
@@ -241,28 +218,21 @@ iex(4)> UAInspector.parse("--- undetectable ---")
 
 The map key _user\_agent_ will hold the unmodified passed user agent.
 
-If the device type cannot be determined a "desktop" `:type` will be
-assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
+If the device type cannot be determined a "desktop" `:type` will be assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
 
-When a bot agent is detected the result with be a `UAInspector.Result.Bot`
-struct instead of `UAInspector.Result`.
+When a bot agent is detected the result with be a `UAInspector.Result.Bot` struct instead of `UAInspector.Result`.
 
 ### Reloading
 
-Sometimes (for example after downloading a new database set) it is required to
-reload the internal database. This can be done asynchronously:
+Sometimes (for example after downloading a new database set) it is required to reload the internal database. This can be done asynchronously:
 
 ```elixir
 UAInspector.reload()
 ```
 
-This process is handled in the background, so for some time the old data will
-be used for lookups.
+This process is handled in the background, so for some time the old data will be used for lookups.
 
-If you need to check if the database is still empty or (at least partially!)
-loaded, you can use `UAInspector.ready?/0`. Please be aware that this method
-checks the current state and not what will happen after a (potentially running)
-reload is finished.
+If you need to check if the database is still empty or (at least partially!) loaded, you can use `UAInspector.ready?/0`. Please be aware that this method checks the current state and not what will happen after a (potentially running) reload is finished.
 
 ### Convenience Methods
 
@@ -304,6 +274,4 @@ mix bench.parse
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-The parser databases are taken from the
-[matomo-org/device-detector](https://github.com/matomo-org/device-detector)
-project. See there for detailed license information about the data contained.
+The parser databases are taken from the [matomo-org/device-detector](https://github.com/matomo-org/device-detector) project. See there for detailed license information about the data contained.
