@@ -35,7 +35,6 @@ defmodule Mix.Tasks.UaInspector.Download do
   end
 
   defp run_confirmed(true) do
-    {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download(:databases)
     :ok = Downloader.download(:short_code_maps)
 

@@ -36,7 +36,6 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   end
 
   defp run_confirmed(true) do
-    {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download(:short_code_maps)
 
     Mix.shell().info("Download complete!")

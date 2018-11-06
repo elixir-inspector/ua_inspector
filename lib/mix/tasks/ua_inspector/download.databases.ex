@@ -35,7 +35,6 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
   end
 
   defp run_confirmed(true) do
-    {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download(:databases)
 
     Mix.shell().info("Download complete!")
