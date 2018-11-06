@@ -4,6 +4,7 @@
 
 - Enhancements
     - All database files (parser databases and short code maps) can be downloaded using a single mix task `ua_inspector.download`
+    - Downloading the databases ensures hackney is started to allow calling `mix run --no-start -e "UAInspector.Downloader.download()"`
     - Finding the data table is now done via a named lookup table instead of calling the database state server
     - If you need to check if all databases are loaded (i.e. "no longer empty") you can use `UAInspector.ready?/0`
     - OS Families are no longer hardcoded inside `Util.OS` but read from the original source and stored in a short code map
