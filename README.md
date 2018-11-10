@@ -166,6 +166,8 @@ config :ua_inspector,
 
 ## Usage
 
+After downloading a copy of the parse databases you can start parsing user agents:
+
 ```elixir
 iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
 %UAInspector.Result{
@@ -216,9 +218,9 @@ iex(4)> UAInspector.parse("--- undetectable ---")
 }
 ```
 
-The map key _user\_agent_ will hold the unmodified passed user agent.
+The map key `:_user_agent` will hold the unmodified passed user agent.
 
-If the device type cannot be determined a "desktop" `:type` will be assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
+If the device type cannot be determined a "desktop" device type will be assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
 
 When a bot agent is detected the result with be a `UAInspector.Result.Bot` struct instead of `UAInspector.Result`.
 
