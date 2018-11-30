@@ -62,7 +62,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     File.write!(local, content)
   end
 
-  def download_path, do: Path.join(__DIR__, "../../../../fixtures") |> Path.expand()
+  def download_path, do: Path.expand("../../../../fixtures", __DIR__)
   def download_path(file), do: Path.join(download_path(), file)
   def list, do: @fixtures
 

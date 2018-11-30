@@ -9,7 +9,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
     # setup internal testing webserver
     Application.ensure_all_started(:inets)
 
-    fixture_path = Path.join([__DIR__, '../../../fixtures']) |> Path.expand()
+    fixture_path = Path.expand("../../../fixtures", __DIR__)
 
     httpd_opts = [
       port: 0,
@@ -69,7 +69,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
     Mix.shell(Mix.Shell.IO)
 
     orig_path = Application.get_env(:ua_inspector, :database_path)
-    test_path = Path.join(__DIR__, "../../downloads") |> Path.expand()
+    test_path = Path.expand("../../downloads", __DIR__)
 
     console =
       capture_io(fn ->
