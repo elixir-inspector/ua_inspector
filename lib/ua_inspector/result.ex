@@ -6,13 +6,13 @@ defmodule UAInspector.Result do
   alias UAInspector.Result
 
   @type t :: %__MODULE__{
-          user_agent: String.t(),
+          user_agent: nil | String.t(),
           client: Result.Client.t() | :unknown,
           device: Result.Device.t() | :unknown,
           os: Result.OS.t() | :unknown
         }
 
-  defstruct user_agent: "",
+  defstruct user_agent: nil,
             client: :unknown,
             device: :unknown,
             os: :unknown
