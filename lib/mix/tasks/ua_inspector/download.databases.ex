@@ -24,7 +24,7 @@ defmodule Mix.Tasks.UaInspector.Download.Databases do
 
     case Config.database_path() do
       nil -> Download.exit_unconfigured()
-      _ -> Download.request_confirmation(args) |> run_confirmed()
+      _ -> args |> Download.request_confirmation() |> run_confirmed()
     end
   end
 
