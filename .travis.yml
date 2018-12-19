@@ -20,9 +20,15 @@ jobs:
       elixir: 1.7.1
       otp_release: 21.0
       after_success: mix coveralls.travis
+
     - stage: verify
       elixir: 1.7.1
       otp_release: 21.0
       script: |-
         cd "${TRAVIS_BUILD_DIR}/verify"
         mix ua_inspector.verify
+
+    - stage: code quality
+      elixir: 1.7.4
+      otp_release: 21.0
+      script: mix format --check-formatted
