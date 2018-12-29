@@ -27,6 +27,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "smartphone-4.yml",
     "smartphone-5.yml",
     "smartphone-6.yml",
+    "smartphone-7.yml",
     "tablet.yml",
     "tablet-1.yml",
     "tablet-2.yml",
