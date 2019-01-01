@@ -44,6 +44,7 @@ defmodule UAInspector.Mixfile do
     [
       {:benchee, "~> 0.11.0", only: :bench, runtime: false},
       {:credo, "~> 1.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.0.0-rc", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:excoveralls, "~> 0.9", only: :test, runtime: false},
       {:hackney, "~> 1.0"},
