@@ -9,7 +9,7 @@ defmodule Mix.UAInspector.Download do
   Prints an error because of missing configuration values.
   """
   @spec exit_unconfigured() :: no_return
-  def exit_unconfigured() do
+  def exit_unconfigured do
     Mix.shell().error("Database path not configured.")
     Mix.shell().error("See README.md for details.")
   end

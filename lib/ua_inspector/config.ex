@@ -38,7 +38,7 @@ defmodule UAInspector.Config do
   @doc """
   Returns the configured database path or `nil`.
   """
-  @spec database_path :: String.t() | nil
+  @spec database_path() :: String.t() | nil
   def database_path do
     case get(:database_path) do
       nil -> nil
@@ -64,7 +64,7 @@ defmodule UAInspector.Config do
   @doc """
   Returns whether the remote database (at least one type) matches the default.
   """
-  @spec default_remote_database? :: boolean
+  @spec default_remote_database?() :: boolean
   def default_remote_database? do
     Enum.any?(Keyword.keys(@remote_defaults), fn type ->
       default = @remote_defaults[type]
@@ -77,7 +77,7 @@ defmodule UAInspector.Config do
   Calls the optionally configured init method.
   """
   @spec init_env() :: :ok
-  def init_env() do
+  def init_env do
     case get(:init) do
       nil -> :ok
       {mod, fun} -> apply(mod, fun, [])

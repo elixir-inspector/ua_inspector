@@ -5,8 +5,8 @@ defmodule UAInspector.Downloader do
 
   alias UAInspector.Config
   alias UAInspector.Database
-  alias UAInspector.Downloader.ShortCodeMapConverter
   alias UAInspector.Downloader.README
+  alias UAInspector.Downloader.ShortCodeMapConverter
   alias UAInspector.ShortCodeMap
 
   @databases [
@@ -32,7 +32,7 @@ defmodule UAInspector.Downloader do
   Performs download of all files.
   """
   @spec download() :: :ok
-  def download() do
+  def download do
     :ok = download(:databases)
     :ok = download(:short_code_maps)
     :ok
@@ -80,7 +80,7 @@ defmodule UAInspector.Downloader do
   Prepares the local database path for downloads.
   """
   @spec prepare_database_path() :: :ok
-  def prepare_database_path() do
+  def prepare_database_path do
     unless File.dir?(Config.database_path()) do
       File.mkdir_p!(Config.database_path())
     end

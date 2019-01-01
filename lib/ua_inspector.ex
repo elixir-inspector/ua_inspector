@@ -40,7 +40,7 @@ defmodule UAInspector do
   An empty database is any of the lookup modules considered to be "not ready".
   """
   @spec ready?() :: boolean
-  def ready?() do
+  def ready? do
     [
       Database.Bots,
       Database.BrowserEngines,
@@ -63,7 +63,7 @@ defmodule UAInspector do
   Reloads all databases.
   """
   @spec reload() :: :ok
-  def reload() do
+  def reload do
     [
       Database.Bots,
       Database.BrowserEngines,

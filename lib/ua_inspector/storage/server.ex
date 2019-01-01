@@ -20,9 +20,7 @@ defmodule UAInspector.Storage.Server do
 
       # GenServer lifecycle
 
-      def start_link() do
-        GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
-      end
+      def start_link, do: GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
 
       def init(state) do
         :ok = GenServer.cast(__MODULE__, :reload)
@@ -59,7 +57,7 @@ defmodule UAInspector.Storage.Server do
 
       # Public methods
 
-      def list() do
+      def list do
         case ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name) do
           nil -> []
           ets_tid -> :ets.tab2list(ets_tid)
