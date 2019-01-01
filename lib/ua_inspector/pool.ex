@@ -28,7 +28,7 @@ defmodule UAInspector.Pool do
   @doc """
   Sends a bot check request to a pool worker.
   """
-  @spec bot?(String.t()) :: boolean
+  @spec bot?(String.t() | nil) :: boolean
   def bot?(nil), do: false
   def bot?(""), do: false
 
@@ -39,7 +39,7 @@ defmodule UAInspector.Pool do
   @doc """
   Sends a HbbTV check request to a pool worker.
   """
-  @spec hbbtv?(String.t()) :: false | String.t()
+  @spec hbbtv?(String.t() | nil) :: false | String.t()
   def hbbtv?(nil), do: false
   def hbbtv?(""), do: false
 
@@ -50,7 +50,7 @@ defmodule UAInspector.Pool do
   @doc """
   Sends a parse request to a pool worker.
   """
-  @spec parse(String.t()) :: Result.t()
+  @spec parse(String.t() | nil) :: Result.t()
   def parse(nil), do: %Result{user_agent: nil}
   def parse(""), do: %Result{user_agent: ""}
 
@@ -61,7 +61,7 @@ defmodule UAInspector.Pool do
   @doc """
   Sends a client parse request to a pool worker.
   """
-  @spec parse_client(String.t()) :: Result.t()
+  @spec parse_client(String.t() | nil) :: Result.t()
   def parse_client(nil), do: %Result{user_agent: nil}
   def parse_client(""), do: %Result{user_agent: ""}
 
