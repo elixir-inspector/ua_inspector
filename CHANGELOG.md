@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.19.0-dev
+## v0.19.0 (2019-01-03)
 
 - Enhancements
     - All database files (parser databases and short code maps) can be downloaded using a single mix task `ua_inspector.download`
