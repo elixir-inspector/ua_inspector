@@ -1,15 +1,6 @@
 defmodule Mix.Tasks.UaInspector.Download.Databases do
-  @moduledoc """
-  Fetches parser databases from the
-  [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
-  project.
-
-  The files will be stored inside your configured path.
-
-  `mix ua_inspector.download.databases`
-  """
-
-  @shortdoc "Downloads UAInspector parser databases"
+  @moduledoc false
+  @shortdoc false
 
   alias Mix.UAInspector.Download
   alias UAInspector.Config

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.19.1-dev
+
+- Enhancements
+    - The (soft) deprecated download tasks `ua_inspector.download.databases` and `ua_inspector.download.short_code_maps` are no longer displayed in the output of `mix help`
+
 ## v0.19.0 (2019-01-03)
 
 - Enhancements
