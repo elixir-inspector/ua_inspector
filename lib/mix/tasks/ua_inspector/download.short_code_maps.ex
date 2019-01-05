@@ -1,16 +1,6 @@
 defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
-  @moduledoc """
-  Fetches short code map listings from the
-  [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
-  project.
-
-  The listings are extracted from the original PHP source files and stored
-  as YAML files in the configured download path.
-
-  `mix ua_inspector.download.short_code_maps`
-  """
-
-  @shortdoc "Downloads UAInspector parser short code maps"
+  @moduledoc false
+  @shortdoc false
 
   alias Mix.UAInspector.Download
   alias UAInspector.Config
