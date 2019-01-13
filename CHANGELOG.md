@@ -3,6 +3,7 @@
 ## v0.20.0-dev
 
 - Deprecations
+    - Accessing the system environment by configuring `{:system, var}` or `{:system, var, default}` will now result in a `Logger.info/1` message and will stop working in a future release
     - The download tasks `ua_inspector.download.databases` and `ua_inspector.download.short_code_maps` are now deprecated and will be removed in a future release
 
 ## v0.19.1 (2019-01-05)

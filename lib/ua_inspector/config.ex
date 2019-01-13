@@ -3,6 +3,8 @@ defmodule UAInspector.Config do
   Utility module to simplify access to configuration values.
   """
 
+  require Logger
+
   @remote_database "https://raw.githubusercontent.com/matomo-org/device-detector/master/regexes"
   @remote_shortcode "https://raw.githubusercontent.com/matomo-org/device-detector/master"
   @remote_defaults [
@@ -84,6 +86,14 @@ defmodule UAInspector.Config do
     end
   end
 
+  defp log_system_config_deprecation do
+    Logger.info(fn ->
+      "Accessing the system environment for configuration via" <>
+        " {:system, \"var\"} has been deprecated. Please switch" <>
+        " to an initializer function to avoid future problems."
+    end)
+  end
+
   defp maybe_fetch_system(config) when is_list(config) do
     Enum.map(config, fn
       {k, v} -> {k, maybe_fetch_system(v)}
@@ -92,10 +102,15 @@ defmodule UAInspector.Config do
   end
 
   defp maybe_fetch_system({:system, var, default}) do
+    log_system_config_deprecation()
     System.get_env(var) || default
   end
 
-  defp maybe_fetch_system({:system, var}), do: System.get_env(var)
+  defp maybe_fetch_system({:system, var}) do
+    log_system_config_deprecation()
+    System.get_env(var)
+  end
+
   defp maybe_fetch_system(config), do: config
 
   defp maybe_use_default(nil, default), do: default
