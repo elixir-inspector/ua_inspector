@@ -1,9 +1,9 @@
-defmodule Mix.Tasks.UaInspector.Download.ShortCodeMapsTest do
+defmodule Mix.Tasks.UaInspector.Deprecated.Download.DatabasesTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureIO
 
-  alias Mix.Tasks.UaInspector.Download.ShortCodeMaps, as: MixTask
+  alias Mix.Tasks.UaInspector.Download.Databases, as: MixTask
 
   setup_all do
     # setup internal testing webserver
@@ -24,11 +24,34 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMapsTest do
     remote_paths = Application.get_env(:ua_inspector, :remote_path)
     remote_internal = "http://localhost:#{:httpd.info(httpd_pid)[:port]}/"
 
-    :ok = Application.put_env(:ua_inspector, :remote_path, short_code_map: remote_internal)
+    test_remote_path = [
+      bot: remote_internal,
+      browser_engine: remote_internal,
+      client: remote_internal,
+      device: remote_internal,
+      os: remote_internal,
+      vendor_fragment: remote_internal
+    ]
+
+    :ok = Application.put_env(:ua_inspector, :remote_path, test_remote_path)
 
     on_exit(fn ->
       Application.put_env(:ua_inspector, :remote_path, remote_paths)
     end)
+  end
+
+  test "deprecation message" do
+    Mix.shell(Mix.Shell.IO)
+
+    console =
+      capture_io(fn ->
+        MixTask.run([])
+
+        IO.write("n")
+      end)
+
+    assert String.contains?(console, "deprecated")
+    assert String.contains?(console, "'mix ua_inspector.download'")
   end
 
   test "aborted download" do
@@ -67,18 +90,23 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMapsTest do
         MixTask.run(["--force"])
         Application.put_env(:ua_inspector, :database_path, orig_path)
 
-        maps = [
-          UAInspector.ShortCodeMap.ClientBrowsers,
-          UAInspector.ShortCodeMap.DeviceBrands,
-          UAInspector.ShortCodeMap.MobileBrowsers,
-          UAInspector.ShortCodeMap.OSs
+        databases = [
+          UAInspector.Database.Bots,
+          UAInspector.Database.BrowserEngines,
+          UAInspector.Database.Clients,
+          UAInspector.Database.DevicesHbbTV,
+          UAInspector.Database.DevicesRegular,
+          UAInspector.Database.OSs,
+          UAInspector.Database.VendorFragments
         ]
 
-        for map <- maps do
-          [test_path, map.file_local]
-          |> Path.join()
-          |> File.exists?()
-          |> assert
+        for database <- databases do
+          for {_type, local, _remote} <- database.sources do
+            [test_path, local]
+            |> Path.join()
+            |> File.exists?()
+            |> assert
+          end
         end
       end)
 

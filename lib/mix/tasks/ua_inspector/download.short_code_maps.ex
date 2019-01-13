@@ -9,6 +9,11 @@ defmodule Mix.Tasks.UaInspector.Download.ShortCodeMaps do
   use Mix.Task
 
   def run(args) do
+    Mix.shell().info("The mix task you are using has been deprecated.")
+    Mix.shell().info("Please use 'mix ua_inspector.download' in the future.")
+    Mix.shell().info("The old task will cease to function in a future release.")
+    Mix.shell().info("")
+
     Mix.shell().info("UAInspector Short Code Map Download")
 
     :ok = Config.init_env()
