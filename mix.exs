@@ -61,7 +61,8 @@ defmodule UAInspector.Mixfile do
         :race_conditions,
         :underspecs,
         :unmatched_returns
-      ]
+      ],
+      plt_add_apps: [:mix]
     ]
   end
 
