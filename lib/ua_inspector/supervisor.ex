@@ -19,14 +19,12 @@ defmodule UAInspector.Supervisor do
   def init(_default) do
     :ok = Config.init_env()
 
-    options = [strategy: :one_for_one, name: __MODULE__]
-
     children = [
       UAInspector.Pool.child_spec(),
       supervisor(UAInspector.Database.Supervisor, []),
       supervisor(UAInspector.ShortCodeMap.Supervisor, [])
     ]
 
-    supervise(children, options)
+    supervise(children, strategy: :one_for_one)
   end
 end
