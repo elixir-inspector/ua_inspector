@@ -43,11 +43,12 @@ defmodule UAInspector.Storage.Server do
         old_ets_tid = ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name)
         new_ets_tid = ETS.create_data(@ets_data_table_name)
 
-        if Config.database_path() do
-          :ok = do_reload(new_ets_tid)
-        else
-          Logger.warn("Reload error: no database path configured")
-        end
+        _ =
+          if Config.database_path() do
+            :ok = do_reload(new_ets_tid)
+          else
+            _ = Logger.warn("Reload error: no database path configured")
+          end
 
         :ok = schedule_data_cleanup(old_ets_tid)
         :ok = ETS.update_data(@ets_lookup_table_name, @ets_data_table_name, new_ets_tid)

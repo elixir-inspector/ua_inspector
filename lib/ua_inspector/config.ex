@@ -102,12 +102,12 @@ defmodule UAInspector.Config do
   end
 
   defp maybe_fetch_system({:system, var, default}) do
-    log_system_config_deprecation()
+    _ = log_system_config_deprecation()
     System.get_env(var) || default
   end
 
   defp maybe_fetch_system({:system, var}) do
-    log_system_config_deprecation()
+    _ = log_system_config_deprecation()
     System.get_env(var)
   end
 

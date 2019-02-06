@@ -40,7 +40,7 @@ defmodule UAInspector.ShortCodeMap do
 
         case File.regular?(map) do
           false ->
-            Logger.info("failed to load short code map: #{map}")
+            _ = Logger.info("failed to load short code map: #{map}")
             :ok
 
           true ->

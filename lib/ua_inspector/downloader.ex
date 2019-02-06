@@ -43,8 +43,7 @@ defmodule UAInspector.Downloader do
   """
   @spec download(:databases | :short_code_maps) :: :ok
   def download(:databases) do
-    Application.ensure_all_started(:hackney)
-
+    _ = Application.ensure_all_started(:hackney)
     :ok = prepare_database_path()
 
     Enum.each(@databases, fn database ->
@@ -57,8 +56,7 @@ defmodule UAInspector.Downloader do
   end
 
   def download(:short_code_maps) do
-    Application.ensure_all_started(:hackney)
-
+    _ = Application.ensure_all_started(:hackney)
     :ok = prepare_database_path()
 
     Enum.each(@short_code_maps, fn short_code_map ->

@@ -33,7 +33,7 @@ defmodule UAInspector.Database do
 
             case File.regular?(database) do
               false ->
-                Logger.info("failed to load database: #{database}")
+                _ = Logger.info("failed to load database: #{database}")
                 acc_index
 
               true ->
