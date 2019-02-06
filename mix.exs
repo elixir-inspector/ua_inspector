@@ -12,6 +12,7 @@ defmodule UAInspector.Mixfile do
       aliases: aliases(),
       deps: deps(),
       description: "User agent parser library",
+      dialyzer: dialyzer(),
       docs: docs(),
       package: package(),
       preferred_cli_env: [
@@ -50,6 +51,17 @@ defmodule UAInspector.Mixfile do
       {:hackney, "~> 1.0"},
       {:poolboy, "~> 1.0"},
       {:yamerl, "~> 0.7"}
+    ]
+  end
+
+  defp dialyzer do
+    [
+      flags: [
+        :error_handling,
+        :race_conditions,
+        :underspecs,
+        :unmatched_returns
+      ]
     ]
   end
 
