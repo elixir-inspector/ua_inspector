@@ -5,7 +5,7 @@ defmodule UAInspector.Benchmark.Parse do
   @agent_tablet "Mozilla/5.0 (Linux; U; Android 4.2.2; it-it; Surfing TAB B 9.7 3G Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
   @agent_unknown "Mozilla/5.0 (Linux; U; Android 4.0.4; en-us; NABI2-NV7A Build/IMM76L)Maxthon AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30"
 
-  def run() do
+  def run do
     Benchee.run(
       %{
         "Parse: bot" => fn -> UAInspector.parse(@agent_bot) end,

@@ -52,7 +52,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp convert_empty(testcase, [], _), do: testcase
 
   defp convert_empty(testcase, [path | paths], replacement) do
-    case get_in(testcase, path) do
+    testcase
+    |> get_in(path)
+    |> case do
       :null -> put_in(testcase, path, replacement)
       "" -> put_in(testcase, path, replacement)
       _ -> testcase
@@ -65,7 +67,9 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   defp convert_numbers(testcase, []), do: testcase
 
   defp convert_numbers(testcase, [path | paths]) do
-    case get_in(testcase, path) do
+    testcase
+    |> get_in(path)
+    |> case do
       v when is_number(v) -> put_in(testcase, path, to_string(v))
       _ -> testcase
     end

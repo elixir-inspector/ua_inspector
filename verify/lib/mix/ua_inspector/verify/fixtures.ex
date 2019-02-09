@@ -35,7 +35,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "unknown.yml"
   ]
 
-  def download() do
+  def download do
     Mix.shell().info("Download path: #{download_path()}")
 
     setup()
@@ -67,7 +67,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   def download_path(file), do: Path.join(download_path(), file)
   def list, do: @fixtures
 
-  def setup() do
+  def setup do
     File.rm_rf!(download_path())
     File.mkdir_p!(download_path())
   end

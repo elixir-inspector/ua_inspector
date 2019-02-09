@@ -23,6 +23,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     :ok
   end
 
+  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp compare(testcase, result) do
     if Map.has_key?(testcase, :client) && Map.has_key?(result, :client) do
       # regular user agent
@@ -72,9 +73,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp maybe_from_struct(result), do: Map.from_struct(result)
 
   defp parse(case_data) when is_list(case_data) do
-    case_data
-    |> Enum.map(fn {k, v} -> {String.to_atom(k), parse(v)} end)
-    |> Enum.into(%{})
+    Enum.into(case_data, %{}, fn {k, v} -> {String.to_atom(k), parse(v)} end)
   end
 
   defp parse(case_data), do: case_data
@@ -114,7 +113,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         :ok
 
       errors ->
-        Enum.map(errors, fn
+        Enum.each(errors, fn
           {fixture, {:error, :enoent}} ->
             Mix.shell().error("Missing fixture file: #{fixture}")
 
