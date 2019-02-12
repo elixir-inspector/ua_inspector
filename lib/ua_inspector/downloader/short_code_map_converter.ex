@@ -26,7 +26,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   @spec write_yaml(list, :hash | :hash_with_list | :list, String.t()) :: :ok
   def write_yaml(map, :hash, file) do
     {:ok, _} =
-      File.open(file, [:write], fn outfile ->
+      File.open(file, [:write, :utf8], fn outfile ->
         for {short, long} <- map do
           IO.write(outfile, "- \"#{short}\": \"#{long}\"\n")
         end
@@ -37,7 +37,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
 
   def write_yaml(map, :hash_with_list, file) do
     {:ok, _} =
-      File.open(file, [:write], fn outfile ->
+      File.open(file, [:write, :utf8], fn outfile ->
         for {entry, elements} <- map do
           elementstring =
             elements
@@ -54,7 +54,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
 
   def write_yaml(map, :list, file) do
     {:ok, _} =
-      File.open(file, [:write], fn outfile ->
+      File.open(file, [:write, :utf8], fn outfile ->
         for item <- map do
           IO.write(outfile, "- \"#{item}\"\n")
         end
