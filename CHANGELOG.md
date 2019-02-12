@@ -6,6 +6,11 @@
     - Accessing the system environment by configuring `{:system, var}` or `{:system, var, default}` will now result in a `Logger.info/1` message and will stop working in a future release
     - The download tasks `ua_inspector.download.databases` and `ua_inspector.download.short_code_maps` are now deprecated and will be removed in a future release
 
+## v0.19.2 (2019-02-12)
+
+- Bug fixes
+    - Short code maps are now stored in the correct file encoding (`UTF-8`) to allow parsing short code maps with characters like umlauts ([#15](https://github.com/elixytics/ua_inspector/issues/15))
+
 ## v0.19.1 (2019-01-05)
 
 - Enhancements
