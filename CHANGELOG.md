@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.19.2-dev
+## v0.19.2 (2019-02-12)
 
 - Bug fixes
     - Short code maps are now stored in the correct file encoding (`UTF-8`) to allow parsing short code maps with characters like umlauts ([#15](https://github.com/elixytics/ua_inspector/issues/15))
