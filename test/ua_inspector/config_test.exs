@@ -20,6 +20,8 @@ defmodule UAInspector.ConfigTest do
 
     assert path == Config.database_path()
     assert "#{url}/bar.yml" == Config.database_url(:foo, "bar.yml")
+  after
+    Application.delete_env(:ua_inspector, :remote_path)
   end
 
   test "missing configuration" do
