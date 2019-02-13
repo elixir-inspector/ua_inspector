@@ -116,6 +116,16 @@ Shown configuration is used as the default location during download.
 
 For the time being the detailed path append to the remote path is not configurable. This is a major caveat for the short code mappings and subject to change.
 
+#### Default Database Release Version
+
+If you are using the default database the newest version from the `"master"` branch will be used. You can also configure a different release to be used:
+
+```elixir
+config :ua_inspector, remote_release: "v1.0.0"
+```
+
+This feature is only available for the default database configuration.
+
 ### Configuration (ETS Cleanup)
 
 When reloading the old database is deleted with a configurable delay. The delay is defined in milliseconds with a default of `30_000`.

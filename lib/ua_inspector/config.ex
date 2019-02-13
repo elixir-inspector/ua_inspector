@@ -90,7 +90,7 @@ defmodule UAInspector.Config do
 
   defp default_database_url(type) do
     if Keyword.has_key?(@remote_paths, type) do
-      @remote_base <> @remote_release <> @remote_paths[type]
+      @remote_base <> get(:remote_release, @remote_release) <> @remote_paths[type]
     else
       ""
     end

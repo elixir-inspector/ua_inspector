@@ -24,6 +24,20 @@ defmodule UAInspector.ConfigTest do
     Application.delete_env(:ua_inspector, :remote_path)
   end
 
+  test "default database release configuration" do
+    assert :bot
+           |> Config.database_url("bot.yml")
+           |> String.contains?("/device-detector/master")
+
+    Application.put_env(:ua_inspector, :remote_release, "v1.0.0")
+
+    assert :bot
+           |> Config.database_url("bot.yml")
+           |> String.contains?("/device-detector/v1.0.0")
+  after
+    Application.delete_env(:ua_inspector, :remote_release)
+  end
+
   test "missing configuration" do
     Application.put_env(:ua_inspector, :database_path, nil)
 
