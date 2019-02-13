@@ -26,6 +26,7 @@ defmodule UAInspector.ConfigTest do
     Application.put_env(:ua_inspector, :database_path, nil)
 
     assert nil == Config.database_path()
+    assert "/bar.yml" == Config.database_url(:unknown, "bar.yml")
   end
 
   test "deep key access" do

@@ -5,16 +5,16 @@ defmodule UAInspector.Config do
 
   require Logger
 
-  @remote_database "https://raw.githubusercontent.com/matomo-org/device-detector/master/regexes"
-  @remote_shortcode "https://raw.githubusercontent.com/matomo-org/device-detector/master"
-  @remote_defaults [
-    bot: "#{@remote_database}",
-    browser_engine: "#{@remote_database}/client",
-    client: "#{@remote_database}/client",
-    device: "#{@remote_database}/device",
-    os: "#{@remote_database}",
-    short_code_map: "#{@remote_shortcode}",
-    vendor_fragment: "#{@remote_database}"
+  @remote_base "https://raw.githubusercontent.com/matomo-org/device-detector/"
+  @remote_release "master"
+  @remote_paths [
+    bot: "/regexes",
+    browser_engine: "/regexes/client",
+    client: "/regexes/client",
+    device: "/regexes/device",
+    os: "/regexes",
+    short_code_map: "",
+    vendor_fragment: "/regexes"
   ]
 
   @doc """
@@ -55,12 +55,14 @@ defmodule UAInspector.Config do
   def database_url(type, file) do
     file = String.replace_leading(file, "/", "")
 
+    default = default_database_url(type)
+
     remote =
       [:remote_path, type]
-      |> get(@remote_defaults[type])
+      |> get(default)
       |> String.replace_trailing("/", "")
 
-    "#{remote}/#{file}"
+    remote <> "/" <> file
   end
 
   @doc """
@@ -68,8 +70,8 @@ defmodule UAInspector.Config do
   """
   @spec default_remote_database?() :: boolean
   def default_remote_database? do
-    Enum.any?(Keyword.keys(@remote_defaults), fn type ->
-      default = @remote_defaults[type]
+    Enum.any?(Keyword.keys(@remote_paths), fn type ->
+      default = default_database_url(type)
 
       get([:remote_path, type], default) == default
     end)
@@ -83,6 +85,14 @@ defmodule UAInspector.Config do
     case get(:init) do
       nil -> :ok
       {mod, fun} -> apply(mod, fun, [])
+    end
+  end
+
+  defp default_database_url(type) do
+    if Keyword.has_key?(@remote_paths, type) do
+      @remote_base <> @remote_release <> @remote_paths[type]
+    else
+      ""
     end
   end
 
