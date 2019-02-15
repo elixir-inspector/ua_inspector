@@ -74,17 +74,25 @@ config :ua_inspector,
 
 ### Configuration (dynamic)
 
-If there are any reasons you cannot use a pre-defined configuration you can also configure an initializer module to be called before starting the application supervisor. This function is expected to always return `:ok`.
+If there are any reasons you cannot use a pre-defined configuration you can also configure an initializer module to be called before starting the application supervisor. The configuration is expected to consist of a `{mod, fun}` or `{mod, fun, args}` tuple and the function is expected to always return `:ok`.
 
 This may be the most suitable configuration if you have the databases located in the `:priv_dir` of your application.
 
 ```elixir
+# {mod, fun}
 config :ua_inspector,
-  init: {MyInitModule, :my_init_fun}
+  init: {MyInitModule, :my_init_mf}
+
+# {mod, fun, args}
+config :ua_inspector,
+  init: {MyInitModule, :my_init_mfa, [:foo, :bar]}
 
 defmodule MyInitModule do
-  @spec my_init_fun() :: :ok
-  def my_init_fun() do
+  @spec my_init_mf() :: :ok
+  def my_init_mf(), do: my_init_mfa(:foo, :bar)
+
+  @spec my_init_mfa(atom, atom) :: :ok
+  def my_init_mfa(:foo, :bar) do
     priv_dir = Application.app_dir(:my_app, "priv")
 
     Application.put_env(:ua_inspector, :database_path, priv_dir)

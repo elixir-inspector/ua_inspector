@@ -85,6 +85,7 @@ defmodule UAInspector.Config do
     case get(:init) do
       nil -> :ok
       {mod, fun} -> apply(mod, fun, [])
+      {mod, fun, args} -> apply(mod, fun, args)
     end
   end
 

@@ -3,6 +3,7 @@
 ## v0.20.0-dev
 
 - Enhancements
+    - Initializer modules can be defined with additional arguments by using `{mod, fun, args}`
     - When using the default database you can now set a `:remote_release` to be used for downloading. The default is `"master"` but any valid commit from the upstream source is allowed
 
 - Deprecations
