@@ -20,7 +20,6 @@ defmodule UAInspector.Supervisor do
     :ok = Config.init_env()
 
     children = [
-      UAInspector.Pool.child_spec(),
       supervisor(UAInspector.Database.Supervisor, []),
       supervisor(UAInspector.ShortCodeMap.Supervisor, [])
     ]

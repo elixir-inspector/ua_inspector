@@ -3,6 +3,7 @@
 ## v1.0.0-dev
 
 - Backwards incompatible changes
+    - Internal parser process pooling has been removed. If you require pooling you need to manually wrap `UAInspector.parse/1` (and related functions)
     - Minimum required elixir version is now `~> 1.5`
     - Support for `{:system, var}` configuration has been removed
     - The deprecated mix tasks `ua_inspector.download.databases` and `ua_inspector.download.short_code_maps` have been removed

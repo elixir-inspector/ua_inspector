@@ -4,7 +4,7 @@ defmodule UAInspector do
   """
 
   alias UAInspector.Database
-  alias UAInspector.Pool
+  alias UAInspector.Parser
   alias UAInspector.Result
   alias UAInspector.ShortCodeMap
 
@@ -12,25 +12,25 @@ defmodule UAInspector do
   Checks if a user agent is a known bot.
   """
   @spec bot?(String.t() | nil) :: boolean
-  defdelegate bot?(ua), to: Pool
+  defdelegate bot?(ua), to: Parser
 
   @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
   @spec hbbtv?(String.t() | nil) :: false | String.t()
-  defdelegate hbbtv?(ua), to: Pool
+  defdelegate hbbtv?(ua), to: Parser
 
   @doc """
   Parses a user agent.
   """
   @spec parse(String.t() | nil) :: Result.t()
-  defdelegate parse(ua), to: Pool
+  defdelegate parse(ua), to: Parser
 
   @doc """
   Parses a user agent without checking for bots.
   """
   @spec parse_client(String.t() | nil) :: Result.t()
-  defdelegate parse_client(ua), to: Pool
+  defdelegate parse_client(ua), to: Parser
 
   @doc """
   Checks if there is data to use in lookups.
