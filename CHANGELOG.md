@@ -5,6 +5,7 @@
 - Backwards incompatible changes
     - Minimum required elixir version is now `~> 1.5`
     - Support for `{:system, var}` configuration has been removed
+    - The deprecated mix tasks `ua_inspector.download.databases` and `ua_inspector.download.short_code_maps` have been removed
 
 ## v0.20.0 (2019-03-10)
 
