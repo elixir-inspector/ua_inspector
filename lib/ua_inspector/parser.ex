@@ -21,18 +21,13 @@ defmodule UAInspector.Parser do
   @doc """
   Checks if a user agent is a known bot.
   """
-  @spec bot?(String.t() | nil) :: boolean
-  def bot?(nil), do: false
-  def bot?(""), do: false
+  @spec bot?(String.t()) :: boolean
   def bot?(ua), do: :unknown != Parser.Bot.parse(ua)
 
   @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
-  @spec hbbtv?(String.t() | nil) :: false | String.t()
-  def hbbtv?(nil), do: false
-  def hbbtv?(""), do: false
-
+  @spec hbbtv?(String.t()) :: false | String.t()
   def hbbtv?(ua) do
     case Parser.Device.parse_hbbtv_version(ua) do
       nil -> false
@@ -43,10 +38,7 @@ defmodule UAInspector.Parser do
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t() | nil) :: Result.t()
-  def parse(nil), do: %Result{user_agent: nil}
-  def parse(""), do: %Result{user_agent: ""}
-
+  @spec parse(String.t()) :: Result.t()
   def parse(ua) do
     case Parser.Bot.parse(ua) do
       :unknown -> parse_client(ua)
@@ -57,10 +49,7 @@ defmodule UAInspector.Parser do
   @doc """
   Parses a user agent without checking for bots.
   """
-  @spec parse_client(String.t() | nil) :: Result.t()
-  def parse_client(nil), do: %Result{user_agent: nil}
-  def parse_client(""), do: %Result{user_agent: ""}
-
+  @spec parse_client(String.t()) :: Result.t()
   def parse_client(ua) do
     ua
     |> assemble_result()

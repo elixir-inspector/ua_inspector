@@ -12,25 +12,33 @@ defmodule UAInspector do
   Checks if a user agent is a known bot.
   """
   @spec bot?(String.t() | nil) :: boolean
-  defdelegate bot?(ua), to: Parser
+  def bot?(nil), do: false
+  def bot?(""), do: false
+  def bot?(ua), do: Parser.bot?(ua)
 
   @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
   @spec hbbtv?(String.t() | nil) :: false | String.t()
-  defdelegate hbbtv?(ua), to: Parser
+  def hbbtv?(nil), do: false
+  def hbbtv?(""), do: false
+  def hbbtv?(ua), do: Parser.hbbtv?(ua)
 
   @doc """
   Parses a user agent.
   """
   @spec parse(String.t() | nil) :: Result.t()
-  defdelegate parse(ua), to: Parser
+  def parse(nil), do: %Result{user_agent: nil}
+  def parse(""), do: %Result{user_agent: ""}
+  def parse(ua), do: Parser.parse(ua)
 
   @doc """
   Parses a user agent without checking for bots.
   """
   @spec parse_client(String.t() | nil) :: Result.t()
-  defdelegate parse_client(ua), to: Parser
+  def parse_client(nil), do: %Result{user_agent: nil}
+  def parse_client(""), do: %Result{user_agent: ""}
+  def parse_client(ua), do: Parser.parse_client(ua)
 
   @doc """
   Checks if there is data to use in lookups.
