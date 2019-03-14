@@ -11,21 +11,21 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
   Starts the short code map supervisor.
   """
   @spec start_link(term) :: Supervisor.on_start()
-  def start_link(default \\ []) do
+  def start_link(default \\ nil) do
     Supervisor.start_link(__MODULE__, default)
   end
 
   @doc false
-  def init(_default) do
+  def init(_state) do
     children = [
-      worker(ShortCodeMap.ClientBrowsers, []),
-      worker(ShortCodeMap.DesktopFamilies, []),
-      worker(ShortCodeMap.DeviceBrands, []),
-      worker(ShortCodeMap.MobileBrowsers, []),
-      worker(ShortCodeMap.OSFamilies, []),
-      worker(ShortCodeMap.OSs, [])
+      ShortCodeMap.ClientBrowsers,
+      ShortCodeMap.DesktopFamilies,
+      ShortCodeMap.DeviceBrands,
+      ShortCodeMap.MobileBrowsers,
+      ShortCodeMap.OSFamilies,
+      ShortCodeMap.OSs
     ]
 
-    supervise(children, strategy: :one_for_all)
+    Supervisor.init(children, strategy: :one_for_all)
   end
 end

@@ -11,19 +11,19 @@ defmodule UAInspector.Supervisor do
   Starts the supervisor.
   """
   @spec start_link(term) :: Supervisor.on_start()
-  def start_link(default \\ []) do
+  def start_link(default \\ nil) do
     Supervisor.start_link(__MODULE__, default, name: __MODULE__)
   end
 
   @doc false
-  def init(_default) do
+  def init(_state) do
     :ok = Config.init_env()
 
     children = [
-      supervisor(UAInspector.Database.Supervisor, []),
-      supervisor(UAInspector.ShortCodeMap.Supervisor, [])
+      UAInspector.Database.Supervisor,
+      UAInspector.ShortCodeMap.Supervisor
     ]
 
-    supervise(children, strategy: :one_for_one)
+    Supervisor.init(children, strategy: :one_for_one)
   end
 end

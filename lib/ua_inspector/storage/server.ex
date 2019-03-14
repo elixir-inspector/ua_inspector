@@ -20,7 +20,9 @@ defmodule UAInspector.Storage.Server do
 
       # GenServer lifecycle
 
-      def start_link, do: GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+      def start_link(default \\ %{}) do
+        GenServer.start_link(__MODULE__, default, name: __MODULE__)
+      end
 
       def init(state) do
         :ok = GenServer.cast(__MODULE__, :reload)

@@ -11,22 +11,22 @@ defmodule UAInspector.Database.Supervisor do
   Starts the database supervisor.
   """
   @spec start_link(term) :: Supervisor.on_start()
-  def start_link(default \\ []) do
+  def start_link(default \\ nil) do
     Supervisor.start_link(__MODULE__, default)
   end
 
   @doc false
-  def init(_default) do
+  def init(_state) do
     children = [
-      worker(Database.Bots, []),
-      worker(Database.BrowserEngines, []),
-      worker(Database.Clients, []),
-      worker(Database.DevicesHbbTV, []),
-      worker(Database.DevicesRegular, []),
-      worker(Database.OSs, []),
-      worker(Database.VendorFragments, [])
+      Database.Bots,
+      Database.BrowserEngines,
+      Database.Clients,
+      Database.DevicesHbbTV,
+      Database.DevicesRegular,
+      Database.OSs,
+      Database.VendorFragments
     ]
 
-    supervise(children, strategy: :one_for_all)
+    Supervisor.init(children, strategy: :one_for_all)
   end
 end

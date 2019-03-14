@@ -54,7 +54,7 @@ And also add the appropriate `UAInspector.Supervisor` to your hierarchy:
 # in your application/supervisor
 children = [
   # ...
-  supervisor(UAInspector.Supervisor, [])
+  UAInspector.Supervisor,
   # ..
 ]
 ```
