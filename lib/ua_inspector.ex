@@ -6,6 +6,7 @@ defmodule UAInspector do
   alias UAInspector.Database
   alias UAInspector.Parser
   alias UAInspector.Result
+  alias UAInspector.Result.Bot
   alias UAInspector.ShortCodeMap
 
   @doc """
@@ -27,7 +28,7 @@ defmodule UAInspector do
   @doc """
   Parses a user agent.
   """
-  @spec parse(String.t() | nil) :: Result.t()
+  @spec parse(String.t() | nil) :: Result.t() | Bot.t()
   def parse(nil), do: %Result{user_agent: nil}
   def parse(""), do: %Result{user_agent: ""}
   def parse(ua), do: Parser.parse(ua)

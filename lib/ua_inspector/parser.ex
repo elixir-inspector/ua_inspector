@@ -3,6 +3,7 @@ defmodule UAInspector.Parser do
 
   alias UAInspector.Parser
   alias UAInspector.Result
+  alias UAInspector.Result.Bot
   alias UAInspector.ShortCodeMap
   alias UAInspector.Util
 
@@ -36,7 +37,7 @@ defmodule UAInspector.Parser do
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t()) :: Result.t()
+  @spec parse(String.t()) :: Result.t() | Bot.t()
   def parse(ua) do
     case Parser.Bot.parse(ua) do
       :unknown -> parse_client(ua)
