@@ -1,15 +1,13 @@
 defmodule Mix.Tasks.UaInspector.Download do
   @moduledoc """
-  Fetches databases from the
-  [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
-  project.
+  Mix task to download database file(s) from your command line.
 
-  The files will be stored inside your configured path.
-
-  `mix ua_inspector.download`
+  The task will display the target location upon invocation and will ask for
+  confirmation before downloading. If you want to force a download you can
+  use `mix ua_inspector.download --force`.
   """
 
-  @shortdoc "Downloads UAInspector databases"
+  @shortdoc "Downloads database files"
 
   alias Mix.UAInspector.Download
   alias UAInspector.Config
