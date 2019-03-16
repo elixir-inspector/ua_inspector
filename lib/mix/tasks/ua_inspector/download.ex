@@ -9,7 +9,6 @@ defmodule Mix.Tasks.UaInspector.Download do
 
   @shortdoc "Downloads database files"
 
-  alias Mix.UAInspector.Download
   alias UAInspector.Config
   alias UAInspector.Downloader
 
@@ -21,8 +20,26 @@ defmodule Mix.Tasks.UaInspector.Download do
     :ok = Config.init_env()
 
     case Config.database_path() do
-      nil -> Download.exit_unconfigured()
-      _ -> args |> Download.request_confirmation() |> run_confirmed()
+      nil -> exit_unconfigured()
+      _ -> args |> request_confirmation() |> run_confirmed()
+    end
+  end
+
+  defp exit_unconfigured do
+    Mix.shell().error("Database path not configured.")
+    Mix.shell().error("See README.md for details.")
+  end
+
+  defp request_confirmation(args) do
+    Mix.shell().info("Download path: #{Config.database_path()}")
+    Mix.shell().info("This command will overwrite any existing files!")
+
+    {opts, _argv, _errors} =
+      OptionParser.parse(args, strict: [force: :boolean], aliases: [f: :force])
+
+    case opts[:force] do
+      true -> true
+      _ -> "Really download?" |> Mix.shell().yes?()
     end
   end
 
