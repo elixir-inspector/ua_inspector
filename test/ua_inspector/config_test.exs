@@ -38,11 +38,10 @@ defmodule UAInspector.ConfigTest do
     Application.delete_env(:ua_inspector, :remote_release)
   end
 
-  test "missing configuration" do
+  test "priv dir fallback for misconfiguration" do
     Application.put_env(:ua_inspector, :database_path, nil)
 
-    assert nil == Config.database_path()
-    assert "/bar.yml" == Config.database_url(:unknown, "bar.yml")
+    refute nil == Config.database_path()
   end
 
   test "deep key access" do

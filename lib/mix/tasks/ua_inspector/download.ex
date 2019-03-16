@@ -14,47 +14,43 @@ defmodule Mix.Tasks.UaInspector.Download do
 
   use Mix.Task
 
-  def run(args) do
-    Mix.shell().info("UAInspector Database Download")
+  @cli_options [
+    aliases: [f: :force],
+    strict: [force: :boolean]
+  ]
 
+  def run(args) do
     :ok = Config.init_env()
 
-    case Config.database_path() do
-      nil -> exit_unconfigured()
-      _ -> args |> request_confirmation() |> run_confirmed()
-    end
-  end
-
-  defp exit_unconfigured do
-    Mix.shell().error("Database path not configured.")
-    Mix.shell().error("See README.md for details.")
-  end
-
-  defp request_confirmation(args) do
     Mix.shell().info("Download path: #{Config.database_path()}")
-    Mix.shell().info("This command will overwrite any existing files!")
+    Mix.shell().info("This command will replace any existing files!")
 
-    {opts, _argv, _errors} =
-      OptionParser.parse(args, strict: [force: :boolean], aliases: [f: :force])
-
-    case opts[:force] do
-      true -> true
-      _ -> "Really download?" |> Mix.shell().yes?()
+    if request_confirmation(args) do
+      perform_download()
+    else
+      exit_unconfirmed()
     end
   end
 
-  defp run_confirmed(false) do
+  defp exit_unconfirmed do
     Mix.shell().info("Download aborted!")
-
     :ok
   end
 
-  defp run_confirmed(true) do
+  defp perform_download do
     :ok = Downloader.download(:databases)
     :ok = Downloader.download(:short_code_maps)
 
     Mix.shell().info("Download complete!")
-
     :ok
+  end
+
+  defp request_confirmation(args) do
+    {opts, _argv, _errors} = OptionParser.parse(args, @cli_options)
+
+    case opts[:force] do
+      true -> true
+      _ -> Mix.shell().yes?("Download databases?")
+    end
   end
 end

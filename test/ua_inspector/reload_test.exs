@@ -8,18 +8,15 @@ defmodule UAInspector.ReloadTest do
       "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
 
     unknown = %UAInspector.Result{user_agent: agent}
-
     db_path = Application.get_env(:ua_inspector, :database_path)
 
     Application.delete_env(:ua_inspector, :database_path)
 
-    log =
-      capture_log(fn ->
-        UAInspector.reload()
-        :timer.sleep(100)
-      end)
+    capture_log(fn ->
+      UAInspector.reload()
+      :timer.sleep(100)
+    end)
 
-    assert log =~ ~r/no database path.*/i
     refute UAInspector.ready?()
     assert UAInspector.parse(agent) == unknown
 

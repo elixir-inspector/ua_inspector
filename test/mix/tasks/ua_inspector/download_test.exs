@@ -62,7 +62,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
         MixTask.run([])
       end)
 
-    assert String.contains?(console, "Really download? [Yn]")
+    assert String.contains?(console, "Download databases? [Yn]")
   end
 
   test "forceable download" do
@@ -114,23 +114,5 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
     assert String.contains?(console, test_path)
 
     File.rm_rf!(test_path)
-  end
-
-  test "missing configuration" do
-    Mix.shell(Mix.Shell.IO)
-
-    orig_path = Application.get_env(:ua_inspector, :database_path)
-
-    console =
-      capture_io(:stderr, fn ->
-        # capture regular output as well
-        capture_io(fn ->
-          Application.put_env(:ua_inspector, :database_path, nil)
-          MixTask.run([])
-          Application.put_env(:ua_inspector, :database_path, orig_path)
-        end)
-      end)
-
-    assert String.contains?(console, "not configured")
   end
 end

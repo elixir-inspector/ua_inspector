@@ -45,7 +45,7 @@ children = [
 
 ## Application Configuration
 
-To start using UAInspector you need to at least configure a `:database_path`.
+Out of the box the default database files will be stored in the `:priv_dir` of `:ua_inspector`. Both the database sources and path used can be changed.
 
 ### Configuration (static)
 
@@ -143,6 +143,8 @@ Please see [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#reques
 Using `mix ua_inspector.download` you can store local copies of the supported parser databases and short code maps in the configured path. The databases are taken from the [matomo-org/device-detector](https://github.com/matomo-org/device-detector) project.
 
 The local path of the downloaded files will be shown to you upon command invocation.
+
+As a default database path (if not configured otherwise) the result of `Application.app_dir(:ua_inspector, "priv")` will be used.
 
 If you want to download the database files using your application you can directly call `UAInspector.Downloader.download/0`.
 

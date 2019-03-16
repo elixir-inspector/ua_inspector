@@ -2,6 +2,9 @@
 
 ## v1.0.0-dev
 
+- Enhancements
+    - The default database path has been set to `Application.app_dir(:ua_inspector, "priv")`
+
 - Backwards incompatible changes
     - Internal parser process pooling has been removed. If you require pooling you need to manually wrap `UAInspector.parse/1` (and related functions)
     - Minimum required elixir version is now `~> 1.5`
