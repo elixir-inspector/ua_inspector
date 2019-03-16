@@ -1,7 +1,5 @@
 defmodule UAInspector.Database.Supervisor do
-  @moduledoc """
-  Supervisor for databases.
-  """
+  @moduledoc false
 
   use Supervisor
 

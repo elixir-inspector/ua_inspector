@@ -1,7 +1,5 @@
 defmodule UAInspector.ShortCodeMap.DesktopFamilies do
-  @moduledoc """
-  Desktop Families Map.
-  """
+  @moduledoc false
 
   use UAInspector.ShortCodeMap,
     ets_prefix: :ua_inspector_scm_desktop_families,

@@ -1,7 +1,5 @@
 defmodule UAInspector.ShortCodeMap.DeviceBrands do
-  @moduledoc """
-  Device Brand Short Code Map.
-  """
+  @moduledoc false
 
   use UAInspector.ShortCodeMap,
     ets_prefix: :ua_inspector_scm_device_brands,

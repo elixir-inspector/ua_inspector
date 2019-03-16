@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser.OS do
-  @moduledoc """
-  UAInspector operating system information parser.
-  """
+  @moduledoc false
 
   alias UAInspector.Database.OSs
   alias UAInspector.Result

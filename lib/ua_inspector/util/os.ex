@@ -1,7 +1,5 @@
 defmodule UAInspector.Util.OS do
-  @moduledoc """
-  Utility methods for operating system lookups.
-  """
+  @moduledoc false
 
   alias UAInspector.ShortCodeMap
 

@@ -1,7 +1,5 @@
 defmodule Mix.UAInspector.Download do
-  @moduledoc """
-  Utility module to support download tasks.
-  """
+  @moduledoc false
 
   alias UAInspector.Config
 

@@ -1,7 +1,5 @@
 defmodule UAInspector.Database.Bots do
-  @moduledoc """
-  UAInspector bot information database.
-  """
+  @moduledoc false
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_bots,

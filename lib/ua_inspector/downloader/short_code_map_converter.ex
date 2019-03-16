@@ -1,7 +1,5 @@
 defmodule UAInspector.Downloader.ShortCodeMapConverter do
-  @moduledoc """
-  Utility module to extract short code maps from php sources into yaml files.
-  """
+  @moduledoc false
 
   @doc """
   Extracts the map defined with variable name `var` from the file `file`.

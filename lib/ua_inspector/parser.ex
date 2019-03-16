@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser do
-  @moduledoc """
-  Parser module to call individual data parsers and aggregate the results.
-  """
+  @moduledoc false
 
   alias UAInspector.Parser
   alias UAInspector.Result

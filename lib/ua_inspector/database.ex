@@ -1,7 +1,5 @@
 defmodule UAInspector.Database do
-  @moduledoc """
-  Basic database module providing minimal functions.
-  """
+  @moduledoc false
 
   defmacro __using__(opts) do
     quote do

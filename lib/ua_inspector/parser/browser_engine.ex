@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser.BrowserEngine do
-  @moduledoc """
-  UAInspector browser engine information parser.
-  """
+  @moduledoc false
 
   alias UAInspector.Database.BrowserEngines
 

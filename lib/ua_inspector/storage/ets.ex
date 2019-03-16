@@ -1,7 +1,5 @@
 defmodule UAInspector.Storage.ETS do
-  @moduledoc """
-  ETS Interaction for storage servers.
-  """
+  @moduledoc false
 
   @doc """
   Creates a new named storage data table.

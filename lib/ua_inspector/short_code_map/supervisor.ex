@@ -1,7 +1,5 @@
 defmodule UAInspector.ShortCodeMap.Supervisor do
-  @moduledoc """
-  Supervisor for short code maps.
-  """
+  @moduledoc false
 
   use Supervisor
 

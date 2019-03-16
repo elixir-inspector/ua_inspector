@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser.Bot do
-  @moduledoc """
-  UAInspector bot information parser.
-  """
+  @moduledoc false
 
   alias UAInspector.Database.Bots
   alias UAInspector.Result

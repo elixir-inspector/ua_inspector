@@ -1,7 +1,5 @@
 defmodule UAInspector.Util.Client do
-  @moduledoc """
-  Utility methods for client lookups.
-  """
+  @moduledoc false
 
   alias UAInspector.ShortCodeMap
 

@@ -1,7 +1,5 @@
 defmodule UAInspector.Util.YAML do
-  @moduledoc """
-  Convenience module for YAML file interactions.
-  """
+  @moduledoc false
 
   @doc """
   Reads a yaml file and returns the contents.

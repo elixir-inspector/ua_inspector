@@ -1,7 +1,5 @@
 defmodule UAInspector.Util do
-  @moduledoc """
-  Utility methods.
-  """
+  @moduledoc false
 
   @doc """
   Upgrades a database regex into a detection regex.

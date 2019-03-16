@@ -1,7 +1,5 @@
 defmodule UAInspector.ShortCodeMap.MobileBrowsers do
-  @moduledoc """
-  Mobile Browser Short Code Map.
-  """
+  @moduledoc false
 
   use UAInspector.ShortCodeMap,
     ets_prefix: :ua_inspector_scm_mobile_browsers,

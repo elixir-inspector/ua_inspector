@@ -1,7 +1,5 @@
 defmodule UAInspector.Downloader.README do
-  @moduledoc """
-  Utility module to handle README.md in download folders.
-  """
+  @moduledoc false
 
   alias UAInspector.Config
 

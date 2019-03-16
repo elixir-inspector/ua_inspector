@@ -1,7 +1,5 @@
 defmodule UAInspector.Database.OSs do
-  @moduledoc """
-  UAInspector operating system information database.
-  """
+  @moduledoc false
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_oss,

@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser.VendorFragment do
-  @moduledoc """
-  UAInspector vendor fragment information parser.
-  """
+  @moduledoc false
 
   alias UAInspector.Database.VendorFragments
 

@@ -1,7 +1,5 @@
 defmodule UAInspector.Storage.Server do
-  @moduledoc """
-  Base behaviour for all storage processes.
-  """
+  @moduledoc false
 
   defmacro __using__(opts) do
     quote do

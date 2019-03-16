@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser.Client do
-  @moduledoc """
-  UAInspector client information parser.
-  """
+  @moduledoc false
 
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine

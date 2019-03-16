@@ -1,7 +1,5 @@
 defmodule UAInspector.ShortCodeMap do
-  @moduledoc """
-  Basic short code map module providing minimal functions.
-  """
+  @moduledoc false
 
   defmacro __using__(opts) do
     quote do

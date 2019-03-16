@@ -1,7 +1,5 @@
 defmodule UAInspector.ShortCodeMap.OSFamilies do
-  @moduledoc """
-  Operating System Families Map.
-  """
+  @moduledoc false
 
   use UAInspector.ShortCodeMap,
     ets_prefix: :ua_inspector_scm_os_families,

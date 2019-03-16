@@ -1,7 +1,5 @@
 defmodule UAInspector.Database.VendorFragments do
-  @moduledoc """
-  UAInspector vendor fragment information database.
-  """
+  @moduledoc false
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_vendor_fragments,

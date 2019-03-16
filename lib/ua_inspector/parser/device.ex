@@ -1,7 +1,5 @@
 defmodule UAInspector.Parser.Device do
-  @moduledoc """
-  UAInspector device information parser.
-  """
+  @moduledoc false
 
   alias UAInspector.Database.DevicesHbbTV
   alias UAInspector.Database.DevicesRegular

@@ -1,7 +1,5 @@
 defmodule UAInspector.Database.DevicesHbbTV do
-  @moduledoc """
-  UAInspector HbbTV device information database.
-  """
+  @moduledoc false
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_devices_hbbtv,
