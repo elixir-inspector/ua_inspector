@@ -1,7 +1,7 @@
 defmodule UAInspector.Mixfile do
   use Mix.Project
 
-  @url_github "https://github.com/elixytics/ua_inspector"
+  @url_github "https://github.com/elixir-inspector/ua_inspector"
 
   def project do
     [

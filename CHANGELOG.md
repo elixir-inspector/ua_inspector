@@ -2,6 +2,8 @@
 
 ## v1.0.0-dev
 
+- Ownership has been transferred to the [`elixir-inspector`](https://github.com/elixir-inspector) organisation
+
 - Enhancements
     - The default database path has been set to `Application.app_dir(:ua_inspector, "priv")`
 
@@ -24,7 +26,7 @@
 ## v0.19.2 (2019-02-12)
 
 - Bug fixes
-    - Short code maps are now stored in the correct file encoding (`UTF-8`) to allow parsing short code maps with characters like umlauts ([#15](https://github.com/elixytics/ua_inspector/issues/15))
+    - Short code maps are now stored in the correct file encoding (`UTF-8`) to allow parsing short code maps with characters like umlauts ([#15](https://github.com/elixir-inspector/ua_inspector/issues/15))
 
 ## v0.19.1 (2019-01-05)
 
@@ -65,7 +67,7 @@
 ## v0.16.1 (2018-01-17)
 
 - Bug fixes
-    - Broken module naming for the mix download tasks has been fixed ([#12](https://github.com/elixytics/ua_inspector/issues/12))
+    - Broken module naming for the mix download tasks has been fixed ([#12](https://github.com/elixir-inspector/ua_inspector/issues/12))
 
 ## v0.16.0 (2018-01-05)
 
@@ -75,13 +77,13 @@
 ## v0.15.1 (2018-01-17)
 
 - Bug fixes
-    - Broken module naming for the mix download tasks has been fixed ([#12](https://github.com/elixytics/ua_inspector/issues/12))
+    - Broken module naming for the mix download tasks has been fixed ([#12](https://github.com/elixir-inspector/ua_inspector/issues/12))
 
 ## v0.15.0 (2017-12-30)
 
 - Enhancements
     - All databases can be reloaded (asynchronously) using `UAInspector.reload/0`
-    - Supervision can now be done without starting the application ([#8](https://github.com/elixytics/ua_inspector/pulls/8))
+    - Supervision can now be done without starting the application ([#8](https://github.com/elixir-inspector/ua_inspector/pulls/8))
     - The database downloader has been promoted to a directly usable module
 
 - Bug fixes
@@ -94,7 +96,7 @@
     - System environment configuration can set an optional default value to be used if the environment variable is unset
 
 - Bug fixes
-    - Properly handles `nil` values passed to the lookup functions ([#7](https://github.com/elixytics/ua_inspector/issues/7))
+    - Properly handles `nil` values passed to the lookup functions ([#7](https://github.com/elixir-inspector/ua_inspector/issues/7))
 
 ## v0.13.0 (2016-09-08)
 
@@ -126,7 +128,7 @@
 - Enhancements
     - Databases are reloaded if a storage process gets restarted
     - HbbTV version can be fetched using `hbbtv?/1`
-    - Path can be configured by accessing the system environment ([#5](https://github.com/elixytics/ua_inspector/pull/5))
+    - Path can be configured by accessing the system environment ([#5](https://github.com/elixir-inspector/ua_inspector/pull/5))
     - Short code mappings are reloaded if a storage process gets restarted
 
 ## v0.10.0 (2015-11-10)
