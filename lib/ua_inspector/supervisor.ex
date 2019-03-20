@@ -7,10 +7,7 @@ defmodule UAInspector.Supervisor do
 
   alias UAInspector.Config
 
-  @doc """
-  Starts the supervisor.
-  """
-  @spec start_link(term) :: Supervisor.on_start()
+  @doc false
   def start_link(default \\ nil) do
     Supervisor.start_link(__MODULE__, default, name: __MODULE__)
   end
