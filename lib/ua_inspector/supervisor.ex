@@ -1,6 +1,31 @@
 defmodule UAInspector.Supervisor do
   @moduledoc """
-  UAInspector Supervisor.
+  This supervisor module takes care of starting the required database storage
+  processes. It is automatically started with the `:ua_inspector` application.
+
+  If you do not want to automatically start the application itself you can
+  adapt your configuration for a more manual supervision approach.
+
+  Instead of adding `:ua_inspector` to your `:applications` list or using
+  the automatic discovery you need to add it to your `:included_applications`:
+
+      def application do
+        [
+          included_applications: [
+            # ...
+            :ua_inspector,
+            # ...
+          ]
+        ]
+      end
+
+  That done you can add `UAInspector.Supervisor` to your hierarchy:
+
+      children = [
+        # ...
+        UAInspector.Supervisor,
+        # ..
+      ]
   """
 
   use Supervisor

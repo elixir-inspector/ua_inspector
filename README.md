@@ -16,32 +16,7 @@ defp deps do
 end
 ```
 
-### Package Startup (manual supervision)
-
-If you do not want to automatically start the application you need to adapt your configuration for manual supervision yourself. This means you should add `:ua_inspector` to your `:included_applications` instead of `:applications` (or automatic discovery):
-
-```elixir
-def application do
-  [
-    included_applications: [
-      # ...
-      :ua_inspector,
-      # ...
-    ]
-  ]
-end
-```
-
-And also add the appropriate `UAInspector.Supervisor` to your hierarchy:
-
-```elixir
-# in your application/supervisor
-children = [
-  # ...
-  UAInspector.Supervisor,
-  # ..
-]
-```
+If you want to use a manual supervision approach (without starting the application) please look at the inline documentation of `UAInspector.Supervisor`.
 
 ## Application Configuration
 
