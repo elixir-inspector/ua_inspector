@@ -1,6 +1,132 @@
 defmodule UAInspector.Config do
   @moduledoc """
-  Utility module to simplify access to configuration values.
+  Module to simplify access to configuration values with default values.
+
+  There should be no configuration required to start using `:ua_inspector` if
+  you rely on the default values:
+
+      remote_database = "https://raw.githubusercontent.com/matomo-org/device-detector/master/regexes"
+      remote_shortcode = "https://raw.githubusercontent.com/matomo-org/device-detector/master"
+
+      config :ua_inspector,
+        database_path: Application.app_dir(:ua_inspector, "priv"),
+        ets_cleanup_delay: 30_000,
+        http_opts: [],
+        remote_path: [
+          bot: remote_database,
+          browser_engine: remote_database <> "/client",
+          client: remote_database <> "/client",
+          device: remote_database <> "/device",
+          os: remote_database,
+          short_code_map: remote_shortcode,
+          vendor_fragment: remote_database
+        ],
+        remote_release: "master"
+
+  The default `:database_path` is evaluated at runtime and not compiled into
+  a release!
+
+  ## How to Configure
+
+  There are two ways to change the configuration values with the preferred way
+  depending on your environment and personal taste.
+
+  ### Static Configuration
+
+  If you can ensure the configuration are static and not dependent on i.e. the
+  server your application is running on, you can use a static approach by
+  modifying your `config.exs` file:
+
+      config :ua_inspector,
+        database_path: "/path/to/ua_inspector/databases"
+
+  ### Dynamic Configuration
+
+  If a compile time configuration is not possible or does not match the usual
+  approach taken in your application you can use a runtime approach.
+
+  This is done by defining an initializer module that will automatically be
+  called by `UAInspector.Supervisor` upon startup/restart. The configuration
+  is expected to consist of a `{mod, fun}` or `{mod, fun, args}` tuple:
+
+      # {mod, fun}
+      config :ua_inspector,
+        init: {MyInitModule, :my_init_mf}
+
+      # {mod, fun, args}
+      config :ua_inspector,
+        init: {MyInitModule, :my_init_mfa, [:foo, :bar]}
+
+      defmodule MyInitModule do
+        @spec my_init_mf() :: :ok
+        def my_init_mf(), do: my_init_mfa(:foo, :bar)
+
+        @spec my_init_mfa(atom, atom) :: :ok
+        def my_init_mfa(:foo, :bar) do
+          priv_dir = Application.app_dir(:my_app, "priv")
+
+          Application.put_env(:ua_inspector, :database_path, priv_dir)
+        end
+      end
+
+  The function is required to always return `:ok`.
+
+  ## Database Configuration
+
+  Configuring the database to use can be done using two related values:
+
+  - `:database_path`
+  - `:remote_path`
+
+  The `:database_path` is the directory to look for when loading the databases.
+  It is also the place where `UAInspector.Downloader` stores a downloaded copy.
+
+  For the time being the detailed list of database files is not configurable.
+  This is a major caveat for personal database copies and short code mappings
+  (they have additional path information appended to the base). This behaviour
+  is subject to change.
+
+  The full configuration for remote paths contains the following values:
+
+      config :ua_inspector
+        remote_path: [
+          bot: "http://example.com",
+          browser_engine: "http://example.com",
+          client: "http://example.com",
+          device: "http://example.com",
+          os: "http://example.com",
+          short_code_map: "http://example.com",
+          vendor_fragment: "http://example.com"
+        ]
+
+  ### Default Database Release Version
+
+  If you are using the default database the newest version from the `"master"`
+  branch will be used. You can also configure a different release to be used:
+
+      config :ua_inspector,
+        remote_release: "v1.0.0"
+
+  ## Download Configuration
+
+  All download request for your database files are done using
+  [`:hackney`](https://hex.pm/packages/hackney). To pass custom configuration
+  values to hackney you can use the key `:http_opts`:
+
+      config :ua_inspector,
+        http_opts: [proxy: "http://mycompanyproxy.com"]
+
+  Please see
+  [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)
+  for a complete list of available options.
+
+  ## Reload Configuration
+
+  When reloading the databases the old values will be deleted in a delayed
+  fashion to avoid false parse results.
+
+  You can manually configure this delay using the `:ets_cleanup_delay`
+  configuration value.
   """
 
   require Logger
