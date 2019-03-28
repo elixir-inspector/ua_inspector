@@ -41,9 +41,7 @@ config :ua_inspector,
   skip_download_readme: true
 ```
 
-## Usage
-
-After downloading a copy of the parse databases you can start parsing user agents:
+## Basic Usage
 
 ```elixir
 iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
@@ -95,47 +93,7 @@ iex(4)> UAInspector.parse("--- undetectable ---")
 }
 ```
 
-The map key `:_user_agent` will hold the unmodified passed user agent.
-
-If the device type cannot be determined a "desktop" device type will be assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
-
-When a bot agent is detected the result with be a `UAInspector.Result.Bot` struct instead of `UAInspector.Result`.
-
-### Reloading
-
-Sometimes (for example after downloading a new database set) it is required to reload the internal database. This can be done asynchronously:
-
-```elixir
-UAInspector.reload()
-```
-
-This process is handled in the background, so for some time the old data will be used for lookups.
-
-If you need to check if the database is still empty or (at least partially!) loaded, you can use `UAInspector.ready?/0`. Please be aware that this method checks the current state and not what will happen after a (potentially running) reload is finished.
-
-### Convenience Methods
-
-To perform only a quick check if a user agents belongs to a bot:
-
-```elixir
-iex(1)> UAInspector.bot?("generic crawler agent")
-true
-
-iex(2)> UAInspector.bot?("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36")
-false
-```
-
-To parse the client information for a user without checking for bots:
-
-```elixir
-iex(1)> UAInspector.parse_client("generic crawler agent")
-%UAInspector.Result{
-  user_agent: "generic crawler agent"
-  client: :unknown,
-  device: :unknown,
-  os: :unknown
-}
-```
+Full documentation is available inline in the `UAInspector` module and at [https://hexdocs.pm/ua_inspector](https://hexdocs.pm/ua_inspector).
 
 ## Benchmark
 
