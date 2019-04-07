@@ -14,7 +14,7 @@ defmodule UAInspector.Benchmark.Parse do
         "Parse: tablet" => fn -> UAInspector.parse(@agent_tablet) end,
         "Parse: unknown" => fn -> UAInspector.parse(@agent_unknown) end
       },
-      formatter_options: %{console: %{comparison: false}},
+      formatters: [{Benchee.Formatters.Console, comparison: false}],
       warmup: 2,
       time: 10
     )
