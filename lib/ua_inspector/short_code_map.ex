@@ -14,11 +14,6 @@ defmodule UAInspector.ShortCodeMap do
 
       # Public methods
 
-      def file_local, do: unquote(opts[:file_local])
-      def file_remote, do: Config.database_url(:short_code_map, unquote(opts[:file_remote]))
-      def var_name, do: unquote(opts[:var_name])
-      def var_type, do: unquote(opts[:var_type])
-
       def to_long(short) do
         list()
         |> Enum.find({short, short}, fn {s, _} -> short == s end)
