@@ -8,6 +8,7 @@ defmodule UAInspector.ShortCodeMap do
       require Logger
 
       alias UAInspector.Config
+      alias UAInspector.Storage.ETS
       alias UAInspector.Util.YAML
 
       @behaviour unquote(__MODULE__)
@@ -40,17 +41,9 @@ defmodule UAInspector.ShortCodeMap do
             map
             |> YAML.read_file()
             |> Enum.map(&to_ets/1)
-            |> store_map(ets_tid)
+            |> ETS.store_data_entries(ets_tid)
         end
       end
-
-      defp store_map([entry | entries], ets_tid) do
-        _ = :ets.insert(ets_tid, entry)
-
-        store_map(entries, ets_tid)
-      end
-
-      defp store_map([], _ets_tid), do: :ok
     end
   end
 
