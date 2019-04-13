@@ -3,10 +3,14 @@ defmodule UAInspector.Database.DevicesHbbTV do
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_devices_hbbtv,
-    sources: [{"", "televisions.yml"}],
     type: :device
 
+  alias UAInspector.Config
   alias UAInspector.Util
+
+  def sources do
+    [{"", "device.televisions.yml", Config.database_url(:device, "televisions.yml")}]
+  end
 
   def to_ets({brand, data}, type) do
     data = Enum.into(data, %{})

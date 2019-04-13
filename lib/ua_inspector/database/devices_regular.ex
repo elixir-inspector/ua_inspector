@@ -3,19 +3,24 @@ defmodule UAInspector.Database.DevicesRegular do
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_devices_regular,
-    sources: [
-      # files ordered according to
-      # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php
-      # to prevent false detections
-      {"", "consoles.yml"},
-      {"", "car_browsers.yml"},
-      {"", "cameras.yml"},
-      {"", "portable_media_player.yml"},
-      {"", "mobiles.yml"}
-    ],
     type: :device
 
+  alias UAInspector.Config
   alias UAInspector.Util
+
+  def sources do
+    # files ordered according to
+    # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php
+    # to prevent false detections
+    [
+      {"", "device.consoles.yml", Config.database_url(:device, "consoles.yml")},
+      {"", "device.car_browsers.yml", Config.database_url(:device, "car_browsers.yml")},
+      {"", "device.cameras.yml", Config.database_url(:device, "cameras.yml")},
+      {"", "device.portable_media_player.yml",
+       Config.database_url(:device, "portable_media_player.yml")},
+      {"", "device.mobiles.yml", Config.database_url(:device, "mobiles.yml")}
+    ]
+  end
 
   def to_ets({brand, data}, type) do
     data = Enum.into(data, %{})

@@ -3,10 +3,14 @@ defmodule UAInspector.Database.Bots do
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_bots,
-    sources: [{"", "bots.yml"}],
     type: :bot
 
+  alias UAInspector.Config
   alias UAInspector.Util
+
+  def sources do
+    [{"", "bot.bots.yml", Config.database_url(:bot, "bots.yml")}]
+  end
 
   def to_ets(data, _type) do
     data = Enum.into(data, %{})

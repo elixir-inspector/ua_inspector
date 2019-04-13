@@ -3,10 +3,14 @@ defmodule UAInspector.Database.OSs do
 
   use UAInspector.Database,
     ets_prefix: :ua_inspector_db_oss,
-    sources: [{"", "oss.yml"}],
     type: :os
 
+  alias UAInspector.Config
   alias UAInspector.Util
+
+  def sources do
+    [{"", "os.oss.yml", Config.database_url(:os, "oss.yml")}]
+  end
 
   def to_ets(data, _type) do
     data = Enum.into(data, %{})

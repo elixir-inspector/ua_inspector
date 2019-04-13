@@ -10,20 +10,6 @@ defmodule UAInspector.Database do
       alias UAInspector.Config
       alias UAInspector.Util.YAML
 
-      # Public methods
-
-      def sources do
-        Enum.map(unquote(opts[:sources]), fn {t, file} ->
-          {
-            t,
-            "#{unquote(opts[:type])}.#{file}",
-            Config.database_url(unquote(opts[:type]), file)
-          }
-        end)
-      end
-
-      # Internal methods
-
       defp do_reload(ets_tid) do
         _ =
           Enum.reduce(sources(), 0, fn {type, local, _remote}, acc_index ->
@@ -60,7 +46,7 @@ defmodule UAInspector.Database do
   @doc """
   Returns the database sources.
   """
-  @callback sources() :: list
+  @callback sources() :: [{binary, binary, binary}]
 
   # Internal methods
 
