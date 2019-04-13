@@ -8,6 +8,7 @@ defmodule UAInspector.Database do
       require Logger
 
       alias UAInspector.Config
+      alias UAInspector.Storage.ETS
       alias UAInspector.Util.YAML
 
       defp do_reload(ets_tid) do
@@ -24,20 +25,12 @@ defmodule UAInspector.Database do
                 database
                 |> YAML.read_file()
                 |> Enum.map(&to_ets(&1, type))
-                |> store_database(ets_tid, acc_index)
+                |> ETS.store_data_entries(ets_tid, acc_index)
             end
           end)
 
         :ok
       end
-
-      defp store_database([entry | entries], ets_tid, index) do
-        _ = :ets.insert(ets_tid, {index, entry})
-
-        store_database(entries, ets_tid, index + 1)
-      end
-
-      defp store_database([], _ets_tid, index), do: index
     end
   end
 
