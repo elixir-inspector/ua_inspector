@@ -39,18 +39,18 @@ defmodule UAInspector.ShortCodeMap do
           true ->
             map
             |> YAML.read_file()
-            |> parse_map(ets_tid)
+            |> Enum.map(&to_ets/1)
+            |> store_map(ets_tid)
         end
       end
 
-      defp parse_map([entry | map], ets_tid) do
-        data = to_ets(entry)
-        _ = :ets.insert(ets_tid, data)
+      defp store_map([entry | entries], ets_tid) do
+        _ = :ets.insert(ets_tid, entry)
 
-        parse_map(map, ets_tid)
+        store_map(entries, ets_tid)
       end
 
-      defp parse_map([], _ets_tid), do: :ok
+      defp store_map([], _ets_tid), do: :ok
     end
   end
 
