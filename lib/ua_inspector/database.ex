@@ -23,21 +23,21 @@ defmodule UAInspector.Database do
               true ->
                 database
                 |> YAML.read_file()
-                |> parse_database(type, ets_tid, acc_index)
+                |> Enum.map(&to_ets(&1, type))
+                |> store_database(ets_tid, acc_index)
             end
           end)
 
         :ok
       end
 
-      defp parse_database([entry | database], type, ets_tid, index) do
-        data = to_ets(entry, type)
-        _ = :ets.insert(ets_tid, {index, data})
+      defp store_database([entry | entries], ets_tid, index) do
+        _ = :ets.insert(ets_tid, {index, entry})
 
-        parse_database(database, type, ets_tid, index + 1)
+        store_database(entries, ets_tid, index + 1)
       end
 
-      defp parse_database([], _, _ets_tid, index), do: index
+      defp store_database([], _ets_tid, index), do: index
     end
   end
 
