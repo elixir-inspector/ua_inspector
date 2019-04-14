@@ -73,15 +73,6 @@ defmodule UAInspector.Storage.Server do
     end
   end
 
-  # GenServer lifecycle
-
-  @doc """
-  Starts the database server.
-  """
-  @callback start_link() :: GenServer.on_start()
-
-  # Public methods
-
   @doc """
   Returns all database entries as a list.
   """
