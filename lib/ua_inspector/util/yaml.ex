@@ -13,5 +13,5 @@ defmodule UAInspector.Util.YAML do
   end
 
   defp maybe_hd([]), do: []
-  defp maybe_hd(data), do: hd(data)
+  defp maybe_hd([data | _]), do: data
 end
