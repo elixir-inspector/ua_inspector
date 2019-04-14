@@ -11,6 +11,8 @@ defmodule UAInspector.Database do
       alias UAInspector.Storage.ETS
       alias UAInspector.Util.YAML
 
+      @behaviour unquote(__MODULE__)
+
       defp do_reload(ets_tid) do
         _ =
           sources()
