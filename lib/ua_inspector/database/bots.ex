@@ -2,8 +2,7 @@ defmodule UAInspector.Database.Bots do
   @moduledoc false
 
   use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_bots,
-    type: :bot
+    ets_prefix: :ua_inspector_db_bots
 
   alias UAInspector.Config
   alias UAInspector.Util

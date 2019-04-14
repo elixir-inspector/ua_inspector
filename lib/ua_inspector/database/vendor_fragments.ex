@@ -2,8 +2,7 @@ defmodule UAInspector.Database.VendorFragments do
   @moduledoc false
 
   use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_vendor_fragments,
-    type: :vendor_fragment
+    ets_prefix: :ua_inspector_db_vendor_fragments
 
   alias UAInspector.Config
   alias UAInspector.Util

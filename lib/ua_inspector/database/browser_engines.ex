@@ -2,8 +2,7 @@ defmodule UAInspector.Database.BrowserEngines do
   @moduledoc false
 
   use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_browser_engines,
-    type: :browser_engine
+    ets_prefix: :ua_inspector_db_browser_engines
 
   alias UAInspector.Config
   alias UAInspector.Util
