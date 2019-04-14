@@ -55,7 +55,7 @@ defmodule UAInspector.Storage.ETS do
   end
 
   @doc """
-  Saves a list of data entries to a storage table without an additional index.
+  Saves a list of data entries to a storage table.
   """
   @spec store_data_entries(list, :ets.tid()) :: :ok
   def store_data_entries([entry | entries], ets_tid) do
@@ -65,18 +65,6 @@ defmodule UAInspector.Storage.ETS do
   end
 
   def store_data_entries([], _ets_tid), do: :ok
-
-  @doc """
-  Saves a list of data entries to a storage table with incrementing index.
-  """
-  @spec store_data_entries(list, :ets.tid(), non_neg_integer) :: non_neg_integer
-  def store_data_entries([entry | entries], ets_tid, index) do
-    true = :ets.insert(ets_tid, {index, entry})
-
-    store_data_entries(entries, ets_tid, index + 1)
-  end
-
-  def store_data_entries([], _ets_tid, index), do: index
 
   @doc """
   Updates the data table tid in a lookup table.

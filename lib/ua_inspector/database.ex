@@ -13,21 +13,24 @@ defmodule UAInspector.Database do
 
       defp do_reload(ets_tid) do
         _ =
-          Enum.reduce(sources(), 0, fn {type, local, _remote}, acc_index ->
+          sources()
+          |> Enum.flat_map(fn {type, local, _remote} ->
             database = Config.database_path() |> Path.join(local)
 
             case File.regular?(database) do
               false ->
                 _ = Logger.info("failed to load database: #{database}")
-                acc_index
+                []
 
               true ->
                 database
                 |> YAML.read_file()
                 |> Enum.map(&to_ets(&1, type))
-                |> ETS.store_data_entries(ets_tid, acc_index)
             end
           end)
+          |> Enum.with_index()
+          |> Enum.map(fn {entry, index} -> {index, entry} end)
+          |> ETS.store_data_entries(ets_tid)
 
         :ok
       end
