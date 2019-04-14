@@ -5,10 +5,7 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
 
   alias UAInspector.ShortCodeMap
 
-  @doc """
-  Starts the short code map supervisor.
-  """
-  @spec start_link(term) :: Supervisor.on_start()
+  @doc false
   def start_link(default \\ nil) do
     Supervisor.start_link(__MODULE__, default)
   end
