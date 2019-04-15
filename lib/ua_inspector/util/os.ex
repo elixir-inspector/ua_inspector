@@ -1,12 +1,13 @@
 defmodule UAInspector.Util.OS do
   @moduledoc false
 
+  alias UAInspector.Result
   alias UAInspector.ShortCodeMap
 
   @doc """
   Checks whether an operating system is treated as "desktop only".
   """
-  @spec desktop_only?(os :: map | :unknown) :: boolean
+  @spec desktop_only?(os :: Result.OS.t() | :unknown) :: boolean
   def desktop_only?(%{name: name}) do
     short_code = ShortCodeMap.OSs.to_short(name)
 
