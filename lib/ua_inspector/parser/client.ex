@@ -52,7 +52,7 @@ defmodule UAInspector.Parser.Client do
         engine -> engine
       end
 
-    engine |> Util.maybe_unknown()
+    Util.maybe_unknown(engine)
   end
 
   defp maybe_resolve_engine(_, _, _, _), do: :unknown

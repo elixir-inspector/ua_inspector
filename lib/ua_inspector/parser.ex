@@ -104,8 +104,8 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_android(%{os: %{name: os_name}, device: %{type: "feature phone"}} = result) do
-    short_code = os_name |> ShortCodeMap.OSs.to_short()
-    family = short_code |> Util.OS.family()
+    short_code = ShortCodeMap.OSs.to_short(os_name)
+    family = Util.OS.family(short_code)
 
     case family do
       "Android" -> %{result | device: %{result.device | type: "smartphone"}}

@@ -9,8 +9,7 @@ defmodule UAInspector.Util do
   """
   @spec build_regex(regex :: String.t()) :: Regex.t()
   def build_regex(regex) do
-    ("(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:" <> regex <> ")")
-    |> Regex.compile!([:caseless])
+    Regex.compile!("(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:" <> regex <> ")", [:caseless])
   end
 
   @doc """
@@ -96,14 +95,14 @@ defmodule UAInspector.Util do
 
   def to_semver(version) do
     case String.split(version, ".", parts: 3) do
-      [maj] -> [maj, "0"] |> to_semver_string()
-      [maj, min] -> [maj, min] |> to_semver_string()
-      [maj, min, _] -> [maj, min] |> to_semver_string()
+      [maj] -> to_semver_string(maj, "0")
+      [maj, min] -> to_semver_string(maj, min)
+      [maj, min, _] -> to_semver_string(maj, min)
     end
   end
 
-  defp to_semver_string([maj, min]) do
-    case {Integer.parse(maj), Integer.parse(min)} do
+  defp to_semver_string(major, minor) do
+    case {Integer.parse(major), Integer.parse(minor)} do
       {:error, _} -> "0.0.0"
       {{maj, _}, :error} -> "#{maj}.0.0"
       {{maj, _}, {min, _}} -> "#{maj}.#{min}.0"
