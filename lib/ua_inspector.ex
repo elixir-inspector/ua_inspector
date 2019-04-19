@@ -52,7 +52,7 @@ defmodule UAInspector do
         os: :unknown
       }
 
-  The map key `:_user_agent` will hold the unmodified passed user agent.
+  The map key `:user_agent` will hold the unmodified passed user agent.
 
   If the device type cannot be determined a "desktop" device type will be
   assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
