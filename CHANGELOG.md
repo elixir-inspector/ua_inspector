@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0-dev
+## v1.0.0 (2019-04-20)
 
 - Ownership has been transferred to the [`elixir-inspector`](https://github.com/elixir-inspector) organisation
 
