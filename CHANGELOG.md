@@ -5,6 +5,7 @@
 - Ownership has been transferred to the [`elixir-inspector`](https://github.com/elixir-inspector) organisation
 
 - Enhancements
+    - Documentation is now available inline (`@moduledoc`, ...) with the `README.md` file targeting the repository (development) instead of releases
     - The default database path has been set to `Application.app_dir(:ua_inspector, "priv")`
 
 - Backwards incompatible changes
