@@ -4,7 +4,9 @@ defmodule UAInspector.SupervisorTest do
   import ExUnit.CaptureLog
 
   defmodule Initializer do
-    def start_link, do: Agent.start_link(fn -> nil end, name: __MODULE__)
+    use Agent
+
+    def start_link(_), do: Agent.start_link(fn -> nil end, name: __MODULE__)
 
     def call_init, do: call_init(:ok_empty)
     def call_init(result), do: Agent.update(__MODULE__, fn _ -> result end)
@@ -15,14 +17,14 @@ defmodule UAInspector.SupervisorTest do
   setup_all do
     init = Application.get_env(:ua_inspector, :init)
 
-    {:ok, _} = Initializer.start_link()
-
     on_exit(fn ->
       :ok = Application.put_env(:ua_inspector, :init, init)
     end)
   end
 
   test "init {mod, fun} called upon supervisor (re-) start" do
+    start_supervised(Initializer)
+
     capture_log(fn ->
       Supervisor.stop(UAInspector.Supervisor, :normal)
 
@@ -36,6 +38,8 @@ defmodule UAInspector.SupervisorTest do
   end
 
   test "init {mod, fun, args} called upon supervisor (re-) start" do
+    start_supervised(Initializer)
+
     capture_log(fn ->
       Supervisor.stop(UAInspector.Supervisor, :normal)
 
