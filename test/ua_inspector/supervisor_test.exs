@@ -23,7 +23,7 @@ defmodule UAInspector.SupervisorTest do
   end
 
   test "init {mod, fun} called upon supervisor (re-) start" do
-    start_supervised(Initializer)
+    {:ok, _} = start_supervised(Initializer)
 
     capture_log(fn ->
       Supervisor.stop(UAInspector.Supervisor, :normal)
@@ -38,7 +38,7 @@ defmodule UAInspector.SupervisorTest do
   end
 
   test "init {mod, fun, args} called upon supervisor (re-) start" do
-    start_supervised(Initializer)
+    {:ok, _} = start_supervised(Initializer)
 
     capture_log(fn ->
       Supervisor.stop(UAInspector.Supervisor, :normal)
