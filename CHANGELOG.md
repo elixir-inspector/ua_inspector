@@ -3,6 +3,7 @@
 ## v1.1.0-dev
 
 - Enhancements
+    - Output of mix task `ua_inspector.download` can be prevented by passing `--quiet` upon invocation. This does NOT imply `--force` and will still ask for confirmation
     - The library used to read YAML files can be changed by using the `:yaml_file_reader` configuratioin
 
 ## v1.0.0 (2019-04-20)

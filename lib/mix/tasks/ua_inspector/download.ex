@@ -8,6 +8,7 @@ defmodule Mix.Tasks.UaInspector.Download do
   downloaded files and will ask for confirmation before downloading.
 
   - `--force`: skip confirmation before downloading
+  - `--quiet`: silences task output (does not imply `--force`!)
 
   ## Informational README
 
@@ -31,38 +32,46 @@ defmodule Mix.Tasks.UaInspector.Download do
 
   @cli_options [
     aliases: [f: :force],
-    strict: [force: :boolean]
+    strict: [force: :boolean, quiet: :boolean]
   ]
 
   def run(args) do
     :ok = Config.init_env()
 
-    Mix.shell().info("Download path: #{Config.database_path()}")
-    Mix.shell().info("This command will replace any existing files!")
+    {opts, _argv, _errors} = OptionParser.parse(args, @cli_options)
 
-    if request_confirmation(args) do
-      perform_download()
+    unless opts[:quiet] do
+      Mix.shell().info("Download path: #{Config.database_path()}")
+      Mix.shell().info("This command will replace any existing files!")
+    end
+
+    if request_confirmation(opts) do
+      perform_download(opts)
     else
-      exit_unconfirmed()
+      exit_unconfirmed(opts)
     end
   end
 
-  defp exit_unconfirmed do
-    Mix.shell().info("Download aborted!")
+  defp exit_unconfirmed(opts) do
+    unless opts[:quiet] do
+      Mix.shell().info("Download aborted!")
+    end
+
     :ok
   end
 
-  defp perform_download do
+  defp perform_download(opts) do
     :ok = Downloader.download(:databases)
     :ok = Downloader.download(:short_code_maps)
 
-    Mix.shell().info("Download complete!")
+    unless opts[:quiet] do
+      Mix.shell().info("Download complete!")
+    end
+
     :ok
   end
 
-  defp request_confirmation(args) do
-    {opts, _argv, _errors} = OptionParser.parse(args, @cli_options)
-
+  defp request_confirmation(opts) do
     case opts[:force] do
       true -> true
       _ -> Mix.shell().yes?("Download databases?")
