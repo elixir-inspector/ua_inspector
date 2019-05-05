@@ -21,7 +21,8 @@ defmodule UAInspector.Config do
           short_code_map: remote_shortcode,
           vendor_fragment: remote_database
         ],
-        remote_release: "master"
+        remote_release: "master",
+        yaml_file_reader: {:yamerl_constr, :file, [[:str_node_as_binary]]}
 
   The default `:database_path` is evaluated at runtime and not compiled into
   a release!
@@ -127,6 +128,21 @@ defmodule UAInspector.Config do
 
   You can manually configure this delay using the `:ets_cleanup_delay`
   configuration value.
+
+  ## YAML File Reader Configuration
+
+  By default the library [`:yamerl`](https://hex.pm/packages/yamerl) will
+  be used to read and decode the yaml database files. You can configure this
+  reader to be a custom module:
+
+      config :ua_inspector,
+        yaml_file_reader: {module, function}
+
+      config :ua_inspector,
+        yaml_file_reader: {module, function, extra_args}
+
+  The configured module will receive the file to read as the first argument with
+  any optionally configured extra arguments after that.
   """
 
   require Logger
@@ -142,6 +158,8 @@ defmodule UAInspector.Config do
     short_code_map: "",
     vendor_fragment: "/regexes"
   ]
+
+  @default_yaml_reader {:yamerl_constr, :file, [[:str_node_as_binary]]}
 
   @doc """
   Provides access to configuration values with optional environment lookup.
@@ -212,6 +230,18 @@ defmodule UAInspector.Config do
       nil -> :ok
       {mod, fun} -> apply(mod, fun, [])
       {mod, fun, args} -> apply(mod, fun, args)
+    end
+  end
+
+  @doc """
+  Returns the `{mod, fun, extra_args}` to be used when reading a yaml file.
+  """
+  @spec yaml_file_reader :: {module, atom, [term]}
+  def yaml_file_reader do
+    case get(:yaml_file_reader) do
+      {_, _, _} = mfa -> mfa
+      {mod, fun} -> {mod, fun, []}
+      _ -> @default_yaml_reader
     end
   end
 
