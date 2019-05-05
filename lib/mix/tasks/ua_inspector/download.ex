@@ -2,9 +2,24 @@ defmodule Mix.Tasks.UaInspector.Download do
   @moduledoc """
   Mix task to download database file(s) from your command line.
 
-  The task will display the target location upon invocation and will ask for
-  confirmation before downloading. If you want to force a download you can
-  use `mix ua_inspector.download --force`.
+  ## Arguments
+
+  When run without arguments the task will display the target directory for the
+  downloaded files and will ask for confirmation before downloading.
+
+  - `--force`: skip confirmation before downloading
+
+  ## Informational README
+
+  If you are using the default databases from the default remote location an
+  informational README with the filename `ua_inspector.readme.md` will be
+  placed next to the downloaded file(s). Inside you will find a link to the
+  original database source.
+
+  The creation of this file can be deactivated by configuration:
+
+      config :ua_inspector,
+        skip_download_readme: true
   """
 
   @shortdoc "Downloads database files"
