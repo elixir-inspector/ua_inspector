@@ -1,6 +1,16 @@
 defmodule UAInspector.Downloader do
   @moduledoc """
-  File download utility module.
+  Fetches copies of the configured database files.
+
+  All files will be stored in the configured database path with the default
+  setting being the result of `Application.app_dir(:ua_inspector, "priv")`.
+
+  Please consult `UAInspector.Config` for details on database configuration.
+
+  ## Mix Task
+
+  Please see `Mix Tasks.UaInspector.Download` if you are interested in
+  using a mix task to obtain your database files.
   """
 
   alias UAInspector.Config

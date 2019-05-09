@@ -24,24 +24,15 @@ Out of the box the default database files will be stored in the `:priv_dir` of `
 
 For a detailed list of available configuration options please consult `UAInspector.Config`.
 
-## Parser Databases
-
-Using `mix ua_inspector.download` you can store local copies of the supported parser databases and short code maps in the configured path. The databases are taken from the [matomo-org/device-detector](https://github.com/matomo-org/device-detector) project.
-
-The local path of the downloaded files will be shown to you upon command invocation.
-
-As a default database path (if not configured otherwise) the result of `Application.app_dir(:ua_inspector, "priv")` will be used.
-
-If you want to download the database files using your application you can directly call `UAInspector.Downloader.download/0`.
-
-When using both the mix task and a default remote configuration for at least one type of database an informational README is placed next to the downloaded file(s). This behaviour can be deactivated by configuration:
-
-```elixir
-config :ua_inspector,
-  skip_download_readme: true
-```
-
 ## Basic Usage
+
+### Database Download
+
+You need to obtain a copy of the configured databases by calling either `mix ua_inspector.download` from the command line or `UAInspector.Downloader.download/0` from within your application.
+
+Refer to `UAInspector.Downloader` for more details.
+
+### User Agent Parsing
 
 ```elixir
 iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
