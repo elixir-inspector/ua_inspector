@@ -2,6 +2,14 @@ defmodule UAInspector do
   @moduledoc """
   User agent parser library
 
+  ## Preparation
+
+  1. Verify your supervision setup according to `UAInspector.Supervisor`
+  2. Revise the default configuration values of `UAInspector.Config` and
+     adjust to your project/environment where necessary
+  3. Download a copy of the database files as outlined in
+     `UAInspector.Downloader`
+
   ## Usage
 
       iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
