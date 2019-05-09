@@ -14,7 +14,6 @@ defmodule UAInspector do
 
       iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
       %UAInspector.Result{
-        user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
         client: %UAInspector.Result.Client{
           engine: "WebKit",
           engine_version: "537.51.11",
@@ -32,32 +31,39 @@ defmodule UAInspector do
           platform: :unknown,
           version: "7.0.4"
         },
+        user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
       }
 
       iex(2)> UAInspector.parse("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36")
       %UAInspector.Result.Bot{
-        user_agent: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36",
         category: "Search bot",
         name: "Googlebot",
         producer: %UAInspector.Result.BotProducer{
           name: "Google Inc.",
           url: "http://www.google.com"
         },
-        url: "http://www.google.com/bot.html"
+        url: "http://www.google.com/bot.html",
+        user_agent: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36"
       }
 
       iex(3)> UAInspector.parse("generic crawler agent")
       %UAInspector.Result.Bot{
-        user_agent: "generic crawler agent",
-        name: "Generic Bot"
+        category: :unknown,
+        name: "Generic Bot",
+        producer: %UAInspector.Result.BotProducer{
+          name: :unknown,
+          url: :unknown
+        },
+        url: :unknown,
+        user_agent: "generic crawler agent"
       }
 
       iex(4)> UAInspector.parse("--- undetectable ---")
       %UAInspector.Result{
-        user_agent: "--- undetectable ---",
         client: :unknown,
-        device: %UAInspector.Result.Device{ type: "desktop" },
-        os: :unknown
+        device: :unknown,
+        os: :unknown,
+        user_agent: "--- undetectable ---"
       }
 
   The map key `:user_agent` will hold the unmodified passed user agent.
