@@ -1,8 +1,7 @@
 defmodule UAInspector.ShortCodeMap.OSs do
   @moduledoc false
 
-  use UAInspector.ShortCodeMap,
-    ets_prefix: :ua_inspector_scm_oss
+  use UAInspector.ShortCodeMap
 
   def file_local, do: "short_codes.oss.yml"
   def file_remote, do: Config.database_url(:short_code_map, "Parser/OperatingSystem.php")

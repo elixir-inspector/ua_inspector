@@ -1,8 +1,7 @@
 defmodule UAInspector.Database.DevicesRegular do
   @moduledoc false
 
-  use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_devices_regular
+  use UAInspector.Database
 
   alias UAInspector.Config
   alias UAInspector.Util

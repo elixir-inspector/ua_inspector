@@ -1,8 +1,7 @@
 defmodule UAInspector.Database.Clients do
   @moduledoc false
 
-  use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_clients
+  use UAInspector.Database
 
   alias UAInspector.Config
   alias UAInspector.Util

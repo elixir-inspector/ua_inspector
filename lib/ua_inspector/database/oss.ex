@@ -1,8 +1,7 @@
 defmodule UAInspector.Database.OSs do
   @moduledoc false
 
-  use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_oss
+  use UAInspector.Database
 
   alias UAInspector.Config
   alias UAInspector.Util

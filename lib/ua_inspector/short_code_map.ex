@@ -1,9 +1,9 @@
 defmodule UAInspector.ShortCodeMap do
   @moduledoc false
 
-  defmacro __using__(opts) do
+  defmacro __using__(_opts) do
     quote do
-      use UAInspector.Storage.Server, ets_prefix: unquote(opts[:ets_prefix])
+      use UAInspector.Storage.Server
 
       require Logger
 

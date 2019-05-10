@@ -1,7 +1,7 @@
 defmodule UAInspector.Storage.Server do
   @moduledoc false
 
-  defmacro __using__(opts) do
+  defmacro __using__(_opts) do
     quote do
       use GenServer
 
@@ -13,8 +13,8 @@ defmodule UAInspector.Storage.Server do
       @behaviour unquote(__MODULE__)
 
       @ets_cleanup_delay_default 30_000
-      @ets_data_table_name :"#{unquote(opts[:ets_prefix])}_data"
-      @ets_lookup_table_name :"#{unquote(opts[:ets_prefix])}_lookup"
+      @ets_data_table_name __MODULE__.Data
+      @ets_lookup_table_name __MODULE__.Lookup
 
       # GenServer lifecycle
 

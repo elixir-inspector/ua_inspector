@@ -1,8 +1,7 @@
 defmodule UAInspector.Database.DevicesHbbTV do
   @moduledoc false
 
-  use UAInspector.Database,
-    ets_prefix: :ua_inspector_db_devices_hbbtv
+  use UAInspector.Database
 
   alias UAInspector.Config
   alias UAInspector.Util

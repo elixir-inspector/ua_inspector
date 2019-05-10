@@ -1,8 +1,7 @@
 defmodule UAInspector.ShortCodeMap.DeviceBrands do
   @moduledoc false
 
-  use UAInspector.ShortCodeMap,
-    ets_prefix: :ua_inspector_scm_device_brands
+  use UAInspector.ShortCodeMap
 
   def file_local, do: "short_codes.device_brands.yml"
 
