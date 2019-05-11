@@ -7,10 +7,10 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  def file_local, do: "short_codes.device_brands.yml"
-
-  def file_remote,
-    do: Config.database_url(:short_code_map, "Parser/Device/DeviceParserAbstract.php")
+  def source do
+    {"short_codes.device_brands.yml",
+     Config.database_url(:short_code_map, "Parser/Device/DeviceParserAbstract.php")}
+  end
 
   def to_ets([{short, long}]), do: {short, long}
   def var_name, do: "deviceBrands"

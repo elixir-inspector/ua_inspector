@@ -116,7 +116,9 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
         ]
 
         for map <- maps do
-          [test_path, map.file_local]
+          {local, _} = map.source()
+
+          [test_path, local]
           |> Path.join()
           |> File.exists?()
           |> assert

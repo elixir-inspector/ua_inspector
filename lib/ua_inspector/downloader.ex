@@ -70,10 +70,12 @@ defmodule UAInspector.Downloader do
     :ok = prepare_database_path()
 
     Enum.each(@short_code_maps, fn short_code_map ->
-      yaml = Path.join([Config.database_path(), short_code_map.file_local])
+      {local, remote} = short_code_map.source()
+
+      yaml = Path.join(Config.database_path(), local)
       temp = "#{yaml}.tmp"
 
-      :ok = download_file(short_code_map.file_remote, temp)
+      :ok = download_file(remote, temp)
 
       :ok =
         short_code_map.var_name

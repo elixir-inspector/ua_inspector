@@ -7,8 +7,10 @@ defmodule UAInspector.ShortCodeMap.OSs do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  def file_local, do: "short_codes.oss.yml"
-  def file_remote, do: Config.database_url(:short_code_map, "Parser/OperatingSystem.php")
+  def source do
+    {"short_codes.oss.yml", Config.database_url(:short_code_map, "Parser/OperatingSystem.php")}
+  end
+
   def to_ets([{short, long}]), do: {short, long}
   def var_name, do: "operatingSystems"
   def var_type, do: :hash

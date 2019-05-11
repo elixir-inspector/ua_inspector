@@ -30,7 +30,8 @@ defmodule UAInspector.ShortCodeMap do
       # Internal methods
 
       defp do_reload(ets_tid) do
-        map = Config.database_path() |> Path.join(file_local())
+        {local, _} = source()
+        map = Path.join(Config.database_path(), local)
 
         case File.regular?(map) do
           false ->
@@ -50,14 +51,9 @@ defmodule UAInspector.ShortCodeMap do
   # Public methods
 
   @doc """
-  Returns the local filename for this map.
+  Returns the local and remote sources for this map.
   """
-  @callback file_local() :: String.t()
-
-  @doc """
-  Returns the remote path for this map.
-  """
-  @callback file_remote() :: String.t()
+  @callback source() :: {binary, binary}
 
   @doc """
   Returns the long representation for a short name.
