@@ -6,6 +6,10 @@ defmodule UAInspector.Database.Bots do
   alias UAInspector.Config
   alias UAInspector.Util
 
+  def start_link(init_arg) do
+    GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
+  end
+
   def sources do
     [{"", "bot.bots.yml", Config.database_url(:bot, "bots.yml")}]
   end

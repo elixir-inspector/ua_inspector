@@ -18,14 +18,10 @@ defmodule UAInspector.Storage.Server do
 
       # GenServer lifecycle
 
-      def start_link(default \\ %{}) do
-        GenServer.start_link(__MODULE__, default, name: __MODULE__)
-      end
-
-      def init(state) do
+      def init(_init_arg) do
         :ok = GenServer.cast(__MODULE__, :reload)
 
-        {:ok, state}
+        {:ok, nil}
       end
 
       # GenServer callbacks

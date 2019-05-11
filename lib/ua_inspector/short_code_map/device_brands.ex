@@ -3,6 +3,10 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
 
   use UAInspector.ShortCodeMap
 
+  def start_link(init_arg) do
+    GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
+  end
+
   def file_local, do: "short_codes.device_brands.yml"
 
   def file_remote,

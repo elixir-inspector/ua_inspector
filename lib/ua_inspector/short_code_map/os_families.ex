@@ -3,6 +3,10 @@ defmodule UAInspector.ShortCodeMap.OSFamilies do
 
   use UAInspector.ShortCodeMap
 
+  def start_link(init_arg) do
+    GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
+  end
+
   def file_local, do: "short_codes.os_families.yml"
   def file_remote, do: Config.database_url(:short_code_map, "Parser/OperatingSystem.php")
   def to_ets([{family, codes}]), do: {family, codes}
