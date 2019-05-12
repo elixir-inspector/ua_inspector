@@ -1,4 +1,4 @@
-defmodule UAInspector.Mixfile do
+defmodule UAInspector.MixProject do
   use Mix.Project
 
   @url_github "https://github.com/elixir-inspector/ua_inspector"
