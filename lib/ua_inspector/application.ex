@@ -1,4 +1,4 @@
-defmodule UAInspector.App do
+defmodule UAInspector.Application do
   @moduledoc false
 
   use Application
