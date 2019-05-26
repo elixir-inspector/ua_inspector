@@ -110,9 +110,9 @@ defmodule UAInspector.Config do
 
   ## Download Configuration
 
-  All download requests for your database files are done using
-  [`:hackney`](https://hex.pm/packages/hackney). To pass custom configuration
-  values to hackney you can use the key `:http_opts`:
+  Using the default configuration all download requests for your database files
+  are done using [`:hackney`](https://hex.pm/packages/hackney). To pass custom
+  configuration values to hackney you can use the key `:http_opts`:
 
       config :ua_inspector,
         http_opts: [proxy: "http://mycompanyproxy.com"]
@@ -120,6 +120,13 @@ defmodule UAInspector.Config do
   Please see
   [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)
   for a complete list of available options.
+
+  If you want to change the library used to download the databases you can
+  configure a module implementing the `UAInspector.Downloader.Adapter`
+  behaviour:
+
+      config :ua_inspector,
+        downloader_adapter: MyDownloaderAdapter
 
   ## Reload Configuration
 
@@ -159,6 +166,7 @@ defmodule UAInspector.Config do
     vendor_fragment: "/regexes"
   ]
 
+  @default_downloader_adapter UAInspector.Downloader.Adapter.Hackney
   @default_yaml_reader {:yamerl_constr, :file, [[:str_node_as_binary]]}
 
   @doc """
@@ -220,6 +228,15 @@ defmodule UAInspector.Config do
       get([:remote_path, type], default) == default
     end)
   end
+
+  @doc """
+  Returns the configured downloader adapter module.
+
+  The modules is expected to adhere to the behaviour defined in
+  `UAInspector.Downloader.Adapter`.
+  """
+  @spec downloader_adapter() :: module
+  def downloader_adapter, do: get(:downloader_adapter, @default_downloader_adapter)
 
   @doc """
   Calls the optionally configured init method.

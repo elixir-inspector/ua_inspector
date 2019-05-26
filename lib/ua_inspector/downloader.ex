@@ -53,7 +53,6 @@ defmodule UAInspector.Downloader do
   """
   @spec download(:databases | :short_code_maps) :: :ok
   def download(:databases) do
-    _ = Application.ensure_all_started(:hackney)
     :ok = prepare_database_path()
 
     Enum.each(@databases, fn database ->
@@ -100,14 +99,11 @@ defmodule UAInspector.Downloader do
 
   @doc """
   Reads a remote file and returns it's contents.
+
+  Uses the module returned by `Config.downloader_adpater/0`.
   """
   @spec read_remote(binary) :: {:ok, binary} | {:error, term}
-  def read_remote(path) do
-    http_opts = Config.get(:http_opts, [])
-    {:ok, _, _, client} = :hackney.get(path, [], [], http_opts)
-
-    :hackney.body(client)
-  end
+  def read_remote(location), do: Config.downloader_adapter().read_remote(location)
 
   defp download_file(remote, local) do
     {:ok, content} = read_remote(remote)
