@@ -101,7 +101,7 @@ defmodule UAInspector.Downloader do
   @doc """
   Reads a remote file and returns it's contents.
   """
-  @spec read_remote(String.t()) :: term
+  @spec read_remote(binary) :: {:ok, binary} | {:error, term}
   def read_remote(path) do
     http_opts = Config.get(:http_opts, [])
     {:ok, _, _, client} = :hackney.get(path, [], [], http_opts)
