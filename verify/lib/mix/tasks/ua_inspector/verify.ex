@@ -23,38 +23,38 @@ defmodule Mix.Tasks.UaInspector.Verify do
     :ok
   end
 
+  defp compare(%{client: _} = testcase, %{client: _} = result) do
+    # regular user agent
+    testcase.user_agent == result.user_agent &&
+      testcase.client == maybe_from_struct(result.client) &&
+      testcase.device == maybe_from_struct(result.device) &&
+      testcase.os == maybe_from_struct(result.os)
+  end
+
   # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp compare(testcase, result) do
-    if Map.has_key?(testcase, :client) && Map.has_key?(result, :client) do
-      # regular user agent
-      testcase.user_agent == result.user_agent &&
-        testcase.client == maybe_from_struct(result.client) &&
-        testcase.device == maybe_from_struct(result.device) &&
-        testcase.os == maybe_from_struct(result.os)
-    else
-      # bot
-      acc = testcase.user_agent == result.user_agent && testcase.bot.name == result.name
+    # bot
+    acc = testcase.user_agent == result.user_agent && testcase.bot.name == result.name
 
-      acc =
-        case Map.has_key?(testcase.bot, :category) do
-          true -> acc && testcase.bot.category == result.category
-          false -> acc
-        end
+    acc =
+      case Map.has_key?(testcase.bot, :category) do
+        true -> acc && testcase.bot.category == result.category
+        false -> acc
+      end
 
-      acc =
-        case Map.has_key?(testcase.bot, :url) do
-          true -> acc && testcase.bot.url == result.url
-          false -> acc
-        end
+    acc =
+      case Map.has_key?(testcase.bot, :url) do
+        true -> acc && testcase.bot.url == result.url
+        false -> acc
+      end
 
-      acc =
-        case Map.has_key?(testcase.bot, :producer) do
-          true -> acc && testcase.bot.producer == maybe_from_struct(result.producer)
-          false -> acc
-        end
+    acc =
+      case Map.has_key?(testcase.bot, :producer) do
+        true -> acc && testcase.bot.producer == maybe_from_struct(result.producer)
+        false -> acc
+      end
 
-      acc
-    end
+    acc
   end
 
   defp maybe_download(quick: true), do: :ok
