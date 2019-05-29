@@ -65,7 +65,6 @@ defmodule UAInspector.Downloader do
   end
 
   def download(:short_code_maps) do
-    _ = Application.ensure_all_started(:hackney)
     :ok = prepare_database_path()
 
     Enum.each(@short_code_maps, fn short_code_map ->
