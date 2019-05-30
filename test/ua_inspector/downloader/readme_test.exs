@@ -6,6 +6,7 @@ defmodule UAInspector.Downloader.READMETest do
   setup_all do
     orig_path = Application.get_env(:ua_inspector, :database_path)
     remote_path = Application.get_env(:ua_inspector, :remote_path)
+    skip_readme = Application.get_env(:ua_inspector, :skip_download_readme)
     test_path = Path.expand("../../downloads", __DIR__)
 
     :ok = Application.put_env(:ua_inspector, :database_path, test_path)
@@ -15,6 +16,7 @@ defmodule UAInspector.Downloader.READMETest do
       _ = File.rm_rf!(test_path)
       :ok = Application.put_env(:ua_inspector, :database_path, orig_path)
       :ok = Application.put_env(:ua_inspector, :remote_path, remote_path)
+      :ok = Application.put_env(:ua_inspector, :skip_download_readme, skip_readme)
     end)
   end
 

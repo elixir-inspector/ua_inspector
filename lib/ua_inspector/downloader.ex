@@ -13,6 +13,8 @@ defmodule UAInspector.Downloader do
   using a mix task to obtain your database files.
   """
 
+  require Logger
+
   alias UAInspector.Config
   alias UAInspector.Database
   alias UAInspector.Downloader.README
@@ -53,7 +55,7 @@ defmodule UAInspector.Downloader do
   """
   @spec download(:databases | :short_code_maps) :: :ok
   def download(:databases) do
-    :ok = prepare_database_path()
+    :ok = setup_database_path()
 
     Enum.each(@databases, fn database ->
       Enum.each(database.sources, fn {_type, local, remote} ->
@@ -65,7 +67,7 @@ defmodule UAInspector.Downloader do
   end
 
   def download(:short_code_maps) do
-    :ok = prepare_database_path()
+    :ok = setup_database_path()
 
     Enum.each(@short_code_maps, fn short_code_map ->
       {local, remote} = short_code_map.source()
@@ -84,16 +86,16 @@ defmodule UAInspector.Downloader do
     end)
   end
 
-  @doc """
-  Prepares the local database path for downloads.
-  """
+  @doc false
   @spec prepare_database_path() :: :ok
   def prepare_database_path do
-    unless File.dir?(Config.database_path()) do
-      File.mkdir_p!(Config.database_path())
-    end
+    _ =
+      Logger.info(
+        "UAInspector.Downloader.prepare_database_path/0 has been" <>
+          " declared internal and will eventually be removed."
+      )
 
-    README.write()
+    setup_database_path()
   end
 
   @doc """
@@ -108,5 +110,13 @@ defmodule UAInspector.Downloader do
     {:ok, content} = read_remote(remote)
 
     File.write!(local, content)
+  end
+
+  defp setup_database_path do
+    unless File.dir?(Config.database_path()) do
+      File.mkdir_p!(Config.database_path())
+    end
+
+    README.write()
   end
 end
