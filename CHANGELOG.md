@@ -7,6 +7,9 @@
     - The library used to download the database files can be changed by configuring a module implementing the `UAInspector.Downloader.Adapter` behaviour
     - The library used to read YAML files can be changed by using the `:yaml_file_reader` configuration
 
+- Bug fixes
+    - Matching the documentation the informational README file created by the downloader will now only be created when using the mix task
+
 - Deprecations
     - The function `UAInspector.Downloader.prepare_database_path/0` is now declared internal and will result in a `Logger.info/1` message when called until it will be eventually removed
 

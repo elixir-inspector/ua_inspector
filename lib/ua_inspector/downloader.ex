@@ -55,7 +55,7 @@ defmodule UAInspector.Downloader do
   """
   @spec download(:databases | :short_code_maps) :: :ok
   def download(:databases) do
-    :ok = setup_database_path()
+    File.mkdir_p!(Config.database_path())
 
     Enum.each(@databases, fn database ->
       Enum.each(database.sources, fn {_type, local, remote} ->
@@ -67,7 +67,7 @@ defmodule UAInspector.Downloader do
   end
 
   def download(:short_code_maps) do
-    :ok = setup_database_path()
+    File.mkdir_p!(Config.database_path())
 
     Enum.each(@short_code_maps, fn short_code_map ->
       {local, remote} = short_code_map.source()
@@ -95,7 +95,8 @@ defmodule UAInspector.Downloader do
           " declared internal and will eventually be removed."
       )
 
-    setup_database_path()
+    File.mkdir_p!(Config.database_path())
+    README.write()
   end
 
   @doc """
@@ -110,13 +111,5 @@ defmodule UAInspector.Downloader do
     {:ok, content} = read_remote(remote)
 
     File.write!(local, content)
-  end
-
-  defp setup_database_path do
-    unless File.dir?(Config.database_path()) do
-      File.mkdir_p!(Config.database_path())
-    end
-
-    README.write()
   end
 end

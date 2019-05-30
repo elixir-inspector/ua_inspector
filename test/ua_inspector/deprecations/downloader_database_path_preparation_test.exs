@@ -7,7 +7,9 @@ defmodule UAInspector.Deprecations.DownloaderDatabasePathPreparationTest do
 
   test "prepare_database_path/0" do
     assert capture_log(fn ->
-             _ = Downloader.prepare_database_path()
+             :ok = Application.put_env(:ua_inspector, :skip_download_readme, true)
+             :ok = Downloader.prepare_database_path()
+             :ok = Application.delete_env(:ua_inspector, :skip_download_readme)
            end) =~ ~r/declared internal/i
   end
 end
