@@ -13,18 +13,6 @@ defmodule UAInspector.ShortCodeMap do
 
       @behaviour unquote(__MODULE__)
 
-      def to_long(short) do
-        list()
-        |> Enum.find({short, short}, fn {s, _} -> short == s end)
-        |> elem(1)
-      end
-
-      def to_short(long) do
-        list()
-        |> Enum.find({long, long}, fn {_, l} -> long == l end)
-        |> elem(0)
-      end
-
       defp do_reload(ets_tid) do
         {local, _} = source()
         map = Path.join(Config.database_path(), local)
@@ -48,20 +36,6 @@ defmodule UAInspector.ShortCodeMap do
   Returns the local and remote sources for this map.
   """
   @callback source() :: {binary, binary}
-
-  @doc """
-  Returns the long representation for a short name.
-
-  Unknown names are returned unmodified.
-  """
-  @callback to_long(String.t()) :: String.t()
-
-  @doc """
-  Returns the short representation for a long name.
-
-  Unknown names are returned unmodified.
-  """
-  @callback to_short(String.t()) :: String.t()
 
   @doc """
   Returns a name representation for this map.
