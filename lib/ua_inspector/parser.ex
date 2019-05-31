@@ -7,6 +7,10 @@ defmodule UAInspector.Parser do
   alias UAInspector.ShortCodeMap
   alias UAInspector.Util
 
+  @has_touch Util.build_regex("Touch")
+  @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* Mobile")
+  @is_opera_tv_store Util.build_regex("Opera TV Store")
+
   @doc """
   Parses information from a user agent.
 
@@ -50,8 +54,12 @@ defmodule UAInspector.Parser do
   """
   @spec parse_client(String.t()) :: Result.t()
   def parse_client(ua) do
-    ua
-    |> assemble_result()
+    %Result{
+      user_agent: ua,
+      client: Parser.Client.parse(ua),
+      device: Parser.Device.parse(ua),
+      os: Parser.OS.parse(ua)
+    }
     |> maybe_detect_tv()
     |> maybe_fix_ios()
     |> maybe_fix_android()
@@ -60,15 +68,6 @@ defmodule UAInspector.Parser do
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
     |> maybe_unknown_device()
-  end
-
-  defp assemble_result(ua) do
-    %Result{
-      user_agent: ua,
-      client: Parser.Client.parse(ua),
-      device: Parser.Device.parse(ua),
-      os: Parser.OS.parse(ua)
-    }
   end
 
   defp maybe_detect_desktop(
@@ -101,9 +100,7 @@ defmodule UAInspector.Parser do
   # Android <  2.0.0 is always a smartphone
   # Android == 3.*   is always a tablet
   # treat Android feature phones as smartphones
-  defp maybe_fix_android(%{os: %{version: :unknown}} = result) do
-    result
-  end
+  defp maybe_fix_android(%{os: %{version: :unknown}} = result), do: result
 
   defp maybe_fix_android(
          %{device: %{type: "feature phone"} = device, os: %{name: os_name}} = result
@@ -172,8 +169,6 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android_chrome(result), do: result
 
-  @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* Mobile")
-
   defp fix_android_chrome(%{device: device, user_agent: ua} = result) do
     type =
       case Regex.match?(@is_chrome_smartphone, ua) do
@@ -185,8 +180,6 @@ defmodule UAInspector.Parser do
   end
 
   # assume "Opera TV Store" to be a tv
-  @is_opera_tv_store Util.build_regex("Opera TV Store")
-
   defp maybe_fix_opera_tv_store(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
     if Regex.match?(@is_opera_tv_store, ua) do
       %{result | device: %{device | type: "tv"}}
@@ -198,8 +191,6 @@ defmodule UAInspector.Parser do
   defp maybe_fix_opera_tv_store(result), do: result
 
   # assume windows 8 with touch capability is a tablet
-  @has_touch Util.build_regex("Touch")
-
   defp maybe_fix_windows(
          %{device: %{type: :unknown} = device, os: %{name: "Windows RT"}} = result
        ) do

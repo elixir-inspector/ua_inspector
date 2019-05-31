@@ -62,8 +62,6 @@ defmodule UAInspector.Util.OS do
     |> elem(1)
   end
 
-  # Internal methods
-
   defp in_family?(short_code, {_, short_codes}) do
     Enum.any?(short_codes, &(&1 == short_code))
   end

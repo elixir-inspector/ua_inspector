@@ -13,8 +13,6 @@ defmodule UAInspector.ShortCodeMap do
 
       @behaviour unquote(__MODULE__)
 
-      # Public methods
-
       def to_long(short) do
         list()
         |> Enum.find({short, short}, fn {s, _} -> short == s end)
@@ -26,8 +24,6 @@ defmodule UAInspector.ShortCodeMap do
         |> Enum.find({long, long}, fn {_, l} -> long == l end)
         |> elem(0)
       end
-
-      # Internal methods
 
       defp do_reload(ets_tid) do
         {local, _} = source()
@@ -47,8 +43,6 @@ defmodule UAInspector.ShortCodeMap do
       end
     end
   end
-
-  # Public methods
 
   @doc """
   Returns the local and remote sources for this map.
@@ -78,8 +72,6 @@ defmodule UAInspector.ShortCodeMap do
   Returns a type representation for this map.
   """
   @callback var_type() :: :hash | :list | :hash_with_list
-
-  # Internal methods
 
   @doc """
   Converts a raw entry to its ets representation.

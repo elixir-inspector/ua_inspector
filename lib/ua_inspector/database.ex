@@ -39,14 +39,10 @@ defmodule UAInspector.Database do
     end
   end
 
-  # Public methods
-
   @doc """
   Returns the database sources.
   """
   @callback sources() :: [{binary, binary, binary}]
-
-  # Internal methods
 
   @doc """
   Converts a raw entry to its ets representation.

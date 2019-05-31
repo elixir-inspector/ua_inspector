@@ -16,15 +16,11 @@ defmodule UAInspector.Storage.Server do
       @ets_data_table_name __MODULE__.Data
       @ets_lookup_table_name __MODULE__.Lookup
 
-      # GenServer lifecycle
-
       def init(_init_arg) do
         :ok = GenServer.cast(__MODULE__, :reload)
 
         {:ok, nil}
       end
-
-      # GenServer callbacks
 
       def handle_info({:drop_data_table, nil}, state), do: {:noreply, state}
 
@@ -46,16 +42,12 @@ defmodule UAInspector.Storage.Server do
         {:noreply, state}
       end
 
-      # Public methods
-
       def list do
         case ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name) do
           nil -> []
           ets_tid -> :ets.tab2list(ets_tid)
         end
       end
-
-      # Internal methods
 
       defp schedule_data_cleanup(ets_tid) do
         Process.send_after(
