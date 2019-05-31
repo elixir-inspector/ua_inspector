@@ -35,7 +35,7 @@ defmodule UAInspector.Storage.Server do
         old_ets_tid = ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name)
         new_ets_tid = ETS.create_data(@ets_data_table_name)
 
-        :ok = do_reload(new_ets_tid)
+        :ok = read_database() |> ETS.store_data_entries(new_ets_tid)
         :ok = schedule_data_cleanup(old_ets_tid)
         :ok = ETS.update_data(@ets_lookup_table_name, @ets_data_table_name, new_ets_tid)
 

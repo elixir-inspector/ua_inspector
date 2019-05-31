@@ -13,20 +13,19 @@ defmodule UAInspector.ShortCodeMap do
 
       @behaviour unquote(__MODULE__)
 
-      defp do_reload(ets_tid) do
+      defp read_database do
         {local, _} = source()
         map = Path.join(Config.database_path(), local)
 
         case File.regular?(map) do
           false ->
             _ = Logger.info("failed to load short code map: #{map}")
-            :ok
+            []
 
           true ->
             map
             |> YAML.read_file()
             |> Enum.map(&to_ets/1)
-            |> ETS.store_data_entries(ets_tid)
         end
       end
     end
