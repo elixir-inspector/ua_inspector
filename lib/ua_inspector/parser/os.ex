@@ -7,34 +7,32 @@ defmodule UAInspector.Parser.OS do
 
   @behaviour UAInspector.Parser
 
+  @platforms [
+    {"ARM", Util.build_regex("arm")},
+    {"x64", Util.build_regex("WOW64|x64|win64|amd64|x86_64")},
+    {"x86", Util.build_regex("i[0-9]86|i86pc")}
+  ]
+
   def parse(ua), do: parse(ua, OSs.list())
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, entry} | database]) do
-    if Regex.match?(entry.regex, ua) do
-      parse_data(ua, entry)
+  defp parse(ua, [{_index, %{regex: regex} = entry} | database]) do
+    if Regex.match?(regex, ua) do
+      %Result.OS{
+        name: resolve_name(ua, entry),
+        platform: resolve_platform(ua),
+        version: resolve_version(ua, entry)
+      }
     else
       parse(ua, database)
     end
   end
 
-  defp parse_data(ua, entry) do
-    name = resolve_name(ua, entry)
-    platform = resolve_platform(ua)
-    version = resolve_version(ua, entry)
+  defp resolve_name(ua, %{name: name, regex: regex}) do
+    captures = Regex.run(regex, ua)
 
-    %Result.OS{
-      name: name,
-      platform: platform,
-      version: version
-    }
-  end
-
-  defp resolve_name(ua, entry) do
-    captures = Regex.run(entry.regex, ua)
-
-    entry.name
+    name
     |> Util.uncapture(captures)
     |> Util.sanitize_name()
     |> String.downcase()
@@ -42,20 +40,14 @@ defmodule UAInspector.Parser.OS do
     |> Util.maybe_unknown()
   end
 
-  defp resolve_version(ua, entry) do
-    captures = Regex.run(entry.regex, ua)
+  defp resolve_version(ua, %{regex: regex, version: version}) do
+    captures = Regex.run(regex, ua)
 
-    entry.version
+    version
     |> Util.uncapture(captures)
     |> Util.sanitize_version()
     |> Util.maybe_unknown()
   end
-
-  @platforms [
-    {"ARM", Util.build_regex("arm")},
-    {"x64", Util.build_regex("WOW64|x64|win64|amd64|x86_64")},
-    {"x86", Util.build_regex("i[0-9]86|i86pc")}
-  ]
 
   defp resolve_platform(ua), do: resolve_platform(ua, @platforms)
 

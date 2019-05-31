@@ -66,10 +66,10 @@ defmodule UAInspector.Parser.Device do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, entry} | database]) do
-    if Regex.match?(entry.regex, ua) do
+  defp parse(ua, [{_index, %{models: models, regex: regex} = entry} | database]) do
+    if Regex.match?(regex, ua) do
       ua
-      |> parse_model(entry, entry.models)
+      |> parse_model(entry, models)
       |> maybe_no_model(entry)
     else
       parse(ua, database)
@@ -92,28 +92,33 @@ defmodule UAInspector.Parser.Device do
 
   defp parse_model(_, _, []), do: :unknown
 
-  defp parse_model(ua, device, [model | models]) do
-    if Regex.match?(model.regex, ua) do
+  defp parse_model(ua, device, [%{regex: regex} = model | models]) do
+    if Regex.match?(regex, ua) do
       parse_model_data(ua, device, model)
     else
       parse_model(ua, device, models)
     end
   end
 
-  defp parse_model_data(ua, device, model) do
-    captures = Regex.run(model.regex, ua)
+  defp parse_model_data(ua, %{brand: device_brand}, %{
+         brand: brand,
+         device: device,
+         model: model,
+         regex: regex
+       }) do
+    captures = Regex.run(regex, ua)
 
     model_str =
-      model.model
+      model
       |> Util.uncapture(captures)
       |> Util.sanitize_model()
       |> Util.maybe_unknown()
 
-    brand_str = Util.maybe_unknown(model.brand || device.brand)
+    brand_str = Util.maybe_unknown(brand || device_brand)
 
     %Result.Device{
       brand: brand_str,
-      type: model.device || :unknown,
+      type: device || :unknown,
       model: model_str
     }
   end

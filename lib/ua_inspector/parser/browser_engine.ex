@@ -9,9 +9,9 @@ defmodule UAInspector.Parser.BrowserEngine do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, entry} | database]) do
-    if Regex.match?(entry.regex, ua) do
-      entry.name
+  defp parse(ua, [{_index, %{name: name, regex: regex}} | database]) do
+    if Regex.match?(regex, ua) do
+      name
     else
       parse(ua, database)
     end
