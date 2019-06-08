@@ -9,11 +9,14 @@ defmodule UAInspector.Database.InitTest do
 
   setup do
     app_path = Application.get_env(:ua_inspector, :database_path)
+    startup = Application.get_env(:ua_inspector, :startup_sync)
 
     Application.put_env(:ua_inspector, :database_path, @pathname)
+    Application.put_env(:ua_inspector, :startup_sync, false)
 
     on_exit(fn ->
       Application.put_env(:ua_inspector, :database_path, app_path)
+      Application.put_env(:ua_inspector, :startup_sync, startup)
     end)
   end
 

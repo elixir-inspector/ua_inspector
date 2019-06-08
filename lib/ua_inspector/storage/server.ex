@@ -17,7 +17,11 @@ defmodule UAInspector.Storage.Server do
       @ets_lookup_table_name __MODULE__.Lookup
 
       def init(_init_arg) do
-        :ok = GenServer.cast(__MODULE__, :reload)
+        if Config.get(:startup_sync, false) do
+          :ok = reload_databases()
+        else
+          :ok = GenServer.cast(__MODULE__, :reload)
+        end
 
         {:ok, nil}
       end
@@ -31,13 +35,7 @@ defmodule UAInspector.Storage.Server do
       end
 
       def handle_cast(:reload, state) do
-        @ets_lookup_table_name = ETS.create_lookup(@ets_lookup_table_name)
-        old_ets_tid = ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name)
-        new_ets_tid = ETS.create_data(@ets_data_table_name)
-
-        :ok = read_database() |> ETS.store_data_entries(new_ets_tid)
-        :ok = schedule_data_cleanup(old_ets_tid)
-        :ok = ETS.update_data(@ets_lookup_table_name, @ets_data_table_name, new_ets_tid)
+        :ok = reload_databases()
 
         {:noreply, state}
       end
@@ -47,6 +45,18 @@ defmodule UAInspector.Storage.Server do
           nil -> []
           ets_tid -> :ets.tab2list(ets_tid)
         end
+      end
+
+      defp reload_databases do
+        @ets_lookup_table_name = ETS.create_lookup(@ets_lookup_table_name)
+        old_ets_tid = ETS.fetch_data(@ets_lookup_table_name, @ets_data_table_name)
+        new_ets_tid = ETS.create_data(@ets_data_table_name)
+
+        :ok = ETS.store_data_entries(read_database(), new_ets_tid)
+        :ok = schedule_data_cleanup(old_ets_tid)
+        :ok = ETS.update_data(@ets_lookup_table_name, @ets_data_table_name, new_ets_tid)
+
+        :ok
       end
 
       defp schedule_data_cleanup(ets_tid) do

@@ -22,6 +22,7 @@ defmodule UAInspector.Config do
           vendor_fragment: remote_database
         ],
         remote_release: "master",
+        startup_sync: false
         yaml_file_reader: {:yamerl_constr, :file, [[:str_node_as_binary]]}
 
   The default `:database_path` is evaluated at runtime and not compiled into
@@ -71,6 +72,18 @@ defmodule UAInspector.Config do
       end
 
   The function is required to always return `:ok`.
+
+  ## Startup Behaviour
+
+  Databases are loaded asynchronously when starting the application using a
+  `:reload` cast. This default behaviour can lead to the first parsing calls to
+  work with an empty database and therefore not return the results you expect.
+
+  You can change this behaviour to have the application force a synchronous
+  database loading during the initial startup:
+
+      config :ua_inspector,
+        startup_sync: true
 
   ## Database Configuration
 
