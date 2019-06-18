@@ -10,7 +10,6 @@ defmodule UAInspector.Config do
 
       config :ua_inspector,
         database_path: Application.app_dir(:ua_inspector, "priv"),
-        ets_cleanup_delay: 30_000,
         http_opts: [],
         remote_path: [
           bot: remote_database,
@@ -140,14 +139,6 @@ defmodule UAInspector.Config do
 
       config :ua_inspector,
         downloader_adapter: MyDownloaderAdapter
-
-  ## Reload Configuration
-
-  When reloading the databases the old values will be deleted in a delayed
-  fashion to avoid false parse results.
-
-  You can manually configure this delay using the `:ets_cleanup_delay`
-  configuration value.
 
   ## YAML File Reader Configuration
 

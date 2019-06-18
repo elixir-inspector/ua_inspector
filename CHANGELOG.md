@@ -4,6 +4,7 @@
 
 - Enhancements
     - Configuring `start_sync: true` allows you to ensure a synchronous database load is attempted before allowing to parse referers
+    - Database entries are now stored in a single named table instead of using an intermediate reference table
     - Output of mix task `ua_inspector.download` can be prevented by passing `--quiet` upon invocation. This does NOT imply `--force` and will still ask for confirmation
     - The library used to download the database files can be changed by configuring a module implementing the `UAInspector.Downloader.Adapter` behaviour
     - The library used to read YAML files can be changed by using the `:yaml_file_reader` configuration
