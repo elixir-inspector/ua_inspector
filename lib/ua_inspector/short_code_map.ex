@@ -8,7 +8,6 @@ defmodule UAInspector.ShortCodeMap do
       require Logger
 
       alias UAInspector.Config
-      alias UAInspector.Storage.ETS
       alias UAInspector.Util.YAML
 
       @behaviour unquote(__MODULE__)

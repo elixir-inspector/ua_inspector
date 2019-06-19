@@ -8,7 +8,6 @@ defmodule UAInspector.Storage.Server do
       require Logger
 
       alias UAInspector.Config
-      alias UAInspector.Storage.ETS
 
       @behaviour unquote(__MODULE__)
 
