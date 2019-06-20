@@ -15,16 +15,15 @@ defmodule UAInspector.ShortCodeMap do
       defp read_database do
         {local, _} = source()
         map = Path.join(Config.database_path(), local)
+        contents = YAML.read_file(map)
 
-        case File.regular?(map) do
-          false ->
-            _ = Logger.info("failed to load short code map: #{map}")
+        case contents do
+          {:ok, entries} ->
+            Enum.map(entries, &to_ets/1)
+
+          {:error, error} ->
+            _ = Logger.info("Failed to load short code map #{map}: #{inspect(error)}")
             []
-
-          true ->
-            map
-            |> YAML.read_file()
-            |> Enum.map(&to_ets/1)
         end
       end
     end

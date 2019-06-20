@@ -27,8 +27,7 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (browser engines)" do
@@ -38,8 +37,7 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (clients)" do
@@ -49,8 +47,7 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (hbbtv devices)" do
@@ -60,8 +57,7 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (regular devices)" do
@@ -71,8 +67,7 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (operating systems)" do
@@ -82,8 +77,7 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (vendor fragments)" do
@@ -93,7 +87,6 @@ defmodule UAInspector.Database.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 end

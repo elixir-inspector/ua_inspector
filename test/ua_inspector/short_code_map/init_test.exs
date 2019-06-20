@@ -27,8 +27,7 @@ defmodule UAInspector.ShortCodeMap.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (device brands)" do
@@ -38,8 +37,7 @@ defmodule UAInspector.ShortCodeMap.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
   end
 
   test "log info when load fails (mobile browsers)" do
@@ -49,7 +47,6 @@ defmodule UAInspector.ShortCodeMap.InitTest do
         :timer.sleep(100)
       end)
 
-    assert String.contains?(log, "failed")
-    assert String.contains?(log, @pathname)
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
   end
 end
