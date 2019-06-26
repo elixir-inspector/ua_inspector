@@ -76,9 +76,10 @@ defmodule UAInspector.Parser do
     desktop_only = Util.OS.desktop_only?(os)
     mobile_only = Util.Client.mobile_only?(client)
 
-    case desktop_only && !mobile_only do
-      true -> %{result | device: %{device | type: "desktop"}}
-      false -> result
+    if desktop_only && !mobile_only do
+      %{result | device: %{device | type: "desktop"}}
+    else
+      result
     end
   end
 
@@ -171,9 +172,10 @@ defmodule UAInspector.Parser do
 
   defp fix_android_chrome(%{device: device, user_agent: ua} = result) do
     type =
-      case Regex.match?(@is_chrome_smartphone, ua) do
-        true -> "smartphone"
-        false -> "tablet"
+      if Regex.match?(@is_chrome_smartphone, ua) do
+        "smartphone"
+      else
+        "tablet"
       end
 
     %{result | device: %{device | type: type}}

@@ -36,21 +36,24 @@ defmodule Mix.Tasks.UaInspector.Verify do
     acc = testcase.user_agent == result.user_agent && testcase.bot.name == result.name
 
     acc =
-      case Map.has_key?(testcase.bot, :category) do
-        true -> acc && testcase.bot.category == result.category
-        false -> acc
+      if Map.has_key?(testcase.bot, :category) do
+        acc && testcase.bot.category == result.category
+      else
+        acc
       end
 
     acc =
-      case Map.has_key?(testcase.bot, :url) do
-        true -> acc && testcase.bot.url == result.url
-        false -> acc
+      if Map.has_key?(testcase.bot, :url) do
+        acc && testcase.bot.url == result.url
+      else
+        acc
       end
 
     acc =
-      case Map.has_key?(testcase.bot, :producer) do
-        true -> acc && testcase.bot.producer == maybe_from_struct(result.producer)
-        false -> acc
+      if Map.has_key?(testcase.bot, :producer) do
+        acc && testcase.bot.producer == maybe_from_struct(result.producer)
+      else
+        acc
       end
 
     acc
@@ -86,19 +89,17 @@ defmodule Mix.Tasks.UaInspector.Verify do
     testcase = testcase |> parse() |> Verify.Cleanup.cleanup()
     result = testcase[:user_agent] |> UAInspector.parse()
 
-    case compare(testcase, result) do
-      true ->
-        verify(testcases)
-
-      false ->
-        {
-          :error,
-          %{
-            user_agent: testcase[:user_agent],
-            testcase: testcase,
-            result: result
-          }
+    if compare(testcase, result) do
+      verify(testcases)
+    else
+      {
+        :error,
+        %{
+          user_agent: testcase[:user_agent],
+          testcase: testcase,
+          result: result
         }
+      }
     end
   end
 
@@ -130,18 +131,16 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp verify_fixture(fixture) do
     testfile = Verify.Fixtures.download_path(fixture)
 
-    case File.exists?(testfile) do
-      false ->
-        {:error, :enoent}
+    if File.exists?(testfile) do
+      testcases =
+        testfile
+        |> :yamerl_constr.file([:str_node_as_binary])
+        |> unravel_list()
 
-      true ->
-        testcases =
-          testfile
-          |> :yamerl_constr.file([:str_node_as_binary])
-          |> unravel_list()
-
-        Mix.shell().info(".. verifying: #{fixture} (#{length(testcases)} tests)")
-        verify(testcases)
+      Mix.shell().info(".. verifying: #{fixture} (#{length(testcases)} tests)")
+      verify(testcases)
+    else
+      {:error, :enoent}
     end
   end
 end

@@ -16,9 +16,10 @@ defmodule UAInspector.Parser.Device do
 
   def parse(ua) do
     device =
-      case Regex.match?(@hbbtv, ua) do
-        true -> parse_hbbtv(ua)
-        false -> parse_regular(ua)
+      if Regex.match?(@hbbtv, ua) do
+        parse_hbbtv(ua)
+      else
+        parse_regular(ua)
       end
 
     device
