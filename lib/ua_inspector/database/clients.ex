@@ -34,7 +34,7 @@ defmodule UAInspector.Database.Clients do
       name: data["name"] || "",
       regex: Util.build_regex(data["regex"]),
       type: type,
-      version: to_string(data["version"]) || ""
+      version: to_string(data["version"] || "")
     }
   end
 end
