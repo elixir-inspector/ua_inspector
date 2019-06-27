@@ -81,6 +81,22 @@ defmodule UAInspector do
   alias UAInspector.Result.Bot
   alias UAInspector.ShortCodeMap
 
+  @storage_modules [
+    Database.Bots,
+    Database.BrowserEngines,
+    Database.Clients,
+    Database.DevicesHbbTV,
+    Database.DevicesRegular,
+    Database.OSs,
+    Database.VendorFragments,
+    ShortCodeMap.ClientBrowsers,
+    ShortCodeMap.DesktopFamilies,
+    ShortCodeMap.DeviceBrands,
+    ShortCodeMap.MobileBrowsers,
+    ShortCodeMap.OSFamilies,
+    ShortCodeMap.OSs
+  ]
+
   @doc """
   Checks if a user agent is a known bot.
   """
@@ -124,22 +140,7 @@ defmodule UAInspector do
   """
   @spec ready?() :: boolean
   def ready? do
-    [
-      Database.Bots,
-      Database.BrowserEngines,
-      Database.Clients,
-      Database.DevicesHbbTV,
-      Database.DevicesRegular,
-      Database.OSs,
-      Database.VendorFragments,
-      ShortCodeMap.ClientBrowsers,
-      ShortCodeMap.DesktopFamilies,
-      ShortCodeMap.DeviceBrands,
-      ShortCodeMap.MobileBrowsers,
-      ShortCodeMap.OSFamilies,
-      ShortCodeMap.OSs
-    ]
-    |> Enum.all?(fn database -> [] != database.list() end)
+    Enum.all?(@storage_modules, &([] != &1.list()))
   end
 
   @doc """
@@ -150,21 +151,6 @@ defmodule UAInspector do
   """
   @spec reload() :: :ok
   def reload do
-    [
-      Database.Bots,
-      Database.BrowserEngines,
-      Database.Clients,
-      Database.DevicesHbbTV,
-      Database.DevicesRegular,
-      Database.OSs,
-      Database.VendorFragments,
-      ShortCodeMap.ClientBrowsers,
-      ShortCodeMap.DesktopFamilies,
-      ShortCodeMap.DeviceBrands,
-      ShortCodeMap.MobileBrowsers,
-      ShortCodeMap.OSFamilies,
-      ShortCodeMap.OSs
-    ]
-    |> Enum.each(fn database -> GenServer.cast(database, :reload) end)
+    Enum.each(@storage_modules, &GenServer.cast(&1, :reload))
   end
 end
