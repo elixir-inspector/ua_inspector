@@ -146,11 +146,17 @@ defmodule UAInspector do
   @doc """
   Reloads all databases.
 
-  This process is done asynchronously in the background, so be aware that for
-  some time the old data will be used for lookups.
+  You can pass `[async: true|false]` to define if the reload should happen
+  in the background or block your calling process until completed.
   """
-  @spec reload() :: :ok
-  def reload do
-    Enum.each(@storage_modules, &GenServer.cast(&1, :reload))
+  @spec reload(Keyword.t()) :: :ok
+  def reload(opts \\ [async: true]) do
+    if opts[:async] do
+      Enum.each(@storage_modules, &GenServer.cast(&1, :reload))
+    else
+      @storage_modules
+      |> Task.async_stream(&GenServer.call(&1, :reload), ordered: false)
+      |> Stream.run()
+    end
   end
 end

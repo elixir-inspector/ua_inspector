@@ -24,6 +24,10 @@ defmodule UAInspector.Storage.Server do
         {:ok, nil}
       end
 
+      def handle_call(:reload, _from, state) do
+        {:reply, reload_database(), state}
+      end
+
       def handle_cast(:reload, state) do
         :ok = reload_database()
 

@@ -13,8 +13,7 @@ defmodule UAInspector.ReloadTest do
     Application.delete_env(:ua_inspector, :database_path)
 
     capture_log(fn ->
-      UAInspector.reload()
-      :timer.sleep(100)
+      UAInspector.reload(async: false)
     end)
 
     refute UAInspector.ready?()
