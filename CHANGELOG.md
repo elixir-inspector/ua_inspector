@@ -3,7 +3,7 @@
 ## v1.1.0-dev
 
 - Enhancements
-    - Configuring `start_sync: true` allows you to ensure a synchronous database load is attempted before allowing to parse referers
+    - Configuring `startup_sync: true` allows you to ensure a synchronous database load is attempted before allowing to parse referers
     - Database entries are now stored in a single named table instead of using an intermediate reference table
     - Output of mix task `ua_inspector.download` can be prevented by passing `--quiet` upon invocation. This does NOT imply `--force` and will still ask for confirmation
     - Passing `async: false` to `UAInspector.reload/1` allows you to block your calling process until the reload has finished
