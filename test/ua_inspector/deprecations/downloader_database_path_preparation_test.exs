@@ -12,4 +12,10 @@ defmodule UAInspector.Deprecations.DownloaderDatabasePathPreparationTest do
              :ok = Application.delete_env(:ua_inspector, :skip_download_readme)
            end) =~ ~r/declared internal/i
   end
+
+  test "read_remote/1" do
+    assert capture_log(fn ->
+             _ = Downloader.read_remote("remote")
+           end) =~ ~r/declared internal/i
+  end
 end

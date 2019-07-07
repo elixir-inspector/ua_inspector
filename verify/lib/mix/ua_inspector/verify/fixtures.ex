@@ -3,7 +3,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   Utility module to bundle/download verification fixtures.
   """
 
-  alias UAInspector.Downloader
+  alias UAInspector.Config
 
   @fixture_base_url "https://raw.githubusercontent.com/matomo-org/device-detector/master/Tests/fixtures"
 
@@ -62,7 +62,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   end
 
   defp download_fixture(remote, local) do
-    {:ok, content} = Downloader.read_remote(remote)
+    {:ok, content} = Config.downloader_adapter().read_remote(remote)
 
     File.write!(local, content)
   end

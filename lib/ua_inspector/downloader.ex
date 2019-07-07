@@ -99,16 +99,20 @@ defmodule UAInspector.Downloader do
     README.write()
   end
 
-  @doc """
-  Reads a remote file and returns it's contents.
-
-  Uses the module returned by `Config.downloader_adpater/0`.
-  """
+  @doc false
   @spec read_remote(binary) :: {:ok, binary} | {:error, term}
-  def read_remote(location), do: Config.downloader_adapter().read_remote(location)
+  def read_remote(location) do
+    _ =
+      Logger.info(
+        "UAInspector.Downloader.read_remote/1 has been" <>
+          " declared internal and will eventually be removed."
+      )
+
+    Config.downloader_adapter().read_remote(location)
+  end
 
   defp download_file(remote, local) do
-    {:ok, content} = read_remote(remote)
+    {:ok, content} = Config.downloader_adapter().read_remote(remote)
 
     File.write!(local, content)
   end

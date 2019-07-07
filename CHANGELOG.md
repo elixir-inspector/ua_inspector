@@ -14,7 +14,9 @@
     - Matching the documentation the informational README file created by the downloader will now only be created when using the mix task
 
 - Deprecations
-    - The function `UAInspector.Downloader.prepare_database_path/0` is now declared internal and will result in a `Logger.info/1` message when called until it will be eventually removed
+    - Several functions are now declared internal and will result in a `Logger.info/1` message when called until they will be eventually removed:
+        - `UAInspector.Downloader.prepare_database_path/0`
+        - `UAInspector.Downloader.read_remote/0`
 
 ## v1.0.0 (2019-04-20)
 
