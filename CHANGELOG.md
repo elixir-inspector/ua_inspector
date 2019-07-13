@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.0-dev
+## v1.1.0 (2019-07-13)
 
 - Enhancements
     - Configuring `startup_sync: true` allows you to ensure a synchronous database load is attempted before allowing to parse referers
