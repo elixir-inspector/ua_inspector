@@ -20,7 +20,9 @@ defmodule UAInspector.Database do
 
           case contents do
             {:ok, entries} ->
-              Enum.map(entries, &to_ets(&1, type))
+              entries
+              |> Enum.map(&to_ets(&1, type))
+              |> List.flatten()
 
             {:error, error} ->
               _ = Logger.info("Failed to load database #{database}: #{inspect(error)}")
