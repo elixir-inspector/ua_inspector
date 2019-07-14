@@ -30,11 +30,13 @@ defmodule UAInspector.Database.Clients do
     data = Enum.into(data, %{})
 
     {
-      data["engine"],
-      data["name"] || "",
       Util.build_regex(data["regex"]),
-      type,
-      to_string(data["version"] || "")
+      {
+        data["engine"],
+        data["name"] || "",
+        type,
+        to_string(data["version"] || "")
+      }
     }
   end
 end

@@ -20,6 +20,6 @@ defmodule UAInspector.Database.BrowserEngines do
   def to_ets(data, _type) do
     data = Enum.into(data, %{})
 
-    {data["name"], Util.build_regex(data["regex"])}
+    {Util.build_regex(data["regex"]), data["name"]}
   end
 end

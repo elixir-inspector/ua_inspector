@@ -19,11 +19,13 @@ defmodule UAInspector.Database.DevicesHbbTV do
     models = parse_models(data)
 
     {
-      brand,
-      models,
-      data["device"],
       Util.build_regex(data["regex"]),
-      type
+      {
+        brand,
+        models,
+        data["device"],
+        type
+      }
     }
   end
 
@@ -33,10 +35,12 @@ defmodule UAInspector.Database.DevicesHbbTV do
     if data["model"] do
       [
         {
-          nil,
-          device,
-          data["model"] || "",
-          Util.build_regex(data["regex"])
+          Util.build_regex(data["regex"]),
+          {
+            nil,
+            device,
+            data["model"] || ""
+          }
         }
       ]
     else
@@ -44,10 +48,12 @@ defmodule UAInspector.Database.DevicesHbbTV do
         model = Enum.into(model, %{})
 
         {
-          model["brand"],
-          model["device"] || device,
-          model["model"] || "",
-          Util.build_regex(model["regex"])
+          Util.build_regex(model["regex"]),
+          {
+            model["brand"],
+            model["device"] || device,
+            model["model"] || ""
+          }
         }
       end)
     end

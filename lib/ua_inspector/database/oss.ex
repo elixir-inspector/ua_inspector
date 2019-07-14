@@ -18,9 +18,11 @@ defmodule UAInspector.Database.OSs do
     data = Enum.into(data, %{})
 
     {
-      data["name"] || "",
       Util.build_regex(data["regex"]),
-      to_string(data["version"] || "")
+      {
+        data["name"] || "",
+        to_string(data["version"] || "")
+      }
     }
   end
 end

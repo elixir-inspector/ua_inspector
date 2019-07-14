@@ -18,11 +18,13 @@ defmodule UAInspector.Database.Bots do
     data = Enum.into(data, %{})
 
     {
-      data["category"] || :unknown,
-      data["name"],
-      producer_info(data["producer"]),
       Util.build_regex(data["regex"]),
-      data["url"] || :unknown
+      {
+        data["category"] || :unknown,
+        data["name"],
+        producer_info(data["producer"]),
+        data["url"] || :unknown
+      }
     }
   end
 

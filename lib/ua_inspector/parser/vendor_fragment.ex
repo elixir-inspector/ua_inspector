@@ -9,7 +9,7 @@ defmodule UAInspector.Parser.VendorFragment do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, {brand, regex}} | database]) do
+  defp parse(ua, [{_index, {regex, brand}} | database]) do
     if Regex.match?(regex, ua) do
       brand
     else
