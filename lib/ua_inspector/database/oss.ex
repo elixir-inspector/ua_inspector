@@ -17,10 +17,10 @@ defmodule UAInspector.Database.OSs do
   def to_ets(data, _type) do
     data = Enum.into(data, %{})
 
-    %{
-      name: data["name"] || "",
-      regex: Util.build_regex(data["regex"]),
-      version: to_string(data["version"] || "")
+    {
+      data["name"] || "",
+      Util.build_regex(data["regex"]),
+      to_string(data["version"] || "")
     }
   end
 end

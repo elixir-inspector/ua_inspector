@@ -11,7 +11,7 @@ defmodule UAInspector.Parser.Bot do
   defp parse(_, []), do: :unknown
 
   defp parse(ua, [
-         {_index, %{category: category, name: name, producer: producer, regex: regex, url: url}}
+         {_index, {category, name, producer, regex, url}}
          | database
        ]) do
     if Regex.match?(regex, ua) do
@@ -29,7 +29,7 @@ defmodule UAInspector.Parser.Bot do
 
   defp producer_info(nil), do: %Result.BotProducer{}
 
-  defp producer_info(%{name: name, url: url}) do
+  defp producer_info({name, url}) do
     %Result.BotProducer{name: name, url: url}
   end
 end

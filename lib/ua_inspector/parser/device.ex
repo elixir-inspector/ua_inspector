@@ -40,10 +40,10 @@ defmodule UAInspector.Parser.Device do
     end
   end
 
-  defp maybe_no_model(:unknown, device) do
+  defp maybe_no_model(:unknown, {brand, _, device, _, _}) do
     %Result.Device{
-      brand: device.brand,
-      type: device.device || :unknown
+      brand: brand,
+      type: device || :unknown
     }
   end
 
@@ -67,7 +67,7 @@ defmodule UAInspector.Parser.Device do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, %{models: models, regex: regex} = entry} | database]) do
+  defp parse(ua, [{_index, {_, models, _, regex, _} = entry} | database]) do
     if Regex.match?(regex, ua) do
       ua
       |> parse_model(entry, models)
@@ -93,7 +93,7 @@ defmodule UAInspector.Parser.Device do
 
   defp parse_model(_, _, []), do: :unknown
 
-  defp parse_model(ua, device, [%{regex: regex} = model | models]) do
+  defp parse_model(ua, device, [{_, _, _, regex} = model | models]) do
     if Regex.match?(regex, ua) do
       parse_model_data(ua, device, model)
     else
@@ -101,12 +101,7 @@ defmodule UAInspector.Parser.Device do
     end
   end
 
-  defp parse_model_data(ua, %{brand: device_brand}, %{
-         brand: brand,
-         device: device,
-         model: model,
-         regex: regex
-       }) do
+  defp parse_model_data(ua, {device_brand, _, _, _, _}, {brand, device, model, regex}) do
     captures = Regex.run(regex, ua)
 
     model_str =

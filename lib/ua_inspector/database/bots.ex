@@ -17,12 +17,12 @@ defmodule UAInspector.Database.Bots do
   def to_ets(data, _type) do
     data = Enum.into(data, %{})
 
-    %{
-      category: data["category"] || :unknown,
-      name: data["name"],
-      producer: producer_info(data["producer"]),
-      regex: Util.build_regex(data["regex"]),
-      url: data["url"] || :unknown
+    {
+      data["category"] || :unknown,
+      data["name"],
+      producer_info(data["producer"]),
+      Util.build_regex(data["regex"]),
+      data["url"] || :unknown
     }
   end
 
@@ -31,6 +31,6 @@ defmodule UAInspector.Database.Bots do
   defp producer_info(info) do
     info = Enum.into(info, %{})
 
-    %{name: info["name"], url: info["url"]}
+    {info["name"], info["url"]}
   end
 end

@@ -18,9 +18,6 @@ defmodule UAInspector.Database.VendorFragments do
   end
 
   def to_ets({brand, regexes}, _type) do
-    %{
-      brand: brand,
-      regexes: Enum.map(regexes, &Util.build_regex/1)
-    }
+    {brand, Enum.map(regexes, &Util.build_regex/1)}
   end
 end

@@ -12,7 +12,7 @@ defmodule UAInspector.Parser.Client do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, %{regex: regex} = entry} | database]) do
+  defp parse(ua, [{_index, {_, _, regex, _, _} = entry} | database]) do
     if Regex.match?(regex, ua) do
       parse_data(ua, entry)
     else
@@ -20,7 +20,7 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
-  defp parse_data(ua, %{engine: engine, type: type} = entry) do
+  defp parse_data(ua, {engine, _, _, type, _} = entry) do
     name = resolve_name(ua, entry)
     version = resolve_version(ua, entry)
     engine = maybe_resolve_engine(type, engine, ua, version)
@@ -80,7 +80,7 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
-  defp resolve_name(ua, %{name: name, regex: regex}) do
+  defp resolve_name(ua, {_, name, regex, _, _}) do
     captures = Regex.run(regex, ua)
 
     name
@@ -89,7 +89,7 @@ defmodule UAInspector.Parser.Client do
     |> Util.maybe_unknown()
   end
 
-  defp resolve_version(ua, %{regex: regex, version: version}) do
+  defp resolve_version(ua, {_, _, regex, _, version}) do
     captures = Regex.run(regex, ua)
 
     version
