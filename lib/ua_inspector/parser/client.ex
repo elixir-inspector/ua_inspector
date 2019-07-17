@@ -12,7 +12,7 @@ defmodule UAInspector.Parser.Client do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, {regex, _} = entry} | database]) do
+  defp parse(ua, [{regex, _} = entry | database]) do
     if Regex.match?(regex, ua) do
       parse_data(ua, entry)
     else

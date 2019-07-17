@@ -67,7 +67,7 @@ defmodule UAInspector.Parser.Device do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{_index, {regex, {_, models, _, _}} = entry} | database]) do
+  defp parse(ua, [{regex, {_, models, _, _}} = entry | database]) do
     if Regex.match?(regex, ua) do
       ua
       |> parse_model(entry, models)

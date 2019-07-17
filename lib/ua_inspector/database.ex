@@ -14,23 +14,24 @@ defmodule UAInspector.Database do
 
       defp read_database do
         sources()
-        |> Enum.flat_map(fn {type, local, _remote} ->
+        |> Enum.reverse()
+        |> Enum.reduce([], fn {type, local, _remote}, acc ->
           database = Path.join(Config.database_path(), local)
           contents = YAML.read_file(database)
 
-          case contents do
-            {:ok, entries} ->
-              entries
-              |> Enum.map(&to_ets(&1, type))
-              |> List.flatten()
+          [
+            case contents do
+              {:ok, entries} ->
+                Enum.map(entries, &to_ets(&1, type))
 
-            {:error, error} ->
-              _ = Logger.info("Failed to load database #{database}: #{inspect(error)}")
-              []
-          end
+              {:error, error} ->
+                _ = Logger.info("Failed to load database #{database}: #{inspect(error)}")
+                []
+            end
+            | acc
+          ]
         end)
-        |> Enum.with_index()
-        |> Enum.map(fn {entry, index} -> {index, entry} end)
+        |> List.flatten()
       end
     end
   end
