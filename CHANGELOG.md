@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.0-dev
+
+- Bug fixes
+    - The mix download task now works properly with initializer modules ([#18](https://github.com/elixir-inspector/ua_inspector/issues/18))
+
 ## v1.1.0 (2019-07-13)
 
 - Enhancements
