@@ -34,10 +34,7 @@ defmodule UAInspector.MixProject do
 
   defp aliases() do
     [
-      "bench.parse": [
-        "ua_inspector.download --force",
-        "run bench/parse.exs"
-      ]
+      "bench.parse": "run bench/parse.exs"
     ]
   end
 
