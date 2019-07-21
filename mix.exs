@@ -17,6 +17,9 @@ defmodule UAInspector.MixProject do
       package: package(),
       preferred_cli_env: [
         "bench.parse": :bench,
+        "bench.parse_client": :bench,
+        "bench.parse_device": :bench,
+        "bench.parse_os": :bench,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.travis": :test
@@ -34,7 +37,10 @@ defmodule UAInspector.MixProject do
 
   defp aliases() do
     [
-      "bench.parse": "run bench/parse.exs"
+      "bench.parse": "run bench/parse.exs",
+      "bench.parse_client": "run bench/parse_client.exs",
+      "bench.parse_device": "run bench/parse_device.exs",
+      "bench.parse_os": "run bench/parse_os.exs"
     ]
   end
 
