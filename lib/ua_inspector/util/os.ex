@@ -12,12 +12,8 @@ defmodule UAInspector.Util.OS do
     short_code = ShortCodeMap.OSs.to_short(name)
 
     case family(short_code) do
-      nil ->
-        false
-
-      family ->
-        ShortCodeMap.DesktopFamilies.list()
-        |> Enum.any?(&(&1 == {family}))
+      nil -> false
+      family -> family in ShortCodeMap.DesktopFamilies.list()
     end
   end
 

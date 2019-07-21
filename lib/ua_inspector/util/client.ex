@@ -9,9 +9,7 @@ defmodule UAInspector.Util.Client do
   """
   @spec mobile_only?(client :: Result.Client.t() | :unknown) :: boolean
   def mobile_only?(%{name: name}) do
-    short_code = ShortCodeMap.ClientBrowsers.to_short(name)
-
-    Enum.any?(ShortCodeMap.MobileBrowsers.list(), &(&1 == {short_code}))
+    ShortCodeMap.ClientBrowsers.to_short(name) in ShortCodeMap.MobileBrowsers.list()
   end
 
   def mobile_only?(_), do: false

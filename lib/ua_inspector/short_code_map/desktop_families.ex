@@ -12,7 +12,7 @@ defmodule UAInspector.ShortCodeMap.DesktopFamilies do
      Config.database_url(:short_code_map, "DeviceDetector.php")}
   end
 
-  def to_ets(item), do: {item}
+  def to_ets(item), do: item
   def var_name, do: "desktopOsArray"
   def var_type, do: :list
 end
