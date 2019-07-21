@@ -94,16 +94,16 @@ defmodule UAInspector.Parser.Device do
   defp parse_model(_, _, []), do: :unknown
 
   defp parse_model(ua, device, [{regex, {_, _, _}} = model | models]) do
-    if Regex.match?(regex, ua) do
-      parse_model_data(ua, device, model)
-    else
-      parse_model(ua, device, models)
+    case Regex.run(regex, ua) do
+      captures when is_list(captures) ->
+        parse_model_data(device, model, captures)
+
+      nil ->
+        parse_model(ua, device, models)
     end
   end
 
-  defp parse_model_data(ua, {_, {device_brand, _, _, _}}, {regex, {brand, device, model}}) do
-    captures = Regex.run(regex, ua)
-
+  defp parse_model_data({_, {device_brand, _, _, _}}, {_, {brand, device, model}}, captures) do
     model_str =
       model
       |> Util.uncapture(captures)

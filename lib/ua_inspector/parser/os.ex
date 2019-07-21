@@ -17,21 +17,21 @@ defmodule UAInspector.Parser.OS do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{regex, _} = entry | database]) do
-    if Regex.match?(regex, ua) do
-      %Result.OS{
-        name: resolve_name(ua, entry),
-        platform: resolve_platform(ua),
-        version: resolve_version(ua, entry)
-      }
-    else
-      parse(ua, database)
+  defp parse(ua, [{regex, {name, version}} | database]) do
+    case Regex.run(regex, ua) do
+      captures when is_list(captures) ->
+        %Result.OS{
+          name: resolve_name(name, captures),
+          platform: resolve_platform(ua),
+          version: resolve_version(version, captures)
+        }
+
+      nil ->
+        parse(ua, database)
     end
   end
 
-  defp resolve_name(ua, {regex, {name, _}}) do
-    captures = Regex.run(regex, ua)
-
+  defp resolve_name(name, captures) do
     name
     |> Util.uncapture(captures)
     |> Util.sanitize_name()
@@ -40,9 +40,7 @@ defmodule UAInspector.Parser.OS do
     |> Util.maybe_unknown()
   end
 
-  defp resolve_version(ua, {regex, {_, version}}) do
-    captures = Regex.run(regex, ua)
-
+  defp resolve_version(version, captures) do
     version
     |> Util.uncapture(captures)
     |> Util.sanitize_version()
