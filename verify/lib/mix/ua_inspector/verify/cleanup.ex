@@ -27,6 +27,7 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   @number_to_string [
     [:client, :engine_version],
     [:client, :version],
+    [:device, :brand],
     [:device, :model],
     [:os, :version]
   ]
