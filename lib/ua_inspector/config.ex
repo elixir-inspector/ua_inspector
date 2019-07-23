@@ -21,7 +21,7 @@ defmodule UAInspector.Config do
           vendor_fragment: remote_database
         ],
         remote_release: "master",
-        startup_sync: false
+        startup_sync: false,
         yaml_file_reader: {:yamerl_constr, :file, [[:str_node_as_binary]]}
 
   The default `:database_path` is evaluated at runtime and not compiled into
