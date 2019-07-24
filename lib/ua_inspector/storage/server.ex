@@ -5,8 +5,6 @@ defmodule UAInspector.Storage.Server do
     quote do
       use GenServer
 
-      require Logger
-
       alias UAInspector.Config
 
       @behaviour unquote(__MODULE__)
