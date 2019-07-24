@@ -84,7 +84,12 @@ defmodule Mix.Tasks.UaInspector.Download do
     project = Mix.Project.config()
 
     if project[:app] not in Application.started_applications() do
+      startup_silent = Application.get_env(:ua_inspector, :startup_silent, false)
+      :ok = Application.put_env(:ua_inspector, :startup_silent, true)
+
       _ = Mix.Task.run("app.start")
+
+      :ok = Application.put_env(:ua_inspector, :startup_silent, startup_silent)
     end
 
     :ok

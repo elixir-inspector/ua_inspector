@@ -21,6 +21,7 @@ defmodule UAInspector.Config do
           vendor_fragment: remote_database
         ],
         remote_release: "master",
+        startup_silent: false,
         startup_sync: false,
         yaml_file_reader: {:yamerl_constr, :file, [[:str_node_as_binary]]}
 
@@ -83,6 +84,17 @@ defmodule UAInspector.Config do
 
       config :ua_inspector,
         startup_sync: true
+
+  ### Starting Silently
+
+  When starting the application you will receive warnings if the database is
+  not available. If you want to hide these messages you can configure the
+  startup the be completely silent:
+
+      config :ua_inspector,
+        startup_silent: true
+
+  This will automatically be set when calling the mix download task.
 
   ## Database Configuration
 

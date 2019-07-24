@@ -2,6 +2,9 @@
 
 ## v1.2.0-dev
 
+- Enhancements
+    - Warnings when starting without a database available can be silenced
+
 - Bug fixes
     - The mix download task now works properly with initializer modules ([#18](https://github.com/elixir-inspector/ua_inspector/issues/18))
 
