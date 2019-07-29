@@ -105,8 +105,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
   defp verify_all(fixtures) do
     fixtures
-    |> Enum.map(fn fixture -> {fixture, Task.async(fn -> verify_fixture(fixture) end)} end)
-    |> Enum.map(fn {fixture, task} -> {fixture, Task.await(task, :infinity)} end)
+    |> Task.async_stream(&verify_fixture/1, timeout: :infinity)
     |> Enum.reject(fn {_fixture, result} -> :ok == result end)
     |> case do
       [] ->
