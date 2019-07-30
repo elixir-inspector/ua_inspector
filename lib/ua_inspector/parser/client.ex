@@ -56,7 +56,6 @@ defmodule UAInspector.Parser.Client do
   defp maybe_resolve_engine(_, _, _, _), do: :unknown
 
   defp resolve_engine(nil, _), do: ""
-  defp resolve_engine([{"default", ""}], _), do: ""
   defp resolve_engine([{"default", default}], _), do: default
 
   defp resolve_engine([{"default", default} | non_default], version) do
