@@ -42,9 +42,11 @@ defmodule UAInspector.Database.Clients do
 
   defp prepare_engine_data("browser", [{"default", default}, {"versions", non_default}]) do
     non_default =
-      Enum.map(non_default, fn {version, name} ->
+      non_default
+      |> Enum.map(fn {version, name} ->
         {version |> to_string() |> Util.to_semver(), name}
       end)
+      |> Enum.reverse()
 
     [{"default", default}, {"versions", non_default}]
   end
