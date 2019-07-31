@@ -32,11 +32,22 @@ defmodule UAInspector.Database.Clients do
     {
       Util.build_regex(data["regex"]),
       {
-        data["engine"],
+        prepare_engine_data(type, data["engine"]),
         data["name"] || "",
         type,
         to_string(data["version"] || "")
       }
     }
   end
+
+  defp prepare_engine_data("browser", [{"default", default}, {"versions", non_default}]) do
+    non_default =
+      Enum.map(non_default, fn {version, name} ->
+        {version |> to_string() |> Util.to_semver(), name}
+      end)
+
+    [{"default", default}, {"versions", non_default}]
+  end
+
+  defp prepare_engine_data(_, engine_data), do: engine_data
 end

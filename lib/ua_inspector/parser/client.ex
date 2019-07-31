@@ -58,15 +58,11 @@ defmodule UAInspector.Parser.Client do
   defp resolve_engine(nil, _), do: ""
   defp resolve_engine([{"default", default}], _), do: default
 
-  defp resolve_engine([{"default", default} | non_default], version) do
-    [{"versions", engines}] = non_default
-
+  defp resolve_engine([{"default", default}, {"versions", engines}], version) do
     version = version |> to_string() |> Util.to_semver()
 
     filtered =
       Enum.filter(engines, fn {maybe_version, _} ->
-        maybe_version = maybe_version |> to_string() |> Util.to_semver()
-
         :lt != Version.compare(version, maybe_version)
       end)
 
