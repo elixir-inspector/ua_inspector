@@ -3,6 +3,8 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
 
   use UAInspector.ShortCodeMap
 
+  alias UAInspector.Util.ShortCodeMap, as: ShortCodeMapUtil
+
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
@@ -20,19 +22,11 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   Returns the long representation for a client browser short code.
   """
   @spec to_long(String.t()) :: String.t()
-  def to_long(short) do
-    list()
-    |> Enum.find({short, short}, fn {s, _} -> short == s end)
-    |> elem(1)
-  end
+  def to_long(short), do: ShortCodeMapUtil.to_long(list(), short)
 
   @doc """
   Returns the short code for a client browser.
   """
   @spec to_short(String.t()) :: String.t()
-  def to_short(long) do
-    list()
-    |> Enum.find({long, long}, fn {_, l} -> long == l end)
-    |> elem(0)
-  end
+  def to_short(long), do: ShortCodeMapUtil.to_short(list(), long)
 end
