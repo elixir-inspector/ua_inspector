@@ -19,7 +19,7 @@ defmodule UAInspector.Parser do
       iex> parse("--- undetectable ---")
       :unknown
   """
-  @callback parse(ua :: String.t()) :: atom | map
+  @callback parse(ua :: String.t()) :: atom | binary | map
 
   @doc """
   Checks if a user agent is a known bot.
