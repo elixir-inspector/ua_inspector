@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.2.0-dev
+## v1.2.0 (2019-08-10)
 
 - Enhancements
     - Warnings when starting without a database available can be silenced
