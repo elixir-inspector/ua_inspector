@@ -1,5 +1,12 @@
 # Changelog
 
+- Backwards incompatible changes
+    - Several deprecated functions have been removed completely:
+        - `UAInspector.Downloader.prepare_database_path/0`
+        - `UAInspector.Downloader.read_remote/0`
+        - `UAInspector.Downloader.README.path_local/0`
+        - `UAInspector.Downloader.README.path_priv/0`
+
 ## v1.2.0 (2019-08-10)
 
 - Enhancements

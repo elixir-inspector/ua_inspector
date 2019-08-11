@@ -13,11 +13,8 @@ defmodule UAInspector.Downloader do
   using a mix task to obtain your database files.
   """
 
-  require Logger
-
   alias UAInspector.Config
   alias UAInspector.Database
-  alias UAInspector.Downloader.README
   alias UAInspector.Downloader.ShortCodeMapConverter
   alias UAInspector.ShortCodeMap
 
@@ -84,31 +81,6 @@ defmodule UAInspector.Downloader do
 
       :ok = File.rm!(temp)
     end)
-  end
-
-  @doc false
-  @spec prepare_database_path() :: :ok
-  def prepare_database_path do
-    _ =
-      Logger.info(
-        "UAInspector.Downloader.prepare_database_path/0 has been" <>
-          " declared internal and will eventually be removed."
-      )
-
-    File.mkdir_p!(Config.database_path())
-    README.write()
-  end
-
-  @doc false
-  @spec read_remote(binary) :: {:ok, binary} | {:error, term}
-  def read_remote(location) do
-    _ =
-      Logger.info(
-        "UAInspector.Downloader.read_remote/1 has been" <>
-          " declared internal and will eventually be removed."
-      )
-
-    Config.downloader_adapter().read_remote(location)
   end
 
   defp download_file(remote, local) do
