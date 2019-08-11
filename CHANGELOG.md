@@ -1,6 +1,7 @@
 # Changelog
 
 - Backwards incompatible changes
+    - Minimum required elixir version is now `~> 1.7`
     - Several deprecated functions have been removed completely:
         - `UAInspector.Downloader.prepare_database_path/0`
         - `UAInspector.Downloader.read_remote/0`
