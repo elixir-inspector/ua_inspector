@@ -36,7 +36,7 @@ defmodule Mix.Tasks.UaInspector.Download do
   ]
 
   def run(args) do
-    :ok = start_app()
+    :ok = start_app(args)
     :ok = Config.init_env()
 
     {opts, _argv, _errors} = OptionParser.parse(args, @cli_options)
@@ -80,14 +80,18 @@ defmodule Mix.Tasks.UaInspector.Download do
     end
   end
 
-  defp start_app do
-    project = Mix.Project.config()
+  defp start_app(args) do
+    _ = Mix.Task.run("loadpaths", args)
 
-    if project[:app] not in Application.started_applications() do
+    unless "--no-compile" in args do
+      _ = Mix.Project.compile(args)
+    end
+
+    if :ua_inspector not in Application.started_applications() do
       startup_silent = Application.get_env(:ua_inspector, :startup_silent, false)
       :ok = Application.put_env(:ua_inspector, :startup_silent, true)
 
-      _ = Mix.Task.run("app.start")
+      _ = Application.ensure_all_started(:ua_inspector)
 
       :ok = Application.put_env(:ua_inspector, :startup_silent, startup_silent)
     end

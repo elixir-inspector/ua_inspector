@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.1-dev
+
+- Bug fixes
+    - The mix download task no longer tries to start your full application, only `:ua_inspector` if not already running ([#19](https://github.com/elixir-inspector/ua_inspector/issues/19))
+
 ## v1.2.0 (2019-08-10)
 
 - Enhancements
