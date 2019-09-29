@@ -1,5 +1,7 @@
 # Changelog
 
+## v2.0.0-dev
+
 - Backwards incompatible changes
     - Minimum required elixir version is now `~> 1.7`
     - Several deprecated functions have been removed completely:
