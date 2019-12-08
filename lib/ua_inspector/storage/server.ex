@@ -33,16 +33,12 @@ defmodule UAInspector.Storage.Server do
       end
 
       def list do
-        case :ets.info(@ets_table_name) do
-          :undefined ->
-            []
-
-          _ ->
-            case :ets.lookup(@ets_table_name, :data) do
-              [{:data, entries}] -> entries
-              _ -> []
-            end
+        case :ets.lookup(@ets_table_name, :data) do
+          [{:data, entries}] -> entries
+          _ -> []
         end
+      rescue
+        _ -> []
       end
 
       defp create_ets_table do
