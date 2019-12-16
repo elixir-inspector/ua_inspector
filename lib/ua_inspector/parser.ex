@@ -73,13 +73,11 @@ defmodule UAInspector.Parser do
   defp maybe_detect_desktop(
          %{client: client, device: %{type: :unknown} = device, os: os} = result
        ) do
-    desktop_only = Util.OS.desktop_only?(os)
-    mobile_only = Util.Client.mobile_only?(client)
-
-    if desktop_only && !mobile_only do
+    with true <- Util.OS.desktop_only?(os),
+         false <- Util.Client.mobile_only?(client) do
       %{result | device: %{device | type: "desktop"}}
     else
-      result
+      _ -> result
     end
   end
 
@@ -106,11 +104,10 @@ defmodule UAInspector.Parser do
   defp maybe_fix_android(
          %{device: %{type: "feature phone"} = device, os: %{name: os_name}} = result
        ) do
-    short_code = ShortCodeMap.OSs.to_short(os_name)
-    family = Util.OS.family(short_code)
-
-    case family do
-      "Android" -> %{result | device: %{device | type: "smartphone"}}
+    with short_code <- ShortCodeMap.OSs.to_short(os_name),
+         "Android" <- Util.OS.family(short_code) do
+      %{result | device: %{device | type: "smartphone"}}
+    else
       _ -> result
     end
   end
@@ -210,14 +207,12 @@ defmodule UAInspector.Parser do
            user_agent: ua
          } = result
        ) do
-    version = Util.to_semver(os_version)
-    is_gte_8 = :lt != Version.compare(version, "8.0.0")
-    is_touch = Regex.match?(@has_touch, ua)
-
-    if is_gte_8 && is_touch do
+    with version <- Util.to_semver(os_version),
+         true <- :lt != Version.compare(version, "8.0.0"),
+         true <- Regex.match?(@has_touch, ua) do
       %{result | device: %{device | type: "tablet"}}
     else
-      result
+      _ -> result
     end
   end
 
