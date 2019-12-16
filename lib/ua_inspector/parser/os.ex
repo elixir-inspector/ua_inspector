@@ -35,7 +35,6 @@ defmodule UAInspector.Parser.OS do
     name
     |> Util.uncapture(captures)
     |> Util.sanitize_name()
-    |> String.downcase()
     |> Util.OS.proper_case()
     |> Util.maybe_unknown()
   end

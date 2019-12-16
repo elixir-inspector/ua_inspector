@@ -37,7 +37,7 @@ defmodule UAInspector.Util.OS do
   end
 
   @doc """
-  Returns the proper case version of a downcase os name.
+  Returns the proper case version of an OS name.
 
   Unknown names are returned unmodified.
 
@@ -51,9 +51,11 @@ defmodule UAInspector.Util.OS do
   """
   @spec proper_case(os :: String.t()) :: String.t()
   def proper_case(os) do
+    lower_os = String.downcase(os)
+
     ShortCodeMap.OSs.list()
     |> Enum.find({os, os}, fn {_, o} ->
-      String.downcase(os) == String.downcase(o)
+      lower_os == String.downcase(o)
     end)
     |> elem(1)
   end
