@@ -33,7 +33,7 @@ defmodule UAInspector.Database.DevicesRegular do
       {
         brand,
         models,
-        data["device"],
+        data["device"] || :unknown,
         type
       }
     }

@@ -43,7 +43,7 @@ defmodule UAInspector.Parser.Device do
   defp maybe_no_model(:unknown, {_, {brand, _, device, _}}) do
     %Result.Device{
       brand: brand,
-      type: device || :unknown
+      type: device
     }
   end
 
@@ -114,7 +114,7 @@ defmodule UAInspector.Parser.Device do
 
     %Result.Device{
       brand: brand_str,
-      type: device || :unknown,
+      type: device,
       model: model_str
     }
   end
