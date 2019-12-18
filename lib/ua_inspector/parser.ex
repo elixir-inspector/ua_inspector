@@ -118,14 +118,11 @@ defmodule UAInspector.Parser do
        ) do
     version = Util.to_semver(os_version)
 
-    type =
-      cond do
-        smartphone_android?(version) -> "smartphone"
-        tablet_android?(version) -> "tablet"
-        true -> :unknown
-      end
-
-    %{result | device: %{device | type: type}}
+    cond do
+      smartphone_android?(version) -> %{result | device: %{device | type: "smartphone"}}
+      tablet_android?(version) -> %{result | device: %{device | type: "tablet"}}
+      true -> result
+    end
   end
 
   defp maybe_fix_android(result), do: result
