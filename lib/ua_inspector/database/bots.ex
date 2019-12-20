@@ -22,8 +22,8 @@ defmodule UAInspector.Database.Bots do
       {
         data["category"] || :unknown,
         data["name"],
-        producer_info(data["producer"]),
-        data["url"] || :unknown
+        data["url"] || :unknown,
+        producer_info(data["producer"])
       }
     }
   end
