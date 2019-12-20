@@ -12,24 +12,11 @@ defmodule UAInspector.Parser.Client do
 
   defp parse(_, []), do: :unknown
 
-  defp parse(ua, [{regex, _} = entry | database]) do
+  defp parse(ua, [{regex, result} | database]) do
     case Regex.run(regex, ua) do
       nil -> parse(ua, database)
-      captures when is_list(captures) -> parse_data(ua, entry, captures)
+      captures -> result(ua, result, captures)
     end
-  end
-
-  defp parse_data(ua, {_, {engine, name, type, version}}, captures) do
-    version = resolve_version(version, captures)
-    engine = maybe_resolve_engine(type, engine, ua, version)
-
-    %Result.Client{
-      engine: engine,
-      engine_version: find_engine_version(ua, engine),
-      name: resolve_name(name, captures),
-      type: type,
-      version: version
-    }
   end
 
   defp find_engine_version(_, :unknown), do: :unknown
@@ -85,5 +72,18 @@ defmodule UAInspector.Parser.Client do
     |> Util.uncapture(captures)
     |> Util.sanitize_version()
     |> Util.maybe_unknown()
+  end
+
+  defp result(ua, {engine, name, type, version}, captures) do
+    version = resolve_version(version, captures)
+    engine = maybe_resolve_engine(type, engine, ua, version)
+
+    %Result.Client{
+      engine: engine,
+      engine_version: find_engine_version(ua, engine),
+      name: resolve_name(name, captures),
+      type: type,
+      version: version
+    }
   end
 end
