@@ -20,6 +20,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "phablet.yml",
     "portable_media_player.yml",
     "smart_display.yml",
+    "smart_speaker.yml",
     "smartphone.yml",
     "smartphone-1.yml",
     "smartphone-2.yml",
