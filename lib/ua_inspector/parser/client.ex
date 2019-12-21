@@ -46,18 +46,20 @@ defmodule UAInspector.Parser.Client do
   defp resolve_engine([{"default", default}], _), do: default
 
   defp resolve_engine([{"default", default}, {"versions", engines}], version) do
-    version = version |> to_string() |> Util.to_semver()
+    version
+    |> to_string()
+    |> Util.to_semver()
+    |> resolve_engine_detailed(engines, default)
+  end
 
-    {_, engine} =
-      Enum.find(
-        engines,
-        {nil, default},
-        fn {maybe_version, _} ->
-          :lt != Version.compare(version, maybe_version)
-        end
-      )
+  defp resolve_engine_detailed(_, [], default), do: default
 
-    engine
+  defp resolve_engine_detailed(version, [{engine_version, engine} | engines], default) do
+    if :lt != Version.compare(version, engine_version) do
+      engine
+    else
+      resolve_engine_detailed(version, engines, default)
+    end
   end
 
   defp resolve_name(name, captures) do
