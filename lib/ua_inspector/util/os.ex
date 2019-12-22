@@ -41,15 +41,7 @@ defmodule UAInspector.Util.OS do
       "--UnKnOnWn--"
   """
   @spec proper_case(os :: String.t()) :: String.t()
-  def proper_case(os) do
-    lower_os = String.downcase(os)
-
-    ShortCodeMap.OSs.list()
-    |> Enum.find({os, os}, fn {_, o} ->
-      lower_os == String.downcase(o)
-    end)
-    |> elem(1)
-  end
+  def proper_case(os), do: proper_case(os, String.downcase(os), ShortCodeMap.OSs.list())
 
   defp family(_, []), do: nil
 
@@ -58,6 +50,16 @@ defmodule UAInspector.Util.OS do
       name
     else
       family(short_code, families)
+    end
+  end
+
+  defp proper_case(os, _, []), do: os
+
+  defp proper_case(os, lower_os, [{_, entry} | database]) do
+    if lower_os == String.downcase(entry) do
+      entry
+    else
+      proper_case(os, lower_os, database)
     end
   end
 end
