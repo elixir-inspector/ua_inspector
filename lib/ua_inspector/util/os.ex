@@ -25,16 +25,7 @@ defmodule UAInspector.Util.OS do
   Unknown short codes return `nil` as their family.
   """
   @spec family(short_code :: String.t()) :: String.t() | nil
-  def family(short_code) do
-    lookup =
-      ShortCodeMap.OSFamilies.list()
-      |> Enum.find(&in_family?(short_code, &1))
-
-    case lookup do
-      {name, _} -> name
-      _ -> nil
-    end
-  end
+  def family(short_code), do: family(short_code, ShortCodeMap.OSFamilies.list())
 
   @doc """
   Returns the proper case version of an OS name.
@@ -60,7 +51,13 @@ defmodule UAInspector.Util.OS do
     |> elem(1)
   end
 
-  defp in_family?(short_code, {_, short_codes}) do
-    Enum.any?(short_codes, &(&1 == short_code))
+  defp family(_, []), do: nil
+
+  defp family(short_code, [{name, short_codes} | families]) do
+    if short_code in short_codes do
+      name
+    else
+      family(short_code, families)
+    end
   end
 end
