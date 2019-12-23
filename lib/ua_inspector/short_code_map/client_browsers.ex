@@ -1,7 +1,14 @@
 defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   @moduledoc false
 
-  use UAInspector.ShortCodeMap
+  use UAInspector.Storage.Server
+
+  require Logger
+
+  alias UAInspector.Config
+  alias UAInspector.Util.YAML
+
+  @behaviour UAInspector.ShortCodeMap
 
   alias UAInspector.Util.ShortCodeMap, as: ShortCodeMapUtil
 
@@ -29,4 +36,26 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   """
   @spec to_short(String.t()) :: String.t()
   def to_short(long), do: ShortCodeMapUtil.to_short(list(), long)
+
+  defp read_database do
+    {local, _} = source()
+    map = Path.join(Config.database_path(), local)
+
+    map
+    |> YAML.read_file()
+    |> parse_yaml_entries(map)
+  end
+
+  defp parse_yaml_entries({:ok, entries}, _) do
+    Enum.map(entries, &to_ets/1)
+  end
+
+  defp parse_yaml_entries({:error, error}, map) do
+    _ =
+      unless Config.get(:startup_silent) do
+        Logger.info("Failed to load short code map #{map}: #{inspect(error)}")
+      end
+
+    []
+  end
 end

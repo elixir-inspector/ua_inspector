@@ -1,41 +1,6 @@
 defmodule UAInspector.ShortCodeMap do
   @moduledoc false
 
-  defmacro __using__(_opts) do
-    quote do
-      use UAInspector.Storage.Server
-
-      require Logger
-
-      alias UAInspector.Config
-      alias UAInspector.Util.YAML
-
-      @behaviour unquote(__MODULE__)
-
-      defp read_database do
-        {local, _} = source()
-        map = Path.join(Config.database_path(), local)
-
-        map
-        |> YAML.read_file()
-        |> parse_yaml_entries(map)
-      end
-
-      defp parse_yaml_entries({:ok, entries}, _) do
-        Enum.map(entries, &to_ets/1)
-      end
-
-      defp parse_yaml_entries({:error, error}, map) do
-        _ =
-          unless Config.get(:startup_silent) do
-            Logger.info("Failed to load short code map #{map}: #{inspect(error)}")
-          end
-
-        []
-      end
-    end
-  end
-
   @doc """
   Returns the local and remote sources for this map.
   """
