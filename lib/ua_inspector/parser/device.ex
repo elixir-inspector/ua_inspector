@@ -36,7 +36,7 @@ defmodule UAInspector.Parser.Device do
   def parse_hbbtv_version(ua) do
     case Regex.run(@hbbtv, ua) do
       nil -> nil
-      captures -> List.last(captures)
+      [_, version | _] -> version
     end
   end
 
