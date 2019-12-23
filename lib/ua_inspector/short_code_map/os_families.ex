@@ -19,7 +19,6 @@ defmodule UAInspector.ShortCodeMap.OSFamilies do
      Config.database_url(:short_code_map, "Parser/OperatingSystem.php")}
   end
 
-  def to_ets([{family, codes}]), do: {family, codes}
   def var_name, do: "osFamilies"
   def var_type, do: :hash_with_list
 
@@ -33,7 +32,7 @@ defmodule UAInspector.ShortCodeMap.OSFamilies do
   end
 
   defp parse_yaml_entries({:ok, entries}, _) do
-    Enum.map(entries, &to_ets/1)
+    Enum.map(entries, fn [{family, codes}] -> {family, codes} end)
   end
 
   defp parse_yaml_entries({:error, error}, map) do

@@ -19,7 +19,6 @@ defmodule UAInspector.ShortCodeMap.MobileBrowsers do
      Config.database_url(:short_code_map, "Parser/Client/Browser.php")}
   end
 
-  def to_ets(item), do: item
   def var_name, do: "mobileOnlyBrowsers"
   def var_type, do: :list
 
@@ -32,9 +31,7 @@ defmodule UAInspector.ShortCodeMap.MobileBrowsers do
     |> parse_yaml_entries(map)
   end
 
-  defp parse_yaml_entries({:ok, entries}, _) do
-    Enum.map(entries, &to_ets/1)
-  end
+  defp parse_yaml_entries({:ok, entries}, _), do: entries
 
   defp parse_yaml_entries({:error, error}, map) do
     _ =

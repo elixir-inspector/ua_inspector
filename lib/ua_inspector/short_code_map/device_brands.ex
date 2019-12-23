@@ -20,7 +20,6 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
      Config.database_url(:short_code_map, "Parser/Device/DeviceParserAbstract.php")}
   end
 
-  def to_ets([{short, long}]), do: {short, long}
   def var_name, do: "deviceBrands"
   def var_type, do: :hash
 
@@ -46,7 +45,7 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
   end
 
   defp parse_yaml_entries({:ok, entries}, _) do
-    Enum.map(entries, &to_ets/1)
+    Enum.map(entries, fn [{short, long}] -> {short, long} end)
   end
 
   defp parse_yaml_entries({:error, error}, map) do
