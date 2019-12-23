@@ -13,7 +13,7 @@ defmodule UAInspector.Parser.Client do
   defp parse(_, []), do: :unknown
 
   defp parse(ua, [{regex, result} | database]) do
-    case Regex.run(regex, ua) do
+    case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> parse(ua, database)
       captures -> result(ua, result, captures)
     end
@@ -24,9 +24,9 @@ defmodule UAInspector.Parser.Client do
   defp find_engine_version(ua, engine) do
     regex = ~r/#{engine}\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))/i
 
-    case Regex.run(regex, ua) do
+    case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> :unknown
-      [_, version] -> version
+      [version | _] -> version
     end
   end
 

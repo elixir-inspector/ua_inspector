@@ -34,9 +34,9 @@ defmodule UAInspector.Parser.Device do
   """
   @spec parse_hbbtv_version(String.t()) :: nil | String.t()
   def parse_hbbtv_version(ua) do
-    case Regex.run(@hbbtv, ua) do
+    case Regex.run(@hbbtv, ua, capture: :all_but_first) do
       nil -> nil
-      [_, version | _] -> version
+      [version | _] -> version
     end
   end
 
@@ -94,7 +94,7 @@ defmodule UAInspector.Parser.Device do
   defp parse_model(_, _, []), do: :unknown
 
   defp parse_model(ua, device_result, [{regex, {_, _, _} = model_result} | models]) do
-    case Regex.run(regex, ua) do
+    case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> parse_model(ua, device_result, models)
       captures -> parse_model_data(device_result, model_result, captures)
     end

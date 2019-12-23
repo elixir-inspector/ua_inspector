@@ -113,7 +113,7 @@ defmodule UAInspector.Util do
   Replaces PHP-Style regex captures with their values.
   """
   @spec uncapture(data :: String.t(), captures :: list) :: String.t()
-  def uncapture(data, captures), do: uncapture(data, captures, 0)
+  def uncapture(data, captures), do: uncapture(data, captures, 1)
 
   defp uncapture(data, [], _), do: data
 

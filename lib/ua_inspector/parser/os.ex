@@ -18,7 +18,7 @@ defmodule UAInspector.Parser.OS do
   defp parse(_, []), do: :unknown
 
   defp parse(ua, [{regex, result} | database]) do
-    case Regex.run(regex, ua) do
+    case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> parse(ua, database)
       captures -> result(ua, result, captures)
     end
