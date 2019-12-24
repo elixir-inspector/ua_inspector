@@ -22,15 +22,13 @@ defmodule UAInspector.Database.VendorFragments do
     ]
   end
 
-  def to_ets({brand, regexes}, _type) do
-    Enum.map(regexes, &{Util.build_regex(&1), brand})
+  defp parse_yaml_entries({:ok, entries}, _) do
+    Enum.map(entries, fn {brand, regexes} ->
+      Enum.map(regexes, &{Util.build_regex(&1), brand})
+    end)
   end
 
-  defp parse_yaml_entries({:ok, entries}, type, _) do
-    Enum.map(entries, &to_ets(&1, type))
-  end
-
-  defp parse_yaml_entries({:error, error}, _, database) do
+  defp parse_yaml_entries({:error, error}, database) do
     _ =
       unless Config.get(:startup_silent) do
         Logger.info("Failed to load database #{database}: #{inspect(error)}")
@@ -42,13 +40,13 @@ defmodule UAInspector.Database.VendorFragments do
   defp read_database do
     sources()
     |> Enum.reverse()
-    |> Enum.reduce([], fn {type, local, _remote}, acc ->
+    |> Enum.reduce([], fn {_, local, _remote}, acc ->
       database = Path.join([Config.database_path(), local])
 
       contents =
         database
         |> YAML.read_file()
-        |> parse_yaml_entries(type, database)
+        |> parse_yaml_entries(database)
 
       [contents | acc]
     end)

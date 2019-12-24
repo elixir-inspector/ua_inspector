@@ -19,23 +19,21 @@ defmodule UAInspector.Database.OSs do
     [{"", "os.oss.yml", Config.database_url(:os, "oss.yml")}]
   end
 
-  def to_ets(data, _type) do
-    data = Enum.into(data, %{})
+  defp parse_yaml_entries({:ok, entries}, _) do
+    Enum.map(entries, fn data ->
+      data = Enum.into(data, %{})
 
-    {
-      Util.build_regex(data["regex"]),
       {
-        data["name"] || "",
-        to_string(data["version"] || "")
+        Util.build_regex(data["regex"]),
+        {
+          data["name"] || "",
+          to_string(data["version"] || "")
+        }
       }
-    }
+    end)
   end
 
-  defp parse_yaml_entries({:ok, entries}, type, _) do
-    Enum.map(entries, &to_ets(&1, type))
-  end
-
-  defp parse_yaml_entries({:error, error}, _, database) do
+  defp parse_yaml_entries({:error, error}, database) do
     _ =
       unless Config.get(:startup_silent) do
         Logger.info("Failed to load database #{database}: #{inspect(error)}")
@@ -47,13 +45,13 @@ defmodule UAInspector.Database.OSs do
   defp read_database do
     sources()
     |> Enum.reverse()
-    |> Enum.reduce([], fn {type, local, _remote}, acc ->
+    |> Enum.reduce([], fn {_, local, _remote}, acc ->
       database = Path.join([Config.database_path(), local])
 
       contents =
         database
         |> YAML.read_file()
-        |> parse_yaml_entries(type, database)
+        |> parse_yaml_entries(database)
 
       [contents | acc]
     end)

@@ -29,21 +29,6 @@ defmodule UAInspector.Database.DevicesRegular do
     ]
   end
 
-  def to_ets({brand, data}, type) do
-    data = Enum.into(data, %{})
-    models = parse_models(data)
-
-    {
-      Util.build_regex(data["regex"]),
-      {
-        brand,
-        models,
-        data["device"] || :unknown,
-        type
-      }
-    }
-  end
-
   defp parse_models(data) do
     device = data["device"]
 
@@ -74,11 +59,24 @@ defmodule UAInspector.Database.DevicesRegular do
     end
   end
 
-  defp parse_yaml_entries({:ok, entries}, type, _) do
-    Enum.map(entries, &to_ets(&1, type))
+  defp parse_yaml_entries({:ok, entries}, _, type) do
+    Enum.map(entries, fn {brand, data} ->
+      data = Enum.into(data, %{})
+      models = parse_models(data)
+
+      {
+        Util.build_regex(data["regex"]),
+        {
+          brand,
+          models,
+          data["device"] || :unknown,
+          type
+        }
+      }
+    end)
   end
 
-  defp parse_yaml_entries({:error, error}, _, database) do
+  defp parse_yaml_entries({:error, error}, database, _) do
     _ =
       unless Config.get(:startup_silent) do
         Logger.info("Failed to load database #{database}: #{inspect(error)}")
@@ -96,7 +94,7 @@ defmodule UAInspector.Database.DevicesRegular do
       contents =
         database
         |> YAML.read_file()
-        |> parse_yaml_entries(type, database)
+        |> parse_yaml_entries(database, type)
 
       [contents | acc]
     end)

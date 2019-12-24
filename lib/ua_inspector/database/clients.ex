@@ -31,25 +31,23 @@ defmodule UAInspector.Database.Clients do
     ]
   end
 
-  def to_ets(data, type) do
-    data = Enum.into(data, %{})
+  defp parse_yaml_entries({:ok, entries}, _, type) do
+    Enum.map(entries, fn data ->
+      data = Enum.into(data, %{})
 
-    {
-      Util.build_regex(data["regex"]),
       {
-        prepare_engine_data(type, data["engine"]),
-        data["name"] || "",
-        type,
-        to_string(data["version"] || "")
+        Util.build_regex(data["regex"]),
+        {
+          prepare_engine_data(type, data["engine"]),
+          data["name"] || "",
+          type,
+          to_string(data["version"] || "")
+        }
       }
-    }
+    end)
   end
 
-  defp parse_yaml_entries({:ok, entries}, type, _) do
-    Enum.map(entries, &to_ets(&1, type))
-  end
-
-  defp parse_yaml_entries({:error, error}, _, database) do
+  defp parse_yaml_entries({:error, error}, database, _) do
     _ =
       unless Config.get(:startup_silent) do
         Logger.info("Failed to load database #{database}: #{inspect(error)}")
@@ -80,7 +78,7 @@ defmodule UAInspector.Database.Clients do
       contents =
         database
         |> YAML.read_file()
-        |> parse_yaml_entries(type, database)
+        |> parse_yaml_entries(database, type)
 
       [contents | acc]
     end)
