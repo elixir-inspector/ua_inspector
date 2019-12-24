@@ -1,10 +1,15 @@
 defmodule UAInspector.Database.Clients do
   @moduledoc false
 
-  use UAInspector.Database
+  use UAInspector.Storage.Server
+
+  require Logger
 
   alias UAInspector.Config
   alias UAInspector.Util
+  alias UAInspector.Util.YAML
+
+  @behaviour UAInspector.Database
 
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
@@ -40,6 +45,19 @@ defmodule UAInspector.Database.Clients do
     }
   end
 
+  defp parse_yaml_entries({:ok, entries}, type, _) do
+    Enum.map(entries, &to_ets(&1, type))
+  end
+
+  defp parse_yaml_entries({:error, error}, _, database) do
+    _ =
+      unless Config.get(:startup_silent) do
+        Logger.info("Failed to load database #{database}: #{inspect(error)}")
+      end
+
+    []
+  end
+
   defp prepare_engine_data("browser", [{"default", default}, {"versions", non_default}]) do
     non_default =
       non_default
@@ -52,4 +70,20 @@ defmodule UAInspector.Database.Clients do
   end
 
   defp prepare_engine_data(_, engine_data), do: engine_data
+
+  defp read_database do
+    sources()
+    |> Enum.reverse()
+    |> Enum.reduce([], fn {type, local, _remote}, acc ->
+      database = Path.join([Config.database_path(), local])
+
+      contents =
+        database
+        |> YAML.read_file()
+        |> parse_yaml_entries(type, database)
+
+      [contents | acc]
+    end)
+    |> List.flatten()
+  end
 end
