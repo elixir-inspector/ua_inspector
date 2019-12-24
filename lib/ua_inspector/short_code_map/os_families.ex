@@ -14,12 +14,16 @@ defmodule UAInspector.ShortCodeMap.OSFamilies do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.ShortCodeMap
   def source do
     {"short_codes.os_families.yml",
      Config.database_url(:short_code_map, "Parser/OperatingSystem.php")}
   end
 
+  @impl UAInspector.ShortCodeMap
   def var_name, do: "osFamilies"
+
+  @impl UAInspector.ShortCodeMap
   def var_type, do: :hash_with_list
 
   defp read_database do

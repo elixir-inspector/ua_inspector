@@ -14,12 +14,16 @@ defmodule UAInspector.ShortCodeMap.MobileBrowsers do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.ShortCodeMap
   def source do
     {"short_codes.mobile_browsers.yml",
      Config.database_url(:short_code_map, "Parser/Client/Browser.php")}
   end
 
+  @impl UAInspector.ShortCodeMap
   def var_name, do: "mobileOnlyBrowsers"
+
+  @impl UAInspector.ShortCodeMap
   def var_type, do: :list
 
   defp read_database do

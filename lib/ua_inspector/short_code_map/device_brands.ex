@@ -15,12 +15,16 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.ShortCodeMap
   def source do
     {"short_codes.device_brands.yml",
      Config.database_url(:short_code_map, "Parser/Device/DeviceParserAbstract.php")}
   end
 
+  @impl UAInspector.ShortCodeMap
   def var_name, do: "deviceBrands"
+
+  @impl UAInspector.ShortCodeMap
   def var_type, do: :hash
 
   @doc """

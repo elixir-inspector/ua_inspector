@@ -15,6 +15,7 @@ defmodule UAInspector.Database.BrowserEngines do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.Database
   def sources do
     [
       {"", "browser_engine.browser_engine.yml",

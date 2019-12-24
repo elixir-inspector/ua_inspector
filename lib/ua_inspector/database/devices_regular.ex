@@ -15,6 +15,7 @@ defmodule UAInspector.Database.DevicesRegular do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.Database
   def sources do
     # files ordered according to
     # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php

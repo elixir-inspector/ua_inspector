@@ -15,6 +15,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.Database
   def sources do
     [{"", "device.televisions.yml", Config.database_url(:device, "televisions.yml")}]
   end

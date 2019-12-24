@@ -15,6 +15,7 @@ defmodule UAInspector.Database.VendorFragments do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.Database
   def sources do
     [
       {"", "vendor_fragment.vendorfragments.yml",

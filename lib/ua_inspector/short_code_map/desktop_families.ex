@@ -14,12 +14,16 @@ defmodule UAInspector.ShortCodeMap.DesktopFamilies do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
+  @impl UAInspector.ShortCodeMap
   def source do
     {"short_codes.desktop_families.yml",
      Config.database_url(:short_code_map, "DeviceDetector.php")}
   end
 
+  @impl UAInspector.ShortCodeMap
   def var_name, do: "desktopOsArray"
+
+  @impl UAInspector.ShortCodeMap
   def var_type, do: :list
 
   defp read_database do
