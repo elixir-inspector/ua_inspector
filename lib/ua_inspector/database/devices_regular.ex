@@ -30,34 +30,32 @@ defmodule UAInspector.Database.DevicesRegular do
     ]
   end
 
-  defp parse_models(data) do
-    device = data["device"]
-
-    if data["model"] do
-      [
+  defp parse_models(%{"device" => device, "model" => model, "regex" => regex}) do
+    [
+      {
+        Util.build_regex(regex),
         {
-          Util.build_regex(data["regex"]),
-          {
-            nil,
-            device,
-            data["model"] || ""
-          }
+          nil,
+          device,
+          model || ""
         }
-      ]
-    else
-      Enum.map(data["models"], fn model ->
-        model = Enum.into(model, %{})
+      }
+    ]
+  end
 
+  defp parse_models(%{"models" => models} = data) do
+    Enum.map(models, fn model ->
+      model = Enum.into(model, %{})
+
+      {
+        Util.build_regex(model["regex"]),
         {
-          Util.build_regex(model["regex"]),
-          {
-            model["brand"],
-            model["device"] || device,
-            model["model"] || ""
-          }
+          model["brand"],
+          model["device"] || data["device"],
+          model["model"] || ""
         }
-      end)
-    end
+      }
+    end)
   end
 
   defp parse_yaml_entries({:ok, entries}, _, type) do
