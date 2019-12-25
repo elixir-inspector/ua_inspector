@@ -33,7 +33,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
     ]
   end
 
-  defp parse_models(%{"models" => models} = data) do
+  defp parse_models(%{"models" => models}) do
     Enum.map(models, fn model ->
       model = Enum.into(model, %{})
 
@@ -41,7 +41,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
         Util.build_regex(model["regex"]),
         {
           model["brand"],
-          model["device"] || data["device"],
+          model["device"],
           model["model"] || ""
         }
       }

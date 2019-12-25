@@ -100,18 +100,16 @@ defmodule UAInspector.Parser.Device do
     end
   end
 
-  defp parse_model_data({device_brand, _, _, _}, {brand, device, model}, captures) do
+  defp parse_model_data({device_brand, _, device, _}, {brand, model_device, model}, captures) do
     model_str =
       model
       |> Util.uncapture(captures)
       |> Util.sanitize_model()
       |> Util.maybe_unknown()
 
-    brand_str = Util.maybe_unknown(brand || device_brand)
-
     %Result.Device{
-      brand: brand_str,
-      type: device,
+      brand: Util.maybe_unknown(brand || device_brand),
+      type: model_device || device,
       model: model_str
     }
   end
