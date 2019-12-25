@@ -6,11 +6,10 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   require Logger
 
   alias UAInspector.Config
+  alias UAInspector.Util.ShortCodeMap, as: ShortCodeMapUtil
   alias UAInspector.Util.YAML
 
   @behaviour UAInspector.ShortCodeMap
-
-  alias UAInspector.Util.ShortCodeMap, as: ShortCodeMapUtil
 
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)

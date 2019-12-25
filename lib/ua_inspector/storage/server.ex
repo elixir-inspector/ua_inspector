@@ -13,11 +13,12 @@ defmodule UAInspector.Storage.Server do
       @ets_table_opts [:named_table, :protected, :set, read_concurrency: true]
 
       def init(_init_arg) do
-        if Config.get(:startup_sync, true) do
-          :ok = reload_database()
-        else
-          :ok = GenServer.cast(__MODULE__, :reload)
-        end
+        :ok =
+          if Config.get(:startup_sync, true) do
+            reload_database()
+          else
+            GenServer.cast(__MODULE__, :reload)
+          end
 
         {:ok, nil}
       end
