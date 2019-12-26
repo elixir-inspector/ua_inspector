@@ -44,10 +44,10 @@ defmodule UAInspector.Parser.Client do
 
   defp resolve_engine(nil, _), do: ""
   defp resolve_engine([{"default", default}], _), do: default
+  defp resolve_engine([{"default", default}, _], :unknown), do: default
 
   defp resolve_engine([{"default", default}, {"versions", engines}], version) do
     version
-    |> to_string()
     |> Util.to_semver()
     |> resolve_engine_detailed(engines, default)
   end
