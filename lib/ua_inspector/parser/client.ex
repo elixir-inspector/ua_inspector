@@ -30,14 +30,14 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
-  defp maybe_resolve_engine("browser", engine_data, ua, version) do
-    engine =
-      case resolve_engine(engine_data, version) do
-        "" -> BrowserEngine.parse(ua)
-        engine -> engine
-      end
+  defp maybe_browser_engine("", ua), do: BrowserEngine.parse(ua)
+  defp maybe_browser_engine(engine, _), do: engine
 
-    Util.maybe_unknown(engine)
+  defp maybe_resolve_engine("browser", engine_data, ua, version) do
+    engine_data
+    |> resolve_engine(version)
+    |> maybe_browser_engine(ua)
+    |> Util.maybe_unknown()
   end
 
   defp maybe_resolve_engine(_, _, _, _), do: :unknown
