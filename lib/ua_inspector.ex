@@ -89,6 +89,7 @@ defmodule UAInspector do
     Database.DevicesRegular,
     Database.OSs,
     Database.VendorFragments,
+    ShortCodeMap.BrowserFamilies,
     ShortCodeMap.ClientBrowsers,
     ShortCodeMap.DesktopFamilies,
     ShortCodeMap.DeviceBrands,

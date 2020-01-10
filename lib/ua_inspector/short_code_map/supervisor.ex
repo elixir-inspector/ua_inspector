@@ -13,6 +13,7 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
   @doc false
   def init(_state) do
     children = [
+      ShortCodeMap.BrowserFamilies,
       ShortCodeMap.ClientBrowsers,
       ShortCodeMap.DesktopFamilies,
       ShortCodeMap.DeviceBrands,

@@ -2,6 +2,9 @@
 
 ## v2.0.0-dev
 
+- Enhancements
+    - Detection will now make use of "browser families" to match upstream improvements for Chrome based devices
+
 - Backwards incompatible changes
     - Minimum required elixir version is now `~> 1.7`
     - Several deprecated functions have been removed completely:
