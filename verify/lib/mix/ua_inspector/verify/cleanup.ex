@@ -32,6 +32,10 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     [:os, :version]
   ]
 
+  @unknown_to_atom [
+    [:browser_family]
+  ]
+
   @doc """
   Cleans up a test case.
   """
@@ -41,6 +45,7 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> convert_empty(@empty_to_quotes, "")
     |> convert_empty(@empty_to_unknown, :unknown)
     |> convert_numbers(@number_to_string)
+    |> convert_unknown(@unknown_to_atom)
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()
     |> cleanup_os_entry()
@@ -77,6 +82,18 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> convert_numbers(paths)
   rescue
     FunctionClauseError -> convert_numbers(testcase, paths)
+  end
+
+  defp convert_unknown(testcase, []), do: testcase
+
+  defp convert_unknown(testcase, [path | paths]) do
+    testcase
+    |> get_in(path)
+    |> case do
+      "Unknown" -> put_in(testcase, path, :unknown)
+      _ -> testcase
+    end
+    |> convert_unknown(paths)
   end
 
   defp cleanup_client_engine(%{client: client} = testcase) when is_map(client) do

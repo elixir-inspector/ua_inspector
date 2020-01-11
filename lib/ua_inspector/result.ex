@@ -7,12 +7,14 @@ defmodule UAInspector.Result do
 
   @type t :: %__MODULE__{
           user_agent: nil | String.t(),
+          browser_family: String.t() | :unknown,
           client: Result.Client.t() | :unknown,
           device: Result.Device.t() | :unknown,
           os: Result.OS.t() | :unknown
         }
 
   defstruct user_agent: nil,
+            browser_family: :unknown,
             client: :unknown,
             device: :unknown,
             os: :unknown

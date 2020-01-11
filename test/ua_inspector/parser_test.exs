@@ -44,6 +44,7 @@ defmodule UAInspector.ParserTest do
 
     parsed = %Result{
       user_agent: agent,
+      browser_family: "Safari",
       client: %Result.Client{
         engine: "WebKit",
         engine_version: "537.51.1",

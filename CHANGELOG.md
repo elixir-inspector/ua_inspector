@@ -4,6 +4,7 @@
 
 - Enhancements
     - Detection will now make use of "browser families" to match upstream improvements for Chrome based devices
+    - If detectable the "browser family" of a client is now available as `:browser_family` in the result struct
 
 - Backwards incompatible changes
     - Minimum required elixir version is now `~> 1.7`

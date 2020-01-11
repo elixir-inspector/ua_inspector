@@ -60,6 +60,7 @@ defmodule UAInspector.Parser do
       device: Parser.Device.parse(ua),
       os: Parser.OS.parse(ua)
     }
+    |> detect_browser_family()
     |> maybe_detect_tv()
     |> maybe_fix_ios()
     |> maybe_fix_android()
@@ -69,6 +70,12 @@ defmodule UAInspector.Parser do
     |> maybe_detect_desktop()
     |> maybe_unknown_device()
   end
+
+  defp detect_browser_family(%{client: %{name: client_name, type: "browser"}} = result) do
+    %{result | browser_family: Util.Browser.family(client_name) || :unknown}
+  end
+
+  defp detect_browser_family(result), do: result
 
   defp maybe_detect_desktop(
          %{client: client, device: %{type: :unknown} = device, os: %{name: os_name}} = result

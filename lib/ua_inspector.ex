@@ -14,6 +14,7 @@ defmodule UAInspector do
 
       iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
       %UAInspector.Result{
+        browser_family: "Safari",
         client: %UAInspector.Result.Client{
           engine: "WebKit",
           engine_version: "537.51.11",
@@ -60,6 +61,7 @@ defmodule UAInspector do
 
       iex(4)> UAInspector.parse("--- undetectable ---")
       %UAInspector.Result{
+        browser_family: :unknown,
         client: :unknown,
         device: :unknown,
         os: :unknown,
