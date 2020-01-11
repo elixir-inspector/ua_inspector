@@ -26,6 +26,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     # regular user agent
     testcase.user_agent == result.user_agent &&
       testcase.browser_family == result.browser_family &&
+      testcase.os_family == result.os_family &&
       testcase.client == maybe_from_struct(result.client) &&
       testcase.device == maybe_from_struct(result.device) &&
       testcase.os == maybe_from_struct(result.os)

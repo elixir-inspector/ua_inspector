@@ -61,6 +61,7 @@ defmodule UAInspector.Parser do
       os: Parser.OS.parse(ua)
     }
     |> detect_browser_family()
+    |> detect_os_family()
     |> maybe_detect_tv()
     |> maybe_fix_ios()
     |> maybe_fix_android()
@@ -76,6 +77,17 @@ defmodule UAInspector.Parser do
   end
 
   defp detect_browser_family(result), do: result
+
+  defp detect_os_family(%{os: %{name: os_name}} = result) do
+    os_family =
+      os_name
+      |> ShortCodeMap.OSs.to_short()
+      |> Util.OS.family()
+
+    %{result | os_family: os_family || :unknown}
+  end
+
+  defp detect_os_family(result), do: result
 
   defp maybe_detect_desktop(
          %{client: client, device: %{type: :unknown} = device, os: %{name: os_name}} = result

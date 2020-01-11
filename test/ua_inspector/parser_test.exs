@@ -53,7 +53,8 @@ defmodule UAInspector.ParserTest do
         version: "7.0"
       },
       device: %Result.Device{brand: "Apple", model: "iPad", type: "tablet"},
-      os: %Result.OS{name: "iOS", version: "7.0.4"}
+      os: %Result.OS{name: "iOS", version: "7.0.4"},
+      os_family: "iOS"
     }
 
     assert parsed == UAInspector.parse(agent)

@@ -33,7 +33,8 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   ]
 
   @unknown_to_atom [
-    [:browser_family]
+    [:browser_family],
+    [:os_family]
   ]
 
   @doc """
