@@ -83,17 +83,18 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp unravel_list([[_] = cases]), do: cases
   defp unravel_list([cases]), do: cases
 
-  defp verify([]), do: :ok
+  defp verify(_, []), do: :ok
 
-  defp verify([testcase | testcases]) do
+  defp verify(fixture, [testcase | testcases]) do
     testcase = testcase |> parse() |> Verify.Cleanup.cleanup()
     result = testcase[:user_agent] |> UAInspector.parse()
 
     if compare(testcase, result) do
-      verify(testcases)
+      verify(fixture, testcases)
     else
       {
         :error,
+        fixture,
         %{
           user_agent: testcase[:user_agent],
           testcase: testcase,
@@ -106,17 +107,17 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp verify_all(fixtures) do
     fixtures
     |> Task.async_stream(&verify_fixture/1, timeout: :infinity)
-    |> Enum.reject(fn {_fixture, result} -> :ok == result end)
+    |> Enum.reject(fn {:ok, result} -> :ok == result end)
     |> case do
       [] ->
         :ok
 
       errors ->
         Enum.each(errors, fn
-          {fixture, {:error, :enoent}} ->
+          {_, {:error, fixture, :enoent}} ->
             Mix.shell().error("Missing fixture file: #{fixture}")
 
-          {fixture, {:error, error}} ->
+          {_, {:error, fixture, error}} ->
             Mix.shell().error("-- verification failed (#{fixture}) --")
             Mix.shell().info("user_agent: #{error[:user_agent]}")
             Mix.shell().info("testcase: #{inspect(error[:testcase])}")
@@ -137,7 +138,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         |> unravel_list()
 
       Mix.shell().info(".. verifying: #{fixture} (#{length(testcases)} tests)")
-      verify(testcases)
+      verify(fixture, testcases)
     else
       {:error, :enoent}
     end
