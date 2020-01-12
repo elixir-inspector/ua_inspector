@@ -206,17 +206,14 @@ defmodule UAInspector.Parser do
     %{result | device: %{device | type: "tablet"}}
   end
 
-  defp maybe_fix_windows(%{os: %{version: :unknown}} = result) do
-    result
-  end
-
   defp maybe_fix_windows(
          %{
            device: %{type: :unknown} = device,
            os: %{name: "Windows", version: os_version},
            user_agent: ua
          } = result
-       ) do
+       )
+       when is_binary(os_version) do
     with version <- Util.to_semver(os_version),
          true <- :lt != Version.compare(version, "8.0.0"),
          true <- Regex.match?(@has_touch, ua) do
