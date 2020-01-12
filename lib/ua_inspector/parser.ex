@@ -170,20 +170,25 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android_chrome(
          %{
-           client: %{name: client_name, type: "browser"},
-           device: %{type: :unknown},
+           browser_family: "Chrome",
+           client: %{type: "browser"},
+           device: %{type: :unknown} = device,
            os: %{name: "Android"},
            user_agent: ua
          } = result
        ) do
-    device =
-      cond do
-        "Chrome" != Util.Browser.family(client_name) -> :unknown
-        Regex.match?(@is_chrome_smartphone, ua) -> %Result.Device{type: "smartphone"}
-        true -> %Result.Device{type: "tablet"}
+    device_type =
+      if Regex.match?(@is_chrome_smartphone, ua) do
+        "smartphone"
+      else
+        "tablet"
       end
 
-    %{result | device: device}
+    %{result | device: %{device | type: device_type}}
+  end
+
+  defp maybe_fix_android_chrome(%{device: %{type: :unknown}, os: %{name: "Android"}} = result) do
+    %{result | device: :unknown}
   end
 
   defp maybe_fix_android_chrome(result), do: result
