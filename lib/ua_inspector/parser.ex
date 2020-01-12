@@ -182,10 +182,6 @@ defmodule UAInspector.Parser do
     %{result | device: %{device | type: device_type}}
   end
 
-  defp maybe_fix_android_chrome(%{device: %{type: :unknown}, os: %{name: "Android"}} = result) do
-    %{result | device: :unknown}
-  end
-
   defp maybe_fix_android_chrome(result), do: result
 
   # assume "Opera TV Store" to be a tv
