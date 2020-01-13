@@ -19,11 +19,7 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
-  defp find_engine_version(_, :unknown), do: :unknown
-
-  defp find_engine_version(ua, engine) do
-    regex = ~r/#{engine}\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))/i
-
+  defp find_engine_version(ua, regex) do
     case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> :unknown
       [version | _] -> version
@@ -31,13 +27,13 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp maybe_browser_engine("", ua), do: BrowserEngine.parse(ua)
+  defp maybe_browser_engine({"", _}, ua), do: BrowserEngine.parse(ua)
   defp maybe_browser_engine(engine, _), do: engine
 
   defp maybe_resolve_engine("browser", engine_data, ua, version) do
     engine_data
     |> resolve_engine(version)
     |> maybe_browser_engine(ua)
-    |> Util.maybe_unknown()
   end
 
   defp maybe_resolve_engine(_, _, _, _), do: :unknown
@@ -78,11 +74,19 @@ defmodule UAInspector.Parser.Client do
 
   defp result(ua, {engine, name, type, version}, captures) do
     version = resolve_version(version, captures)
-    engine = maybe_resolve_engine(type, engine, ua, version)
+
+    {engine, engine_version} =
+      case maybe_resolve_engine(type, engine, ua, version) do
+        {engine, version_regex} when is_binary(engine) and 0 < byte_size(engine) ->
+          {engine, find_engine_version(ua, version_regex)}
+
+        _ ->
+          {:unknown, :unknown}
+      end
 
     %Result.Client{
       engine: engine,
-      engine_version: find_engine_version(ua, engine),
+      engine_version: engine_version,
       name: resolve_name(name, captures),
       type: type,
       version: version
