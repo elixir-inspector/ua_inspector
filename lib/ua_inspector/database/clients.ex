@@ -32,10 +32,6 @@ defmodule UAInspector.Database.Clients do
     ]
   end
 
-  defp engine_version_regex(name) do
-    ~r/#{name}\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))/i
-  end
-
   defp parse_yaml_entries({:ok, entries}, _, type) do
     Enum.map(entries, fn data ->
       data = Enum.into(data, %{})
@@ -65,15 +61,15 @@ defmodule UAInspector.Database.Clients do
     non_default =
       non_default
       |> Enum.map(fn {version, name} ->
-        {version |> to_string() |> Util.to_semver(), {name, engine_version_regex(name)}}
+        {version |> to_string() |> Util.to_semver(), {name, Util.build_engine_regex(name)}}
       end)
       |> Enum.reverse()
 
-    [{"default", {default, engine_version_regex(default)}}, {"versions", non_default}]
+    [{"default", {default, Util.build_engine_regex(default)}}, {"versions", non_default}]
   end
 
   defp prepare_engine_data(_, [{"default", default}]) do
-    [{"default", {default, engine_version_regex(default)}}]
+    [{"default", {default, Util.build_engine_regex(default)}}]
   end
 
   defp prepare_engine_data(_, engine_data), do: engine_data

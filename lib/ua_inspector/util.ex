@@ -2,6 +2,15 @@ defmodule UAInspector.Util do
   @moduledoc false
 
   @doc """
+  Generate a regex to be used for engine version detection.
+  """
+  @spec build_engine_regex(name :: String.t()) :: Regex.t()
+  def build_engine_regex(name) do
+    # sigil_S used to ensure escaping is kept as-is
+    Regex.compile!(name <> ~S"\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))", [:caseless])
+  end
+
+  @doc """
   Upgrades a database regex into a detection regex.
 
   This prevents matching a string with other characters

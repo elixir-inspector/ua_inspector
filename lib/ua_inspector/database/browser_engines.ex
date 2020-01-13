@@ -27,8 +27,7 @@ defmodule UAInspector.Database.BrowserEngines do
     Enum.map(entries, fn data ->
       data = Enum.into(data, %{})
 
-      {Util.build_regex(data["regex"]),
-       {data["name"], ~r/#{data["name"]}\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))/i}}
+      {Util.build_regex(data["regex"]), {data["name"], Util.build_engine_regex(data["name"])}}
     end)
   end
 
