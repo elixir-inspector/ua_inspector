@@ -167,8 +167,6 @@ defmodule UAInspector.Config do
   any optionally configured extra arguments after that.
   """
 
-  require Logger
-
   @remote_base "https://raw.githubusercontent.com/matomo-org/device-detector/"
   @remote_release "master"
   @remote_paths [
