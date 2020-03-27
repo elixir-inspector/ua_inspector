@@ -7,6 +7,9 @@
     - If detectable the "browser family" of a client is now available as `:browser_family` in the result struct
     - If detectable the "operating system family" of a client is now available as `:os_family` in the result struct
 
+- Bug fixes
+    - The mix download task should no longer start unnecessary applications ([#19](https://github.com/elixir-inspector/ua_inspector/issues/19))
+
 - Backwards incompatible changes
     - Minimum required elixir version is now `~> 1.7`
     - Several deprecated functions have been removed completely:
