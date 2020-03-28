@@ -13,7 +13,7 @@ defmodule UAInspector.Util.YAMLTest do
 
   defmodule NoopYAML do
     def call_mf(_file), do: [:ok_mf]
-    def call_mfa(_file, [:arg]), do: [:ok_mfa]
+    def call_mfargs(_file, [:arg]), do: [:ok_mfargs]
   end
 
   test "yaml file reader: {mod, fun}" do
@@ -23,8 +23,8 @@ defmodule UAInspector.Util.YAMLTest do
   end
 
   test "yaml file reader: {mod, fun, extra_args}" do
-    Application.put_env(:ua_inspector, :yaml_file_reader, {NoopYAML, :call_mfa, [[:arg]]})
+    Application.put_env(:ua_inspector, :yaml_file_reader, {NoopYAML, :call_mfargs, [[:arg]]})
 
-    assert {:ok, :ok_mfa} = YAML.read_file(__ENV__.file)
+    assert {:ok, :ok_mfargs} = YAML.read_file(__ENV__.file)
   end
 end

@@ -57,14 +57,14 @@ defmodule UAInspector.Config do
 
       # {mod, fun, args}
       config :ua_inspector,
-        init: {MyInitModule, :my_init_mfa, [:foo, :bar]}
+        init: {MyInitModule, :my_init_mfargs, [:foo, :bar]}
 
       defmodule MyInitModule do
         @spec my_init_mf() :: :ok
-        def my_init_mf(), do: my_init_mfa(:foo, :bar)
+        def my_init_mf(), do: my_init_mfargs(:foo, :bar)
 
-        @spec my_init_mfa(atom, atom) :: :ok
-        def my_init_mfa(:foo, :bar) do
+        @spec my_init_mfargs(atom, atom) :: :ok
+        def my_init_mfargs(:foo, :bar) do
           priv_dir = Application.app_dir(:my_app, "priv")
 
           Application.put_env(:ua_inspector, :database_path, priv_dir)
@@ -269,7 +269,7 @@ defmodule UAInspector.Config do
   @spec yaml_file_reader :: {module, atom, [term]}
   def yaml_file_reader do
     case get(:yaml_file_reader) do
-      {_, _, _} = mfa -> mfa
+      {_, _, _} = mfargs -> mfargs
       {mod, fun} -> {mod, fun, []}
       _ -> @default_yaml_reader
     end
