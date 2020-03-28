@@ -51,5 +51,7 @@ defmodule UAInspector.ConfigTest do
     assert :bar == Config.get([:test_deep, :deep, :foo])
 
     assert :moep == Config.get([:unknown, :deep], :moep)
+  after
+    Application.delete_env(:ua_inspector, :test_deep)
   end
 end
