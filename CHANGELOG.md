@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.0.0-dev
+## v2.0.0 (2020-05-29)
 
 - Enhancements
     - Detection will now make use of "browser families" to match upstream improvements for Chrome based devices
