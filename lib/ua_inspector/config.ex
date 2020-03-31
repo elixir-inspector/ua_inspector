@@ -93,8 +93,6 @@ defmodule UAInspector.Config do
       config :ua_inspector,
         startup_silent: true
 
-  This will automatically be set when calling the mix download task.
-
   ## Database Configuration
 
   Configuring the database to use can be done using two related values:
