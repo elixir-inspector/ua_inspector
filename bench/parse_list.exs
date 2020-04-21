@@ -5,7 +5,7 @@ defmodule UAInspector.Benchmark.ParseList do
     "1" => Enum.take_random(@sample_data, 1),
     "10" => Enum.take_random(@sample_data, 10),
     "100" => Enum.take_random(@sample_data, 100),
-    "1_000" => Enum.take_random(@sample_data, 100)
+    "1_000" => Enum.take_random(@sample_data, 1000)
   }
 
   def run do
