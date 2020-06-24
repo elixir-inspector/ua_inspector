@@ -9,6 +9,7 @@ defmodule UAInspector.Parser do
 
   @has_touch Util.build_regex("Touch")
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* Mobile")
+  @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
   @is_opera_tv_store Util.build_regex("Opera TV Store")
 
   @doc """
@@ -165,7 +166,6 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android_chrome(
          %{
-           browser_family: "Chrome",
            client: %{type: "browser"},
            device: %{type: :unknown} = device,
            os: %{name: "Android"},
@@ -173,10 +173,10 @@ defmodule UAInspector.Parser do
          } = result
        ) do
     device_type =
-      if Regex.match?(@is_chrome_smartphone, ua) do
-        "smartphone"
-      else
-        "tablet"
+      cond do
+        Regex.match?(@is_chrome_smartphone, ua) -> "smartphone"
+        Regex.match?(@is_chrome_tablet, ua) -> "tablet"
+        true -> :unknown
       end
 
     %{result | device: %{device | type: device_type}}

@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.1.0-dev
+
+- Enhancements
+    - Upstream improvements to detect mobile apps using Chrome have been integrated
+
 ## v2.0.0 (2020-05-29)
 
 - Enhancements
