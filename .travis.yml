@@ -14,20 +14,20 @@ jobs:
       elixir: 1.9.4
       otp_release: 21.3
     - <<: *test
-      elixir: 1.10.2
-      otp_release: 22.0
+      elixir: 1.10.3
+      otp_release: 22.3
       after_success: mix coveralls.travis
 
     - stage: verify
-      elixir: 1.10.2
-      otp_release: 22.0
+      elixir: 1.10.3
+      otp_release: 22.3
       script: |-
         cd "${TRAVIS_BUILD_DIR}/verify"
         mix ua_inspector.verify
 
     - stage: code quality
-      elixir: 1.10.2
-      otp_release: 22.0
+      elixir: 1.10.3
+      otp_release: 22.3
       script:
         - mix format --check-formatted
         - mix credo --strict
