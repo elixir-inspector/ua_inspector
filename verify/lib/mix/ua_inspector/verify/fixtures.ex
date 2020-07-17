@@ -43,7 +43,8 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "tablet-3.yml",
     "tablet-4.yml",
     "tv.yml",
-    "unknown.yml"
+    "unknown.yml",
+    "wearable.yml"
   ]
 
   def download do
