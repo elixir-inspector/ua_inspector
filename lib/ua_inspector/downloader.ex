@@ -76,9 +76,9 @@ defmodule UAInspector.Downloader do
       :ok = download_file(remote, temp)
 
       :ok =
-        short_code_map.var_name
-        |> ShortCodeMapConverter.extract(short_code_map.var_type, temp)
-        |> ShortCodeMapConverter.write_yaml(short_code_map.var_type, yaml)
+        short_code_map.var_name()
+        |> ShortCodeMapConverter.extract(short_code_map.var_type(), temp)
+        |> ShortCodeMapConverter.write_yaml(short_code_map.var_type(), yaml)
 
       :ok = File.rm!(temp)
     end)
