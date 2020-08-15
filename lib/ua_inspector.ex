@@ -90,6 +90,7 @@ defmodule UAInspector do
     Database.BrowserEngines,
     Database.Clients,
     Database.DevicesHbbTV,
+    Database.DevicesNotebooks,
     Database.DevicesRegular,
     Database.OSs,
     Database.VendorFragments,

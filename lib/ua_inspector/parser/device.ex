@@ -2,6 +2,7 @@ defmodule UAInspector.Parser.Device do
   @moduledoc false
 
   alias UAInspector.Database.DevicesHbbTV
+  alias UAInspector.Database.DevicesNotebooks
   alias UAInspector.Database.DevicesRegular
   alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
@@ -10,15 +11,17 @@ defmodule UAInspector.Parser.Device do
   @behaviour UAInspector.Parser
 
   @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
+  @notebook Util.build_regex("FBMD/")
+
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
   @opera_tablet Util.build_regex("Opera Tablet")
 
   def parse(ua) do
-    if Regex.match?(@hbbtv, ua) do
-      parse_hbbtv(ua)
-    else
-      parse_regular(ua)
+    cond do
+      Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
+      Regex.match?(@notebook, ua) -> parse_notebook(ua)
+      true -> parse_regular(ua)
     end
     |> maybe_parse_type(ua)
     |> maybe_parse_vendor(ua)
@@ -65,6 +68,13 @@ defmodule UAInspector.Parser.Device do
   defp parse_hbbtv(ua) do
     case parse(ua, DevicesHbbTV.list()) do
       :unknown -> %Result.Device{type: "tv"}
+      device -> device
+    end
+  end
+
+  defp parse_notebook(ua) do
+    case parse(ua, DevicesNotebooks.list()) do
+      :unknown -> parse_regular(ua)
       device -> device
     end
   end
