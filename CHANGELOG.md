@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.1.0-dev
+## v2.1.0 (2020-08-17)
 
 - Enhancements
     - New "desktop notebook" devices are detected
