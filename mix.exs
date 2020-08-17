@@ -7,7 +7,7 @@ defmodule UAInspector.MixProject do
     [
       app: :ua_inspector,
       name: "UAInspector",
-      version: "2.1.0",
+      version: "2.2.0-dev",
       elixir: "~> 1.7",
       aliases: aliases(),
       deps: deps(),
@@ -71,7 +71,7 @@ defmodule UAInspector.MixProject do
   defp docs do
     [
       main: "UAInspector",
-      source_ref: "v2.1.0",
+      source_ref: "master",
       source_url: @url_github
     ]
   end
