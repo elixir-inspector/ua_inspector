@@ -5,8 +5,18 @@ defmodule UAInspector.Util do
   Generate a regex to be used for engine version detection.
   """
   @spec build_engine_regex(name :: String.t()) :: Regex.t()
-  def build_engine_regex(name) do
+  def build_engine_regex("Gecko") do
     # sigil_S used to ensure escaping is kept as-is
+    # Concatenated expression:
+    # - [ ](?:rv[: ]([0-9\.]+)).*Gecko\/[0-9]{8,10}
+    # - Regular expression of `build_engine_regex("Gecko")`
+    Regex.compile!(
+      ~S"(?:[ ](?:rv[: ]([0-9\.]+)).*Gecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
+      [:caseless]
+    )
+  end
+
+  def build_engine_regex(name) do
     Regex.compile!(name <> ~S"\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))", [:caseless])
   end
 

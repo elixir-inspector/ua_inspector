@@ -23,7 +23,14 @@ defmodule UAInspector.Parser.ClientTest do
       "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.12) Gecko/20130823 Firefox/10.0.11esrpre Iceape/2.7.12"
 
     parsed = UAInspector.parse(agent)
-    result = %Result.Client{engine: "Gecko", name: "Iceape", type: "browser", version: "2.7.12"}
+
+    result = %Result.Client{
+      engine: "Gecko",
+      engine_version: "10.0.12",
+      name: "Iceape",
+      type: "browser",
+      version: "2.7.12"
+    }
 
     assert parsed.client == result
   end

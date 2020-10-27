@@ -2,6 +2,9 @@
 
 ## v2.2.0-dev
 
+- Enhancements
+    - Upstream improvements to detect engine versions of "Gecko" type browsers have been integrated
+
 - Bug fixes
     - Default download database version has been pinned to "release 3.13.1" after major changes in the upstream sources
 

@@ -22,6 +22,7 @@ defmodule UAInspector.Parser.Client do
   defp find_engine_version(ua, regex) do
     case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> :unknown
+      ["", version | _] -> version
       [version | _] -> version
     end
   end
