@@ -18,7 +18,7 @@ defmodule UAInspector.Database.DevicesRegular do
   @impl UAInspector.Database
   def sources do
     # files ordered according to
-    # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php
+    # https://github.com/matomo-org/device-detector/blob/3.13.1/DeviceDetector.php
     # to prevent false detections
     [
       {"", "device.consoles.yml", Config.database_url(:device, "consoles.yml")},

@@ -27,7 +27,7 @@ defmodule UAInspector.ConfigTest do
   test "default database release configuration" do
     assert :bot
            |> Config.database_url("bot.yml")
-           |> String.contains?("/device-detector/master")
+           |> String.contains?("/device-detector/3.13.1")
 
     Application.put_env(:ua_inspector, :remote_release, "v1.0.0")
 

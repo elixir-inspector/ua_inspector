@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2.0-dev
+
+- Bug fixes
+    - Default download database version has been pinned to "release 3.13.1" after major changes in the upstream sources
+
 ## v2.1.0 (2020-08-17)
 
 - Enhancements
