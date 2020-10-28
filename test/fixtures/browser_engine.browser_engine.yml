@@ -3,3 +3,6 @@
 
 - regex: '(?:Apple)?WebKit'
   name: 'WebKit'
+
+- regex: '(?<!like )Gecko'
+  name: 'Gecko'

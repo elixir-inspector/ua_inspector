@@ -33,3 +33,15 @@
 
 - regex: '(?:Espial|Escape)(?:[/ ](\d+[\.\d]+))?'
   name: 'Espial TV Browser'
+
+- regex: 'Fennec(?:/(\d+[\.\d]+))?'
+  name: 'Fennec'
+  version: '$1'
+  engine:
+    default: 'Gecko'
+
+- regex: '(?!.*Opera[ /])Firefox(?:/(\d+[\.\d]+))?'
+  name: 'Firefox'
+  version: '$1'
+  engine:
+    default: 'Gecko'
