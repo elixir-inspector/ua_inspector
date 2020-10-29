@@ -2,11 +2,14 @@
 
 ## v2.2.0-dev
 
+Default download database version has been pinned to "release 3.13.1" after major changes in the upstream sources ([matomo-org/device-detector](https://github.com/matomo-org/device-detector) moving towards a new major release).
+
+There will be a new major version of `ua_inspector` with a rebuilt database support for `matomo-org/device-detector@v4.x` and/or a separate database built upon these sources to simplify future upgrades.
+
 - Enhancements
     - Upstream improvements to detect engine versions of "Gecko" type browsers have been integrated
 
 - Bug fixes
-    - Default download database version has been pinned to "release 3.13.1" after major changes in the upstream sources
     - Brand names are now always returned as strings (as expected), even if parsed as numbers from the YAML database
 
 ## v2.1.0 (2020-08-17)
