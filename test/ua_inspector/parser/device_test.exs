@@ -181,7 +181,9 @@ defmodule UAInspector.Parser.DeviceTest do
   end
 
   test "#20" do
-    agent = "Mozilla/5.0 (Windows NT 10.0.16299.125; osmeta 10.3.3308) AppleWebKit/602.1.1 (KHTML, like Gecko) Version/9.0 Safari/602.1.1 osmeta/10.3.3308 Build/3308 [FBAN/FBW;FBAV/140.0.0.232.179;FBBV/83145113;FBDV/WindowsDevice;FBMD/TH360R12.32CTW;FBSN/Windows;FBSV/10.0.16299.192;FBSS/1;FBCR/;FBID/desktop;FBLC/fr_FR;FBOP/45;FBRV/0]"
+    agent =
+      "Mozilla/5.0 (Windows NT 10.0.16299.125; osmeta 10.3.3308) AppleWebKit/602.1.1 (KHTML, like Gecko) Version/9.0 Safari/602.1.1 osmeta/10.3.3308 Build/3308 [FBAN/FBW;FBAV/140.0.0.232.179;FBBV/83145113;FBDV/WindowsDevice;FBMD/TH360R12.32CTW;FBSN/Windows;FBSV/10.0.16299.192;FBSS/1;FBCR/;FBID/desktop;FBLC/fr_FR;FBOP/45;FBRV/0]"
+
     parsed = UAInspector.parse(agent)
 
     assert parsed.device.type == "desktop"
