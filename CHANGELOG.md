@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.2.0-dev
+## v2.2.0 (2020-10-29)
 
 Default download database version has been pinned to "release 3.13.1" after major changes in the upstream sources ([matomo-org/device-detector](https://github.com/matomo-org/device-detector) moving towards a new major release).
 
