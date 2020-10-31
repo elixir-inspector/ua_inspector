@@ -5,8 +5,8 @@ defmodule UAInspector.Config do
   There should be no configuration required to start using `:ua_inspector` if
   you rely on the default values:
 
-      remote_database = "https://raw.githubusercontent.com/matomo-org/device-detector/3.13.1/regexes"
-      remote_shortcode = "https://raw.githubusercontent.com/matomo-org/device-detector/3.13.1"
+      remote_database = "https://raw.githubusercontent.com/matomo-org/device-detector/master/regexes"
+      remote_shortcode = "https://raw.githubusercontent.com/matomo-org/device-detector/master"
 
       config :ua_inspector,
         database_path: Application.app_dir(:ua_inspector, "priv"),
@@ -20,7 +20,7 @@ defmodule UAInspector.Config do
           short_code_map: remote_shortcode,
           vendor_fragment: remote_database
         ],
-        remote_release: "3.13.1",
+        remote_release: "master",
         startup_silent: false,
         startup_sync: true,
         yaml_file_reader: {:yamerl_constr, :file, [[:str_node_as_binary]]}
@@ -123,7 +123,7 @@ defmodule UAInspector.Config do
 
   ### Default Database Release Version
 
-  If you are using the default database the newest version from the `"3.13.1"`
+  If you are using the default database the newest version from the `"master"`
   branch will be used. You can also configure a different release to be used:
 
       config :ua_inspector,
@@ -166,7 +166,7 @@ defmodule UAInspector.Config do
   """
 
   @remote_base "https://raw.githubusercontent.com/matomo-org/device-detector/"
-  @remote_release "3.13.1"
+  @remote_release "master"
   @remote_paths [
     bot: "/regexes",
     browser_engine: "/regexes/client",
