@@ -11,7 +11,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     re_opts = [:dotall, {:newline, :anycrlf}, :multiline, :ungreedy]
     source = File.read!(file)
 
-    "\\$#{var} = array\\((?<map>.*)\\);"
+    "\\$#{var} = (?:array\\(|\\[)(?<map>.*)(?:\\)|\\]);"
     |> Regex.compile!(re_opts)
     |> Regex.named_captures(source)
     |> Map.get("map", "")
@@ -65,6 +65,8 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   defp mapping_to_entry([_, item]), do: item
   defp mapping_to_entry([_, short, long]), do: {short, long}
 
+  defp mapping_to_entry_list(nil), do: nil
+
   defp mapping_to_entry_list({entry, elements}) do
     {
       entry,
@@ -83,8 +85,8 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   end
 
   defp parse_mapping(mapping, :hash_with_list) do
-    "'(.+)' +=> array\\((.+)\\)"
-    |> Regex.compile!()
+    "'(.+)' +=> (?:array\\(|\\[)(.+)(?:\\)|\\]|$)"
+    |> Regex.compile!([:dotall, :ungreedy])
     |> Regex.run(mapping)
     |> mapping_to_entry()
     |> mapping_to_entry_list()
@@ -107,8 +109,9 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   defp parse_source(source, :hash_with_list) do
     source
     |> String.trim()
-    |> String.split("\n")
+    |> String.split(~r/[)\]],/)
     |> Enum.map(&parse_mapping(&1, :hash_with_list))
+    |> Enum.reject(&is_nil/1)
   end
 
   defp parse_source(source, :list) do
@@ -116,5 +119,6 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     |> String.trim()
     |> String.split(",")
     |> Enum.map(&parse_mapping(&1, :list))
+    |> Enum.reject(&is_nil/1)
   end
 end
