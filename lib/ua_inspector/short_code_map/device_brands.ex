@@ -18,7 +18,7 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
   @impl UAInspector.ShortCodeMap
   def source do
     {"short_codes.device_brands.yml",
-     Config.database_url(:short_code_map, "Parser/Device/DeviceParserAbstract.php")}
+     Config.database_url(:short_code_map, "Parser/Device/AbstractDeviceParser.php")}
   end
 
   @impl UAInspector.ShortCodeMap
