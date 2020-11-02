@@ -3,8 +3,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   Cleans up testcases.
   """
 
-  alias UAInspector.ShortCodeMap.DeviceBrands
-
   @empty_to_quotes [
     [:bot, :category],
     [:bot, :producer, :name],
@@ -51,7 +49,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> cleanup_client_engine_version()
     |> cleanup_os_entry()
     |> remove_unknown_device()
-    |> unshorten_device_brand()
   end
 
   defp convert_empty(testcase, [], _), do: testcase
@@ -140,10 +137,4 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   end
 
   defp remove_unknown_device(result), do: result
-
-  def unshorten_device_brand(%{device: %{brand: brand}} = testcase) do
-    put_in(testcase, [:device, :brand], DeviceBrands.to_long(brand))
-  end
-
-  def unshorten_device_brand(testcase), do: testcase
 end
