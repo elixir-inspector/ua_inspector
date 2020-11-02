@@ -28,12 +28,6 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   def var_type, do: :hash
 
   @doc """
-  Returns the long representation for a client browser short code.
-  """
-  @spec to_long(String.t()) :: String.t()
-  def to_long(short), do: ShortCodeMapUtil.to_long(list(), short)
-
-  @doc """
   Returns the short code for a client browser.
   """
   @spec to_short(String.t()) :: String.t()

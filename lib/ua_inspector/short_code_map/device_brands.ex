@@ -6,7 +6,6 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
   require Logger
 
   alias UAInspector.Config
-  alias UAInspector.Util.ShortCodeMap, as: ShortCodeMapUtil
   alias UAInspector.Util.YAML
 
   @behaviour UAInspector.ShortCodeMap
@@ -26,18 +25,6 @@ defmodule UAInspector.ShortCodeMap.DeviceBrands do
 
   @impl UAInspector.ShortCodeMap
   def var_type, do: :hash
-
-  @doc """
-  Returns the long representation for a device brand short code.
-  """
-  @spec to_long(String.t()) :: String.t()
-  def to_long(short), do: ShortCodeMapUtil.to_long(list(), short)
-
-  @doc """
-  Returns the short code for a device brand.
-  """
-  @spec to_short(String.t()) :: String.t()
-  def to_short(long), do: ShortCodeMapUtil.to_short(list(), long)
 
   defp read_database do
     {local, _} = source()

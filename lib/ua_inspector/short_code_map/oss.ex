@@ -27,12 +27,6 @@ defmodule UAInspector.ShortCodeMap.OSs do
   def var_type, do: :hash
 
   @doc """
-  Returns the long representation for a operating system short code.
-  """
-  @spec to_long(String.t()) :: String.t()
-  def to_long(short), do: ShortCodeMapUtil.to_long(list(), short)
-
-  @doc """
   Returns the short code for a operating system.
   """
   @spec to_short(String.t()) :: String.t()
