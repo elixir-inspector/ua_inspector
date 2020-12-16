@@ -8,7 +8,7 @@ defmodule UAInspector.Parser do
   alias UAInspector.Util
 
   @has_touch Util.build_regex("Touch")
-  @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* Mobile")
+  @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
   @is_opera_tv_store Util.build_regex("Opera TV Store")
 
