@@ -64,7 +64,9 @@ defmodule UAInspector.MixProject do
         :underspecs,
         :unmatched_returns
       ],
-      plt_add_apps: [:mix]
+      plt_add_apps: [:mix],
+      plt_core_path: "plts",
+      plt_file: {:no_warn, "plts/dialyzer.plt"}
     ]
   end
 

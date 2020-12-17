@@ -2,6 +2,7 @@ _build/
 data/
 deps/
 doc/
+plts/
 test/downloads/
 verify/databases/
 verify/fixtures/
