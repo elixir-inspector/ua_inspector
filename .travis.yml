@@ -26,10 +26,3 @@ jobs:
       elixir: 1.11.2
       otp_release: 23.0
       after_success: mix coveralls.travis
-
-    - stage: verify
-      elixir: 1.11.2
-      otp_release: 23.0
-      script: |-
-        cd "${TRAVIS_BUILD_DIR}/verify"
-        mix ua_inspector.verify
