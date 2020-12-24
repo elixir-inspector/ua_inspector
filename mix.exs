@@ -21,8 +21,7 @@ defmodule UAInspector.MixProject do
         "bench.parse_device": :bench,
         "bench.parse_os": :bench,
         coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.travis": :test
+        "coveralls.detail": :test
       ],
       test_coverage: [tool: ExCoveralls]
     ]
