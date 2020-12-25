@@ -154,6 +154,10 @@ defmodule UAInspector.Parser do
     %{result | device: %{device | brand: "Apple"}}
   end
 
+  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "watchOS"}} = result) do
+    %{result | device: %{device | brand: "Apple"}}
+  end
+
   defp maybe_fix_ios(result), do: result
 
   defp smartphone_android?(version) do
