@@ -9,6 +9,8 @@ defmodule UAInspector.Parser.OS do
 
   @platforms [
     {"ARM", Util.build_regex("arm|aarch64|Watch ?OS|Watch1,[12]")},
+    {"SuperH", Util.build_regex("sh4")},
+    {"MIPS", Util.build_regex("mips")},
     {"x64", Util.build_regex("WOW64|x64|win64|amd64|x86_64")},
     {"x86", Util.build_regex("i[0-9]86|i86pc")}
   ]
