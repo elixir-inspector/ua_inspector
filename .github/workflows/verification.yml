@@ -1,6 +1,10 @@
 name: Verification
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '45 15 * * *'
 
 jobs:
   check:
