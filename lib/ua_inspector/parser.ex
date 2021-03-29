@@ -10,6 +10,7 @@ defmodule UAInspector.Parser do
   @has_touch Util.build_regex("Touch")
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
+  @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store")
 
   @doc """
@@ -68,6 +69,7 @@ defmodule UAInspector.Parser do
     |> maybe_fix_android()
     |> maybe_fix_android_chrome()
     |> maybe_fix_opera_tv_store()
+    |> maybe_fix_misc_tv()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
     |> maybe_unknown_device()
@@ -187,6 +189,17 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_android_chrome(result), do: result
+
+  # assume "SmartTV" and "Tizen TV" to be a tv
+  defp maybe_fix_misc_tv(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
+    if Regex.match?(@is_misc_tv, ua) do
+      %{result | device: %{device | type: "tv"}}
+    else
+      result
+    end
+  end
+
+  defp maybe_fix_misc_tv(result), do: result
 
   # assume "Opera TV Store" to be a tv
   defp maybe_fix_opera_tv_store(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
