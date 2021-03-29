@@ -82,9 +82,6 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
   defp parse(case_data), do: case_data
 
-  defp unravel_list([[_] = cases]), do: cases
-  defp unravel_list([cases]), do: cases
-
   defp verify(_, []), do: :ok
 
   defp verify(fixture, [testcase | testcases]) do
@@ -134,10 +131,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     testfile = Verify.Fixtures.download_path(fixture)
 
     if File.exists?(testfile) do
-      testcases =
-        testfile
-        |> :yamerl_constr.file([:str_node_as_binary])
-        |> unravel_list()
+      [testcases] = :yamerl_constr.file(testfile, [:str_node_as_binary])
 
       Mix.shell().info(".. verifying: #{fixture} (#{length(testcases)} tests)")
       verify(fixture, testcases)
