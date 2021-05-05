@@ -12,6 +12,7 @@ defmodule UAInspector.Parser do
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store")
+  @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
 
   @doc """
   Parses information from a user agent.
@@ -65,6 +66,7 @@ defmodule UAInspector.Parser do
     |> detect_browser_family()
     |> detect_os_family()
     |> maybe_detect_tv()
+    |> maybe_fix_desktop()
     |> maybe_fix_ios()
     |> maybe_fix_android()
     |> maybe_fix_android_chrome()
@@ -143,6 +145,16 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_android(result), do: result
+
+  defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
+
+  defp maybe_fix_desktop(%{device: device, user_agent: ua} = result) do
+    if Regex.match?(@is_desktop, ua) do
+      %{result | device: %{device | type: "desktop"}}
+    else
+      result
+    end
+  end
 
   defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "Apple TV"}} = result) do
     %{result | device: %{device | brand: "Apple"}}
