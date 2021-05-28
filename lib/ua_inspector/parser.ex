@@ -21,6 +21,7 @@ defmodule UAInspector.Parser do
 
       iex> parse("--- undetectable ---")
       :unknown
+
   """
   @callback parse(ua :: String.t()) :: atom | binary | map
 
