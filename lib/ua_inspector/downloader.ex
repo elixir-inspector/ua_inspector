@@ -25,6 +25,7 @@ defmodule UAInspector.Downloader do
     Database.DevicesHbbTV,
     Database.DevicesNotebooks,
     Database.DevicesRegular,
+    Database.DevicesShellTV,
     Database.OSs,
     Database.VendorFragments
   ]

@@ -19,7 +19,10 @@ defmodule UAInspector.ParserTest do
     refute UAInspector.bot?("")
 
     refute UAInspector.hbbtv?(nil)
-    refute UAInspector.hbbtv?(nil)
+    refute UAInspector.hbbtv?("")
+
+    refute UAInspector.shelltv?(nil)
+    refute UAInspector.shelltv?("")
 
     assert UAInspector.parse(nil) == %Result{user_agent: nil}
     assert UAInspector.parse("") == %Result{user_agent: ""}
@@ -36,6 +39,11 @@ defmodule UAInspector.ParserTest do
   test "hbbtv?" do
     assert "1.1.1" == UAInspector.hbbtv?("agent containing HbbTV/1.1.1 (; ;) information")
     refute UAInspector.hbbtv?("generic user agent")
+  end
+
+  test "shelltv?" do
+    assert UAInspector.shelltv?("agent containing Shell information")
+    refute UAInspector.shelltv?("generic user agent")
   end
 
   test "parse" do

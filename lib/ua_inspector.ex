@@ -92,6 +92,7 @@ defmodule UAInspector do
     Database.DevicesHbbTV,
     Database.DevicesNotebooks,
     Database.DevicesRegular,
+    Database.DevicesShellTV,
     Database.OSs,
     Database.VendorFragments,
     ShortCodeMap.BrowserFamilies,
@@ -118,6 +119,14 @@ defmodule UAInspector do
   def hbbtv?(nil), do: false
   def hbbtv?(""), do: false
   def hbbtv?(ua), do: Parser.hbbtv?(ua)
+
+  @doc """
+  Checks if a user agent is a ShellTV.
+  """
+  @spec shelltv?(String.t() | nil) :: boolean
+  def shelltv?(nil), do: false
+  def shelltv?(""), do: false
+  def shelltv?(ua), do: Parser.shelltv?(ua)
 
   @doc """
   Parses a user agent.

@@ -188,4 +188,13 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert parsed.device.type == "desktop"
   end
+
+  test "#21" do
+    agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Mystery Shell 536D420CF12_FHD Build/KTU84P)"
+
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{brand: "Mystery", type: "tv"}
+
+    assert parsed.device == result
+  end
 end

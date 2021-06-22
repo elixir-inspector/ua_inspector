@@ -4,6 +4,7 @@ defmodule UAInspector.Parser.Device do
   alias UAInspector.Database.DevicesHbbTV
   alias UAInspector.Database.DevicesNotebooks
   alias UAInspector.Database.DevicesRegular
+  alias UAInspector.Database.DevicesShellTV
   alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
   alias UAInspector.Util
@@ -12,6 +13,7 @@ defmodule UAInspector.Parser.Device do
 
   @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.build_regex("FBMD/")
+  @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}")
 
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
@@ -20,6 +22,7 @@ defmodule UAInspector.Parser.Device do
   def parse(ua) do
     cond do
       Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
+      Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
       Regex.match?(@notebook, ua) -> parse_notebook(ua)
       true -> parse_regular(ua)
     end
@@ -37,6 +40,12 @@ defmodule UAInspector.Parser.Device do
       [version | _] -> version
     end
   end
+
+  @doc """
+  Checks if a devices contains a ShellTV part.
+  """
+  @spec shelltv?(String.t()) :: boolean
+  def shelltv?(ua), do: Regex.match?(@shelltv, ua)
 
   defp maybe_parse_type(%{type: :unknown} = device, ua) do
     cond do
@@ -67,6 +76,13 @@ defmodule UAInspector.Parser.Device do
 
   defp parse_hbbtv(ua) do
     case parse(ua, DevicesHbbTV.list()) do
+      :unknown -> %Result.Device{type: "tv"}
+      device -> device
+    end
+  end
+
+  defp parse_shelltv(ua) do
+    case parse(ua, DevicesShellTV.list()) do
       :unknown -> %Result.Device{type: "tv"}
       device -> device
     end

@@ -19,6 +19,7 @@ defmodule UAInspector.Database.Supervisor do
       Database.DevicesHbbTV,
       Database.DevicesNotebooks,
       Database.DevicesRegular,
+      Database.DevicesShellTV,
       Database.OSs,
       Database.VendorFragments
     ]

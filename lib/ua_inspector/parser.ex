@@ -42,6 +42,12 @@ defmodule UAInspector.Parser do
   end
 
   @doc """
+  Checks if a user agent is a ShellTV.
+  """
+  @spec shelltv?(String.t()) :: boolean
+  def shelltv?(ua), do: Parser.Device.shelltv?(ua)
+
+  @doc """
   Parses a given user agent string.
   """
   @spec parse(String.t()) :: Result.t() | Bot.t()

@@ -80,6 +80,16 @@ defmodule UAInspector.Database.InitTest do
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
+  test "log info when load fails (shelltv devices)" do
+    log =
+      capture_log(fn ->
+        Database.DevicesShellTV.init(:ignored)
+        :timer.sleep(100)
+      end)
+
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
+  end
+
   test "log info when load fails (vendor fragments)" do
     log =
       capture_log(fn ->
