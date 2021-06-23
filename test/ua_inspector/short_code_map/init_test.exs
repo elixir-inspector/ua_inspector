@@ -30,16 +30,6 @@ defmodule UAInspector.ShortCodeMap.InitTest do
     assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
   end
 
-  test "log info when load fails (device brands)" do
-    log =
-      capture_log(fn ->
-        ShortCodeMap.DeviceBrands.init(:ignored)
-        :timer.sleep(100)
-      end)
-
-    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
-  end
-
   test "log info when load fails (mobile browsers)" do
     log =
       capture_log(fn ->

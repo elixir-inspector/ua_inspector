@@ -16,7 +16,6 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
       ShortCodeMap.BrowserFamilies,
       ShortCodeMap.ClientBrowsers,
       ShortCodeMap.DesktopFamilies,
-      ShortCodeMap.DeviceBrands,
       ShortCodeMap.MobileBrowsers,
       ShortCodeMap.OSFamilies,
       ShortCodeMap.OSs
