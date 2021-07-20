@@ -71,12 +71,12 @@ defmodule UAInspector.Parser do
     }
     |> detect_browser_family()
     |> detect_os_family()
+    |> maybe_detect_opera_tv_store()
     |> maybe_detect_tv()
     |> maybe_fix_desktop()
     |> maybe_fix_ios()
     |> maybe_fix_android()
     |> maybe_fix_android_chrome()
-    |> maybe_fix_opera_tv_store()
     |> maybe_fix_misc_tv()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
@@ -112,6 +112,17 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_detect_desktop(result), do: result
+
+  # assume "Opera TV Store" to be a tv
+  defp maybe_detect_opera_tv_store(%{device: device, user_agent: ua} = result) do
+    if Regex.match?(@is_opera_tv_store, ua) do
+      %{result | device: %{device | type: "tv"}}
+    else
+      result
+    end
+  end
+
+  defp maybe_detect_opera_tv_store(result), do: result
 
   # assume some browsers to be a tv
   defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result) do
@@ -218,17 +229,6 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_misc_tv(result), do: result
-
-  # assume "Opera TV Store" to be a tv
-  defp maybe_fix_opera_tv_store(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
-    if Regex.match?(@is_opera_tv_store, ua) do
-      %{result | device: %{device | type: "tv"}}
-    else
-      result
-    end
-  end
-
-  defp maybe_fix_opera_tv_store(result), do: result
 
   # assume windows 8 with touch capability is a tablet
   defp maybe_fix_windows(
