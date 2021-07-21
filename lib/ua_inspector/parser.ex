@@ -122,8 +122,6 @@ defmodule UAInspector.Parser do
     end
   end
 
-  defp maybe_detect_opera_tv_store(result), do: result
-
   # assume some browsers to be a tv
   defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result) do
     %{result | device: %{device | type: "tv"}}
