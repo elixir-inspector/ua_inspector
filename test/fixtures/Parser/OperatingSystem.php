@@ -13,4 +13,6 @@ class OperatingSystem
         'Chrome OS'  => array('COS'),
         'Firefox OS' => array('FOS', 'KOS')
     );
+
+    protected static $desktopOsArray = array('Windows');
 }

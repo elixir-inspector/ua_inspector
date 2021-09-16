@@ -17,7 +17,7 @@ defmodule UAInspector.ShortCodeMap.DesktopFamilies do
   @impl UAInspector.ShortCodeMap
   def source do
     {"short_codes.desktop_families.yml",
-     Config.database_url(:short_code_map, "DeviceDetector.php")}
+     Config.database_url(:short_code_map, "Parser/OperatingSystem.php")}
   end
 
   @impl UAInspector.ShortCodeMap
