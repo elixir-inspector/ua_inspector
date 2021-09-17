@@ -171,7 +171,7 @@ defmodule UAInspector.Parser do
     end
   end
 
-  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "Apple TV"}} = result) do
+  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "tvOS"}} = result) do
     %{result | device: %{device | brand: "Apple"}}
   end
 
