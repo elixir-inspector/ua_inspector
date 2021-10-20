@@ -80,6 +80,7 @@ defmodule UAInspector.Parser do
     |> maybe_fix_misc_tv()
     |> maybe_fix_windows()
     |> maybe_detect_desktop()
+    |> maybe_detect_feature_phone()
     |> maybe_unknown_device()
   end
 
@@ -121,6 +122,15 @@ defmodule UAInspector.Parser do
       result
     end
   end
+
+  # assume "Java ME" devices to be feature phones
+  defp maybe_detect_feature_phone(
+         %{device: %{type: :unknown} = device, os: %{name: "Java ME"}} = result
+       ) do
+    %{result | device: %{device | type: "feature phone"}}
+  end
+
+  defp maybe_detect_feature_phone(result), do: result
 
   # assume some browsers to be a tv
   defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result) do
