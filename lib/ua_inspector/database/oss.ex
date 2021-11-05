@@ -20,6 +20,17 @@ defmodule UAInspector.Database.OSs do
     [{"", "os.oss.yml", Config.database_url(:os, "oss.yml")}]
   end
 
+  defp oss_versions(versions) do
+    Enum.map(versions, fn data ->
+      data = Enum.into(data, %{})
+
+      {
+        Util.build_regex(data["regex"]),
+        data["version"]
+      }
+    end)
+  end
+
   defp parse_yaml_entries({:ok, entries}, _) do
     Enum.map(entries, fn data ->
       data = Enum.into(data, %{})
@@ -28,7 +39,8 @@ defmodule UAInspector.Database.OSs do
         Util.build_regex(data["regex"]),
         {
           data["name"] || "",
-          to_string(data["version"] || "")
+          to_string(data["version"] || ""),
+          oss_versions(data["versions"] || [])
         }
       }
     end)
