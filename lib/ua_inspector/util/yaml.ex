@@ -12,8 +12,7 @@ defmodule UAInspector.Util.YAML do
       {:ok, _} ->
         {reader_mod, reader_fun, reader_extra_args} = Config.yaml_file_reader()
 
-        reader_mod
-        |> apply(reader_fun, [file | reader_extra_args])
+        apply(reader_mod, reader_fun, [file | reader_extra_args])
         |> maybe_hd()
 
       error ->

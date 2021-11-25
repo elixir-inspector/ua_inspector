@@ -37,10 +37,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     {:ok, _} =
       File.open(file, [:write, :utf8], fn outfile ->
         for {entry, elements} <- map do
-          elementstring =
-            elements
-            |> Enum.map(&"  - \"#{&1}\"")
-            |> Enum.join("\n")
+          elementstring = Enum.map_join(elements, "\n", &"  - \"#{&1}\"")
 
           IO.write(outfile, "- \"#{entry}\":\n")
           IO.write(outfile, "#{elementstring}\n")
