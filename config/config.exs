@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 if Mix.env() == :bench do
   config :ua_inspector,
