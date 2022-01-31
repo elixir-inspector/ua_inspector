@@ -135,8 +135,9 @@ defmodule UAInspector.Config do
   are done using [`:hackney`](https://hex.pm/packages/hackney). To pass custom
   configuration values to hackney you can use the key `:http_opts`:
 
+      # increase download timeout to 10 seconds (default: 5 seconds)
       config :ua_inspector,
-        http_opts: [proxy: "http://mycompanyproxy.com"]
+        http_opts: [recv_timeout: 10_000]
 
   Please look at `:hackney.request/5` for a complete list of available options.
 
