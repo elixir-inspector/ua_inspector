@@ -138,9 +138,7 @@ defmodule UAInspector.Config do
       config :ua_inspector,
         http_opts: [proxy: "http://mycompanyproxy.com"]
 
-  Please see
-  [`:hackney.request/5`](https://hexdocs.pm/hackney/hackney.html#request-5)
-  for a complete list of available options.
+  Please look at `:hackney.request/5` for a complete list of available options.
 
   If you want to change the library used to download the databases you can
   configure a module implementing the `UAInspector.Downloader.Adapter`
