@@ -1,5 +1,12 @@
 # UAInspector
 
+[![Test](https://github.com/elixir-inspector/ua_inspector/actions/workflows/test.yml/badge.svg)](https://github.com/elixir-inspector/ua_inspector/actions/workflows/test.yml)
+[![Module Version](https://img.shields.io/hexpm/v/ua_inspector.svg)](https://hex.pm/packages/ua_inspector)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ua_inspector/)
+[![Total Downloads](https://img.shields.io/hexpm/dt/ua_inspector.svg)](https://hex.pm/packages/ua_inspector)
+[![License](https://img.shields.io/hexpm/l/ua_inspector.svg)](https://github.com/elixir-inspector/ua_inspector/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/elixir-inspector/ua_inspector.svg)](https://github.com/elixir-inspector/ua_inspector/commits/master)
+
 User agent parser library.
 
 ## Package Setup
@@ -80,8 +87,18 @@ Several (minimal) benchmark scripts are included. Please refer to the Mixfile or
 
 - [matomo-org/device-detector](https://github.com/matomo-org/device-detector)
 
-## License
+## Copyright and License
 
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+Copyright (c) 2013 Marc Neudert
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 The parser databases are taken from the [matomo-org/device-detector](https://github.com/matomo-org/device-detector) project. See there for detailed license information about the data contained.

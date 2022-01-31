@@ -1,6 +1,6 @@
 defmodule UAInspector do
   @moduledoc """
-  User agent parser library
+  User agent parser library.
 
   ## Preparation
 

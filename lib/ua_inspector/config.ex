@@ -152,7 +152,7 @@ defmodule UAInspector.Config do
   ## YAML File Reader Configuration
 
   By default the library [`:yamerl`](https://hex.pm/packages/yamerl) will
-  be used to read and decode the yaml database files. You can configure this
+  be used to read and decode the YAML database files. You can configure this
   reader to be a custom module:
 
       config :ua_inspector,
@@ -262,7 +262,7 @@ defmodule UAInspector.Config do
   end
 
   @doc """
-  Returns the `{mod, fun, extra_args}` to be used when reading a yaml file.
+  Returns the `{mod, fun, extra_args}` to be used when reading a YAML file.
   """
   @spec yaml_file_reader :: {module, atom, [term]}
   def yaml_file_reader do

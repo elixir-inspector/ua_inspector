@@ -2,12 +2,13 @@ defmodule UAInspector.MixProject do
   use Mix.Project
 
   @url_github "https://github.com/elixir-inspector/ua_inspector"
+  @version "3.0.0-dev"
 
   def project do
     [
       app: :ua_inspector,
       name: "UAInspector",
-      version: "3.0.0-dev",
+      version: @version,
       elixir: "~> 1.9",
       aliases: aliases(),
       deps: deps(),
@@ -71,17 +72,27 @@ defmodule UAInspector.MixProject do
 
   defp docs do
     [
+      extras: [
+        "CHANGELOG.md",
+        LICENSE: [title: "License"],
+        "README.md": [title: "Overview"]
+      ],
       main: "UAInspector",
-      source_ref: "master",
-      source_url: @url_github
+      source_url: @url_github,
+      source_ref: "v#{@version}",
+      skip_undefined_reference_warnings_on: ["CHANGELOG.md"],
+      formatters: ["html"]
     ]
   end
 
   defp package do
-    %{
+    [
       files: ["CHANGELOG.md", "LICENSE", "mix.exs", "README.md", "lib", "priv"],
-      licenses: ["Apache 2.0"],
-      links: %{"GitHub" => @url_github}
-    }
+      licenses: ["Apache-2.0"],
+      links: %{
+        "Changelog" => "https://hexdocs.pm/ua_inspector/changelog.html",
+        "GitHub" => @url_github
+      }
+    ]
   end
 end
