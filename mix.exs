@@ -77,6 +77,20 @@ defmodule UAInspector.MixProject do
         LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
+      groups_for_modules: [
+        "Database Downloader": [
+          UAInspector.Downloader,
+          UAInspector.Downloader.Adapter,
+        ],
+        "Result Structs": [
+          UAInspector.Result,
+          UAInspector.Result.Bot,
+          UAInspector.Result.BotProducer,
+          UAInspector.Result.Client,
+          UAInspector.Result.Device,
+          UAInspector.Result.OS
+        ]
+      ],
       main: "UAInspector",
       source_url: @url_github,
       source_ref: "v#{@version}",
