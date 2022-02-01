@@ -9,7 +9,7 @@ defmodule UAInspector.Downloader do
 
   ## Mix Task
 
-  Please see `Mix Tasks.UaInspector.Download` if you are interested in
+  Please see `Mix.Tasks.UaInspector.Download` if you are interested in
   using a mix task to obtain your database files.
   """
 
