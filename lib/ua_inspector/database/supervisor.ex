@@ -10,7 +10,7 @@ defmodule UAInspector.Database.Supervisor do
     Supervisor.start_link(__MODULE__, default)
   end
 
-  @doc false
+  @impl Supervisor
   def init(_state) do
     children = [
       Database.Bots,

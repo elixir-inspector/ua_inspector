@@ -37,7 +37,7 @@ defmodule UAInspector.Supervisor do
     Supervisor.start_link(__MODULE__, default, name: __MODULE__)
   end
 
-  @doc false
+  @impl Supervisor
   def init(_state) do
     :ok = Config.init_env()
 
