@@ -3,13 +3,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   Cleans up testcases.
   """
 
-  @empty_to_quotes [
-    [:bot, :category],
-    [:bot, :producer, :name],
-    [:bot, :producer, :url],
-    [:bot, :url]
-  ]
-
   @empty_to_unknown [
     [:client],
     [:client, :engine],
@@ -19,14 +12,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     [:device, :model],
     [:device, :type],
     [:os, :platform],
-    [:os, :version]
-  ]
-
-  @number_to_string [
-    [:client, :engine_version],
-    [:client, :version],
-    [:device, :brand],
-    [:device, :model],
     [:os, :version]
   ]
 
@@ -41,9 +26,7 @@ defmodule Mix.UAInspector.Verify.Cleanup do
   @spec cleanup(testcase :: map) :: map
   def cleanup(testcase) do
     testcase
-    |> convert_empty(@empty_to_quotes, "")
     |> convert_empty(@empty_to_unknown, :unknown)
-    |> convert_numbers(@number_to_string)
     |> convert_unknown(@unknown_to_atom)
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()
@@ -64,20 +47,6 @@ defmodule Mix.UAInspector.Verify.Cleanup do
     |> convert_empty(paths, replacement)
   rescue
     FunctionClauseError -> convert_empty(testcase, paths, replacement)
-  end
-
-  defp convert_numbers(testcase, []), do: testcase
-
-  defp convert_numbers(testcase, [path | paths]) do
-    testcase
-    |> get_in(path)
-    |> case do
-      v when is_number(v) -> put_in(testcase, path, to_string(v))
-      _ -> testcase
-    end
-    |> convert_numbers(paths)
-  rescue
-    FunctionClauseError -> convert_numbers(testcase, paths)
   end
 
   defp convert_unknown(testcase, []), do: testcase
