@@ -80,7 +80,7 @@ defmodule UAInspector.MixProject do
       groups_for_modules: [
         "Database Downloader": [
           UAInspector.Downloader,
-          UAInspector.Downloader.Adapter,
+          UAInspector.Downloader.Adapter
         ],
         "Result Structs": [
           UAInspector.Result,
