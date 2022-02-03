@@ -8,23 +8,19 @@ defmodule UAInspector.ShortCodeMap.InitTest do
   @pathname "something_that_does_not_exist"
 
   setup do
-    app_path = Application.get_env(:ua_inspector, :database_path)
-    startup = Application.get_env(:ua_inspector, :startup_sync)
+    database_path = Application.get_env(:ua_inspector, :database_path)
 
     Application.put_env(:ua_inspector, :database_path, @pathname)
-    Application.put_env(:ua_inspector, :startup_sync, false)
 
     on_exit(fn ->
-      Application.put_env(:ua_inspector, :database_path, app_path)
-      Application.put_env(:ua_inspector, :startup_sync, startup)
+      Application.put_env(:ua_inspector, :database_path, database_path)
     end)
   end
 
   test "log info when load fails (client browsers)" do
     log =
       capture_log(fn ->
-        ShortCodeMap.ClientBrowsers.init(:ignored)
-        :timer.sleep(100)
+        GenServer.call(ShortCodeMap.ClientBrowsers, :reload)
       end)
 
     assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
@@ -33,8 +29,7 @@ defmodule UAInspector.ShortCodeMap.InitTest do
   test "log info when load fails (mobile browsers)" do
     log =
       capture_log(fn ->
-        ShortCodeMap.MobileBrowsers.init(:ignored)
-        :timer.sleep(100)
+        GenServer.call(ShortCodeMap.MobileBrowsers, :reload)
       end)
 
     assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
