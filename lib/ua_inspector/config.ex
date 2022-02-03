@@ -77,8 +77,9 @@ defmodule UAInspector.Config do
 
   ## Startup Behaviour
 
-  You can change this behaviour to have the application force an asynchronous
-  database loading during the initial startup:
+  By default the database files will be read during application startup.
+
+  You can change this behaviour by configuring an immediate asynchronous reload:
 
       config :ua_inspector,
         startup_sync: false
@@ -88,9 +89,10 @@ defmodule UAInspector.Config do
 
   ### Starting Silently
 
-  When starting the application you will receive warnings if the database is
-  not available. If you want to hide these messages you can configure the
-  startup the be completely silent:
+  When starting the application you will receive messages via `Logger.info/1`
+  if a database file fails to be parsed (the file may still be empty!).
+  If you want to prevent these messages you can configure the startup the be
+  completely silent:
 
       config :ua_inspector,
         startup_silent: true
