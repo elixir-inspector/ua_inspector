@@ -8,23 +8,19 @@ defmodule UAInspector.Database.InitTest do
   @pathname "something_that_does_not_exist"
 
   setup do
-    app_path = Application.get_env(:ua_inspector, :database_path)
-    startup = Application.get_env(:ua_inspector, :startup_sync)
+    database_path = Application.get_env(:ua_inspector, :database_path)
 
     Application.put_env(:ua_inspector, :database_path, @pathname)
-    Application.put_env(:ua_inspector, :startup_sync, false)
 
     on_exit(fn ->
-      Application.put_env(:ua_inspector, :database_path, app_path)
-      Application.put_env(:ua_inspector, :startup_sync, startup)
+      Application.put_env(:ua_inspector, :database_path, database_path)
     end)
   end
 
   test "log info when load fails (bots)" do
     log =
       capture_log(fn ->
-        Database.Bots.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.Bots, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -33,8 +29,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (browser engines)" do
     log =
       capture_log(fn ->
-        Database.BrowserEngines.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.BrowserEngines, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -43,8 +38,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (clients)" do
     log =
       capture_log(fn ->
-        Database.Clients.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.Clients, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -53,8 +47,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (hbbtv devices)" do
     log =
       capture_log(fn ->
-        Database.DevicesHbbTV.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.DevicesHbbTV, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -63,8 +56,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (regular devices)" do
     log =
       capture_log(fn ->
-        Database.DevicesRegular.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.DevicesRegular, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -73,8 +65,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (operating systems)" do
     log =
       capture_log(fn ->
-        Database.OSs.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.OSs, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -83,8 +74,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (shelltv devices)" do
     log =
       capture_log(fn ->
-        Database.DevicesShellTV.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.DevicesShellTV, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
@@ -93,8 +83,7 @@ defmodule UAInspector.Database.InitTest do
   test "log info when load fails (vendor fragments)" do
     log =
       capture_log(fn ->
-        Database.VendorFragments.init(:ignored)
-        :timer.sleep(100)
+        :ok = GenServer.call(Database.VendorFragments, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
