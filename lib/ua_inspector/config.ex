@@ -90,8 +90,8 @@ defmodule UAInspector.Config do
   ### Starting Silently
 
   When starting the application you will receive messages via `Logger.info/1`
-  if a database file fails to be parsed (the file may still be empty!).
-  If you want to prevent these messages you can configure the startup the be
+  if a database file fails to be parsed or has no entries. If you
+  want to prevent these messages you can configure the startup the be
   completely silent:
 
       config :ua_inspector,

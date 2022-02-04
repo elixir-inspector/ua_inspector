@@ -2,6 +2,9 @@
 
 ## v3.0.0-dev
 
+- Enhancements
+    - If a database or short code map contains no (zero) entries during statup/reload a `Logger.info/1` will be sent unless `startup_silent = true` is configured
+
 - Backwards incompatible changes
     - Minimum required Elixir version is now `~> 1.9`
 
