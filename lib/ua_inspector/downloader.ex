@@ -57,7 +57,7 @@ defmodule UAInspector.Downloader do
     File.mkdir_p!(Config.database_path())
 
     Enum.each(@databases, fn database ->
-      Enum.each(database.sources, fn {_type, local, remote} ->
+      Enum.each(database.sources(), fn {_type, local, remote} ->
         target = Path.join([Config.database_path(), local])
 
         :ok = download_file(remote, target)
