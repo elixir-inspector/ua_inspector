@@ -56,6 +56,15 @@ defmodule UAInspector.Database.InitTest do
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
+  test "log info when load fails (notebook devices)" do
+    log =
+      capture_log(fn ->
+        :ok = GenServer.call(Database.DevicesNotebooks, :reload)
+      end)
+
+    assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
+  end
+
   test "log info when load fails (regular devices)" do
     log =
       capture_log(fn ->
@@ -65,19 +74,19 @@ defmodule UAInspector.Database.InitTest do
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
-  test "log info when load fails (operating systems)" do
+  test "log info when load fails (shelltv devices)" do
     log =
       capture_log(fn ->
-        :ok = GenServer.call(Database.OSs, :reload)
+        :ok = GenServer.call(Database.DevicesShellTV, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
   end
 
-  test "log info when load fails (shelltv devices)" do
+  test "log info when load fails (operating systems)" do
     log =
       capture_log(fn ->
-        :ok = GenServer.call(Database.DevicesShellTV, :reload)
+        :ok = GenServer.call(Database.OSs, :reload)
       end)
 
     assert log =~ ~r/Failed to load database #{@pathname}.*:enoent/
