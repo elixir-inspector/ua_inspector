@@ -20,6 +20,15 @@ defmodule UAInspector.ShortCodeMap.InitTest do
     end)
   end
 
+  test "log info when load fails (browser families)" do
+    log =
+      capture_log(fn ->
+        GenServer.call(ShortCodeMap.BrowserFamilies, :reload)
+      end)
+
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
+  end
+
   test "log info when load fails (client browsers)" do
     log =
       capture_log(fn ->
@@ -29,10 +38,37 @@ defmodule UAInspector.ShortCodeMap.InitTest do
     assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
   end
 
+  test "log info when load fails (desktop families)" do
+    log =
+      capture_log(fn ->
+        GenServer.call(ShortCodeMap.DesktopFamilies, :reload)
+      end)
+
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
+  end
+
   test "log info when load fails (mobile browsers)" do
     log =
       capture_log(fn ->
         GenServer.call(ShortCodeMap.MobileBrowsers, :reload)
+      end)
+
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
+  end
+
+  test "log info when load fails (os families)" do
+    log =
+      capture_log(fn ->
+        GenServer.call(ShortCodeMap.OSFamilies, :reload)
+      end)
+
+    assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
+  end
+
+  test "log info when load fails (operating systems)" do
+    log =
+      capture_log(fn ->
+        GenServer.call(ShortCodeMap.OSs, :reload)
       end)
 
     assert log =~ ~r/Failed to load short code map #{@pathname}.*:enoent/
