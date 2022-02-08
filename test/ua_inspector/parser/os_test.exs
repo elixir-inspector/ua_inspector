@@ -10,7 +10,7 @@ defmodule UAInspector.Parser.OSTest do
     parsed = UAInspector.parse(agent)
     result = %Result.OS{name: "Debian"}
 
-    assert parsed.os == result
+    assert ^result = parsed.os
   end
 
   test "#2" do
@@ -20,6 +20,6 @@ defmodule UAInspector.Parser.OSTest do
     parsed = UAInspector.parse(agent)
     result = %Result.OS{name: "Android", platform: "ARM", version: "4.4.2"}
 
-    assert parsed.os == result
+    assert ^result = parsed.os
   end
 end

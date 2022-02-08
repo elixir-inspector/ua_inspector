@@ -17,13 +17,13 @@ defmodule UAInspector.ReloadTest do
     end)
 
     refute UAInspector.ready?()
-    assert UAInspector.parse(agent) == unknown
+    assert ^unknown = UAInspector.parse(agent)
 
     Application.put_env(:ua_inspector, :database_path, db_path)
     UAInspector.reload()
     :timer.sleep(100)
 
     assert UAInspector.ready?()
-    refute UAInspector.parse(agent) == unknown
+    refute unknown == UAInspector.parse(agent)
   end
 end

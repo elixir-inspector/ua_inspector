@@ -10,7 +10,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{brand: "TiPhone", model: "T67", type: "smartphone"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#2" do
@@ -20,7 +20,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{type: "tv"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#3" do
@@ -30,7 +30,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{brand: "Videoweb", model: "600S", type: "tv"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#4" do
@@ -38,7 +38,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{type: "smartphone"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#5" do
@@ -46,7 +46,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{type: "tablet"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#6" do
@@ -56,7 +56,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{type: "smartphone"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#7" do
@@ -66,7 +66,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{type: "tablet"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#8" do
@@ -74,7 +74,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{type: "tablet"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#9" do
@@ -84,7 +84,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{brand: "Acer", type: "tablet"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#10" do
@@ -93,7 +93,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert "smartphone" == parsed.device.type
+    assert "smartphone" = parsed.device.type
   end
 
   test "#11" do
@@ -102,7 +102,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert "feature phone" == parsed.device.type
+    assert "feature phone" = parsed.device.type
   end
 
   test "#12" do
@@ -110,7 +110,7 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{brand: "Palm", type: "smartphone"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#13" do
@@ -121,7 +121,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     result = %Result.Device{type: "tv"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 
   test "#14" do
@@ -130,7 +130,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert "smartphone" == parsed.device.type
+    assert "smartphone" = parsed.device.type
   end
 
   test "#15" do
@@ -139,7 +139,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert "tablet" == parsed.device.type
+    assert "tablet" = parsed.device.type
   end
 
   test "#16" do
@@ -148,7 +148,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert :unknown == parsed.device
+    assert :unknown = parsed.device
   end
 
   test "#17" do
@@ -157,8 +157,8 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert parsed.device.type == "tv"
-    assert parsed.client.name == "Kylo"
+    assert "tv" = parsed.device.type
+    assert "Kylo" = parsed.client.name
   end
 
   test "#18" do
@@ -167,8 +167,8 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert parsed.device.type == "tv"
-    assert parsed.client.name == "Espial TV Browser"
+    assert "tv" = parsed.device.type
+    assert "Espial TV Browser" = parsed.client.name
   end
 
   test "#19" do
@@ -177,7 +177,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert parsed.device.type == "tablet"
+    assert "tablet" = parsed.device.type
   end
 
   test "#20" do
@@ -186,7 +186,7 @@ defmodule UAInspector.Parser.DeviceTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert parsed.device.type == "desktop"
+    assert "desktop" = parsed.device.type
   end
 
   test "#21" do
@@ -195,6 +195,6 @@ defmodule UAInspector.Parser.DeviceTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Device{brand: "Mystery", type: "tv"}
 
-    assert parsed.device == result
+    assert ^result = parsed.device
   end
 end

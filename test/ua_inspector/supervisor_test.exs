@@ -33,7 +33,7 @@ defmodule UAInspector.SupervisorTest do
       {:ok, _} = Application.ensure_all_started(:ua_inspector)
       :ok = :timer.sleep(100)
 
-      assert :ok_empty == Initializer.get_init()
+      assert :ok_empty = Initializer.get_init()
     end)
   end
 
@@ -48,7 +48,7 @@ defmodule UAInspector.SupervisorTest do
       {:ok, _} = Application.ensure_all_started(:ua_inspector)
       :ok = :timer.sleep(100)
 
-      assert :ok_passed == Initializer.get_init()
+      assert :ok_passed = Initializer.get_init()
     end)
   end
 end

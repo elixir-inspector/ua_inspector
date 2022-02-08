@@ -11,7 +11,7 @@ defmodule UAInspector.ParserTest do
       device: %Result.Device{brand: "Incomplete"}
     }
 
-    assert parsed == UAInspector.parse(agent)
+    assert ^parsed = UAInspector.parse(agent)
   end
 
   test "empty user agents" do
@@ -24,11 +24,11 @@ defmodule UAInspector.ParserTest do
     refute UAInspector.shelltv?(nil)
     refute UAInspector.shelltv?("")
 
-    assert UAInspector.parse(nil) == %Result{user_agent: nil}
-    assert UAInspector.parse("") == %Result{user_agent: ""}
+    assert %Result{user_agent: nil} = UAInspector.parse(nil)
+    assert %Result{user_agent: ""} = UAInspector.parse("")
 
-    assert UAInspector.parse_client(nil) == %Result{user_agent: nil}
-    assert UAInspector.parse_client("") == %Result{user_agent: ""}
+    assert %Result{user_agent: nil} = UAInspector.parse_client(nil)
+    assert %Result{user_agent: ""} = UAInspector.parse_client("")
   end
 
   test "bot?" do
@@ -37,7 +37,7 @@ defmodule UAInspector.ParserTest do
   end
 
   test "hbbtv?" do
-    assert "1.1.1" == UAInspector.hbbtv?("agent containing HbbTV/1.1.1 (; ;) information")
+    assert "1.1.1" = UAInspector.hbbtv?("agent containing HbbTV/1.1.1 (; ;) information")
     refute UAInspector.hbbtv?("generic user agent")
   end
 
@@ -65,20 +65,20 @@ defmodule UAInspector.ParserTest do
       os_family: "iOS"
     }
 
-    assert parsed == UAInspector.parse(agent)
+    assert ^parsed = UAInspector.parse(agent)
   end
 
   test "parse unknown" do
     agent = "some unknown user agent"
     parsed = %Result{user_agent: agent}
 
-    assert parsed == UAInspector.parse(agent)
+    assert ^parsed = UAInspector.parse(agent)
   end
 
   test "parse_client" do
     agent = "generic crawler agentx"
     parsed = %Result{user_agent: agent}
 
-    assert parsed == UAInspector.parse_client(agent)
+    assert ^parsed = UAInspector.parse_client(agent)
   end
 end

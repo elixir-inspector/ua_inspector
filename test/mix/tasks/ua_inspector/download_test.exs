@@ -63,7 +63,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
         IO.write("n")
       end)
 
-    assert console == "Download databases? [Yn] n"
+    assert "Download databases? [Yn] n" = console
   end
 
   test "confirmed download" do

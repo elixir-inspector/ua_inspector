@@ -18,7 +18,7 @@ defmodule UAInspector.ConfigTest do
     Application.put_env(:ua_inspector, :database_path, path)
     Application.put_env(:ua_inspector, :remote_path, foo: url)
 
-    assert path == Config.database_path()
+    assert ^path = Config.database_path()
     assert "#{url}/bar.yml" == Config.database_url(:foo, "bar.yml")
   after
     Application.delete_env(:ua_inspector, :remote_path)
@@ -41,16 +41,15 @@ defmodule UAInspector.ConfigTest do
   test "priv dir fallback for misconfiguration" do
     Application.put_env(:ua_inspector, :database_path, nil)
 
-    refute nil == Config.database_path()
+    assert Config.database_path()
   end
 
   test "deep key access" do
     Application.put_env(:ua_inspector, :test_deep, deep: [foo: :bar])
 
-    assert [deep: [foo: :bar]] == Config.get([:test_deep])
-    assert :bar == Config.get([:test_deep, :deep, :foo])
-
-    assert :moep == Config.get([:unknown, :deep], :moep)
+    assert [deep: [foo: :bar]] = Config.get([:test_deep])
+    assert :bar = Config.get([:test_deep, :deep, :foo])
+    assert :fallback = Config.get([:unknown, :deep], :fallback)
   after
     Application.delete_env(:ua_inspector, :test_deep)
   end

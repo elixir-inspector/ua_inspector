@@ -7,6 +7,6 @@ defmodule UAInspector.Parser.VendorFragmentTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert "Acer" == parsed.device.brand
+    assert "Acer" = parsed.device.brand
   end
 end

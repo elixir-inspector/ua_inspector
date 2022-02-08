@@ -9,8 +9,8 @@ defmodule UAInspector.Parser.BotTest do
 
     parsed = UAInspector.parse(agent)
 
-    assert "Search bot" == parsed.category
-    assert "http://www.google.com" == parsed.producer.url
+    assert "Search bot" = parsed.category
+    assert "http://www.google.com" = parsed.producer.url
   end
 
   test "#2" do
@@ -18,6 +18,6 @@ defmodule UAInspector.Parser.BotTest do
     parsed = UAInspector.parse(agent)
     result = %Result.Bot{user_agent: agent, name: "Generic Bot"}
 
-    assert parsed == result
+    assert ^result = parsed
   end
 end

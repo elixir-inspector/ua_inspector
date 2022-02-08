@@ -15,7 +15,7 @@ defmodule UAInspector.Parser.ClientTest do
       version: "9.0"
     }
 
-    assert parsed.client == result
+    assert ^result = parsed.client
   end
 
   test "#2" do
@@ -32,6 +32,6 @@ defmodule UAInspector.Parser.ClientTest do
       version: "2.7.12"
     }
 
-    assert parsed.client == result
+    assert ^result = parsed.client
   end
 end
