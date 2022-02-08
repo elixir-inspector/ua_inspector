@@ -161,7 +161,7 @@ defmodule UAInspector do
   Reloads all databases.
 
   You can pass `[async: true|false]` to define if the reload should happen
-  in the background or block your calling process until completed.
+  in the background (default!) or block your calling process until completed.
   """
   @spec reload(Keyword.t()) :: :ok
   def reload(opts \\ [async: true]) do
