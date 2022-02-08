@@ -1,8 +1,6 @@
 defmodule UAInspector.ReloadTest do
   use ExUnit.Case, async: false
 
-  import ExUnit.CaptureLog
-
   test "reloading databases" do
     agent =
       "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
@@ -11,10 +9,7 @@ defmodule UAInspector.ReloadTest do
     db_path = Application.get_env(:ua_inspector, :database_path)
 
     Application.delete_env(:ua_inspector, :database_path)
-
-    capture_log(fn ->
-      UAInspector.reload(async: false)
-    end)
+    UAInspector.reload(async: false)
 
     refute UAInspector.ready?()
     assert ^unknown = UAInspector.parse(agent)
