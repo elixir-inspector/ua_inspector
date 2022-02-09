@@ -11,6 +11,7 @@ defmodule UAInspector.Database.OSs do
 
   @behaviour UAInspector.Database
 
+  @doc false
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end

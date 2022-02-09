@@ -10,6 +10,7 @@ defmodule UAInspector.ShortCodeMap.BrowserFamilies do
 
   @behaviour UAInspector.ShortCodeMap
 
+  @doc false
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end

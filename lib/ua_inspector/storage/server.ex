@@ -12,6 +12,7 @@ defmodule UAInspector.Storage.Server do
       @ets_table_name __MODULE__
       @ets_table_opts [:named_table, :protected, :set, read_concurrency: true]
 
+      @impl GenServer
       def init(_init_arg) do
         :ok =
           if Config.get(:startup_sync, true) do
@@ -23,16 +24,19 @@ defmodule UAInspector.Storage.Server do
         {:ok, nil}
       end
 
+      @impl GenServer
       def handle_call(:reload, _from, state) do
         {:reply, reload_database(), state}
       end
 
+      @impl GenServer
       def handle_cast(:reload, state) do
         :ok = reload_database()
 
         {:noreply, state}
       end
 
+      @impl unquote(__MODULE__)
       def list do
         case :ets.lookup(@ets_table_name, :data) do
           [{:data, entries}] -> entries
