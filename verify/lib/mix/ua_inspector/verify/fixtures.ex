@@ -59,6 +59,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "tablet-4.yml",
     "tablet-5.yml",
     "tablet-6.yml",
+    "tablet-7.yml",
     "tv.yml",
     "tv-1.yml",
     "unknown.yml",
