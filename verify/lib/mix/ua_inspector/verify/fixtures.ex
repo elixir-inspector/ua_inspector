@@ -5,7 +5,8 @@ defmodule Mix.UAInspector.Verify.Fixtures do
 
   alias UAInspector.Config
 
-  @fixture_base_url "https://raw.githubusercontent.com/matomo-org/device-detector/master/Tests/fixtures"
+  @fixture_base "https://raw.githubusercontent.com/matomo-org/device-detector/"
+  @fixture_path "/Tests/fixtures/"
 
   @fixtures [
     "bots.yml",
@@ -81,7 +82,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   def download([fixture | fixtures]) do
     Mix.shell().info(".. downloading: #{fixture}")
 
-    remote = "#{@fixture_base_url}/#{fixture}"
+    remote = @fixture_base <> Config.remote_release() <> @fixture_path <> fixture
     local = download_path(fixture)
 
     download_fixture(remote, local)
