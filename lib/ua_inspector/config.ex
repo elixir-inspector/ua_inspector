@@ -1,5 +1,5 @@
 defmodule UAInspector.Config do
-  @remote_release "master"
+  @remote_release "5.0.3"
 
   @moduledoc """
   Module to simplify access to configuration values with default values.
@@ -263,6 +263,12 @@ defmodule UAInspector.Config do
       {mod, fun, args} -> apply(mod, fun, args)
     end
   end
+
+  @doc """
+  Returns the currently configured remote release version.
+  """
+  @spec remote_release() :: binary
+  def remote_release, do: get(:remote_release, @remote_release)
 
   @doc """
   Returns the `{mod, fun, extra_args}` to be used when reading a YAML file.

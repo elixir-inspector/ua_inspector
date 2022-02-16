@@ -3,6 +3,7 @@
 ## v3.0.0-dev
 
 - Enhancements
+    - Default upstream database version is now `5.0.3`
     - If a database or short code map contains no (zero) entries during statup/reload a `Logger.info/1` will be sent unless `startup_silent = true` is configured
 
 - Backwards incompatible changes
