@@ -25,13 +25,13 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
     remote_internal = "http://localhost:#{:httpd.info(httpd_pid)[:port]}/"
 
     test_remote_path = [
-      bot: remote_internal,
-      browser_engine: remote_internal,
-      client: remote_internal,
-      device: remote_internal,
-      os: remote_internal,
+      bot: remote_internal <> "/regexes",
+      browser_engine: remote_internal <> "/regexes/client",
+      client: remote_internal <> "/regexes/client",
+      device: remote_internal <> "/regexes/device",
+      os: remote_internal <> "/regexes",
       short_code_map: remote_internal,
-      vendor_fragment: remote_internal
+      vendor_fragment: remote_internal <> "/regexes"
     ]
 
     :ok = Application.put_env(:ua_inspector, :remote_path, test_remote_path)

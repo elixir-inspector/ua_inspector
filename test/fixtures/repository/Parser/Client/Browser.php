@@ -2,18 +2,18 @@
 
 class Browser
 {
-    protected static $availableBrowsers = array(
+    protected static $availableBrowsers = [
         'CH' => 'Chrome',
         'FF' => 'Firefox',
-        'IE' => 'Internet Explorer'
-    );
+        'IE' => 'Internet Explorer',
+    ];
 
-    protected static $browserFamilies = array(
-        'Chrome'            => array('CH', 'CM'),
-        'Internet Explorer' => array('IE')
-    );
+    protected static $browserFamilies = [
+        'Chrome'            => ['CH', 'CM'],
+        'Internet Explorer' => ['IE'],
+    ];
 
-    protected static $mobileOnlyBrowsers = array(
-        'CH', 'FF', 'IE'
-    );
+    protected static $mobileOnlyBrowsers = [
+        'CH', 'FF', 'IE',
+    ];
 }

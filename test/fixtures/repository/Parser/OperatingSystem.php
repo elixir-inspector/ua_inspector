@@ -2,17 +2,19 @@
 
 class OperatingSystem
 {
-    protected static $operatingSystems = array(
+    protected static $operatingSystems = [
         'DFB' => 'DragonFly',
         'BSD' => 'FreeBSD',
         'NBS' => 'NetBSD',
-        'OBS' => 'OpenBSD'
-    );
+        'OBS' => 'OpenBSD',
+        'WIN' => 'Windows',
+    ];
 
-    protected static $osFamilies = array(
-        'Chrome OS'  => array('COS'),
-        'Firefox OS' => array('FOS', 'KOS')
-    );
+    protected static $osFamilies = [
+        'Chrome OS'  => ['COS'],
+        'Firefox OS' => ['FOS', 'KOS'],
+        'Windows'    => ['WIN'],
+    ];
 
-    protected static $desktopOsArray = array('Windows');
+    protected static $desktopOsArray = ['Windows'];
 }
