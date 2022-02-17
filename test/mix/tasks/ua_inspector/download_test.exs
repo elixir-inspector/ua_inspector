@@ -9,7 +9,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
     # setup internal testing webserver
     Application.ensure_all_started(:inets)
 
-    fixture_path = Path.expand("../../../fixtures", __DIR__)
+    fixture_path = Path.expand("../../../fixtures/repository", __DIR__)
 
     httpd_opts = [
       port: 0,
