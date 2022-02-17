@@ -8,6 +8,7 @@
 
 - Backwards incompatible changes
     - Minimum required Elixir version is now `~> 1.9`
+    - The (default) `:hackney` download adapter will now only accept responses with "200 OK". Depending on your environment it could be required to configure following redirects using `http_opts: [follow_redirect: true]`
 
 ## v2.2.0 (2020-10-29)
 
