@@ -8,7 +8,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   @fixture_base "https://raw.githubusercontent.com/matomo-org/device-detector/"
   @fixture_path "/Tests/fixtures/"
 
-  @fixtures [
+  @fixtures_default [
     "bots.yml",
     "camera.yml",
     "car_browser.yml",
@@ -52,7 +52,6 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "smartphone-26.yml",
     "smartphone-27.yml",
     "smartphone-28.yml",
-    "smartphone-29.yml",
     "tablet.yml",
     "tablet-1.yml",
     "tablet-2.yml",
@@ -60,18 +59,24 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "tablet-4.yml",
     "tablet-5.yml",
     "tablet-6.yml",
-    "tablet-7.yml",
     "tv.yml",
     "tv-1.yml",
     "unknown.yml",
     "wearable.yml"
   ]
 
+  @fixtures_release %{
+    "master" => [
+      "smartphone-29.yml",
+      "tablet-7.yml"
+    ]
+  }
+
   def download do
     Mix.shell().info("Download path: #{download_path()}")
 
     setup()
-    download(@fixtures)
+    download(list())
 
     Mix.shell().info("Download complete!")
     :ok
@@ -97,7 +102,12 @@ defmodule Mix.UAInspector.Verify.Fixtures do
 
   def download_path, do: Path.expand("../../../../fixtures", __DIR__)
   def download_path(file), do: Path.join(download_path(), file)
-  def list, do: @fixtures
+
+  def list do
+    @fixtures_release
+    |> Map.get(Config.remote_release(), [])
+    |> Enum.concat(@fixtures_default)
+  end
 
   def setup do
     File.rm_rf!(download_path())
