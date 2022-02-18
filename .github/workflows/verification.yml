@@ -10,6 +10,12 @@ jobs:
   check:
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        include:
+          - remote-release: default
+          - remote-release: master
+
     steps:
     - uses: actions/checkout@v2
 
@@ -35,5 +41,5 @@ jobs:
         mix deps.get
 
     - name: verify
-      run: mix ua_inspector.verify --remote-release master
+      run: mix ua_inspector.verify ${{ 'default' == matrix.remote-release || format('--remote-release "{0}"', matrix.remote-release) }}
       working-directory: ./verify
