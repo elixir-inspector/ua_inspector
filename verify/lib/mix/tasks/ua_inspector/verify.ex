@@ -11,7 +11,8 @@ defmodule Mix.Tasks.UaInspector.Verify do
   alias UAInspector.Downloader
 
   def run(args) do
-    {opts, _argv, _errors} = OptionParser.parse(args, strict: [remote_release: :string, quick: :boolean])
+    {opts, _argv, _errors} =
+      OptionParser.parse(args, strict: [remote_release: :string, quick: :boolean])
 
     opts = Map.new(opts)
 
@@ -85,7 +86,9 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
   defp parse(case_data), do: case_data
 
-  defp setup_remote_release(%{remote_release: remote_release}) when is_binary(remote_release), do: Application.put_env(:ua_inspector, :remote_release, remote_release)
+  defp setup_remote_release(%{remote_release: remote_release}) when is_binary(remote_release),
+    do: Application.put_env(:ua_inspector, :remote_release, remote_release)
+
   defp setup_remote_release(_), do: :ok
 
   defp verify(_, []), do: :ok
