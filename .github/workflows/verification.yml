@@ -35,5 +35,5 @@ jobs:
         mix deps.get
 
     - name: verify
-      run: mix ua_inspector.verify
+      run: mix ua_inspector.verify --remote-release master
       working-directory: ./verify

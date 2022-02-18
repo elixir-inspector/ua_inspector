@@ -11,8 +11,11 @@ defmodule Mix.Tasks.UaInspector.Verify do
   alias UAInspector.Downloader
 
   def run(args) do
-    {opts, _argv, _errors} = OptionParser.parse(args, strict: [quick: :boolean])
+    {opts, _argv, _errors} = OptionParser.parse(args, strict: [remote_release: :string, quick: :boolean])
 
+    opts = Map.new(opts)
+
+    :ok = setup_remote_release(opts)
     :ok = maybe_download(opts)
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
 
@@ -61,7 +64,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     acc
   end
 
-  defp maybe_download(quick: true), do: :ok
+  defp maybe_download(%{quick: true}), do: :ok
 
   defp maybe_download(_) do
     {:ok, _} = Application.ensure_all_started(:hackney)
@@ -81,6 +84,9 @@ defmodule Mix.Tasks.UaInspector.Verify do
   end
 
   defp parse(case_data), do: case_data
+
+  defp setup_remote_release(%{remote_release: remote_release}) when is_binary(remote_release), do: Application.put_env(:ua_inspector, :remote_release, remote_release)
+  defp setup_remote_release(_), do: :ok
 
   defp verify(_, []), do: :ok
 
