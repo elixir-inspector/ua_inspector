@@ -104,7 +104,7 @@ defmodule UAInspector.Parser.Device do
 
   defp parse_model(_, {brand, _, device, _}, []) do
     %Result.Device{
-      brand: brand,
+      brand: Util.maybe_unknown(brand),
       type: device
     }
   end

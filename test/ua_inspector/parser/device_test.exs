@@ -197,4 +197,14 @@ defmodule UAInspector.Parser.DeviceTest do
 
     assert ^result = parsed.device
   end
+
+  test "#22" do
+    agent =
+      "Mozilla/5.0 (Linux; Plasma Mobile, like Android 9.0) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.14.2 Chrome/75.0.3770.116 Mobile Safari/537.36"
+
+    parsed = UAInspector.parse(agent)
+    result = %Result.Device{type: "smartphone"}
+
+    assert ^result = parsed.device
+  end
 end
