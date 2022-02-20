@@ -11,7 +11,7 @@ defmodule UAInspector.Parser do
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
-  @is_opera_tv_store Util.build_regex("Opera TV Store")
+  @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
   @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
 
   @doc """
