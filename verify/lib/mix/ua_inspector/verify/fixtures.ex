@@ -52,6 +52,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "smartphone-26.yml",
     "smartphone-27.yml",
     "smartphone-28.yml",
+    "smartphone-29.yml",
     "tablet.yml",
     "tablet-1.yml",
     "tablet-2.yml",
@@ -59,6 +60,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
     "tablet-4.yml",
     "tablet-5.yml",
     "tablet-6.yml",
+    "tablet-7.yml",
     "tv.yml",
     "tv-1.yml",
     "unknown.yml",
@@ -66,10 +68,7 @@ defmodule Mix.UAInspector.Verify.Fixtures do
   ]
 
   @fixtures_release %{
-    "master" => [
-      "smartphone-29.yml",
-      "tablet-7.yml"
-    ]
+    "master" => []
   }
 
   def download do
