@@ -8,6 +8,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   use Mix.Task
 
   alias Mix.UAInspector.Verify
+  alias UAInspector.Config
   alias UAInspector.Downloader
 
   def run(args) do
@@ -20,8 +21,8 @@ defmodule Mix.Tasks.UaInspector.Verify do
     :ok = maybe_download(opts)
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
 
+    Mix.shell().info(["Verification remote release: ", Config.remote_release()])
     Verify.Fixtures.list() |> verify_all()
-
     Mix.shell().info("Verification complete!")
     :ok
   end
