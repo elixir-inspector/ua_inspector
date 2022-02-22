@@ -55,13 +55,6 @@ defmodule UAInspector.Util do
   end
 
   @doc """
-  Sanitizes a name string.
-  """
-  @spec sanitize_name(name :: String.t()) :: String.t()
-  def sanitize_name(""), do: ""
-  def sanitize_name(name), do: String.trim(name)
-
-  @doc """
   Sanitizes a version string.
   """
   @spec sanitize_version(version :: String.t()) :: String.t()

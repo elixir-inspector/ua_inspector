@@ -62,7 +62,7 @@ defmodule UAInspector.Parser.Client do
   defp resolve_name(name, captures) do
     name
     |> Util.uncapture(captures)
-    |> Util.sanitize_name()
+    |> String.trim()
     |> Util.maybe_unknown()
   end
 

@@ -29,7 +29,7 @@ defmodule UAInspector.Parser.OS do
   defp resolve_name(name, captures) do
     name
     |> Util.uncapture(captures)
-    |> Util.sanitize_name()
+    |> String.trim()
     |> Util.OS.proper_case()
     |> Util.maybe_unknown()
   end
