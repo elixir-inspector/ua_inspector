@@ -117,16 +117,27 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp parse_model_data({device_brand, _, device, _}, {brand, model_device, model}, captures) do
-    model_str =
-      model
-      |> Util.uncapture(captures)
-      |> Util.sanitize_model()
-      |> Util.maybe_unknown()
+    result_model =
+      case Util.uncapture(model, captures) do
+        "" ->
+          :unknown
+
+        "Build" ->
+          :unknown
+
+        model_capture ->
+          model_capture
+          |> String.replace(~r/\$(\d)/, "")
+          |> String.replace("_", " ")
+          |> String.replace(~r/ TD$/, "")
+          |> String.trim()
+          |> Util.maybe_unknown()
+      end
 
     %Result.Device{
       brand: Util.maybe_unknown(brand || device_brand),
       type: model_device || device,
-      model: model_str
+      model: result_model
     }
   end
 end

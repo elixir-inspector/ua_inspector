@@ -40,21 +40,6 @@ defmodule UAInspector.Util do
   def maybe_unknown(data), do: data
 
   @doc """
-  Sanitizes a model string.
-  """
-  @spec sanitize_model(model :: String.t()) :: String.t()
-  def sanitize_model(""), do: ""
-  def sanitize_model("Build"), do: ""
-
-  def sanitize_model(model) do
-    model
-    |> String.replace(~r/\$(\d)/, "")
-    |> String.replace("_", " ")
-    |> String.replace(~r/ TD$/, "")
-    |> String.trim()
-  end
-
-  @doc """
   Sanitizes a version string.
   """
   @spec sanitize_version(version :: String.t()) :: String.t()
