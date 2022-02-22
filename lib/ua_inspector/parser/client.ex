@@ -8,6 +8,7 @@ defmodule UAInspector.Parser.Client do
 
   @behaviour UAInspector.Parser
 
+  @impl UAInspector.Parser
   def parse(ua), do: parse(ua, Clients.list())
 
   defp parse(_, []), do: :unknown

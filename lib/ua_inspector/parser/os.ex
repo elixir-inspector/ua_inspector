@@ -15,6 +15,7 @@ defmodule UAInspector.Parser.OS do
     {"x86", Util.build_regex(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc")}
   ]
 
+  @impl UAInspector.Parser
   def parse(ua), do: parse(ua, OSs.list())
 
   defp parse(_, []), do: :unknown

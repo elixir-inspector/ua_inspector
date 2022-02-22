@@ -5,6 +5,7 @@ defmodule UAInspector.Parser.BrowserEngine do
 
   @behaviour UAInspector.Parser
 
+  @impl UAInspector.Parser
   def parse(ua), do: parse(ua, BrowserEngines.list())
 
   defp parse(_, []), do: :unknown

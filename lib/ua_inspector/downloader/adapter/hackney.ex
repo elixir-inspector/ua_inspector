@@ -5,10 +5,7 @@ defmodule UAInspector.Downloader.Adapter.Hackney do
 
   @behaviour UAInspector.Downloader.Adapter
 
-  @doc """
-  Reads a remote file and returns it's contents.
-  """
-  @spec read_remote(binary) :: {:ok, binary} | {:error, term}
+  @impl UAInspector.Downloader.Adapter
   def read_remote(location) do
     _ = Application.ensure_all_started(:hackney)
 

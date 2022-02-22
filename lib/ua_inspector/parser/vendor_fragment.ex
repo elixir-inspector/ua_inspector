@@ -5,6 +5,7 @@ defmodule UAInspector.Parser.VendorFragment do
 
   @behaviour UAInspector.Parser
 
+  @impl UAInspector.Parser
   def parse(ua), do: parse(ua, VendorFragments.list())
 
   defp parse(_, []), do: :unknown

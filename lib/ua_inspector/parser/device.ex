@@ -19,6 +19,7 @@ defmodule UAInspector.Parser.Device do
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
   @opera_tablet Util.build_regex("Opera Tablet")
 
+  @impl UAInspector.Parser
   def parse(ua) do
     cond do
       Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
