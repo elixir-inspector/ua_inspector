@@ -38,6 +38,8 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
 
     on_exit(fn ->
       Application.put_env(:ua_inspector, :remote_path, remote_paths)
+
+      :inets.stop(:httpd, httpd_pid)
     end)
   end
 
