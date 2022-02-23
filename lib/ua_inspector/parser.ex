@@ -8,6 +8,7 @@ defmodule UAInspector.Parser do
   alias UAInspector.Util
 
   @has_touch Util.build_regex("Touch")
+  @is_android_tv Util.build_regex("Andr0id|Android TV")
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
@@ -73,6 +74,7 @@ defmodule UAInspector.Parser do
     |> detect_browser_family()
     |> detect_os_family()
     |> maybe_detect_opera_tv_store()
+    |> maybe_detect_android_tv()
     |> maybe_detect_tv()
     |> maybe_fix_desktop()
     |> maybe_fix_ios()
@@ -101,6 +103,15 @@ defmodule UAInspector.Parser do
   end
 
   defp detect_os_family(result), do: result
+
+  # assume "Andr0id" to be a tv
+  defp maybe_detect_android_tv(%{device: device, user_agent: ua} = result) do
+    if Regex.match?(@is_android_tv, ua) do
+      %{result | device: %{device | type: "tv"}}
+    else
+      result
+    end
+  end
 
   defp maybe_detect_desktop(
          %{client: client, device: %{type: :unknown} = device, os: %{name: os_name}} = result
