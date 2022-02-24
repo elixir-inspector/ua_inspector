@@ -35,6 +35,7 @@ defmodule Mix.Tasks.UaInspector.Download do
     strict: [force: :boolean, quiet: :boolean]
   ]
 
+  @impl Mix.Task
   def run(args) do
     :ok = load_app(args)
     :ok = Config.init_env()
