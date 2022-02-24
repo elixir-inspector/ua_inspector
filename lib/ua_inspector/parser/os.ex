@@ -35,13 +35,6 @@ defmodule UAInspector.Parser.OS do
     |> Util.maybe_unknown()
   end
 
-  defp resolve_version(ua, version, subversions, captures) do
-    ua
-    |> resolve_subversion(version, subversions, captures)
-    |> Util.sanitize_version()
-    |> Util.maybe_unknown()
-  end
-
   defp resolve_platform(_, []), do: :unknown
 
   defp resolve_platform(ua, [{id, regex} | platforms]) do
@@ -59,6 +52,13 @@ defmodule UAInspector.Parser.OS do
       nil -> resolve_subversion(ua, version, subversions, captures)
       captures -> Util.uncapture(subversion, captures)
     end
+  end
+
+  defp resolve_version(ua, version, subversions, captures) do
+    ua
+    |> resolve_subversion(version, subversions, captures)
+    |> Util.sanitize_version()
+    |> Util.maybe_unknown()
   end
 
   defp result(ua, {name, version, versions}, captures) do
