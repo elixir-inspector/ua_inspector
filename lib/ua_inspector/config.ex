@@ -127,12 +127,14 @@ defmodule UAInspector.Config do
 
   ### Default Database Release Version
 
-  If you are using the default database the newest version from the
-  `"#{@remote_release}"` branch/tag will be used. You can also configure
-  a different release to be used:
+  If you are using the default configuration the release `"#{@remote_release}"`
+  will be used. You can specify a different version/tag/release to be used:
 
       config :ua_inspector,
         remote_release: "v1.0.0"
+
+  Please be aware that using a non-default release can lead to unexpected
+  results based on the specific changes between the releases.
 
   ## Download Configuration
 
