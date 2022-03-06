@@ -17,7 +17,7 @@ To use UAInspector with your projects, edit your `mix.exs` file and add the requ
 defp deps do
   [
     # ...
-    {:ua_inspector, "~> 2.0"},
+    {:ua_inspector, "~> 3.0"},
     # ...
   ]
 end
