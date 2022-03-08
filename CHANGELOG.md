@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.0.1 (2022-03-08)
+
+- Enhancements
+    - Default upstream database version is now `5.0.5`
+
 ## v3.0.0 (2022-03-06)
 
 - Enhancements

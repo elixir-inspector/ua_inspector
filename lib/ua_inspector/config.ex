@@ -1,5 +1,5 @@
 defmodule UAInspector.Config do
-  @remote_release "5.0.4"
+  @remote_release "5.0.5"
 
   @moduledoc """
   Module to simplify access to configuration values with default values.
