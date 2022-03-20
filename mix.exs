@@ -67,7 +67,7 @@ defmodule UAInspector.MixProject do
       ],
       plt_add_apps: [:mix],
       plt_core_path: "plts",
-      plt_file: {:no_warn, "plts/dialyzer.plt"}
+      plt_local_path: "plts"
     ]
   end
 
