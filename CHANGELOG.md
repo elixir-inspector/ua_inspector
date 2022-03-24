@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.1.0-dev
+
+- Enhancements
+    - Upstream improvements to detect engine versions of "Blink" type browsers have been integrated
+
 ## v3.0.1 (2022-03-08)
 
 - Enhancements
