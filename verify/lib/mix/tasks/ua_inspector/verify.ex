@@ -146,7 +146,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
       Mix.shell().info(".. verifying: #{fixture} (#{length(testcases)} tests)")
       verify(fixture, testcases)
     else
-      {:error, :enoent}
+      {:error, fixture, :enoent}
     end
   end
 end
