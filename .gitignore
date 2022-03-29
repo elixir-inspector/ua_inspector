@@ -6,3 +6,4 @@ plts/
 test/downloads/
 verify/databases/
 verify/fixtures/
+verify/fixtures_os/
