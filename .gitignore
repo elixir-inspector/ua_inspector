@@ -4,7 +4,4 @@ deps/
 doc/
 plts/
 test/downloads/
-verify/databases/
-verify/fixtures/
-verify/fixtures_os/
-verify/fixtures_vendor_fragment/
+verify/priv/

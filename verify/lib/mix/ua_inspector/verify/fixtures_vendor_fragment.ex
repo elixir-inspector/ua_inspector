@@ -42,7 +42,7 @@ defmodule Mix.UAInspector.Verify.FixturesVendorFragment do
     File.write!(local, content)
   end
 
-  def download_path, do: Path.expand("../../../../fixtures_vendor_fragment", __DIR__)
+  def download_path, do: Path.expand("../../../../priv/fixtures/vendor_fragment", __DIR__)
   def download_path(file), do: Path.join(download_path(), file)
 
   def list do
