@@ -23,7 +23,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
 
     Mix.shell().info(["Verification remote release: ", Config.remote_release()])
-    Fixtures.list() |> verify_all()
+    Fixtures.Generic.list() |> verify_all()
     Mix.shell().info("Verification complete!")
     :ok
   end
@@ -72,7 +72,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp maybe_download(_) do
     {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download()
-    :ok = Fixtures.download()
+    :ok = Fixtures.Generic.download()
 
     Mix.shell().info("=== Skip downloads using '--quick' ===")
 
@@ -96,7 +96,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   defp verify(_, []), do: :ok
 
   defp verify(fixture, [testcase | testcases]) do
-    testcase = testcase |> parse() |> Cleanup.cleanup()
+    testcase = testcase |> parse() |> Cleanup.Generic.cleanup()
     result = testcase[:user_agent] |> UAInspector.parse()
 
     if compare(testcase, result) do
@@ -139,7 +139,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   end
 
   defp verify_fixture(fixture) do
-    testfile = Fixtures.download_path(fixture)
+    testfile = Fixtures.Generic.download_path(fixture)
 
     if File.exists?(testfile) do
       [testcases] = :yamerl_constr.file(testfile, [:str_node_as_binary])

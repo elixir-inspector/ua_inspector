@@ -1,4 +1,4 @@
-defmodule UAInspectorVerify.CleanupOS do
+defmodule UAInspectorVerify.Cleanup.OS do
   @moduledoc false
 
   @empty_to_unknown [

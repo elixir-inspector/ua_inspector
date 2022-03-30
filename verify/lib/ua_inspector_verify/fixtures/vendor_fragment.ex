@@ -1,4 +1,4 @@
-defmodule UAInspectorVerify.FixturesOS do
+defmodule UAInspectorVerify.Fixtures.VendorFragment do
   @moduledoc false
 
   alias UAInspector.Config
@@ -7,7 +7,7 @@ defmodule UAInspectorVerify.FixturesOS do
   @fixture_path "/Tests/Parser/fixtures/"
 
   @fixtures_default [
-    "oss.yml"
+    "vendorfragments.yml"
   ]
 
   @fixtures_release %{
@@ -42,7 +42,7 @@ defmodule UAInspectorVerify.FixturesOS do
     File.write!(local, content)
   end
 
-  def download_path, do: Path.expand("../../../../priv/fixtures/os", __DIR__)
+  def download_path, do: Path.expand("../../../../priv/fixtures/vendor_fragment", __DIR__)
   def download_path(file), do: Path.join(download_path(), file)
 
   def list do

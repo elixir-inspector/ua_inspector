@@ -10,7 +10,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
   alias UAInspector.Config
   alias UAInspector.Downloader
   alias UAInspector.Parser.VendorFragment
-  alias UAInspectorVerify.FixturesVendorFragment
+  alias UAInspectorVerify.Fixtures.VendorFragment
 
   def run(args) do
     {opts, _argv, _errors} =
@@ -23,7 +23,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
 
     Mix.shell().info(["Verification remote release: ", Config.remote_release()])
-    FixturesVendorFragment.list() |> verify_all()
+    Fixtures.VendorFragment.list() |> verify_all()
     Mix.shell().info("Verification complete!")
     :ok
   end
@@ -37,7 +37,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
   defp maybe_download(_) do
     {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download()
-    :ok = FixturesVendorFragment.download()
+    :ok = Fixtures.VendorFragment.download()
 
     Mix.shell().info("=== Skip downloads using '--quick' ===")
 
@@ -101,7 +101,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
   end
 
   defp verify_fixture(fixture) do
-    testfile = FixturesVendorFragment.download_path(fixture)
+    testfile = Fixtures.VendorFragment.download_path(fixture)
 
     if File.exists?(testfile) do
       [testcases] = :yamerl_constr.file(testfile, [:str_node_as_binary])

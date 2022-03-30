@@ -11,7 +11,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
   alias UAInspector.Downloader
   alias UAInspector.Parser.OS
   alias UAInspectorVerify.CleanupOS
-  alias UAInspectorVerify.FixturesOS
+  alias UAInspectorVerify.Fixtures.OS
 
   def run(args) do
     {opts, _argv, _errors} =
@@ -24,7 +24,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
     {:ok, _} = Application.ensure_all_started(:ua_inspector)
 
     Mix.shell().info(["Verification remote release: ", Config.remote_release()])
-    FixturesOS.list() |> verify_all()
+    Fixtures.OS.list() |> verify_all()
     Mix.shell().info("Verification complete!")
     :ok
   end
@@ -42,7 +42,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
   defp maybe_download(_) do
     {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download()
-    :ok = FixturesOS.download()
+    :ok = Fixtures.OS.download()
 
     Mix.shell().info("=== Skip downloads using '--quick' ===")
 
@@ -63,7 +63,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
   defp verify(_, []), do: :ok
 
   defp verify(fixture, [testcase | testcases]) do
-    testcase = testcase |> parse() |> CleanupOS.cleanup()
+    testcase = testcase |> parse() |> Cleanup.OS.cleanup()
     result = testcase[:user_agent] |> OS.parse()
 
     if compare(testcase, result) do
@@ -106,7 +106,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
   end
 
   defp verify_fixture(fixture) do
-    testfile = FixturesOS.download_path(fixture)
+    testfile = Fixtures.OS.download_path(fixture)
 
     if File.exists?(testfile) do
       [testcases] = :yamerl_constr.file(testfile, [:str_node_as_binary])

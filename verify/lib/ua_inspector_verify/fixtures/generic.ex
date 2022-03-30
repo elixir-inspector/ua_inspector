@@ -1,4 +1,4 @@
-defmodule UAInspectorVerify.Fixtures do
+defmodule UAInspectorVerify.Fixtures.Generic do
   @moduledoc """
   Utility module to bundle/download verification fixtures.
   """

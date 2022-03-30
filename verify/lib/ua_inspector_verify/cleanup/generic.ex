@@ -1,4 +1,4 @@
-defmodule UAInspectorVerify.Cleanup do
+defmodule UAInspectorVerify.Cleanup.Generic do
   @moduledoc """
   Cleans up testcases.
   """
