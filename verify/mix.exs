@@ -1,9 +1,9 @@
-defmodule UAInspector.Verification.MixProject do
+defmodule UAInspector.Verify.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :ua_inspector_verification,
+      app: :ua_inspector_verify,
       version: "0.0.1",
       elixir: "~> 1.9",
       deps: [{:ua_inspector, path: "../"}],

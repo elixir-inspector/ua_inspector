@@ -1,4 +1,4 @@
-defmodule Mix.UAInspector.Verify.CleanupOS do
+defmodule UAInspectorVerify.CleanupOS do
   @moduledoc false
 
   @empty_to_unknown [
