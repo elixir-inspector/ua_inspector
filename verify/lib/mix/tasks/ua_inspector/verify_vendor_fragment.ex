@@ -11,6 +11,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
   alias UAInspector.Downloader
   alias UAInspector.Parser.VendorFragment
   alias UAInspectorVerify.Fixtures
+  alias UAInspectorVerify.Verify
 
   def run(args) do
     {opts, _argv, _errors} =
@@ -26,10 +27,6 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
     Fixtures.VendorFragment.list() |> verify_all()
     Mix.shell().info("Verification complete!")
     :ok
-  end
-
-  defp compare(%{vendor: testcase}, result) do
-    testcase == result
   end
 
   defp maybe_download(%{quick: true}), do: :ok
@@ -61,7 +58,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
     testcase = testcase |> parse()
     result = testcase[:useragent] |> VendorFragment.parse()
 
-    if compare(testcase, result) do
+    if Verify.VendorFragment.verify(testcase, result) do
       verify(fixture, testcases)
     else
       {

@@ -12,6 +12,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
   alias UAInspector.Parser.OS
   alias UAInspectorVerify.Cleanup
   alias UAInspectorVerify.Fixtures
+  alias UAInspectorVerify.Verify
 
   def run(args) do
     {opts, _argv, _errors} =
@@ -27,14 +28,6 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
     Fixtures.OS.list() |> verify_all()
     Mix.shell().info("Verification complete!")
     :ok
-  end
-
-  defp compare(%{headers: _}, _), do: true
-
-  defp compare(%{os: testcase}, result) do
-    testcase.name == result.name &&
-      testcase.platform == result.platform &&
-      testcase.version == result.version
   end
 
   defp maybe_download(%{quick: true}), do: :ok
@@ -66,7 +59,7 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
     testcase = testcase |> parse() |> Cleanup.OS.cleanup()
     result = testcase[:user_agent] |> OS.parse()
 
-    if compare(testcase, result) do
+    if Verify.OS.verify(testcase, result) do
       verify(fixture, testcases)
     else
       {

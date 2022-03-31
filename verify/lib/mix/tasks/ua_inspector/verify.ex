@@ -11,6 +11,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
   alias UAInspector.Downloader
   alias UAInspectorVerify.Cleanup
   alias UAInspectorVerify.Fixtures
+  alias UAInspectorVerify.Verify
 
   def run(args) do
     {opts, _argv, _errors} =
@@ -28,45 +29,6 @@ defmodule Mix.Tasks.UaInspector.Verify do
     :ok
   end
 
-  defp compare(%{client: _} = testcase, %{client: _} = result) do
-    # regular user agent
-    testcase.user_agent == result.user_agent &&
-      testcase.browser_family == result.browser_family &&
-      testcase.os_family == result.os_family &&
-      testcase.client == maybe_from_struct(result.client) &&
-      testcase.device == maybe_from_struct(result.device) &&
-      testcase.os == maybe_from_struct(result.os)
-  end
-
-  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
-  defp compare(testcase, result) do
-    # bot
-    acc = testcase.user_agent == result.user_agent && testcase.bot.name == result.name
-
-    acc =
-      if Map.has_key?(testcase.bot, :category) do
-        acc && testcase.bot.category == result.category
-      else
-        acc
-      end
-
-    acc =
-      if Map.has_key?(testcase.bot, :url) do
-        acc && testcase.bot.url == result.url
-      else
-        acc
-      end
-
-    acc =
-      if Map.has_key?(testcase.bot, :producer) do
-        acc && testcase.bot.producer == maybe_from_struct(result.producer)
-      else
-        acc
-      end
-
-    acc
-  end
-
   defp maybe_download(%{quick: true}), do: :ok
 
   defp maybe_download(_) do
@@ -78,9 +40,6 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
     :ok
   end
-
-  defp maybe_from_struct(:unknown), do: :unknown
-  defp maybe_from_struct(result), do: Map.from_struct(result)
 
   defp parse(case_data) when is_list(case_data) do
     Enum.into(case_data, %{}, fn {k, v} -> {String.to_atom(k), parse(v)} end)
@@ -99,7 +58,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     testcase = testcase |> parse() |> Cleanup.Generic.cleanup()
     result = testcase[:user_agent] |> UAInspector.parse()
 
-    if compare(testcase, result) do
+    if Verify.Generic.verify(testcase, result) do
       verify(fixture, testcases)
     else
       {
