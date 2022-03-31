@@ -10,8 +10,8 @@ defmodule Mix.Tasks.UaInspector.VerifyOs do
   alias UAInspector.Config
   alias UAInspector.Downloader
   alias UAInspector.Parser.OS
-  alias UAInspectorVerify.CleanupOS
-  alias UAInspectorVerify.Fixtures.OS
+  alias UAInspectorVerify.Cleanup
+  alias UAInspectorVerify.Fixtures
 
   def run(args) do
     {opts, _argv, _errors} =

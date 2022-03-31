@@ -10,7 +10,7 @@ defmodule Mix.Tasks.UaInspector.VerifyVendorFragment do
   alias UAInspector.Config
   alias UAInspector.Downloader
   alias UAInspector.Parser.VendorFragment
-  alias UAInspectorVerify.Fixtures.VendorFragment
+  alias UAInspectorVerify.Fixtures
 
   def run(args) do
     {opts, _argv, _errors} =
