@@ -1,6 +1,8 @@
 defmodule UAInspectorVerify.Cleanup.OS do
   @moduledoc false
 
+  alias UAInspectorVerify.Cleanup.Base
+
   @empty_to_unknown [
     [:os, :name],
     [:os, :version],
@@ -13,23 +15,8 @@ defmodule UAInspectorVerify.Cleanup.OS do
   @spec cleanup(testcase :: map) :: map
   def cleanup(testcase) do
     testcase
-    |> convert_empty(@empty_to_unknown, :unknown)
+    |> Base.empty_to_unknown(@empty_to_unknown)
     |> version_to_string()
-  end
-
-  defp convert_empty(testcase, [], _), do: testcase
-
-  defp convert_empty(testcase, [path | paths], replacement) do
-    testcase
-    |> get_in(path)
-    |> case do
-      :null -> put_in(testcase, path, replacement)
-      "" -> put_in(testcase, path, replacement)
-      _ -> testcase
-    end
-    |> convert_empty(paths, replacement)
-  rescue
-    FunctionClauseError -> convert_empty(testcase, paths, replacement)
   end
 
   defp version_to_string(%{os: %{version: version}} = testcase) when is_integer(version) do

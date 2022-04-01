@@ -3,6 +3,8 @@ defmodule UAInspectorVerify.Cleanup.Generic do
   Cleans up testcases.
   """
 
+  alias UAInspectorVerify.Cleanup.Base
+
   @empty_to_unknown [
     [:client],
     [:client, :engine],
@@ -26,27 +28,12 @@ defmodule UAInspectorVerify.Cleanup.Generic do
   @spec cleanup(testcase :: map) :: map
   def cleanup(testcase) do
     testcase
-    |> convert_empty(@empty_to_unknown, :unknown)
+    |> Base.empty_to_unknown(@empty_to_unknown)
     |> convert_unknown(@unknown_to_atom)
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()
     |> cleanup_os_entry()
     |> remove_unknown_device()
-  end
-
-  defp convert_empty(testcase, [], _), do: testcase
-
-  defp convert_empty(testcase, [path | paths], replacement) do
-    testcase
-    |> get_in(path)
-    |> case do
-      :null -> put_in(testcase, path, replacement)
-      "" -> put_in(testcase, path, replacement)
-      _ -> testcase
-    end
-    |> convert_empty(paths, replacement)
-  rescue
-    FunctionClauseError -> convert_empty(testcase, paths, replacement)
   end
 
   defp convert_unknown(testcase, []), do: testcase
