@@ -1,16 +1,14 @@
-defmodule UAInspectorVerify.Cleanup.OS do
+defmodule UAInspectorVerify.Cleanup.Client do
   @moduledoc false
 
   alias UAInspectorVerify.Cleanup.Base
 
   @empty_to_unknown [
-    [:os, :name],
-    [:os, :version],
-    [:os, :platform]
+    [:client, :version]
   ]
 
   @version_to_string [
-    [:os, :version]
+    [:client, :version]
   ]
 
   @doc """

@@ -28,6 +28,15 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
     :ok =
       verify_all(
+        &Fixtures.Client.list/0,
+        &Fixtures.Client.download_path/1,
+        &Cleanup.Client.cleanup/1,
+        &UAInspector.Parser.Client.parse/1,
+        &Verify.Client.verify/2
+      )
+
+    :ok =
+      verify_all(
         &Fixtures.OS.list/0,
         &Fixtures.OS.download_path/1,
         &Cleanup.OS.cleanup/1,
@@ -63,6 +72,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     {:ok, _} = Application.ensure_all_started(:hackney)
     :ok = Downloader.download()
 
+    :ok = Fixtures.Client.download()
     :ok = Fixtures.OS.download()
     :ok = Fixtures.VendorFragment.download()
 
