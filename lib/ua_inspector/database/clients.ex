@@ -37,13 +37,20 @@ defmodule UAInspector.Database.Clients do
     Enum.map(entries, fn data ->
       data = Enum.into(data, %{})
 
+      version =
+        case data["version"] do
+          :null -> ""
+          data_version when is_binary(data_version) -> data_version
+          data_version -> to_string(data_version)
+        end
+
       {
         Util.build_regex(data["regex"]),
         {
           prepare_engine_data(type, data["engine"]),
           data["name"] || "",
           type,
-          to_string(data["version"] || "")
+          version
         }
       }
     end)
