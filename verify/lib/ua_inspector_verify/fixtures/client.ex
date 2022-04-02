@@ -7,6 +7,7 @@ defmodule UAInspectorVerify.Fixtures.Client do
   @fixture_path "/Tests/Parser/Client/fixtures/"
 
   @fixtures_default [
+    "browser.yml",
     "pim.yml"
   ]
 
