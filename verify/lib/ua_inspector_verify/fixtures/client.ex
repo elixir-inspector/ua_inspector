@@ -9,6 +9,7 @@ defmodule UAInspectorVerify.Fixtures.Client do
   @fixtures_default [
     "browser.yml",
     "feed_reader.yml",
+    "library.yml",
     "pim.yml"
   ]
 
