@@ -7,7 +7,8 @@ defmodule UAInspectorVerify.Fixtures.Device do
   @fixture_path "/Tests/Parser/Device/fixtures/"
 
   @fixtures_default [
-    "camera.yml"
+    "camera.yml",
+    "car_browser.yml"
   ]
 
   @fixtures_release %{

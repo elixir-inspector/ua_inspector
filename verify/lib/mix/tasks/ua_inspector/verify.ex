@@ -39,7 +39,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
       verify_all(
         &Fixtures.Device.list/0,
         &Fixtures.Device.download_path/1,
-        &Function.identity/1,
+        &Cleanup.Device.cleanup/1,
         &UAInspector.Parser.Device.parse/1,
         &Verify.Device.verify/2
       )
