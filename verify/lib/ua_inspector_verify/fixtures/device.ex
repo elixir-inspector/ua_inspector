@@ -8,7 +8,8 @@ defmodule UAInspectorVerify.Fixtures.Device do
 
   @fixtures_default [
     "camera.yml",
-    "car_browser.yml"
+    "car_browser.yml",
+    "console.yml"
   ]
 
   @fixtures_release %{
