@@ -22,7 +22,7 @@ defmodule UAInspectorVerify.Cleanup.Base do
     testcase
     |> get_in(path)
     |> case do
-      version when is_integer(version) -> put_in(testcase, path, to_string(version))
+      version when is_number(version) -> put_in(testcase, path, to_string(version))
       _ -> testcase
     end
     |> version_to_string(paths)

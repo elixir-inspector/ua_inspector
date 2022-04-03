@@ -10,6 +10,7 @@ defmodule UAInspectorVerify.Fixtures.Client do
     "browser.yml",
     "feed_reader.yml",
     "library.yml",
+    "mediaplayer.yml",
     "mobile_app.yml",
     "pim.yml"
   ]
