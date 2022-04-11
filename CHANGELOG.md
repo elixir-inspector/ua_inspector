@@ -3,7 +3,7 @@
 ## v3.1.0-dev
 
 - Enhancements
-    - Default upstream database version is now `6aa2bdc239a2fc442de531803d7a59f43fa21c2a` (waiting for release)
+    - Default upstream database version is now `v6.0.0`
     - Upstream improvements to detect engine versions of "Blink" type browsers have been integrated
 
 ## v3.0.1 (2022-03-08)
