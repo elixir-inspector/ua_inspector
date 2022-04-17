@@ -29,7 +29,9 @@ defmodule UAInspector.Parser do
   @doc """
   Checks if a user agent is a known bot.
   """
-  @spec bot?(String.t()) :: boolean
+  @spec bot?(Result.t() | Bot.t() | String.t()) :: boolean
+  def bot?(%Bot{}), do: true
+  def bot?(%Result{}), do: false
   def bot?(ua), do: :unknown != Parser.Bot.parse(ua)
 
   @doc """

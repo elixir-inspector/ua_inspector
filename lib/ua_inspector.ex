@@ -106,7 +106,7 @@ defmodule UAInspector do
   @doc """
   Checks if a user agent is a known bot.
   """
-  @spec bot?(String.t() | nil) :: boolean
+  @spec bot?(Result.t() | Bot.t() | String.t() | nil) :: boolean
   def bot?(nil), do: false
   def bot?(""), do: false
   def bot?(ua), do: Parser.bot?(ua)

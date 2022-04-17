@@ -32,8 +32,15 @@ defmodule UAInspector.ParserTest do
   end
 
   test "bot?" do
-    assert UAInspector.bot?("generic crawler agent")
-    refute UAInspector.bot?("regular user agent")
+    bot_ua = "generic crawler agent"
+
+    assert UAInspector.bot?(bot_ua)
+    assert UAInspector.parse(bot_ua) |> UAInspector.bot?()
+
+    regular_ua = "regular user agent"
+
+    refute UAInspector.bot?(regular_ua)
+    refute UAInspector.parse(regular_ua) |> UAInspector.bot?()
   end
 
   test "hbbtv?" do
