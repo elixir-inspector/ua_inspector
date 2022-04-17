@@ -1,5 +1,7 @@
 defmodule UAInspector.ClientHints do
-  @moduledoc false
+  @moduledoc """
+  Parse and store client hint headers for usage in device detection.
+  """
 
   @type t :: %__MODULE__{
           architecture: String.t() | :unknown,
