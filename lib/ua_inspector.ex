@@ -112,6 +112,14 @@ defmodule UAInspector do
   def bot?(ua), do: Parser.bot?(ua)
 
   @doc """
+  Checks if a user agent is a desktop device.
+  """
+  @spec desktop?(Result.t() | Bot.t() | String.t() | nil) :: boolean
+  def desktop?(nil), do: false
+  def desktop?(""), do: false
+  def desktop?(ua), do: Parser.desktop?(ua)
+
+  @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
   @spec hbbtv?(String.t() | nil) :: false | String.t()

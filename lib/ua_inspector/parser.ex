@@ -35,6 +35,25 @@ defmodule UAInspector.Parser do
   def bot?(ua), do: :unknown != Parser.Bot.parse(ua)
 
   @doc """
+  Checks if a user agent is a desktop device.
+  """
+  @spec desktop?(Result.t() | Bot.t() | String.t()) :: boolean
+  def desktop?(%Bot{}), do: false
+  def desktop?(%Result{os: %{name: :unknown}}), do: false
+
+  def desktop?(%Result{os: %{name: os_name}, client: %{type: "browser"} = client}) do
+    if Util.Client.mobile_only?(client) do
+      false
+    else
+      Util.OS.desktop_only?(os_name)
+    end
+  end
+
+  def desktop?(%Result{os: %{name: os_name}}), do: Util.OS.desktop_only?(os_name)
+  def desktop?(%Result{}), do: false
+  def desktop?(ua), do: ua |> parse() |> desktop?()
+
+  @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
   @spec hbbtv?(String.t()) :: false | String.t()

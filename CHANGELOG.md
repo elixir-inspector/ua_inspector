@@ -3,6 +3,7 @@
 ## v3.1.0-dev
 
 - Enhancements
+    - Allow checking if a user agent is a known desktop device using `UAInspector.desktop?/1`
     - Default upstream database version is now `v6.0.0`
     - Parser results can be passed directly to `UAInspector.bot?/1`
     - Upstream improvements to detect engine versions of "Blink" type browsers have been integrated

@@ -18,6 +18,9 @@ defmodule UAInspector.ParserTest do
     refute UAInspector.bot?(nil)
     refute UAInspector.bot?("")
 
+    refute UAInspector.desktop?(nil)
+    refute UAInspector.desktop?("")
+
     refute UAInspector.hbbtv?(nil)
     refute UAInspector.hbbtv?("")
 
@@ -41,6 +44,23 @@ defmodule UAInspector.ParserTest do
 
     refute UAInspector.bot?(regular_ua)
     refute UAInspector.parse(regular_ua) |> UAInspector.bot?()
+  end
+
+  test "desktop?" do
+    assert UAInspector.desktop?(
+             "Mozilla/5.0 (X11; U; Linux i686; fr-fr) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+ Debian/squeeze (2.30.6-1) Epiphany/2.30.6"
+           )
+
+    refute UAInspector.desktop?("regular user agent")
+    refute UAInspector.desktop?("generic crawler agent")
+
+    refute UAInspector.desktop?(
+             "Tiphone T67/1.0 Browser/wap2.0 Sync/SyncClient1.1 Profile/MIDP-2.0 Configuration/CLDC-1.1"
+           )
+
+    refute UAInspector.desktop?(
+             "Mozilla/5.0 (X11; U; Linux x86_64; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10977AP"
+           )
   end
 
   test "hbbtv?" do
