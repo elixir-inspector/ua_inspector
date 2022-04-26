@@ -13,7 +13,7 @@ defmodule UAInspector.Parser.Device do
 
   @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.build_regex("FBMD/")
-  @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}")
+  @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
 
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")

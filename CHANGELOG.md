@@ -7,6 +7,7 @@
     - Default upstream database version is now `v6.0.0`
     - Parser results can be passed directly to `UAInspector.bot?/1`
     - Upstream improvements to detect engine versions of "Blink" type browsers have been integrated
+    - Upstream improvements to detect ShellTV devices have been integrated
 
 ## v3.0.1 (2022-03-08)
 
