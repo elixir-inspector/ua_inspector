@@ -128,6 +128,14 @@ defmodule UAInspector do
   def hbbtv?(ua), do: Parser.hbbtv?(ua)
 
   @doc """
+  Checks if a user agent is a mobile device.
+  """
+  @spec mobile?(Result.t() | Bot.t() | String.t() | nil) :: boolean
+  def mobile?(nil), do: false
+  def mobile?(""), do: false
+  def mobile?(ua), do: Parser.mobile?(ua)
+
+  @doc """
   Checks if a user agent is a ShellTV.
   """
   @spec shelltv?(String.t() | nil) :: boolean

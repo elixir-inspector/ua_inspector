@@ -7,6 +7,16 @@ defmodule UAInspector.Parser do
   alias UAInspector.ShortCodeMap
   alias UAInspector.Util
 
+  @devices_mobile [
+    "camera",
+    "feature phone",
+    "phablet",
+    "portable media player",
+    "smartphone",
+    "tablet"
+  ]
+  @devices_non_mobile ["console", "smart display", "tv"]
+
   @has_touch Util.build_regex("Touch")
   @is_android_tv Util.build_regex("Andr0id|Android TV")
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
@@ -63,6 +73,33 @@ defmodule UAInspector.Parser do
       version -> version
     end
   end
+
+  @doc """
+  Checks if a user agent is a mobile device.
+  """
+  @spec mobile?(Result.t() | Bot.t() | String.t()) :: boolean
+  def mobile?(%Bot{}), do: false
+  def mobile?(%Result{device: %{type: type}}) when type in @devices_mobile, do: true
+  def mobile?(%Result{device: %{type: type}}) when type in @devices_non_mobile, do: false
+
+  def mobile?(%Result{os: %{name: os_name}, client: %{type: "browser"} = client}) do
+    cond do
+      Util.Client.mobile_only?(client) -> true
+      os_name == :unknown -> false
+      true -> !Util.OS.desktop_only?(os_name)
+    end
+  end
+
+  def mobile?(%Result{client: %{type: "browser"} = client}) do
+    if Util.Client.mobile_only?(client) do
+      true
+    else
+      false
+    end
+  end
+
+  def mobile?(%Result{}), do: false
+  def mobile?(ua), do: ua |> parse() |> mobile?()
 
   @doc """
   Checks if a user agent is a ShellTV.
