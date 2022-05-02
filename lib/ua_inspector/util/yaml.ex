@@ -18,4 +18,13 @@ defmodule UAInspector.Util.YAML do
       {:error, _} = error -> error
     end
   end
+
+  @doc """
+  Converts YAML results to string while replacing `:null` with `nil`.
+  """
+  @spec maybe_to_string(any) :: binary | nil
+  def maybe_to_string(nil), do: nil
+  def maybe_to_string(:null), do: nil
+  def maybe_to_string(data) when is_binary(data), do: data
+  def maybe_to_string(data), do: to_string(data)
 end

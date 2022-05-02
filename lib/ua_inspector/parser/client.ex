@@ -67,6 +67,8 @@ defmodule UAInspector.Parser.Client do
     |> Util.maybe_unknown()
   end
 
+  defp resolve_version(nil, _), do: :unknown
+
   defp resolve_version(version, captures) do
     version
     |> Util.uncapture(captures)

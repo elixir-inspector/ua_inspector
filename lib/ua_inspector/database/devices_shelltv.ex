@@ -21,10 +21,6 @@ defmodule UAInspector.Database.DevicesShellTV do
     [{"", "device.shell_tv.yml", Config.database_url(:device, "shell_tv.yml")}]
   end
 
-  defp maybe_to_string(nil), do: nil
-  defp maybe_to_string(val) when is_binary(val), do: val
-  defp maybe_to_string(val), do: to_string(val)
-
   defp parse_models(%{"device" => device, "model" => model, "regex" => regex}) do
     [
       {
@@ -45,7 +41,7 @@ defmodule UAInspector.Database.DevicesShellTV do
       {
         Util.build_regex(model["regex"]),
         {
-          maybe_to_string(model["brand"]),
+          YAML.maybe_to_string(model["brand"]),
           model["device"],
           model["model"] || ""
         }
@@ -61,7 +57,7 @@ defmodule UAInspector.Database.DevicesShellTV do
       {
         Util.build_regex(data["regex"]),
         {
-          maybe_to_string(brand),
+          YAML.maybe_to_string(brand),
           models,
           data["device"],
           type
