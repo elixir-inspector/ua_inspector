@@ -114,7 +114,7 @@ defmodule UAInspector.Config do
 
   The full configuration for remote paths contains the following values:
 
-      config :ua_inspector
+      config :ua_inspector,
         remote_path: [
           bot: "http://example.com",
           browser_engine: "http://example.com",
