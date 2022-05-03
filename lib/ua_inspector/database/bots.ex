@@ -28,9 +28,9 @@ defmodule UAInspector.Database.Bots do
       {
         Util.build_regex(data["regex"]),
         {
-          data["category"] || :unknown,
+          YAML.maybe_to_string(data["category"]) || :unknown,
           data["name"],
-          data["url"] || :unknown,
+          YAML.maybe_to_string(data["url"]) || :unknown,
           producer_info(data["producer"])
         }
       }

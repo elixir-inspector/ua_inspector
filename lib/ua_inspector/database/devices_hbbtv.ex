@@ -28,7 +28,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
         {
           nil,
           device,
-          model || ""
+          YAML.maybe_to_string(model)
         }
       }
     ]
@@ -42,8 +42,8 @@ defmodule UAInspector.Database.DevicesHbbTV do
         Util.build_regex(model["regex"]),
         {
           YAML.maybe_to_string(model["brand"]),
-          model["device"],
-          model["model"] || ""
+          YAML.maybe_to_string(model["device"]),
+          YAML.maybe_to_string(model["model"])
         }
       }
     end)

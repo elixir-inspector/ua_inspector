@@ -39,8 +39,8 @@ defmodule UAInspector.Database.OSs do
       {
         Util.build_regex(data["regex"]),
         {
-          data["name"] || "",
-          to_string(data["version"] || ""),
+          YAML.maybe_to_string(data["name"]),
+          YAML.maybe_to_string(data["version"]),
           oss_versions(data["versions"] || [])
         }
       }

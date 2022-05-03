@@ -60,6 +60,8 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
+  defp resolve_name(nil, _), do: :unknown
+
   defp resolve_name(name, captures) do
     name
     |> Util.uncapture(captures)

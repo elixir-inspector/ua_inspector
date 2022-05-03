@@ -41,7 +41,7 @@ defmodule UAInspector.Database.Clients do
         Util.build_regex(data["regex"]),
         {
           prepare_engine_data(type, data["engine"]),
-          data["name"] || "",
+          YAML.maybe_to_string(data["name"]),
           type,
           YAML.maybe_to_string(data["version"])
         }

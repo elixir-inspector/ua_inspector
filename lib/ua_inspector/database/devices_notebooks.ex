@@ -28,7 +28,7 @@ defmodule UAInspector.Database.DevicesNotebooks do
         {
           nil,
           device,
-          model || ""
+          YAML.maybe_to_string(model)
         }
       }
     ]
@@ -42,8 +42,8 @@ defmodule UAInspector.Database.DevicesNotebooks do
         Util.build_regex(model["regex"]),
         {
           YAML.maybe_to_string(model["brand"]),
-          model["device"],
-          model["model"] || ""
+          YAML.maybe_to_string(model["device"]),
+          YAML.maybe_to_string(model["model"])
         }
       }
     end)
@@ -59,7 +59,7 @@ defmodule UAInspector.Database.DevicesNotebooks do
         {
           YAML.maybe_to_string(brand),
           models,
-          data["device"],
+          YAML.maybe_to_string(data["device"]),
           type
         }
       }

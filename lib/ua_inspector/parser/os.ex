@@ -27,6 +27,8 @@ defmodule UAInspector.Parser.OS do
     end
   end
 
+  defp resolve_name(nil, _), do: :unknown
+
   defp resolve_name(name, captures) do
     name
     |> Util.uncapture(captures)
@@ -45,6 +47,7 @@ defmodule UAInspector.Parser.OS do
     end
   end
 
+  defp resolve_subversion(_, nil, [], _), do: ""
   defp resolve_subversion(_, version, [], captures), do: Util.uncapture(version, captures)
 
   defp resolve_subversion(ua, version, [{regex, subversion} | subversions], captures) do
