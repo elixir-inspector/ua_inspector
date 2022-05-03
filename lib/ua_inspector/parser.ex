@@ -1,6 +1,7 @@
 defmodule UAInspector.Parser do
   @moduledoc false
 
+  alias UAInspector.ClientHints
   alias UAInspector.Parser
   alias UAInspector.Result
   alias UAInspector.Result.Bot
@@ -77,12 +78,13 @@ defmodule UAInspector.Parser do
   @doc """
   Checks if a user agent is a mobile device.
   """
-  @spec mobile?(Result.t() | Bot.t() | String.t()) :: boolean
-  def mobile?(%Bot{}), do: false
-  def mobile?(%Result{device: %{type: type}}) when type in @devices_mobile, do: true
-  def mobile?(%Result{device: %{type: type}}) when type in @devices_non_mobile, do: false
+  @spec mobile?(Result.t() | Bot.t() | String.t(), UAInspector.ClientHints.t() | nil) :: boolean
+  def mobile?(%Bot{}, _), do: false
+  def mobile?(_, %ClientHints{mobile: true}), do: true
+  def mobile?(%Result{device: %{type: type}}, _) when type in @devices_mobile, do: true
+  def mobile?(%Result{device: %{type: type}}, _) when type in @devices_non_mobile, do: false
 
-  def mobile?(%Result{os: %{name: os_name}, client: %{type: "browser"} = client}) do
+  def mobile?(%Result{os: %{name: os_name}, client: %{type: "browser"} = client}, _) do
     cond do
       Util.Client.mobile_only?(client) -> true
       os_name == :unknown -> false
@@ -90,7 +92,7 @@ defmodule UAInspector.Parser do
     end
   end
 
-  def mobile?(%Result{client: %{type: "browser"} = client}) do
+  def mobile?(%Result{client: %{type: "browser"} = client}, _) do
     if Util.Client.mobile_only?(client) do
       true
     else
@@ -98,8 +100,8 @@ defmodule UAInspector.Parser do
     end
   end
 
-  def mobile?(%Result{}), do: false
-  def mobile?(ua), do: ua |> parse() |> mobile?()
+  def mobile?(%Result{}, _), do: false
+  def mobile?(ua, client_hints), do: ua |> parse() |> mobile?(client_hints)
 
   @doc """
   Checks if a user agent is a ShellTV.

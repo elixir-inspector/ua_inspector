@@ -1,6 +1,7 @@
 defmodule UAInspector.ParserTest do
   use ExUnit.Case, async: true
 
+  alias UAInspector.ClientHints
   alias UAInspector.Result
 
   test "handle incomplete yaml definitions" do
@@ -77,6 +78,9 @@ defmodule UAInspector.ParserTest do
            )
 
     refute UAInspector.mobile?("regular user agent")
+    assert UAInspector.mobile?("regular user agent", %ClientHints{mobile: true})
+    refute UAInspector.mobile?("regular user agent", %ClientHints{mobile: false})
+
     refute UAInspector.mobile?("generic crawler agent")
 
     refute UAInspector.mobile?(

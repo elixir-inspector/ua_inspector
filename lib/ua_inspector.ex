@@ -79,6 +79,7 @@ defmodule UAInspector do
   struct instead of `UAInspector.Result`.
   """
 
+  alias UAInspector.ClientHints
   alias UAInspector.Database
   alias UAInspector.Parser
   alias UAInspector.Result
@@ -130,10 +131,12 @@ defmodule UAInspector do
   @doc """
   Checks if a user agent is a mobile device.
   """
-  @spec mobile?(Result.t() | Bot.t() | String.t() | nil) :: boolean
-  def mobile?(nil), do: false
-  def mobile?(""), do: false
-  def mobile?(ua), do: Parser.mobile?(ua)
+  @spec mobile?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
+  def mobile?(ua, client_hints \\ nil)
+
+  def mobile?(nil, _), do: false
+  def mobile?("", _), do: false
+  def mobile?(ua, client_hints), do: Parser.mobile?(ua, client_hints)
 
   @doc """
   Checks if a user agent is a ShellTV.
