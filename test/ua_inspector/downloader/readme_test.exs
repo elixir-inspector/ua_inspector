@@ -27,6 +27,7 @@ defmodule UAInspector.Downloader.READMETest do
       bot: "--ignore-value--",
       browser_engine: "--ignore-value--",
       client: "--ignore-value--",
+      client_hints: "--ignore-value--",
       device: "--ignore-value--",
       os: "--ignore-value--",
       short_code_map: "--ignore-value--",

@@ -28,6 +28,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
       bot: remote_internal <> "/regexes",
       browser_engine: remote_internal <> "/regexes/client",
       client: remote_internal <> "/regexes/client",
+      client_hints: remote_internal <> "/regexes/client/hints",
       device: remote_internal <> "/regexes/device",
       os: remote_internal <> "/regexes",
       short_code_map: remote_internal,
@@ -90,6 +91,20 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
         Application.put_env(:ua_inspector, :database_path, test_path)
         MixTask.run(["--force"])
         Application.put_env(:ua_inspector, :database_path, orig_path)
+
+        client_hints = [
+          UAInspector.ClientHints.Apps,
+          UAInspector.ClientHints.Browsers
+        ]
+
+        for client_hint <- client_hints do
+          {local, _} = client_hint.source()
+
+          [test_path, local]
+          |> Path.join()
+          |> File.exists?()
+          |> assert
+        end
 
         databases = [
           UAInspector.Database.Bots,

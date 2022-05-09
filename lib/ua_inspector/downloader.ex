@@ -13,10 +13,16 @@ defmodule UAInspector.Downloader do
   using a mix task to obtain your database files.
   """
 
+  alias UAInspector.ClientHints
   alias UAInspector.Config
   alias UAInspector.Database
   alias UAInspector.Downloader.ShortCodeMapConverter
   alias UAInspector.ShortCodeMap
+
+  @client_hints [
+    ClientHints.Apps,
+    ClientHints.Browsers
+  ]
 
   @databases [
     Database.Bots,
@@ -44,6 +50,7 @@ defmodule UAInspector.Downloader do
   """
   @spec download() :: :ok
   def download do
+    :ok = download(:client_hints)
     :ok = download(:databases)
     :ok = download(:short_code_maps)
     :ok
@@ -52,7 +59,18 @@ defmodule UAInspector.Downloader do
   @doc """
   Performs download of configured database files and short code maps.
   """
-  @spec download(:databases | :short_code_maps) :: :ok
+  @spec download(:client_hints | :databases | :short_code_maps) :: :ok
+  def download(:client_hints) do
+    File.mkdir_p!(Config.database_path())
+
+    Enum.each(@client_hints, fn client_hint ->
+      {local, remote} = client_hint.source()
+      target = Path.join([Config.database_path(), local])
+
+      :ok = download_file(remote, target)
+    end)
+  end
+
   def download(:databases) do
     File.mkdir_p!(Config.database_path())
 

@@ -63,6 +63,7 @@ defmodule Mix.Tasks.UaInspector.Download do
   end
 
   defp perform_download(opts) do
+    :ok = Downloader.download(:client_hints)
     :ok = Downloader.download(:databases)
     :ok = Downloader.download(:short_code_maps)
     :ok = Downloader.README.write()
