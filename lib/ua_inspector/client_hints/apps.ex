@@ -8,15 +8,14 @@ defmodule UAInspector.ClientHints.Apps do
   alias UAInspector.Config
   alias UAInspector.Util.YAML
 
+  @behaviour UAInspector.Storage.ClientHints
+
   @doc false
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  @doc """
-  Returns the local and remote sources for this database.
-  """
-  @callback source() :: {binary, binary}
+  @impl UAInspector.Storage.ClientHints
   def source do
     {"client_hints.apps.yml", Config.database_url(:client_hints, "/apps.yml")}
   end
