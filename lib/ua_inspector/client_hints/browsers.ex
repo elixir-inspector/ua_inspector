@@ -8,7 +8,6 @@ defmodule UAInspector.ClientHints.Browsers do
   """
   @callback source() :: {binary, binary}
   def source do
-    {"client_hints.browsers.yml",
-     Config.database_url(:client_hints, "/browsers.yml")}
+    {"client_hints.browsers.yml", Config.database_url(:client_hints, "/browsers.yml")}
   end
 end

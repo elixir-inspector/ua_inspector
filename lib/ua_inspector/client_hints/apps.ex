@@ -8,7 +8,6 @@ defmodule UAInspector.ClientHints.Apps do
   """
   @callback source() :: {binary, binary}
   def source do
-    {"client_hints.apps.yml",
-     Config.database_url(:client_hints, "/apps.yml")}
+    {"client_hints.apps.yml", Config.database_url(:client_hints, "/apps.yml")}
   end
 end
