@@ -69,7 +69,7 @@ defmodule UAInspector.Storage.Server do
   end
 
   @doc """
-  Returns all database entries as a list.
+  Returns all database entries.
   """
-  @callback list() :: list
+  @callback list() :: term
 end

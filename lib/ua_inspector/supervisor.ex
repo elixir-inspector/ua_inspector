@@ -42,6 +42,7 @@ defmodule UAInspector.Supervisor do
     :ok = Config.init_env()
 
     children = [
+      UAInspector.ClientHints.Supervisor,
       UAInspector.Database.Supervisor,
       UAInspector.ShortCodeMap.Supervisor
     ]

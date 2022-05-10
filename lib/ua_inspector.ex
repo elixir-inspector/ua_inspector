@@ -87,6 +87,8 @@ defmodule UAInspector do
   alias UAInspector.ShortCodeMap
 
   @storage_modules [
+    ClientHints.Apps,
+    ClientHints.Browsers,
     Database.Bots,
     Database.BrowserEngines,
     Database.Clients,
@@ -173,7 +175,11 @@ defmodule UAInspector do
   """
   @spec ready?() :: boolean
   def ready? do
-    Enum.all?(@storage_modules, &([] != &1.list()))
+    Enum.all?(@storage_modules, fn storage_module ->
+      contents = storage_module.list()
+
+      [] != contents && %{} != contents
+    end)
   end
 
   @doc """
