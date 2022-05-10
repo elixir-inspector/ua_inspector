@@ -9,14 +9,14 @@ defmodule UAInspector.Database.VendorFragments do
   alias UAInspector.Util
   alias UAInspector.Util.YAML
 
-  @behaviour UAInspector.Database
+  @behaviour UAInspector.Storage.Database
 
   @doc false
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  @impl UAInspector.Database
+  @impl UAInspector.Storage.Database
   def sources do
     [
       {"", "vendor_fragment.vendorfragments.yml",

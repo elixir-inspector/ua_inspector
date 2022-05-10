@@ -9,14 +9,14 @@ defmodule UAInspector.Database.OSs do
   alias UAInspector.Util
   alias UAInspector.Util.YAML
 
-  @behaviour UAInspector.Database
+  @behaviour UAInspector.Storage.Database
 
   @doc false
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  @impl UAInspector.Database
+  @impl UAInspector.Storage.Database
   def sources do
     [{"", "os.oss.yml", Config.database_url(:os, "oss.yml")}]
   end

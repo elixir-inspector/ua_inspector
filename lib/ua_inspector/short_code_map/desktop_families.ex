@@ -8,23 +8,23 @@ defmodule UAInspector.ShortCodeMap.DesktopFamilies do
   alias UAInspector.Config
   alias UAInspector.Util.YAML
 
-  @behaviour UAInspector.ShortCodeMap
+  @behaviour UAInspector.Storage.ShortCodeMap
 
   @doc false
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  @impl UAInspector.ShortCodeMap
+  @impl UAInspector.Storage.ShortCodeMap
   def source do
     {"short_codes.desktop_families.yml",
      Config.database_url(:short_code_map, "Parser/OperatingSystem.php")}
   end
 
-  @impl UAInspector.ShortCodeMap
+  @impl UAInspector.Storage.ShortCodeMap
   def var_name, do: "desktopOsArray"
 
-  @impl UAInspector.ShortCodeMap
+  @impl UAInspector.Storage.ShortCodeMap
   def var_type, do: :list
 
   defp read_database do

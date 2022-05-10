@@ -1,4 +1,4 @@
-defmodule UAInspector.Database do
+defmodule UAInspector.Storage.Database do
   @moduledoc false
 
   @doc """

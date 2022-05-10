@@ -1,4 +1,4 @@
-defmodule UAInspector.ShortCodeMap do
+defmodule UAInspector.Storage.ShortCodeMap do
   @moduledoc false
 
   @doc """
