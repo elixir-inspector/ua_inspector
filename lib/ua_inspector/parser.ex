@@ -40,19 +40,19 @@ defmodule UAInspector.Parser do
   @doc """
   Checks if a user agent is a known bot.
   """
-  @spec bot?(Result.t() | Bot.t() | String.t()) :: boolean
-  def bot?(%Bot{}), do: true
-  def bot?(%Result{}), do: false
-  def bot?(ua), do: :unknown != Parser.Bot.parse(ua)
+  @spec bot?(Result.t() | Bot.t() | String.t(), ClientHints.t() | nil) :: boolean
+  def bot?(%Bot{}, _), do: true
+  def bot?(%Result{}, _), do: false
+  def bot?(ua, _), do: :unknown != Parser.Bot.parse(ua)
 
   @doc """
   Checks if a user agent is a desktop device.
   """
-  @spec desktop?(Result.t() | Bot.t() | String.t()) :: boolean
-  def desktop?(%Bot{}), do: false
-  def desktop?(%Result{os: %{name: :unknown}}), do: false
+  @spec desktop?(Result.t() | Bot.t() | String.t(), ClientHints.t() | nil) :: boolean
+  def desktop?(%Bot{}, _), do: false
+  def desktop?(%Result{os: %{name: :unknown}}, _), do: false
 
-  def desktop?(%Result{os: %{name: os_name}, client: %{type: "browser"} = client}) do
+  def desktop?(%Result{os: %{name: os_name}, client: %{type: "browser"} = client}, _) do
     if Util.Client.mobile_only?(client) do
       false
     else
@@ -60,15 +60,15 @@ defmodule UAInspector.Parser do
     end
   end
 
-  def desktop?(%Result{os: %{name: os_name}}), do: Util.OS.desktop_only?(os_name)
-  def desktop?(%Result{}), do: false
-  def desktop?(ua), do: ua |> parse() |> desktop?()
+  def desktop?(%Result{os: %{name: os_name}}, _), do: Util.OS.desktop_only?(os_name)
+  def desktop?(%Result{}, _), do: false
+  def desktop?(ua, client_hints), do: ua |> parse(client_hints) |> desktop?(client_hints)
 
   @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
-  @spec hbbtv?(String.t()) :: false | String.t()
-  def hbbtv?(ua) do
+  @spec hbbtv?(String.t(), ClientHints.t() | nil) :: false | String.t()
+  def hbbtv?(ua, _) do
     case Parser.Device.parse_hbbtv_version(ua) do
       nil -> false
       version -> version
@@ -78,7 +78,7 @@ defmodule UAInspector.Parser do
   @doc """
   Checks if a user agent is a mobile device.
   """
-  @spec mobile?(Result.t() | Bot.t() | String.t(), UAInspector.ClientHints.t() | nil) :: boolean
+  @spec mobile?(Result.t() | Bot.t() | String.t(), ClientHints.t() | nil) :: boolean
   def mobile?(%Bot{}, _), do: false
   def mobile?(_, %ClientHints{mobile: true}), do: true
   def mobile?(%Result{device: %{type: type}}, _) when type in @devices_mobile, do: true
@@ -101,21 +101,21 @@ defmodule UAInspector.Parser do
   end
 
   def mobile?(%Result{}, _), do: false
-  def mobile?(ua, client_hints), do: ua |> parse() |> mobile?(client_hints)
+  def mobile?(ua, client_hints), do: ua |> parse(client_hints) |> mobile?(client_hints)
 
   @doc """
   Checks if a user agent is a ShellTV.
   """
-  @spec shelltv?(String.t()) :: boolean
-  def shelltv?(ua), do: Parser.Device.shelltv?(ua)
+  @spec shelltv?(String.t(), ClientHints.t() | nil) :: boolean
+  def shelltv?(ua, _), do: Parser.Device.shelltv?(ua)
 
   @doc """
   Parses a given user agent string.
   """
-  @spec parse(String.t()) :: Result.t() | Bot.t()
-  def parse(ua) do
+  @spec parse(String.t(), ClientHints.t() | nil) :: Result.t() | Bot.t()
+  def parse(ua, client_hints) do
     case Parser.Bot.parse(ua) do
-      :unknown -> parse_client(ua)
+      :unknown -> parse_client(ua, client_hints)
       bot -> bot
     end
   end
@@ -123,8 +123,8 @@ defmodule UAInspector.Parser do
   @doc """
   Parses a user agent without checking for bots.
   """
-  @spec parse_client(String.t()) :: Result.t()
-  def parse_client(ua) do
+  @spec parse_client(String.t(), ClientHints.t() | nil) :: Result.t()
+  def parse_client(ua, _) do
     %Result{
       user_agent: ua,
       client: Parser.Client.parse(ua),

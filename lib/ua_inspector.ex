@@ -110,26 +110,32 @@ defmodule UAInspector do
   @doc """
   Checks if a user agent is a known bot.
   """
-  @spec bot?(Result.t() | Bot.t() | String.t() | nil) :: boolean
-  def bot?(nil), do: false
-  def bot?(""), do: false
-  def bot?(ua), do: Parser.bot?(ua)
+  @spec bot?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
+  def bot?(ua, client_hints \\ nil)
+
+  def bot?(nil, _), do: false
+  def bot?("", _), do: false
+  def bot?(ua, client_hints), do: Parser.bot?(ua, client_hints)
 
   @doc """
   Checks if a user agent is a desktop device.
   """
-  @spec desktop?(Result.t() | Bot.t() | String.t() | nil) :: boolean
-  def desktop?(nil), do: false
-  def desktop?(""), do: false
-  def desktop?(ua), do: Parser.desktop?(ua)
+  @spec desktop?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
+  def desktop?(ua, client_hints \\ nil)
+
+  def desktop?(nil, _), do: false
+  def desktop?("", _), do: false
+  def desktop?(ua, client_hints), do: Parser.desktop?(ua, client_hints)
 
   @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
-  @spec hbbtv?(String.t() | nil) :: false | String.t()
-  def hbbtv?(nil), do: false
-  def hbbtv?(""), do: false
-  def hbbtv?(ua), do: Parser.hbbtv?(ua)
+  @spec hbbtv?(String.t() | nil, ClientHints.t() | nil) :: false | String.t()
+  def hbbtv?(ua, client_hints \\ nil)
+
+  def hbbtv?(nil, _), do: false
+  def hbbtv?("", _), do: false
+  def hbbtv?(ua, client_hints), do: Parser.hbbtv?(ua, client_hints)
 
   @doc """
   Checks if a user agent is a mobile device.
@@ -144,26 +150,32 @@ defmodule UAInspector do
   @doc """
   Checks if a user agent is a ShellTV.
   """
-  @spec shelltv?(String.t() | nil) :: boolean
-  def shelltv?(nil), do: false
-  def shelltv?(""), do: false
-  def shelltv?(ua), do: Parser.shelltv?(ua)
+  @spec shelltv?(String.t() | nil, ClientHints.t() | nil) :: boolean
+  def shelltv?(ua, client_hints \\ nil)
+
+  def shelltv?(nil, _), do: false
+  def shelltv?("", _), do: false
+  def shelltv?(ua, client_hints), do: Parser.shelltv?(ua, client_hints)
 
   @doc """
   Parses a user agent.
   """
-  @spec parse(String.t() | nil) :: Result.t() | Bot.t()
-  def parse(nil), do: %Result{user_agent: nil}
-  def parse(""), do: %Result{user_agent: ""}
-  def parse(ua), do: Parser.parse(ua)
+  @spec parse(String.t() | nil, ClientHints.t() | nil) :: Result.t() | Bot.t()
+  def parse(ua, client_hints \\ nil)
+
+  def parse(nil, _), do: %Result{user_agent: nil}
+  def parse("", _), do: %Result{user_agent: ""}
+  def parse(ua, client_hints), do: Parser.parse(ua, client_hints)
 
   @doc """
   Parses a user agent without checking for bots.
   """
-  @spec parse_client(String.t() | nil) :: Result.t()
-  def parse_client(nil), do: %Result{user_agent: nil}
-  def parse_client(""), do: %Result{user_agent: ""}
-  def parse_client(ua), do: Parser.parse_client(ua)
+  @spec parse_client(String.t() | nil, ClientHints.t() | nil) :: Result.t()
+  def parse_client(ua, client_hints \\ nil)
+
+  def parse_client(nil, _), do: %Result{user_agent: nil}
+  def parse_client("", _), do: %Result{user_agent: ""}
+  def parse_client(ua, client_hints), do: Parser.parse_client(ua, client_hints)
 
   @doc """
   Checks if UAInspector is ready to perform lookups.
