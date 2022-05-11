@@ -67,7 +67,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.Generic.list/0,
         &Fixtures.Generic.download_path/1,
         &Cleanup.Generic.cleanup/1,
-        &UAInspector.Parser.parse/1,
+        &UAInspector.Parser.parse(&1, nil),
         &Verify.Generic.verify/2
       )
 
