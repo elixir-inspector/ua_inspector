@@ -126,8 +126,11 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
         end
 
         maps = [
+          UAInspector.ShortCodeMap.BrowserFamilies,
           UAInspector.ShortCodeMap.ClientBrowsers,
+          UAInspector.ShortCodeMap.DesktopFamilies,
           UAInspector.ShortCodeMap.MobileBrowsers,
+          UAInspector.ShortCodeMap.OSFamilies,
           UAInspector.ShortCodeMap.OSs
         ]
 
