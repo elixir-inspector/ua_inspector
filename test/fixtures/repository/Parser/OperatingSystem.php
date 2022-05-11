@@ -17,4 +17,9 @@ class OperatingSystem
     ];
 
     protected static $desktopOsArray = ['Windows'];
+
+    protected static $clientHintMapping = [
+        'GNU/Linux' => ['Linux'],
+        'Mac'       => ['MacOS'],
+    ];
 }

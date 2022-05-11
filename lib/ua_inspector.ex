@@ -100,6 +100,7 @@ defmodule UAInspector do
     Database.VendorFragments,
     ShortCodeMap.BrowserFamilies,
     ShortCodeMap.ClientBrowsers,
+    ShortCodeMap.ClientHintOSMapping,
     ShortCodeMap.DesktopFamilies,
     ShortCodeMap.MobileBrowsers,
     ShortCodeMap.OSFamilies,
