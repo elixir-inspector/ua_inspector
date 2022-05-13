@@ -130,7 +130,8 @@ defmodule UAInspector do
   @doc """
   Checks if a user agent is a HbbTV and returns its version if so.
   """
-  @spec hbbtv?(String.t() | nil, ClientHints.t() | nil) :: false | String.t()
+  @spec hbbtv?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) ::
+          false | String.t()
   def hbbtv?(ua, client_hints \\ nil)
 
   def hbbtv?(nil, _), do: false

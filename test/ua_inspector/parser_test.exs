@@ -68,8 +68,18 @@ defmodule UAInspector.ParserTest do
   end
 
   test "hbbtv?" do
-    assert "1.1.1" = UAInspector.hbbtv?("agent containing HbbTV/1.1.1 (; ;) information")
-    refute UAInspector.hbbtv?("generic user agent")
+    hbbtv_ua = "agent containing HbbTV/1.1.1 (; ;) information"
+    regular_ua = "generic user agent"
+    bot_ua = "generic bot"
+
+    assert "1.1.1" = UAInspector.hbbtv?(hbbtv_ua)
+    assert "1.1.1" = UAInspector.parse(hbbtv_ua) |> UAInspector.hbbtv?()
+
+    refute UAInspector.hbbtv?(regular_ua)
+    refute UAInspector.parse(regular_ua) |> UAInspector.hbbtv?()
+
+    refute UAInspector.hbbtv?(bot_ua)
+    refute UAInspector.parse(bot_ua) |> UAInspector.hbbtv?()
   end
 
   test "mobile?" do
