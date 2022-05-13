@@ -103,8 +103,18 @@ defmodule UAInspector.ParserTest do
   end
 
   test "shelltv?" do
-    assert UAInspector.shelltv?("agent containing Shell information")
-    refute UAInspector.shelltv?("generic user agent")
+    shelltv_ua = "agent containing Shell information"
+    regular_ua = "generic user agent"
+    bot_ua = "generic bot"
+
+    assert UAInspector.shelltv?(shelltv_ua)
+    assert UAInspector.parse(shelltv_ua) |> UAInspector.shelltv?()
+
+    refute UAInspector.shelltv?(regular_ua)
+    refute UAInspector.parse(regular_ua) |> UAInspector.shelltv?()
+
+    refute UAInspector.shelltv?(bot_ua)
+    refute UAInspector.parse(bot_ua) |> UAInspector.shelltv?()
   end
 
   test "parse" do
