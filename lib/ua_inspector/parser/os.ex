@@ -11,7 +11,7 @@ defmodule UAInspector.Parser.OS do
     {"ARM", Util.build_regex("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
     {"SuperH", Util.build_regex("sh4")},
     {"MIPS", Util.build_regex("mips")},
-    {"x64", Util.build_regex("64-?bit|WOW64|(?:Intel)?x64|win64|amd64|x86_?64")},
+    {"x64", Util.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")},
     {"x86", Util.build_regex(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc")}
   ]
 
