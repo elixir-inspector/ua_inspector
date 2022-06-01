@@ -5,6 +5,7 @@ defmodule UAInspector.ClientHintsTest do
 
   test "header parsing" do
     expected = %ClientHints{
+      application: "com.ua_inspector.test",
       architecture: "x86",
       bitness: "64",
       full_version: "98.0.14335.105",
@@ -31,7 +32,8 @@ defmodule UAInspector.ClientHintsTest do
         {"sec-ch-ua-mobile", "?1"},
         {"sec-ch-ua-model", "DN2103"},
         {"sec-ch-ua-platform", "Ubuntu"},
-        {"sec-ch-ua-platform-version", "3.7"}
+        {"sec-ch-ua-platform-version", "3.7"},
+        {"x-requested-with", "com.ua_inspector.test"}
       ])
 
     assert ^expected = parsed

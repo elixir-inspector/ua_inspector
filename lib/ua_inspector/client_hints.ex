@@ -4,6 +4,7 @@ defmodule UAInspector.ClientHints do
   """
 
   @type t :: %__MODULE__{
+          application: String.t() | :unknown,
           architecture: String.t() | :unknown,
           bitness: String.t() | :unknown,
           full_version: String.t() | :unknown,
@@ -14,7 +15,8 @@ defmodule UAInspector.ClientHints do
           platform_version: String.t() | :unknown
         }
 
-  defstruct architecture: :unknown,
+  defstruct application: :unknown,
+            architecture: :unknown,
             bitness: :unknown,
             full_version: :unknown,
             full_version_list: [],
@@ -67,6 +69,17 @@ defmodule UAInspector.ClientHints do
 
       {"sec-ch-ua-platform-version", platform_version}, hints ->
         %{hints | platform_version: String.trim(platform_version, ~s("))}
+
+      {"x-requested-with", application_header}, hints ->
+        application =
+          application_header
+          |> String.trim()
+          |> String.downcase()
+
+        case application do
+          "xmlhttprequest" -> hints
+          _ -> %{hints | application: application}
+        end
 
       _, hints ->
         hints
