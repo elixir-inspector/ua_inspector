@@ -47,13 +47,13 @@ defmodule UAInspector.ClientHints do
         %{hints | full_version_list: parse_version_list(version_list)}
 
       {"sec-ch-ua-arch", architecture}, hints ->
-        %{hints | architecture: String.trim(architecture, ~s("))}
+        %{hints | architecture: cleanup(architecture)}
 
       {"sec-ch-ua-bitness", bitness}, hints ->
-        %{hints | bitness: String.trim(bitness, ~s("))}
+        %{hints | bitness: cleanup(bitness)}
 
       {"sec-ch-ua-full-version", full_version}, hints ->
-        %{hints | full_version: String.trim(full_version, ~s("))}
+        %{hints | full_version: cleanup(full_version)}
 
       {"sec-ch-ua-full-version-list", version_list}, hints ->
         %{hints | full_version_list: parse_version_list(version_list)}
@@ -62,18 +62,18 @@ defmodule UAInspector.ClientHints do
         %{hints | mobile: mobile == "?1"}
 
       {"sec-ch-ua-model", model}, hints ->
-        %{hints | model: String.trim(model, ~s("))}
+        %{hints | model: cleanup(model)}
 
       {"sec-ch-ua-platform", platform}, hints ->
-        %{hints | platform: String.trim(platform, ~s("))}
+        %{hints | platform: cleanup(platform)}
 
       {"sec-ch-ua-platform-version", platform_version}, hints ->
-        %{hints | platform_version: String.trim(platform_version, ~s("))}
+        %{hints | platform_version: cleanup(platform_version)}
 
       {"x-requested-with", application_header}, hints ->
         application =
           application_header
-          |> String.trim()
+          |> cleanup()
           |> String.downcase()
 
         case application do
@@ -84,6 +84,13 @@ defmodule UAInspector.ClientHints do
       _, hints ->
         hints
     end)
+  end
+
+  defp cleanup(value) do
+    value
+    |> String.trim()
+    |> String.trim(~s("))
+    |> String.trim()
   end
 
   defp parse_version_list(version_list) do
