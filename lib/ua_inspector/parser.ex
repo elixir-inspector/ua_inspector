@@ -35,7 +35,7 @@ defmodule UAInspector.Parser do
       :unknown
 
   """
-  @callback parse(ua :: String.t()) :: atom | binary | map
+  @callback parse(ua :: String.t(), client_hints :: ClientHints.t() | nil) :: atom | binary | map
 
   @doc """
   Checks if a user agent is a known bot.
@@ -43,7 +43,7 @@ defmodule UAInspector.Parser do
   @spec bot?(Result.t() | Bot.t() | String.t(), ClientHints.t() | nil) :: boolean
   def bot?(%Bot{}, _), do: true
   def bot?(%Result{}, _), do: false
-  def bot?(ua, _), do: :unknown != Parser.Bot.parse(ua)
+  def bot?(ua, client_hints), do: :unknown != Parser.Bot.parse(ua, client_hints)
 
   @doc """
   Checks if a user agent is a desktop device.
@@ -119,7 +119,7 @@ defmodule UAInspector.Parser do
   """
   @spec parse(String.t(), ClientHints.t() | nil) :: Result.t() | Bot.t()
   def parse(ua, client_hints) do
-    case Parser.Bot.parse(ua) do
+    case Parser.Bot.parse(ua, client_hints) do
       :unknown -> parse_client(ua, client_hints)
       bot -> bot
     end
@@ -129,12 +129,12 @@ defmodule UAInspector.Parser do
   Parses a user agent without checking for bots.
   """
   @spec parse_client(String.t(), ClientHints.t() | nil) :: Result.t()
-  def parse_client(ua, _) do
+  def parse_client(ua, client_hints) do
     %Result{
       user_agent: ua,
-      client: Parser.Client.parse(ua),
-      device: Parser.Device.parse(ua),
-      os: Parser.OS.parse(ua)
+      client: Parser.Client.parse(ua, client_hints),
+      device: Parser.Device.parse(ua, client_hints),
+      os: Parser.OS.parse(ua, client_hints)
     }
     |> detect_browser_family()
     |> detect_os_family()

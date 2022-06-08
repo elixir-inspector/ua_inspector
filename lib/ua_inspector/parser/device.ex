@@ -20,7 +20,7 @@ defmodule UAInspector.Parser.Device do
   @opera_tablet Util.build_regex("Opera Tablet")
 
   @impl UAInspector.Parser
-  def parse(ua) do
+  def parse(ua, client_hints) do
     cond do
       Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
       Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
@@ -28,7 +28,7 @@ defmodule UAInspector.Parser.Device do
       true -> parse_regular(ua)
     end
     |> maybe_parse_type(ua)
-    |> maybe_parse_vendor(ua)
+    |> maybe_parse_vendor(ua, client_hints)
   end
 
   @doc """
@@ -48,6 +48,16 @@ defmodule UAInspector.Parser.Device do
   @spec shelltv?(String.t()) :: boolean
   def shelltv?(ua), do: Regex.match?(@shelltv, ua)
 
+  defp do_parse(_, []), do: :unknown
+
+  defp do_parse(ua, [{regex, {_, models, _, _} = device_result} | database]) do
+    if Regex.match?(regex, ua) do
+      parse_model(ua, device_result, models)
+    else
+      do_parse(ua, database)
+    end
+  end
+
   defp maybe_parse_type(%{type: :unknown} = device, ua) do
     cond do
       Regex.match?(@android_mobile, ua) -> %{device | type: "smartphone"}
@@ -59,45 +69,35 @@ defmodule UAInspector.Parser.Device do
 
   defp maybe_parse_type(device, _), do: device
 
-  defp maybe_parse_vendor(%{brand: :unknown} = device, ua) do
-    %{device | brand: VendorFragment.parse(ua)}
+  defp maybe_parse_vendor(%{brand: :unknown} = device, ua, client_hints) do
+    %{device | brand: VendorFragment.parse(ua, client_hints)}
   end
 
-  defp maybe_parse_vendor(device, _), do: device
-
-  defp parse(_, []), do: :unknown
-
-  defp parse(ua, [{regex, {_, models, _, _} = device_result} | database]) do
-    if Regex.match?(regex, ua) do
-      parse_model(ua, device_result, models)
-    else
-      parse(ua, database)
-    end
-  end
+  defp maybe_parse_vendor(device, _, _), do: device
 
   defp parse_hbbtv(ua) do
-    case parse(ua, DevicesHbbTV.list()) do
+    case do_parse(ua, DevicesHbbTV.list()) do
       :unknown -> %Result.Device{type: "tv"}
       device -> device
     end
   end
 
   defp parse_shelltv(ua) do
-    case parse(ua, DevicesShellTV.list()) do
+    case do_parse(ua, DevicesShellTV.list()) do
       :unknown -> %Result.Device{type: "tv"}
       device -> device
     end
   end
 
   defp parse_notebook(ua) do
-    case parse(ua, DevicesNotebooks.list()) do
+    case do_parse(ua, DevicesNotebooks.list()) do
       :unknown -> parse_regular(ua)
       device -> device
     end
   end
 
   defp parse_regular(ua) do
-    case parse(ua, DevicesRegular.list()) do
+    case do_parse(ua, DevicesRegular.list()) do
       :unknown -> %Result.Device{}
       device -> device
     end

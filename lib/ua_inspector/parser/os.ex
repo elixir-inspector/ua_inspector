@@ -16,13 +16,13 @@ defmodule UAInspector.Parser.OS do
   ]
 
   @impl UAInspector.Parser
-  def parse(ua), do: parse(ua, OSs.list())
+  def parse(ua, _), do: do_parse(ua, OSs.list())
 
-  defp parse(_, []), do: :unknown
+  defp do_parse(_, []), do: :unknown
 
-  defp parse(ua, [{regex, result} | database]) do
+  defp do_parse(ua, [{regex, result} | database]) do
     case Regex.run(regex, ua, capture: :all_but_first) do
-      nil -> parse(ua, database)
+      nil -> do_parse(ua, database)
       captures -> result(ua, result, captures)
     end
   end

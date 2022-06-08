@@ -31,7 +31,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.Client.list/0,
         &Fixtures.Client.download_path/1,
         &Cleanup.Client.cleanup/1,
-        &UAInspector.Parser.Client.parse/1,
+        &UAInspector.Parser.Client.parse(&1, nil),
         &Verify.Client.verify/2
       )
 
@@ -40,7 +40,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.Device.list/0,
         &Fixtures.Device.download_path/1,
         &Cleanup.Device.cleanup/1,
-        &UAInspector.Parser.Device.parse/1,
+        &UAInspector.Parser.Device.parse(&1, nil),
         &Verify.Device.verify/2
       )
 
@@ -49,7 +49,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.OS.list/0,
         &Fixtures.OS.download_path/1,
         &Cleanup.OS.cleanup/1,
-        &UAInspector.Parser.OS.parse/1,
+        &UAInspector.Parser.OS.parse(&1, nil),
         &Verify.OS.verify/2
       )
 
@@ -58,7 +58,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.VendorFragment.list/0,
         &Fixtures.VendorFragment.download_path/1,
         &Cleanup.VendorFragment.cleanup/1,
-        &UAInspector.Parser.VendorFragment.parse/1,
+        &UAInspector.Parser.VendorFragment.parse(&1, nil),
         &Verify.VendorFragment.verify/2
       )
 
