@@ -29,6 +29,7 @@ defmodule UAInspectorVerify.Cleanup.Generic do
   def cleanup(testcase) do
     testcase
     |> Base.empty_to_unknown(@empty_to_unknown)
+    |> Base.prepare_headers()
     |> convert_unknown(@unknown_to_atom)
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()

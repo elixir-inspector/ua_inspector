@@ -18,6 +18,7 @@ defmodule UAInspectorVerify.Cleanup.Client do
   def cleanup(testcase) do
     testcase
     |> Base.empty_to_unknown(@empty_to_unknown)
+    |> Base.prepare_headers()
     |> Base.version_to_string(@version_to_string)
   end
 end

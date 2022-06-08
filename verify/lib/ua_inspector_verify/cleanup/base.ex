@@ -16,6 +16,18 @@ defmodule UAInspectorVerify.Cleanup.Base do
     FunctionClauseError -> empty_to_unknown(testcase, paths)
   end
 
+  def prepare_headers(%{headers: headers} = testcase) do
+    %{
+      testcase
+      | headers:
+          Map.new(headers, fn {key, value} ->
+            {key |> Atom.to_string() |> String.downcase(), value}
+          end)
+    }
+  end
+
+  def prepare_headers(testcase), do: testcase
+
   def version_to_string(testcase, []), do: testcase
 
   def version_to_string(testcase, [path | paths]) do

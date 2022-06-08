@@ -14,5 +14,6 @@ defmodule UAInspectorVerify.Cleanup.Device do
   def cleanup(testcase) do
     testcase
     |> Base.empty_to_unknown(@empty_to_unknown)
+    |> Base.prepare_headers()
   end
 end
