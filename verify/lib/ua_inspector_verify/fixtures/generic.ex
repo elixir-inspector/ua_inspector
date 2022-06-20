@@ -53,6 +53,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "smartphone-27.yml",
     "smartphone-28.yml",
     "smartphone-29.yml",
+    "smartphone-30.yml",
     "tablet.yml",
     "tablet-1.yml",
     "tablet-2.yml",
@@ -69,7 +70,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
 
   @fixtures_release %{
     "master" => [
-      "smartphone-30.yml"
+      "tablet-8.yml"
     ]
   }
 
