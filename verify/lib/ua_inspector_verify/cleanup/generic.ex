@@ -31,6 +31,7 @@ defmodule UAInspectorVerify.Cleanup.Generic do
     |> Base.empty_to_unknown(@empty_to_unknown)
     |> Base.prepare_headers()
     |> convert_unknown(@unknown_to_atom)
+    |> cleanup_bot_producers()
     |> cleanup_client_engine()
     |> cleanup_client_engine_version()
     |> cleanup_os_entry()
@@ -48,6 +49,15 @@ defmodule UAInspectorVerify.Cleanup.Generic do
     end
     |> convert_unknown(paths)
   end
+
+  defp cleanup_bot_producers(%{bot: %{producer: %{name: name, url: url}} = bot} = testcase) do
+    name = if name === :null, do: "", else: name
+    url = if url === :null, do: "", else: url
+
+    %{testcase | bot: %{bot | producer: %{name: name, url: url}}}
+  end
+
+  defp cleanup_bot_producers(testcase), do: testcase
 
   defp cleanup_client_engine(%{client: client} = testcase) when is_map(client) do
     client =
