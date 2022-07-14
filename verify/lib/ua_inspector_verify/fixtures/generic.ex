@@ -71,8 +71,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => [
-    ]
+    "master" => []
   }
 
   def download do
