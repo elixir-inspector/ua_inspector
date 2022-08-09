@@ -31,7 +31,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.Client.list/0,
         &Fixtures.Client.download_path/1,
         &Cleanup.Client.cleanup/1,
-        &UAInspector.Parser.Client.parse(&1, nil),
+        &UAInspector.Parser.Client.parse/2,
         &Verify.Client.verify/2
       )
 
@@ -40,7 +40,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.Device.list/0,
         &Fixtures.Device.download_path/1,
         &Cleanup.Device.cleanup/1,
-        &UAInspector.Parser.Device.parse(&1, nil),
+        &UAInspector.Parser.Device.parse/2,
         &Verify.Device.verify/2
       )
 
@@ -49,7 +49,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.OS.list/0,
         &Fixtures.OS.download_path/1,
         &Cleanup.OS.cleanup/1,
-        &UAInspector.Parser.OS.parse(&1, nil),
+        &UAInspector.Parser.OS.parse/2,
         &Verify.OS.verify/2
       )
 
@@ -58,7 +58,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.VendorFragment.list/0,
         &Fixtures.VendorFragment.download_path/1,
         &Cleanup.VendorFragment.cleanup/1,
-        &UAInspector.Parser.VendorFragment.parse(&1, nil),
+        &UAInspector.Parser.VendorFragment.parse/2,
         &Verify.VendorFragment.verify/2
       )
 
@@ -67,7 +67,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Fixtures.Generic.list/0,
         &Fixtures.Generic.download_path/1,
         &Cleanup.Generic.cleanup/1,
-        &UAInspector.Parser.parse(&1, nil),
+        &UAInspector.Parser.parse/2,
         &Verify.Generic.verify/2
       )
 
@@ -108,7 +108,8 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
   defp verify(fixture, [testcase | testcases], fun_cleanup, fun_parse, fun_verify) do
     testcase = testcase |> parse() |> fun_cleanup.()
-    result = testcase[:user_agent] |> fun_parse.()
+    client_hints = nil
+    result = fun_parse.(testcase[:user_agent], client_hints)
 
     if fun_verify.(testcase, result) do
       verify(fixture, testcases, fun_cleanup, fun_parse, fun_verify)
