@@ -21,7 +21,15 @@ defmodule UAInspectorVerify.Cleanup.Base do
       testcase
       | headers:
           Map.new(headers, fn {key, value} ->
-            {key |> Atom.to_string() |> String.downcase(), value}
+            header = key |> Atom.to_string() |> String.downcase()
+
+            header =
+              case header do
+                "http-" <> real_header -> real_header
+                real_header -> real_header
+              end
+
+            {header, value}
           end)
     }
   end
