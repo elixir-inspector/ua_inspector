@@ -15,10 +15,6 @@ defmodule UAInspector.Parser.Device do
   @notebook Util.build_regex("FBMD/")
   @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
 
-  @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
-  @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
-  @opera_tablet Util.build_regex("Opera Tablet")
-
   @impl UAInspector.Parser
   def parse(ua, client_hints) do
     cond do
@@ -27,7 +23,6 @@ defmodule UAInspector.Parser.Device do
       Regex.match?(@notebook, ua) -> parse_notebook(ua)
       true -> parse_regular(ua)
     end
-    |> maybe_parse_type(ua)
     |> maybe_parse_vendor(ua, client_hints)
   end
 
@@ -57,17 +52,6 @@ defmodule UAInspector.Parser.Device do
       do_parse(ua, database)
     end
   end
-
-  defp maybe_parse_type(%{type: :unknown} = device, ua) do
-    cond do
-      Regex.match?(@android_mobile, ua) -> %{device | type: "smartphone"}
-      Regex.match?(@android_tablet, ua) -> %{device | type: "tablet"}
-      Regex.match?(@opera_tablet, ua) -> %{device | type: "tablet"}
-      true -> device
-    end
-  end
-
-  defp maybe_parse_type(device, _), do: device
 
   defp maybe_parse_vendor(%{brand: :unknown} = device, ua, client_hints) do
     %{device | brand: VendorFragment.parse(ua, client_hints)}

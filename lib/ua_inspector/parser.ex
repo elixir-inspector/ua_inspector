@@ -26,6 +26,10 @@ defmodule UAInspector.Parser do
   @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
   @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
 
+  @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
+  @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
+  @opera_tablet Util.build_regex("Opera Tablet")
+
   @doc """
   Parses information from a user agent.
 
@@ -141,14 +145,15 @@ defmodule UAInspector.Parser do
     |> maybe_detect_opera_tv_store()
     |> maybe_detect_android_tv()
     |> maybe_detect_tv()
-    |> maybe_fix_desktop()
     |> maybe_fix_ios()
-    |> maybe_fix_android()
     |> maybe_fix_android_chrome()
-    |> maybe_fix_misc_tv()
-    |> maybe_fix_windows()
-    |> maybe_detect_desktop()
+    |> maybe_fix_device_type()
+    |> maybe_fix_android()
     |> maybe_detect_feature_phone()
+    |> maybe_fix_windows()
+    |> maybe_fix_misc_tv()
+    |> maybe_detect_desktop()
+    |> maybe_fix_desktop()
     |> maybe_unknown_device()
   end
 
@@ -258,6 +263,17 @@ defmodule UAInspector.Parser do
     end
   end
 
+  defp maybe_fix_device_type(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
+    cond do
+      Regex.match?(@android_mobile, ua) -> %{result | device: %{device | type: "smartphone"}}
+      Regex.match?(@android_tablet, ua) -> %{result | device: %{device | type: "tablet"}}
+      Regex.match?(@opera_tablet, ua) -> %{result | device: %{device | type: "tablet"}}
+      true -> result
+    end
+  end
+
+  defp maybe_fix_device_type(result), do: result
+
   defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "tvOS"}} = result) do
     %{result | device: %{device | brand: "Apple"}}
   end
@@ -286,7 +302,6 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android_chrome(
          %{
-           client: %{type: "browser"},
            device: %{type: :unknown} = device,
            os: %{name: "Android"},
            user_agent: ua
