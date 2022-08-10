@@ -20,7 +20,8 @@ defmodule UAInspector.ClientHints.Apps do
     {"client_hints.apps.yml", Config.database_url(:client_hints, "/apps.yml")}
   end
 
-  defp parse_yaml_entries({:ok, entries}, _), do: Map.new(entries)
+  defp parse_yaml_entries({:ok, entries}, _),
+    do: Map.new(entries, fn {k, v} -> {String.downcase(k), v} end)
 
   defp parse_yaml_entries({:error, error}, database) do
     _ =
