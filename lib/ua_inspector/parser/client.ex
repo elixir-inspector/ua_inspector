@@ -1,6 +1,8 @@
 defmodule UAInspector.Parser.Client do
   @moduledoc false
 
+  alias UAInspector.ClientHints
+  alias UAInspector.ClientHints.Apps
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine
   alias UAInspector.Result
@@ -9,7 +11,11 @@ defmodule UAInspector.Parser.Client do
   @behaviour UAInspector.Parser
 
   @impl UAInspector.Parser
-  def parse(ua, client_hints), do: do_parse(ua, client_hints, Clients.list())
+  def parse(ua, client_hints) do
+    ua
+    |> do_parse(client_hints, Clients.list())
+    |> maybe_application(client_hints)
+  end
 
   defp do_parse(_, _, []), do: :unknown
 
@@ -27,6 +33,26 @@ defmodule UAInspector.Parser.Client do
       [version | _] -> version
     end
   end
+
+  defp maybe_application(:unknown, %ClientHints{application: app}) when is_binary(app) do
+    case Apps.list()[app] do
+      nil -> :unknown
+      app_name -> %Result.Client{name: app_name, type: "mobile app"}
+    end
+  end
+
+  defp maybe_application(%{name: client_name} = result, %ClientHints{application: app})
+       when is_binary(app) do
+    app_name = Apps.list()[app]
+
+    cond do
+      app_name == nil -> result
+      app_name == client_name -> result
+      true -> %Result.Client{name: app_name, type: "mobile app"}
+    end
+  end
+
+  defp maybe_application(result, _), do: result
 
   defp maybe_browser_engine("", ua, client_hints), do: BrowserEngine.parse(ua, client_hints)
   defp maybe_browser_engine({"", _}, ua, client_hints), do: BrowserEngine.parse(ua, client_hints)

@@ -37,6 +37,15 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
     :ok =
       verify_all(
+        &Fixtures.ClientHints.list/0,
+        &Fixtures.ClientHints.download_path/1,
+        &Cleanup.Generic.cleanup/1,
+        &UAInspector.Parser.parse/2,
+        &Verify.ClientHints.verify/2
+      )
+
+    :ok =
+      verify_all(
         &Fixtures.Device.list/0,
         &Fixtures.Device.download_path/1,
         &Cleanup.Device.cleanup/1,
@@ -82,6 +91,7 @@ defmodule Mix.Tasks.UaInspector.Verify do
     :ok = Downloader.download()
 
     :ok = Fixtures.Client.download()
+    :ok = Fixtures.ClientHints.download()
     :ok = Fixtures.Device.download()
     :ok = Fixtures.OS.download()
     :ok = Fixtures.VendorFragment.download()
@@ -108,7 +118,13 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
   defp verify(fixture, [testcase | testcases], fun_cleanup, fun_parse, fun_verify) do
     testcase = testcase |> parse() |> fun_cleanup.()
-    client_hints = nil
+
+    client_hints =
+      case testcase[:headers] do
+        nil -> nil
+        headers -> UAInspector.ClientHints.new(headers)
+      end
+
     result = fun_parse.(testcase[:user_agent], client_hints)
 
     if fun_verify.(testcase, result) do
