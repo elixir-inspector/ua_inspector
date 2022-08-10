@@ -34,16 +34,14 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
-  defp maybe_application(:unknown, %ClientHints{application: app}) when is_binary(app) do
-    case Apps.list()[app] do
-      nil -> :unknown
-      app_name -> %Result.Client{name: app_name, type: "mobile app"}
-    end
-  end
-
-  defp maybe_application(%{name: client_name} = result, %ClientHints{application: app})
-       when is_binary(app) do
+  defp maybe_application(result, %ClientHints{application: app}) when is_binary(app) do
     app_name = Apps.list()[app]
+
+    client_name =
+      case result do
+        :unknown -> :unknown
+        %{name: client_name} -> client_name
+      end
 
     cond do
       app_name == nil -> result
