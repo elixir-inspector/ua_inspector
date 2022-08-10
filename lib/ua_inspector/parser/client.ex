@@ -13,16 +13,16 @@ defmodule UAInspector.Parser.Client do
   @impl UAInspector.Parser
   def parse(ua, client_hints) do
     ua
-    |> do_parse(client_hints, Clients.list())
+    |> do_parse(Clients.list())
     |> maybe_application(client_hints)
   end
 
-  defp do_parse(_, _, []), do: :unknown
+  defp do_parse(_, []), do: :unknown
 
-  defp do_parse(ua, client_hints, [{regex, result} | database]) do
+  defp do_parse(ua, [{regex, result} | database]) do
     case Regex.run(regex, ua, capture: :all_but_first) do
-      nil -> do_parse(ua, client_hints, database)
-      captures -> result(ua, client_hints, result, captures)
+      nil -> do_parse(ua, database)
+      captures -> result(ua, result, captures)
     end
   end
 
@@ -54,17 +54,17 @@ defmodule UAInspector.Parser.Client do
 
   defp maybe_application(result, _), do: result
 
-  defp maybe_browser_engine("", ua, client_hints), do: BrowserEngine.parse(ua, client_hints)
-  defp maybe_browser_engine({"", _}, ua, client_hints), do: BrowserEngine.parse(ua, client_hints)
-  defp maybe_browser_engine(engine, _, _), do: engine
+  defp maybe_browser_engine("", ua), do: BrowserEngine.parse(ua, nil)
+  defp maybe_browser_engine({"", _}, ua), do: BrowserEngine.parse(ua, nil)
+  defp maybe_browser_engine(engine, _), do: engine
 
-  defp maybe_resolve_engine("browser", engine_data, ua, client_hints, version) do
+  defp maybe_resolve_engine("browser", engine_data, ua, version) do
     engine_data
     |> resolve_engine(version)
-    |> maybe_browser_engine(ua, client_hints)
+    |> maybe_browser_engine(ua)
   end
 
-  defp maybe_resolve_engine(_, _, _, _, _), do: :unknown
+  defp maybe_resolve_engine(_, _, _, _), do: :unknown
 
   defp resolve_engine(nil, _), do: ""
   defp resolve_engine([{"default", default}], _), do: default
@@ -104,11 +104,11 @@ defmodule UAInspector.Parser.Client do
     |> Util.maybe_unknown()
   end
 
-  defp result(ua, client_hints, {engine, name, type, version}, captures) do
+  defp result(ua, {engine, name, type, version}, captures) do
     version = resolve_version(version, captures)
 
     {engine, engine_version} =
-      case maybe_resolve_engine(type, engine, ua, client_hints, version) do
+      case maybe_resolve_engine(type, engine, ua, version) do
         {engine, version_regex} when is_binary(engine) and 0 < byte_size(engine) ->
           {engine, find_engine_version(ua, version_regex)}
 
