@@ -3,6 +3,7 @@ defmodule UAInspector.Parser.Client do
 
   alias UAInspector.ClientHints
   alias UAInspector.ClientHints.Apps
+  alias UAInspector.ClientHints.Browsers
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine
   alias UAInspector.Result
@@ -15,6 +16,7 @@ defmodule UAInspector.Parser.Client do
     ua
     |> do_parse(Clients.list())
     |> maybe_application(client_hints)
+    |> maybe_browser(client_hints)
   end
 
   defp do_parse(_, []), do: :unknown
@@ -51,6 +53,25 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp maybe_application(result, _), do: result
+
+  defp maybe_browser(result, %ClientHints{application: browser}) when is_binary(browser) do
+    browser = String.downcase(browser)
+    browser_name = Browsers.list()[browser]
+
+    client_name =
+      case result do
+        :unknown -> :unknown
+        %{name: client_name} -> client_name
+      end
+
+    cond do
+      browser_name == nil -> result
+      browser_name == client_name -> result
+      true -> %Result.Client{name: browser_name, type: "browser"}
+    end
+  end
+
+  defp maybe_browser(result, _), do: result
 
   defp maybe_browser_engine("", ua), do: BrowserEngine.parse(ua, nil)
   defp maybe_browser_engine({"", _}, ua), do: BrowserEngine.parse(ua, nil)
