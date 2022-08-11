@@ -16,4 +16,8 @@ class Browser
     protected static $mobileOnlyBrowsers = [
         'CH', 'FF', 'IE',
     ];
+
+    protected static $clientHintMapping = [
+        'Chrome' => ['Google Chrome'],
+    ];
 }

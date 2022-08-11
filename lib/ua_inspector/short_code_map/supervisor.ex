@@ -15,6 +15,7 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
     children = [
       ShortCodeMap.BrowserFamilies,
       ShortCodeMap.ClientBrowsers,
+      ShortCodeMap.ClientHintBrowserMapping,
       ShortCodeMap.ClientHintOSMapping,
       ShortCodeMap.DesktopFamilies,
       ShortCodeMap.MobileBrowsers,
