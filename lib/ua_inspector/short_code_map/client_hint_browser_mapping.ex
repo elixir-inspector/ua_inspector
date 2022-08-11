@@ -37,7 +37,7 @@ defmodule UAInspector.ShortCodeMap.ClientHintBrowserMapping do
   end
 
   defp parse_yaml_entries({:ok, entries}, _) do
-    Enum.map(entries, fn [{family, codes}] -> {family, codes} end)
+    Enum.map(entries, fn [{family, codes}] -> {family, Enum.map(codes, &String.downcase/1)} end)
   end
 
   defp parse_yaml_entries({:error, error}, map) do
