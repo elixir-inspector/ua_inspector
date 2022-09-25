@@ -4,7 +4,7 @@ defmodule UAInspector.Downloader.Adapter do
   """
 
   @doc """
-  Reads a database file from a remote location and returns it's contents.
+  Reads a database file from a remote location and returns its contents.
   """
   @callback read_remote(location :: binary) :: {:ok, contents :: binary} | {:error, term}
 end
