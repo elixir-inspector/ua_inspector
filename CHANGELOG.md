@@ -20,7 +20,7 @@
 
 - Enhancements
     - Default upstream database version is now `5.0.4`
-    - If a database or short code map contains no (zero) entries during statup/reload a `Logger.info/1` will be sent unless `startup_silent = true` is configured
+    - If a database or short code map contains no (zero) entries during startup/reload a `Logger.info/1` will be sent unless `startup_silent = true` is configured
 
 - Backwards incompatible changes
     - Minimum required Elixir version is now `~> 1.9`
@@ -74,7 +74,7 @@ There will be a new major version of `ua_inspector` with a rebuilt database supp
 ## v1.1.0 (2019-07-13)
 
 - Enhancements
-    - Configuring `startup_sync: true` allows you to ensure a synchronous database load is attempted before allowing to parse referers
+    - Configuring `startup_sync: true` allows you to ensure a synchronous database load is attempted before allowing to parse user agents
     - Database entries are now stored in a single named table instead of using an intermediate reference table
     - Output of mix task `ua_inspector.download` can be prevented by passing `--quiet` upon invocation. This does NOT imply `--force` and will still ask for confirmation
     - Passing `async: false` to `UAInspector.reload/1` allows you to block your calling process until the reload has finished
@@ -201,7 +201,7 @@ There will be a new major version of `ua_inspector` with a rebuilt database supp
 
 - Enhancements
     - Database downloads are done using hackney in order to prepare an upcoming auto-update feature
-    - If the initial load of a database (during process initialisiation) fails a message will be sent through `Logger.info/1`
+    - If the initial load of a database (during process initialisation) fails a message will be sent through `Logger.info/1`
     - If the initial load of a short code map (during process initialisation) fails a message will be sent through `Logger.info/1`
 
 - Backwards incompatible changes
