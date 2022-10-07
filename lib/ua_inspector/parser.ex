@@ -22,6 +22,7 @@ defmodule UAInspector.Parser do
   @is_android_tv Util.build_regex("Andr0id|Android TV")
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
+  @is_generic_tv Util.build_regex("\\(TV;")
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
   @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
@@ -319,12 +320,11 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android_chrome(result), do: result
 
-  # assume "SmartTV" and "Tizen TV" to be a tv
   defp maybe_fix_misc_tv(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
-    if Regex.match?(@is_misc_tv, ua) do
-      %{result | device: %{device | type: "tv"}}
-    else
-      result
+    cond do
+      Regex.match?(@is_misc_tv, ua) -> %{result | device: %{device | type: "tv"}}
+      Regex.match?(@is_generic_tv, ua) -> %{result | device: %{device | type: "tv"}}
+      true -> result
     end
   end
 
