@@ -73,7 +73,9 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => []
+    "master" => [
+      "phablet-1.yml"
+    ]
   }
 
   def download do
