@@ -54,6 +54,8 @@ defmodule UAInspector.Parser.Client do
 
   defp maybe_application(result, _), do: result
 
+  defp maybe_browser(%{type: "mobile app"} = result, _), do: result
+
   defp maybe_browser(result, %ClientHints{application: browser}) when is_binary(browser) do
     browser = String.downcase(browser)
     browser_name = Browsers.list()[browser]
