@@ -67,9 +67,21 @@ defmodule UAInspector.Parser.Client do
       end
 
     cond do
-      browser_name == nil -> result
-      browser_name == client_name -> result
-      true -> %Result.Client{name: browser_name, type: "browser"}
+      browser_name == nil ->
+        result
+
+      browser_name == client_name ->
+        result
+
+      true ->
+        result =
+          if :unknown == result do
+            %Result.Client{}
+          else
+            result
+          end
+
+        %{result | name: browser_name, type: "browser", version: :unknown}
     end
   end
 
