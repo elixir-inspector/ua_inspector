@@ -3,6 +3,14 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
+  def verify(%{headers: %{"sec-ch-ua-mobile" => _}}, _), do: true
+
+  def verify(%{headers: %{"x-requested-with" => _}} = testcase, result) do
+    # partial verificiation until full client hint parsing implemented
+    testcase.user_agent == result.user_agent &&
+      testcase.client == maybe_from_struct(result.client)
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&

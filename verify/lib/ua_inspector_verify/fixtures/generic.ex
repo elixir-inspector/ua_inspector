@@ -12,6 +12,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "bots.yml",
     "camera.yml",
     "car_browser.yml",
+    "clienthints.yml",
     "console.yml",
     "desktop.yml",
     "feature_phone.yml",
