@@ -12,4 +12,11 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsersTest do
 
     assert ^browser = ClientBrowsers.to_short(browser)
   end
+
+  test "find client browser fuzzy" do
+    assert ClientBrowsers.find_fuzzy("Crazy Browser")
+    assert ClientBrowsers.find_fuzzy("Crazy")
+    assert ClientBrowsers.find_fuzzy("Puffin Browser")
+    refute ClientBrowsers.find_fuzzy("Crazy-Browser")
+  end
 end

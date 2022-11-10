@@ -29,6 +29,22 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   def var_type, do: :hash
 
   @doc """
+  Returns the short code using a fuzzy (downcase, no whitespace) long match.
+  """
+  @spec find_fuzzy(String.t()) :: nil | {String.t(), String.t()}
+  def find_fuzzy(long) do
+    fuzzy_long_1 = to_fuzzy(long)
+    fuzzy_long_2 = fuzzy_long_1 <> "browser"
+
+    Enum.find(list(), fn {_, list_long} ->
+      list_long_1 = to_fuzzy(list_long)
+      list_long_2 = list_long_1 <> "browser"
+
+      list_long_1 == fuzzy_long_1 || list_long_1 == fuzzy_long_2 || list_long_2 == fuzzy_long_1
+    end)
+  end
+
+  @doc """
   Returns the short code for a client browser.
   """
   @spec to_short(String.t()) :: String.t()
@@ -55,4 +71,6 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
 
     []
   end
+
+  defp to_fuzzy(value), do: value |> String.replace(" ", "") |> String.downcase()
 end
