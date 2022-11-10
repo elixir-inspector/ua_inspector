@@ -12,4 +12,10 @@ defmodule UAInspector.ShortCodeMap.OSsTest do
 
     assert ^name = OSs.to_short(name)
   end
+
+  test "find OS fuzzy" do
+    assert OSs.find_fuzzy("WindowsRT")
+    assert OSs.find_fuzzy("Windows RT")
+    refute OSs.find_fuzzy("Windows-RT")
+  end
 end

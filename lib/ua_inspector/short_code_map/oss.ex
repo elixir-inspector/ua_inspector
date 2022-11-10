@@ -28,6 +28,16 @@ defmodule UAInspector.ShortCodeMap.OSs do
   def var_type, do: :hash
 
   @doc """
+  Returns the short code using a fuzzy (downcase, no whitespace) long match.
+  """
+  @spec find_fuzzy(String.t()) :: nil | {String.t(), String.t()}
+  def find_fuzzy(long) do
+    fuzzy_long = to_fuzzy(long)
+
+    Enum.find(list(), fn {_, list_long} -> to_fuzzy(list_long) == fuzzy_long end)
+  end
+
+  @doc """
   Returns the short code for a operating system.
   """
   @spec to_short(String.t()) :: String.t()
@@ -54,4 +64,6 @@ defmodule UAInspector.ShortCodeMap.OSs do
 
     []
   end
+
+  defp to_fuzzy(value), do: value |> String.replace(" ", "") |> String.downcase()
 end
