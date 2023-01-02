@@ -6,7 +6,7 @@ defmodule UAInspectorVerify.Verify.Generic do
   def verify(%{headers: %{"sec-ch-ua-mobile" => _}}, _), do: true
 
   def verify(%{headers: %{"x-requested-with" => _}} = testcase, result) do
-    # partial verificiation until full client hint parsing implemented
+    # partial verification until full client hint parsing implemented
     testcase.user_agent == result.user_agent &&
       testcase.client == maybe_from_struct(result.client)
   end
