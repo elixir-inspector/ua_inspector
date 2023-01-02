@@ -5,7 +5,6 @@ defmodule UAInspector.Parser do
   alias UAInspector.Parser
   alias UAInspector.Result
   alias UAInspector.Result.Bot
-  alias UAInspector.ShortCodeMap
   alias UAInspector.Util
 
   @devices_mobile [
@@ -164,13 +163,8 @@ defmodule UAInspector.Parser do
 
   defp detect_browser_family(result), do: result
 
-  defp detect_os_family(%{os: %{name: os_name}} = result) do
-    os_family =
-      os_name
-      |> ShortCodeMap.OSs.to_short()
-      |> Util.OS.family()
-
-    %{result | os_family: os_family || :unknown}
+  defp detect_os_family(%{os: %{} = os_result} = result) do
+    %{result | os_family: Util.OS.family_from_result(os_result)}
   end
 
   defp detect_os_family(result), do: result

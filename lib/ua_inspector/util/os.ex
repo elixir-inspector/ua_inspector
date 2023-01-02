@@ -1,6 +1,7 @@
 defmodule UAInspector.Util.OS do
   @moduledoc false
 
+  alias UAInspector.Result
   alias UAInspector.ShortCodeMap
 
   @doc """
@@ -23,6 +24,19 @@ defmodule UAInspector.Util.OS do
   """
   @spec family(short_code :: String.t()) :: String.t() | nil
   def family(short_code), do: family(short_code, ShortCodeMap.OSFamilies.list())
+
+  @doc """
+  Returns the OS family for an OS parser result.
+  """
+  @spec family_from_result(Result.OS.t()) :: String.t() | :unknown
+  def family_from_result(%Result.OS{name: name}) do
+    family =
+      name
+      |> ShortCodeMap.OSs.to_short()
+      |> family()
+
+    family || :unknown
+  end
 
   @doc """
   Returns the proper case version of an OS name.
