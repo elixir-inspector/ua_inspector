@@ -1,9 +1,12 @@
 defmodule UAInspector.Parser.OS do
   @moduledoc false
 
-  alias UAInspector.Database.OSs
+  alias UAInspector.Database.OSs, as: OSsDatabase
   alias UAInspector.Result
+  alias UAInspector.ShortCodeMap.OSs, as: OSsShortCodeMap
   alias UAInspector.Util
+  alias UAInspector.Util.ClientHintMapping
+  alias UAInspector.Util.OS
 
   @behaviour UAInspector.Parser
 
@@ -16,15 +19,74 @@ defmodule UAInspector.Parser.OS do
   ]
 
   @impl UAInspector.Parser
-  def parse(ua, _), do: do_parse(ua, OSs.list())
+  def parse(ua, client_hints) do
+    hints_result = parse_hints(client_hints)
+    agent_result = parse_agent(ua, OSsDatabase.list())
 
-  defp do_parse(_, []), do: :unknown
+    merge_results(hints_result, agent_result)
+  end
 
-  defp do_parse(ua, [{regex, result} | database]) do
+  defp merge_results(:unknown, agent_result), do: agent_result
+  defp merge_results(hints_result, :unknown), do: hints_result
+
+  defp merge_results(hints_result, agent_result) do
+    name =
+      if hints_result.name != agent_result.name &&
+           hints_result.name == OS.family_from_result(agent_result) do
+        agent_result.name
+      else
+        hints_result.name
+      end
+
+    %{agent_result | name: name}
+  end
+
+  defp parse_agent(_, []), do: :unknown
+
+  defp parse_agent(ua, [{regex, result} | database]) do
     case Regex.run(regex, ua, capture: :all_but_first) do
-      nil -> do_parse(ua, database)
+      nil -> parse_agent(ua, database)
       captures -> result(ua, result, captures)
     end
+  end
+
+  defp parse_hints(%{platform: platform, platform_version: platform_version})
+       when is_binary(platform) do
+    platform_name = ClientHintMapping.os_mapping(platform)
+
+    case OSsShortCodeMap.find_fuzzy(platform_name) do
+      nil ->
+        :unknown
+
+      {_, os_name} ->
+        os_version = parse_hints_version(os_name, platform_version)
+
+        %Result.OS{name: os_name, version: os_version}
+    end
+  end
+
+  defp parse_hints(_), do: :unknown
+
+  defp parse_hints_version(_, :unknown), do: :unknown
+
+  defp parse_hints_version("Windows", version) do
+    semversion =
+      version
+      |> Util.sanitize_version()
+      |> Util.to_semver()
+      |> Version.parse()
+
+    case semversion do
+      {:ok, %Version{major: major}} when major > 0 and major < 11 -> "10"
+      {:ok, %Version{major: major}} when major > 10 -> "11"
+      _ -> :unknown
+    end
+  end
+
+  defp parse_hints_version(_, version) do
+    version
+    |> Util.sanitize_version()
+    |> Util.maybe_unknown()
   end
 
   defp resolve_name(nil, _), do: :unknown
