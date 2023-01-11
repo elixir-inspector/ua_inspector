@@ -21,6 +21,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "mobile_apps.yml",
     "peripheral.yml",
     "phablet.yml",
+    "phablet-1.yml",
     "portable_media_player.yml",
     "smart_display.yml",
     "smart_speaker.yml",
@@ -58,6 +59,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "smartphone-31.yml",
     "smartphone-32.yml",
     "smartphone-33.yml",
+    "smartphone-34.yml",
     "tablet.yml",
     "tablet-1.yml",
     "tablet-2.yml",
@@ -67,19 +69,16 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "tablet-6.yml",
     "tablet-7.yml",
     "tablet-8.yml",
+    "tablet-9.yml",
     "tv.yml",
     "tv-1.yml",
+    "tv-2.yml",
     "unknown.yml",
     "wearable.yml"
   ]
 
   @fixtures_release %{
-    "master" => [
-      "phablet-1.yml",
-      "smartphone-34.yml",
-      "tablet-9.yml",
-      "tv-2.yml"
-    ]
+    "master" => []
   }
 
   def download do
