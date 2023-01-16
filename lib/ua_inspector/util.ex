@@ -76,7 +76,7 @@ defmodule UAInspector.Util do
       "3.6.0"
 
       iex> to_semver("8.8.8")
-      "8.8.0"
+      "8.8.8"
 
       iex> to_semver("")
       ""
@@ -89,23 +89,59 @@ defmodule UAInspector.Util do
 
       iex> to_semver("0.1.invalid")
       "0.1.0"
+
+      iex> to_semver("1.2.3.4")
+      "1.2.3-4"
   """
   @spec to_semver(version :: String.t()) :: String.t()
   def to_semver(""), do: ""
 
   def to_semver(version) do
-    case String.split(version, ".", parts: 3) do
-      [maj] -> to_semver_string(maj, "0")
-      [maj, min] -> to_semver_string(maj, min)
-      [maj, min, _] -> to_semver_string(maj, min)
+    case String.split(version, ".", parts: 4) do
+      [maj] -> to_semver_string(maj, "0", "0", nil)
+      [maj, min] -> to_semver_string(maj, min, "0", nil)
+      [maj, min, patch] -> to_semver_string(maj, min, patch, nil)
+      [maj, min, patch, pre] -> to_semver_string(maj, min, patch, pre)
     end
   end
 
-  defp to_semver_string(major, minor) do
-    case {Integer.parse(major), Integer.parse(minor)} do
-      {:error, _} -> "0.0.0"
-      {{maj, _}, :error} -> "#{maj}.0.0"
-      {{maj, _}, {min, _}} -> "#{maj}.#{min}.0"
+  @doc """
+  Forces a "pre-release" setting to a semver-comparable version.
+
+  ## Examples
+
+      iex> to_semver_with_pre("15")
+      "15.0.0-0"
+
+      iex> to_semver_with_pre("1.2.3.4")
+      "1.2.3-4"
+
+      iex> to_semver("")
+      ""
+  """
+  def to_semver_with_pre(version) do
+    semver = to_semver(version)
+
+    cond do
+      "" == semver -> semver
+      String.contains?(semver, "-") -> semver
+      true -> semver <> "-0"
+    end
+  end
+
+  defp to_semver_string(major, minor, patch, pre) do
+    version =
+      case {Integer.parse(major), Integer.parse(minor), Integer.parse(patch)} do
+        {:error, _, _} -> "0.0.0"
+        {{maj, _}, :error, _} -> "#{maj}.0.0"
+        {{maj, _}, {min, _}, :error} -> "#{maj}.#{min}.0"
+        {{maj, _}, {min, _}, {patch, _}} -> "#{maj}.#{min}.#{patch}"
+      end
+
+    if nil != pre do
+      version <> "-" <> pre
+    else
+      version
     end
   end
 

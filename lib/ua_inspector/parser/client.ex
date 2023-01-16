@@ -7,24 +7,148 @@ defmodule UAInspector.Parser.Client do
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine
   alias UAInspector.Result
+  alias UAInspector.ShortCodeMap.ClientBrowsers
   alias UAInspector.Util
+  alias UAInspector.Util.Browser
+  alias UAInspector.Util.ClientHintMapping
 
   @behaviour UAInspector.Parser
 
   @impl UAInspector.Parser
   def parse(ua, client_hints) do
-    ua
-    |> do_parse(Clients.list())
+    hints_result = parse_hints(client_hints)
+    agent_result = parse_agent(ua, Clients.list())
+
+    result = merge_results(hints_result, agent_result)
+
+    result
     |> maybe_application(client_hints)
     |> maybe_browser(client_hints)
   end
 
-  defp do_parse(_, []), do: :unknown
+  defp merge_results(:unknown, agent_result), do: agent_result
+  defp merge_results(hints_result, :unknown), do: hints_result
 
-  defp do_parse(ua, [{regex, result} | database]) do
+  defp merge_results(%{name: name, version: version} = hints_result, agent_result)
+       when is_binary(name) and is_binary(version) do
+    result =
+      hints_result
+      |> merge_results_iridium(hints_result, agent_result)
+      |> merge_results_agent_version(hints_result, agent_result)
+      |> merge_results_chromium(agent_result)
+
+    result =
+      if agent_result.name == name <> " Mobile" do
+        %{result | name: agent_result.name}
+      else
+        result
+      end
+
+    result =
+      if agent_result.name != name and Browser.family(agent_result.name) == Browser.family(name) do
+        %{result | engine: agent_result.engine, engine_version: agent_result.engine_version}
+      else
+        result
+      end
+
+    merge_results_version(result, agent_result)
+  end
+
+  defp merge_results_iridium(result, %{version: iridium_version}, %{
+         engine: engine,
+         engine_version: engine_version
+       })
+       when iridium_version in ["2021.12", "2022", "2022.04"],
+       do: %{result | name: "Iridium", engine: engine, engine_version: engine_version}
+
+  defp merge_results_iridium(result, _, _), do: result
+
+  defp merge_results_agent_version(result, %{name: "Atom"}, %{version: version}),
+    do: %{result | version: version}
+
+  defp merge_results_agent_version(result, %{name: "Huawei Browser"}, %{version: version}),
+    do: %{result | version: version}
+
+  defp merge_results_agent_version(result, _, _), do: result
+
+  defp merge_results_chromium(%{name: "Chromium"} = result, %{name: "Chromium"}), do: result
+
+  defp merge_results_chromium(%{name: "Chromium"} = result, %{name: name, version: version}),
+    do: %{result | name: name, version: version}
+
+  defp merge_results_chromium(result, _), do: result
+
+  defp merge_results_version(%{name: result_name, version: result_version} = result, %{
+         name: result_name,
+         engine: agent_engine,
+         engine_version: agent_engine_version,
+         version: agent_version
+       }) do
+    version =
+      if result_version != agent_version do
+        merge_results_version_compare(result_version, agent_version)
+      else
+        result_version
+      end
+
+    %{result | engine: agent_engine, engine_version: agent_engine_version, version: version}
+  end
+
+  defp merge_results_version(result, _), do: result
+
+  defp merge_results_version_compare(same_version, same_version), do: same_version
+  defp merge_results_version_compare(:unknown, agent_version), do: agent_version
+  defp merge_results_version_compare(result_version, :unknown), do: result_version
+
+  defp merge_results_version_compare(result_version, agent_version) do
+    agent_semver = Util.to_semver_with_pre(agent_version)
+    result_semver = Util.to_semver_with_pre(result_version)
+
+    if String.starts_with?(agent_version, result_version) and
+         :lt == Version.compare(result_semver, agent_semver) do
+      agent_version
+    else
+      result_version
+    end
+  end
+
+  defp parse_agent(_, []), do: :unknown
+
+  defp parse_agent(ua, [{regex, result} | database]) do
     case Regex.run(regex, ua, capture: :all_but_first) do
-      nil -> do_parse(ua, database)
+      nil -> parse_agent(ua, database)
       captures -> result(ua, result, captures)
+    end
+  end
+
+  defp parse_hints(%{full_version: full_version, full_version_list: [_ | _] = versions}) do
+    case parse_hints_versions(versions, :unknown) do
+      {name, version} ->
+        client_version =
+          if :unknown == full_version do
+            version
+          else
+            full_version
+          end
+
+        %Result.Client{name: name, type: "browser", version: client_version}
+
+      :unknown ->
+        :unknown
+    end
+  end
+
+  defp parse_hints(_), do: :unknown
+
+  defp parse_hints_versions([], fallback), do: fallback
+
+  defp parse_hints_versions([{name, version} | versions], fallback) do
+    hint_name = ClientHintMapping.browser_mapping(name)
+
+    case ClientBrowsers.find_fuzzy(hint_name) do
+      nil -> parse_hints_versions(versions, fallback)
+      {_, "Chromium"} -> parse_hints_versions(versions, {"Chromium", version})
+      {_, brand_name} -> {brand_name, version}
     end
   end
 
