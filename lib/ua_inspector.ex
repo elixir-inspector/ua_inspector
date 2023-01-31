@@ -12,6 +12,16 @@ defmodule UAInspector do
 
   ## Usage
 
+  The map key `:user_agent` will hold the unmodified passed user agent.
+
+  If the device type cannot be determined a "desktop" device type will be
+  assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
+
+  When a bot agent is detected the result with be a `UAInspector.Result.Bot`
+  struct instead of `UAInspector.Result`.
+
+  ### Basic User Agent Lookup
+
       iex> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
       %UAInspector.Result{
         browser_family: "Safari",
@@ -35,6 +45,65 @@ defmodule UAInspector do
         os_family: "iOS",
         user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
       }
+
+  ### Lookup with Additional Client Hints
+
+      iex> client_hints = UAInspector.ClientHints.new([
+      ...>   {"sec-ch-ua", ~S(" Not A;Brand";v="99", "Chromium";v="95", "Microsoft Edge";v="95")},
+      ...>   {"sec-ch-ua-mobile", "?0"},
+      ...>   {"sec-ch-ua-platform", "Windows"},
+      ...>   {"sec-ch-ua-platform-version", "14.0.0"}
+      ...> ])
+      iex> UAInspector.parse("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 Edg/95.0.1020.44", client_hints)
+      %UAInspector.Result{
+        browser_family: "Internet Explorer",
+        client: %UAInspector.Result.Client{
+          engine: "Blink",
+          engine_version: "95.0.4638.69",
+          name: "Microsoft Edge",
+          type: "browser",
+          version: "95.0.1020.44"
+        },
+        device: %UAInspector.Result.Device{
+          brand: :unknown,
+          model: :unknown,
+          type: "desktop"
+        },
+        os: %UAInspector.Result.OS{
+          name: "Windows",
+          platform: "x64",
+          version: "10"
+        },
+        os_family: "Windows",
+        user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 Edg/95.0.1020.44"
+      }
+
+      iex> client_hints = UAInspector.ClientHints.new([{"x-requested-with", "org.telegram.messenger"}])
+      iex> UAInspector.parse("Mozilla/5.0 (Linux; Android 11; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36", client_hints)
+      %UAInspector.Result{
+        browser_family: :unknown,
+        client: %UAInspector.Result.Client{
+          engine: :unknown,
+          engine_version: :unknown,
+          name: "Telegram",
+          type: "mobile app",
+          version: :unknown
+        },
+        device: %UAInspector.Result.Device{
+          brand: "Google",
+          model: "Pixel 3",
+          type: "smartphone"
+        },
+        os: %UAInspector.Result.OS{
+          name: "Android",
+          platform: :unknown,
+          version: "11"
+        },
+        os_family: "Android",
+        user_agent: "Mozilla/5.0 (Linux; Android 11; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36"
+      }
+
+  ### Bot Result
 
       iex> UAInspector.parse("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36")
       %UAInspector.Result.Bot{
@@ -60,6 +129,8 @@ defmodule UAInspector do
         user_agent: "generic crawler agent"
       }
 
+  ### Unknown User Agent
+
       iex> UAInspector.parse("--- undetectable ---")
       %UAInspector.Result{
         browser_family: :unknown,
@@ -69,14 +140,6 @@ defmodule UAInspector do
         os_family: :unknown,
         user_agent: "--- undetectable ---"
       }
-
-  The map key `:user_agent` will hold the unmodified passed user agent.
-
-  If the device type cannot be determined a "desktop" device type will be
-  assumed (and returned). Both `:brand` and `:model` are set to `:unknown`.
-
-  When a bot agent is detected the result with be a `UAInspector.Result.Bot`
-  struct instead of `UAInspector.Result`.
   """
 
   alias UAInspector.ClientHints
