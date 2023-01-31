@@ -17,7 +17,7 @@ defmodule UAInspector do
         browser_family: "Safari",
         client: %UAInspector.Result.Client{
           engine: "WebKit",
-          engine_version: "537.51.11",
+          engine_version: "537.51.1",
           name: "Mobile Safari",
           type: "browser",
           version: "7.0"
