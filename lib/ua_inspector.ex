@@ -12,7 +12,7 @@ defmodule UAInspector do
 
   ## Usage
 
-      iex(1)> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
+      iex> UAInspector.parse("Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53")
       %UAInspector.Result{
         browser_family: "Safari",
         client: %UAInspector.Result.Client{
@@ -36,7 +36,7 @@ defmodule UAInspector do
         user_agent: "Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.53"
       }
 
-      iex(2)> UAInspector.parse("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36")
+      iex> UAInspector.parse("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36")
       %UAInspector.Result.Bot{
         category: "Search bot",
         name: "Googlebot",
@@ -48,7 +48,7 @@ defmodule UAInspector do
         user_agent: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36"
       }
 
-      iex(3)> UAInspector.parse("generic crawler agent")
+      iex> UAInspector.parse("generic crawler agent")
       %UAInspector.Result.Bot{
         category: :unknown,
         name: "Generic Bot",
@@ -60,7 +60,7 @@ defmodule UAInspector do
         user_agent: "generic crawler agent"
       }
 
-      iex(4)> UAInspector.parse("--- undetectable ---")
+      iex> UAInspector.parse("--- undetectable ---")
       %UAInspector.Result{
         browser_family: :unknown,
         client: :unknown,
