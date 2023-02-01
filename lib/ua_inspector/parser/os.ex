@@ -10,6 +10,12 @@ defmodule UAInspector.Parser.OS do
 
   @behaviour UAInspector.Parser
 
+  @android_apps [
+    "com.hisense.odinbrowser",
+    "com.seraphic.openinet.pre",
+    "com.appssppa.idesktoppcbrowser"
+  ]
+
   @platforms [
     {"ARM", Util.build_regex("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
     {"SuperH", Util.build_regex("sh4")},
@@ -23,13 +29,35 @@ defmodule UAInspector.Parser.OS do
     hints_result = parse_hints(client_hints)
     agent_result = parse_agent(ua, OSsDatabase.list())
 
-    merge_results(hints_result, agent_result)
+    merge_results(client_hints, hints_result, agent_result)
   end
 
-  defp merge_results(:unknown, agent_result), do: agent_result
-  defp merge_results(hints_result, :unknown), do: hints_result
+  defp merge_results(%{application: application}, :unknown, agent_result)
+       when application in @android_apps do
+    platform =
+      case agent_result do
+        %{platform: agent_platform} -> agent_platform
+        _ -> :unknown
+      end
 
-  defp merge_results(hints_result, agent_result) do
+    %Result.OS{name: "Android", platform: platform}
+  end
+
+  defp merge_results(%{application: application}, %{name: name}, agent_result)
+       when application in @android_apps and name != "Android" do
+    platform =
+      case agent_result do
+        %{platform: agent_platform} -> agent_platform
+        _ -> :unknown
+      end
+
+    %Result.OS{name: "Android", platform: platform}
+  end
+
+  defp merge_results(_, :unknown, agent_result), do: agent_result
+  defp merge_results(_, hints_result, :unknown), do: hints_result
+
+  defp merge_results(_, hints_result, agent_result) do
     name =
       if hints_result.name != agent_result.name &&
            hints_result.name == OS.family_from_result(agent_result) do
