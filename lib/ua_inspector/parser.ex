@@ -18,7 +18,7 @@ defmodule UAInspector.Parser do
   @devices_non_mobile ["console", "smart display", "tv"]
 
   @has_touch Util.build_regex("Touch")
-  @is_android_tv Util.build_regex("Andr0id|Android TV")
+  @is_android_tv Util.build_regex("Andr0id|Android TV|\(lite\) TV")
   @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
   @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
   @is_generic_tv Util.build_regex("\\(TV;")
