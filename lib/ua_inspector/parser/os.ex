@@ -73,7 +73,14 @@ defmodule UAInspector.Parser.OS do
         true -> agent_result.version
       end
 
-    %{agent_result | name: name, version: version}
+    platform =
+      if hints_result.platform != :unknown do
+        hints_result.platform
+      else
+        agent_result.platform
+      end
+
+    %{agent_result | name: name, platform: platform, version: version}
   end
 
   defp parse_agent(_, []), do: :unknown
