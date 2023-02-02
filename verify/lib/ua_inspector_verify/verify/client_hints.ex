@@ -1,12 +1,6 @@
 defmodule UAInspectorVerify.Verify.ClientHints do
   @moduledoc false
 
-  def verify(%{client: %{name: "iDesktop PC Browser"}} = testcase, result) do
-    # partial verification until full client hint parsing implemented
-    testcase.user_agent == result.user_agent &&
-      testcase.client == maybe_from_struct(result.client)
-  end
-
   def verify(testcase, result) do
     testcase.user_agent == result.user_agent &&
       testcase.browser_family == result.browser_family &&

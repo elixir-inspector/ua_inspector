@@ -2,6 +2,7 @@ defmodule UAInspector.Parser do
   @moduledoc false
 
   alias UAInspector.ClientHints
+  alias UAInspector.ClientHints.Apps
   alias UAInspector.Parser
   alias UAInspector.Result
   alias UAInspector.Result.Bot
@@ -140,7 +141,7 @@ defmodule UAInspector.Parser do
       device: Parser.Device.parse(ua, client_hints),
       os: Parser.OS.parse(ua, client_hints)
     }
-    |> detect_browser_family()
+    |> detect_browser_family(client_hints)
     |> detect_os_family()
     |> maybe_detect_opera_tv_store()
     |> maybe_detect_android_tv()
@@ -157,11 +158,27 @@ defmodule UAInspector.Parser do
     |> maybe_unknown_device()
   end
 
-  defp detect_browser_family(%{client: %{name: client_name, type: "browser"}} = result) do
+  defp detect_browser_family(%{client: %{name: client_name, type: "browser"}} = result, %{
+         application: app
+       })
+       when is_binary(app) do
+    app_name = Apps.list()[app]
+
+    browser_family =
+      if app_name != :unknown do
+        Util.Browser.family(client_name) || "Chrome"
+      else
+        Util.Browser.family(client_name) || :unknown
+      end
+
+    %{result | browser_family: browser_family}
+  end
+
+  defp detect_browser_family(%{client: %{name: client_name, type: "browser"}} = result, _) do
     %{result | browser_family: Util.Browser.family(client_name) || :unknown}
   end
 
-  defp detect_browser_family(result), do: result
+  defp detect_browser_family(result, _), do: result
 
   defp detect_os_family(%{os: %{} = os_result} = result) do
     %{result | os_family: Util.OS.family_from_result(os_result)}
