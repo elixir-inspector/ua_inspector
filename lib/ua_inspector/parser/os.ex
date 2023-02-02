@@ -66,7 +66,14 @@ defmodule UAInspector.Parser.OS do
         hints_result.name
       end
 
-    %{agent_result | name: name}
+    version =
+      cond do
+        "HarmonyOS" == name -> :unknown
+        hints_result.version != :unknown -> hints_result.version
+        true -> agent_result.version
+      end
+
+    %{agent_result | name: name, version: version}
   end
 
   defp parse_agent(_, []), do: :unknown
