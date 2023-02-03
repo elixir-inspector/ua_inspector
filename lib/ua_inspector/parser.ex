@@ -20,8 +20,9 @@ defmodule UAInspector.Parser do
 
   @has_touch Util.build_regex("Touch")
   @is_android_tv Util.build_regex("Andr0id|Android TV|\(lite\) TV")
-  @is_chrome_smartphone Util.build_regex("Chrome/[\.0-9]* (?:Mobile|eliboM)")
-  @is_chrome_tablet Util.build_regex("Chrome/[\.0-9]* (?!Mobile)")
+  @is_chrome Util.build_regex("Chrome/[\.0-9]*")
+  @is_chrome_smartphone Util.build_regex("(?:Mobile|eliboM) Safari/")
+  @is_chrome_tablet Util.build_regex("(?!Mobile )Safari/")
   @is_generic_tv Util.build_regex("\\(TV;")
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
@@ -319,10 +320,12 @@ defmodule UAInspector.Parser do
            user_agent: ua
          } = result
        ) do
+    is_chrome = Regex.match?(@is_chrome, ua)
+
     device_type =
       cond do
-        Regex.match?(@is_chrome_smartphone, ua) -> "smartphone"
-        Regex.match?(@is_chrome_tablet, ua) -> "tablet"
+        is_chrome and Regex.match?(@is_chrome_smartphone, ua) -> "smartphone"
+        is_chrome and Regex.match?(@is_chrome_tablet, ua) -> "tablet"
         true -> :unknown
       end
 
