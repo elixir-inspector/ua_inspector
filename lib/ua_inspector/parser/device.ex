@@ -17,13 +17,18 @@ defmodule UAInspector.Parser.Device do
 
   @impl UAInspector.Parser
   def parse(ua, client_hints) do
-    cond do
-      Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
-      Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
-      Regex.match?(@notebook, ua) -> parse_notebook(ua)
-      true -> parse_regular(ua)
-    end
-    |> maybe_parse_vendor(ua, client_hints)
+    agent_result =
+      cond do
+        Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
+        Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
+        Regex.match?(@notebook, ua) -> parse_notebook(ua)
+        true -> parse_regular(ua)
+      end
+      |> maybe_parse_vendor(ua, client_hints)
+
+    hints_result = parse_hints(client_hints)
+
+    merge_results(hints_result, agent_result)
   end
 
   @doc """
@@ -58,6 +63,16 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp maybe_parse_vendor(device, _, _), do: device
+
+  defp merge_results(%{} = hints_result, %{brand: :unknown, model: :unknown, type: :unknown}),
+    do: hints_result
+
+  defp merge_results(_, agent_result), do: agent_result
+
+  defp parse_hints(%{model: model}) when is_binary(model),
+    do: %Result.Device{model: Util.maybe_unknown(model)}
+
+  defp parse_hints(_), do: :unknown
 
   defp parse_hbbtv(ua) do
     case do_parse(ua, DevicesHbbTV.list()) do
