@@ -29,31 +29,24 @@ defmodule UAInspector.Parser.OS do
     hints_result = parse_hints(client_hints)
     agent_result = parse_agent(ua, OSsDatabase.list())
 
-    merge_results(client_hints, hints_result, agent_result)
+    client_hints
+    |> merge_results(hints_result, agent_result)
+    |> parse_hints_platform(client_hints, agent_result)
+    |> maybe_unknown_os()
   end
 
-  defp merge_results(%{application: application}, :unknown, agent_result)
-       when application in @android_apps do
-    platform =
-      case agent_result do
-        %{platform: agent_platform} -> agent_platform
-        _ -> :unknown
-      end
+  defp maybe_unknown_os(%{name: :unknown, platform: :unknown, version: :unknown}), do: :unknown
+  defp maybe_unknown_os(result), do: result
 
-    %Result.OS{name: "Android", platform: platform}
-  end
+  defp merge_results(%{application: application}, :unknown, _)
+       when application in @android_apps,
+       do: %Result.OS{name: "Android"}
 
-  defp merge_results(%{application: application}, %{name: name}, agent_result)
-       when application in @android_apps and name != "Android" do
-    platform =
-      case agent_result do
-        %{platform: agent_platform} -> agent_platform
-        _ -> :unknown
-      end
+  defp merge_results(%{application: application}, %{name: name}, _)
+       when application in @android_apps and name != "Android",
+       do: %Result.OS{name: "Android"}
 
-    %Result.OS{name: "Android", platform: platform}
-  end
-
+  defp merge_results(_, :unknown, :unknown), do: %Result.OS{}
   defp merge_results(_, :unknown, agent_result), do: agent_result
   defp merge_results(_, hints_result, :unknown), do: hints_result
 
@@ -73,14 +66,7 @@ defmodule UAInspector.Parser.OS do
         true -> agent_result.version
       end
 
-    platform =
-      if hints_result.platform != :unknown do
-        hints_result.platform
-      else
-        agent_result.platform
-      end
-
-    %{agent_result | name: name, platform: platform, version: version}
+    %{agent_result | name: name, version: version}
   end
 
   defp parse_agent(_, []), do: :unknown
@@ -108,6 +94,27 @@ defmodule UAInspector.Parser.OS do
   end
 
   defp parse_hints(_), do: :unknown
+
+  defp parse_hints_platform(result, %{architecture: architecture, bitness: bitness}, agent_result)
+       when is_binary(architecture) do
+    architecture = String.downcase(architecture)
+
+    platform =
+      cond do
+        String.contains?(architecture, "arm") -> "ARM"
+        String.contains?(architecture, "mips") -> "MIPS"
+        String.contains?(architecture, "sh4") -> "SuperH"
+        String.contains?(architecture, "x64") -> "x64"
+        String.contains?(architecture, "x86") and "64" == bitness -> "x64"
+        String.contains?(architecture, "x86") -> "x86"
+        true -> parse_hints_platform(result, nil, agent_result)
+      end
+
+    %{result | platform: platform}
+  end
+
+  defp parse_hints_platform(result, _, %{platform: platform}), do: %{result | platform: platform}
+  defp parse_hints_platform(result, _, _), do: %{result | platform: :unknown}
 
   defp parse_hints_version(_, :unknown), do: :unknown
 
