@@ -177,8 +177,9 @@ defmodule UAInspector do
   @spec bot?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
   def bot?(ua, client_hints \\ nil)
 
-  def bot?(nil, _), do: false
-  def bot?("", _), do: false
+  def bot?(nil, nil), do: false
+  def bot?("", nil), do: false
+  def bot?(nil, client_hints), do: Parser.bot?("", client_hints)
   def bot?(ua, client_hints), do: Parser.bot?(ua, client_hints)
 
   @doc """
@@ -187,8 +188,9 @@ defmodule UAInspector do
   @spec desktop?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
   def desktop?(ua, client_hints \\ nil)
 
-  def desktop?(nil, _), do: false
-  def desktop?("", _), do: false
+  def desktop?(nil, nil), do: false
+  def desktop?("", nil), do: false
+  def desktop?(nil, client_hints), do: Parser.desktop?("", client_hints)
   def desktop?(ua, client_hints), do: Parser.desktop?(ua, client_hints)
 
   @doc """
@@ -198,8 +200,9 @@ defmodule UAInspector do
           false | String.t()
   def hbbtv?(ua, client_hints \\ nil)
 
-  def hbbtv?(nil, _), do: false
-  def hbbtv?("", _), do: false
+  def hbbtv?(nil, nil), do: false
+  def hbbtv?("", nil), do: false
+  def hbbtv?(nil, client_hints), do: Parser.hbbtv?("", client_hints)
   def hbbtv?(ua, client_hints), do: Parser.hbbtv?(ua, client_hints)
 
   @doc """
@@ -208,8 +211,9 @@ defmodule UAInspector do
   @spec mobile?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
   def mobile?(ua, client_hints \\ nil)
 
-  def mobile?(nil, _), do: false
-  def mobile?("", _), do: false
+  def mobile?(nil, nil), do: false
+  def mobile?("", nil), do: false
+  def mobile?(nil, client_hints), do: Parser.mobile?("", client_hints)
   def mobile?(ua, client_hints), do: Parser.mobile?(ua, client_hints)
 
   @doc """
@@ -218,8 +222,9 @@ defmodule UAInspector do
   @spec shelltv?(Result.t() | Bot.t() | String.t() | nil, ClientHints.t() | nil) :: boolean
   def shelltv?(ua, client_hints \\ nil)
 
-  def shelltv?(nil, _), do: false
-  def shelltv?("", _), do: false
+  def shelltv?(nil, nil), do: false
+  def shelltv?("", nil), do: false
+  def shelltv?(nil, client_hints), do: Parser.shelltv?("", client_hints)
   def shelltv?(ua, client_hints), do: Parser.shelltv?(ua, client_hints)
 
   @doc """
@@ -228,8 +233,9 @@ defmodule UAInspector do
   @spec parse(String.t() | nil, ClientHints.t() | nil) :: Result.t() | Bot.t()
   def parse(ua, client_hints \\ nil)
 
-  def parse(nil, _), do: %Result{user_agent: nil}
-  def parse("", _), do: %Result{user_agent: ""}
+  def parse(nil, nil), do: %Result{user_agent: nil}
+  def parse("", nil), do: %Result{user_agent: ""}
+  def parse(nil, client_hints), do: Parser.parse("", client_hints)
   def parse(ua, client_hints), do: Parser.parse(ua, client_hints)
 
   @doc """
@@ -238,8 +244,9 @@ defmodule UAInspector do
   @spec parse_client(String.t() | nil, ClientHints.t() | nil) :: Result.t()
   def parse_client(ua, client_hints \\ nil)
 
-  def parse_client(nil, _), do: %Result{user_agent: nil}
-  def parse_client("", _), do: %Result{user_agent: ""}
+  def parse_client(nil, nil), do: %Result{user_agent: nil}
+  def parse_client("", nil), do: %Result{user_agent: ""}
+  def parse_client(nil, client_hints), do: Parser.parse_client("", client_hints)
   def parse_client(ua, client_hints), do: Parser.parse_client(ua, client_hints)
 
   @doc """
