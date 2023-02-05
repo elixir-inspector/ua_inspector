@@ -50,10 +50,13 @@ defmodule UAInspector.Parser.OS do
   defp merge_results(_, :unknown, agent_result), do: agent_result
   defp merge_results(_, hints_result, :unknown), do: hints_result
 
+  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp merge_results(_, hints_result, agent_result) do
+    agent_family = OS.family_from_result(agent_result)
+    hints_family = OS.family_from_result(hints_result)
+
     name =
-      if hints_result.name != agent_result.name &&
-           hints_result.name == OS.family_from_result(agent_result) do
+      if hints_result.name != agent_result.name and hints_result.name == agent_family do
         agent_result.name
       else
         hints_result.name
@@ -61,9 +64,18 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
-        "HarmonyOS" == name -> :unknown
-        hints_result.version != :unknown -> hints_result.version
-        true -> agent_result.version
+        "HarmonyOS" == name ->
+          :unknown
+
+        hints_result.name != :unknown and hints_result.version == :unknown and
+            agent_family == hints_family ->
+          agent_result.version
+
+        hints_result.version != :unknown ->
+          hints_result.version
+
+        true ->
+          :unknown
       end
 
     name =
