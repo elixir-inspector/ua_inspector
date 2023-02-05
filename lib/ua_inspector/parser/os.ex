@@ -66,6 +66,14 @@ defmodule UAInspector.Parser.OS do
         true -> agent_result.version
       end
 
+    name =
+      if "GNU/Linux" == name and "Chrome OS" == agent_result.name and
+           hints_result.version == agent_result.version do
+        agent_result.name
+      else
+        name
+      end
+
     %{agent_result | name: name, version: version}
   end
 
