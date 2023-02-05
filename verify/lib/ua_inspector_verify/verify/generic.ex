@@ -3,8 +3,6 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
-  def verify(%{headers: %{"sec-ch-ua-mobile" => _}}, _), do: true
-
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
