@@ -6,11 +6,23 @@ defmodule UAInspector.Benchmark.Parse do
   @agent_tablet "Mozilla/5.0 (Linux; U; Android 4.2.2; it-it; Surfing TAB B 9.7 3G Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
   @agent_unknown "Mozilla/5.0 (Linux; U; Android 4.0.4; en-us; NABI2-NV7A Build/IMM76L)Maxthon AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30"
 
+  @hints_desktop_agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 Edg/95.0.1020.44"
+  @hints_desktop_hints UAInspector.ClientHints.new([
+                         {"sec-ch-ua",
+                          ~S(" Not A;Brand";v="99", "Chromium";v="95", "Microsoft Edge";v="95")},
+                         {"sec-ch-ua-mobile", "?0"},
+                         {"sec-ch-ua-platform", "Windows"},
+                         {"sec-ch-ua-platform-version", "14.0.0"}
+                       ])
+
   def run do
     Benchee.run(
       %{
         "Parse: bot" => fn -> UAInspector.parse(@agent_bot) end,
         "Parse: desktop" => fn -> UAInspector.parse(@agent_desktop) end,
+        "Parse: desktop (client hints)" => fn ->
+          UAInspector.parse(@hints_desktop_agent, @hints_desktop_hints)
+        end,
         "Parse: hbbtv" => fn -> UAInspector.parse(@agent_hbbtv) end,
         "Parse: smartphone" => fn -> UAInspector.parse(@agent_smartphone) end,
         "Parse: tablet" => fn -> UAInspector.parse(@agent_tablet) end,
