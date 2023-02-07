@@ -10,6 +10,9 @@ defmodule UAInspector do
   3. Download a copy of the database files as outlined in
      `UAInspector.Downloader`
 
+  Please re-download (or otherwise update your copy of) the database
+  if the default `:remote_release` in `UAInspector.Config` changes.
+
   ## Usage
 
   The map key `:user_agent` will hold the unmodified passed user agent.

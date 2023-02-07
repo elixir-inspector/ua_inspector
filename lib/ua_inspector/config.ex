@@ -138,6 +138,13 @@ defmodule UAInspector.Config do
   Please be aware that using a non-default release can lead to unexpected
   results based on the specific changes between the releases.
 
+  If the default release changes (expect this to be the case with every
+  release of UAInspector) you should download a new copy of the database
+  and/or update your own release configuration. As the list of used files
+  or special in-code detections can change with each release there may
+  otherwise be unexpected messages during application startup or incorrect
+  results from agent detection.
+
   ## Download Configuration
 
   Using the default configuration all download requests for your database files
