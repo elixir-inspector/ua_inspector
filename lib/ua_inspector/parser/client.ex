@@ -12,9 +12,9 @@ defmodule UAInspector.Parser.Client do
   alias UAInspector.Util.Browser
   alias UAInspector.Util.ClientHintMapping
 
-  @behaviour UAInspector.Parser
+  @behaviour UAInspector.Parser.Behaviour
 
-  @impl UAInspector.Parser
+  @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     hints_result = parse_hints(client_hints)
     agent_result = parse_agent(ua, Clients.list())

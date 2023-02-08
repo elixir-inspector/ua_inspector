@@ -9,13 +9,13 @@ defmodule UAInspector.Parser.Device do
   alias UAInspector.Result
   alias UAInspector.Util
 
-  @behaviour UAInspector.Parser
+  @behaviour UAInspector.Parser.Behaviour
 
   @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.build_regex("FBMD/")
   @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
 
-  @impl UAInspector.Parser
+  @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     agent_result =
       cond do

@@ -8,7 +8,7 @@ defmodule UAInspector.Parser.OS do
   alias UAInspector.Util.ClientHintMapping
   alias UAInspector.Util.OS
 
-  @behaviour UAInspector.Parser
+  @behaviour UAInspector.Parser.Behaviour
 
   @android_apps [
     "com.hisense.odinbrowser",
@@ -24,7 +24,7 @@ defmodule UAInspector.Parser.OS do
     {"x86", Util.build_regex(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc")}
   ]
 
-  @impl UAInspector.Parser
+  @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     hints_result = parse_hints(client_hints)
     agent_result = parse_agent(ua, OSsDatabase.list())

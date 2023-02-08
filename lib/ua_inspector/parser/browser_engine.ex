@@ -3,9 +3,9 @@ defmodule UAInspector.Parser.BrowserEngine do
 
   alias UAInspector.Database.BrowserEngines
 
-  @behaviour UAInspector.Parser
+  @behaviour UAInspector.Parser.Behaviour
 
-  @impl UAInspector.Parser
+  @impl UAInspector.Parser.Behaviour
   def parse(ua, _), do: do_parse(ua, BrowserEngines.list())
 
   defp do_parse(_, []), do: :unknown

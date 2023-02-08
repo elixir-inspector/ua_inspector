@@ -4,9 +4,9 @@ defmodule UAInspector.Parser.Bot do
   alias UAInspector.Database.Bots
   alias UAInspector.Result
 
-  @behaviour UAInspector.Parser
+  @behaviour UAInspector.Parser.Behaviour
 
-  @impl UAInspector.Parser
+  @impl UAInspector.Parser.Behaviour
   def parse(ua, _), do: do_parse(ua, Bots.list())
 
   defp do_parse(_, []), do: :unknown

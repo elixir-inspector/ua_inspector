@@ -33,17 +33,6 @@ defmodule UAInspector.Parser do
   @opera_tablet Util.build_regex("Opera Tablet")
 
   @doc """
-  Parses information from a user agent.
-
-  Returns `:unknown` if no information is not found in the database.
-
-      iex> parse("--- undetectable ---")
-      :unknown
-
-  """
-  @callback parse(ua :: String.t(), client_hints :: ClientHints.t() | nil) :: atom | binary | map
-
-  @doc """
   Checks if a user agent is a known bot.
   """
   @spec bot?(Result.t() | Bot.t() | String.t(), ClientHints.t() | nil) :: boolean
