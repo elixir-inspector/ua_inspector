@@ -26,7 +26,10 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     {:ok, _} =
       File.open(file, [:write, :utf8], fn outfile ->
         for {short, long} <- map do
-          IO.write(outfile, "- \"#{short}\": \"#{long}\"\n")
+          IO.write(
+            outfile,
+            [~s(- "), short, ~s(": "), long, ~s("\n)]
+          )
         end
       end)
 
@@ -37,10 +40,10 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     {:ok, _} =
       File.open(file, [:write, :utf8], fn outfile ->
         for {entry, elements} <- map do
-          elementstring = Enum.map_join(elements, "\n", &"  - \"#{&1}\"")
+          elements_content = Enum.map(elements, &[~s(  - "), &1, ~s("\n)])
 
-          IO.write(outfile, "- \"#{entry}\":\n")
-          IO.write(outfile, "#{elementstring}\n")
+          IO.write(outfile, [~s(- "), entry, ~s(":\n)])
+          IO.write(outfile, elements_content)
         end
       end)
 
@@ -51,7 +54,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     {:ok, _} =
       File.open(file, [:write, :utf8], fn outfile ->
         for item <- map do
-          IO.write(outfile, "- \"#{item}\"\n")
+          IO.write(outfile, [~s(- "), item, ~s("\n)])
         end
       end)
 
