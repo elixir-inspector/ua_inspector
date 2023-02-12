@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.1.0-dev
+## v3.1.0 (2023-02-12)
 
 - Enhancements
     - Allow checking if a user agent is a known desktop device using `UAInspector.desktop?/1`
