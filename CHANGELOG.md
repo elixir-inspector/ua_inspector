@@ -57,7 +57,7 @@ There will be a new major version of `ua_inspector` with a rebuilt database supp
     - The mix download task should no longer start unnecessary applications ([#19](https://github.com/elixir-inspector/ua_inspector/issues/19))
 
 - Backwards incompatible changes
-    - Minimum required elixir version is now `~> 1.7`
+    - Minimum required Elixir version is now `~> 1.7`
     - Several deprecated functions have been removed completely:
         - `UAInspector.Downloader.prepare_database_path/0`
         - `UAInspector.Downloader.read_remote/0`
@@ -103,7 +103,7 @@ There will be a new major version of `ua_inspector` with a rebuilt database supp
 
 - Backwards incompatible changes
     - Internal parser process pooling has been removed. If you require pooling you need to manually wrap `UAInspector.parse/1` (and related functions)
-    - Minimum required elixir version is now `~> 1.5`
+    - Minimum required Elixir version is now `~> 1.5`
     - Support for `{:system, var}` configuration has been removed
     - The deprecated mix tasks `ua_inspector.download.databases` and `ua_inspector.download.short_code_maps` have been removed
 
@@ -166,7 +166,7 @@ There will be a new major version of `ua_inspector` with a rebuilt database supp
 ## v0.16.0 (2018-01-05)
 
 - Backwards incompatible changes
-    - Minimum required elixir version is now `~> 1.3`
+    - Minimum required Elixir version is now `~> 1.3`
 
 ## v0.15.1 (2018-01-17)
 
@@ -209,8 +209,8 @@ There will be a new major version of `ua_inspector` with a rebuilt database supp
 - Backwards incompatible changes
     - Completely unknown devices now yield `:unknown` instead of a struct with all values set to `:unknown`
     - Downloads are now done using `:hackney` instead of `mix`. This may force you to manually reconfigure the client
-    - Minimum required elixir version is now `~> 1.2`
-    - Minimum required erlang version is now `~> 18.0`
+    - Minimum required Elixir version is now `~> 1.2`
+    - Minimum required Erlang version is now `~> 18.0`
 
 ## v0.11.1 (2016-04-02)
 
