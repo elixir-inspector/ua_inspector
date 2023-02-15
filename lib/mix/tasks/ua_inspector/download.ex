@@ -21,6 +21,17 @@ defmodule Mix.Tasks.UaInspector.Download do
 
       config :ua_inspector,
         skip_download_readme: true
+
+  ## Release Information
+
+  If you are using the default databases from the default remote location an
+  informational release file will be placed next to the downloaded file(s).
+  Inside you will find the remote release version configured for the download.
+
+  The creation of this file can be deactivated by configuration:
+
+      config :ua_inspector,
+        skip_download_release: true
   """
 
   @shortdoc "Downloads database files"
@@ -67,6 +78,7 @@ defmodule Mix.Tasks.UaInspector.Download do
     :ok = Downloader.download(:databases)
     :ok = Downloader.download(:short_code_maps)
     :ok = Downloader.README.write()
+    :ok = Downloader.Release.write()
 
     unless opts[:quiet] do
       Mix.shell().info("Download complete!")
