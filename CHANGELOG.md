@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.1.1-dev
+
+- Bug fixes
+    - Devices containing `(lite) TV` in their agent are now properly identified as TV devices if more detailed information is not available
+
 ## v3.1.0 (2023-02-12)
 
 - Enhancements

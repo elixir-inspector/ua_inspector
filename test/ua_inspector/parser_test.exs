@@ -152,4 +152,26 @@ defmodule UAInspector.ParserTest do
 
     assert ^parsed = UAInspector.parse_client(agent)
   end
+
+  describe "parser fixups" do
+    test "is_android_tv" do
+      agent =
+        "Mozilla/5.0 (Linux; Android 9; TEST-XXXX Build/PPR2.180905.006.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.120 YaBrowser/22.8.0.12 (lite) TV Safari/537.36"
+
+      parsed = %Result{
+        browser_family: "Chrome",
+        client: %Result.Client{
+          engine: "WebKit",
+          engine_version: "537.36",
+          name: "Chrome",
+          type: "browser",
+          version: :unknown
+        },
+        device: %Result.Device{brand: :unknown, model: :unknown, type: "tv"},
+        user_agent: agent
+      }
+
+      assert ^parsed = UAInspector.parse(agent)
+    end
+  end
 end
