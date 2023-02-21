@@ -27,6 +27,7 @@ defmodule UAInspector.Parser do
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
   @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
+  @is_tablet Util.build_regex("Pad/APad")
 
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
@@ -138,6 +139,7 @@ defmodule UAInspector.Parser do
     |> maybe_detect_tv()
     |> maybe_fix_ios()
     |> maybe_fix_android_chrome()
+    |> maybe_detect_tablet()
     |> maybe_fix_device_type()
     |> maybe_fix_android()
     |> maybe_detect_feature_phone()
@@ -215,6 +217,16 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_detect_feature_phone(result), do: result
+
+  defp maybe_detect_tablet(%{device: %{type: "smartphone"} = device, user_agent: ua} = result) do
+    if Regex.match?(@is_tablet, ua) do
+      %{result | device: %{device | type: "tablet"}}
+    else
+      result
+    end
+  end
+
+  defp maybe_detect_tablet(result), do: result
 
   # assume some browsers to be a tv
   defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result) do
