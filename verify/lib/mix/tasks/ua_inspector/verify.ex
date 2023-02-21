@@ -80,6 +80,15 @@ defmodule Mix.Tasks.UaInspector.Verify do
         &Verify.Generic.verify/2
       )
 
+    :ok =
+      verify_all(
+        &Fixtures.TypeMethods.list/0,
+        &Fixtures.TypeMethods.download_path/1,
+        &Function.identity/1,
+        &UAInspector.Parser.parse/2,
+        &Verify.TypeMethods.verify/2
+      )
+
     Mix.shell().info("Verification complete!")
     :ok
   end
@@ -97,13 +106,14 @@ defmodule Mix.Tasks.UaInspector.Verify do
     :ok = Fixtures.VendorFragment.download()
 
     :ok = Fixtures.Generic.download()
+    :ok = Fixtures.TypeMethods.download()
 
     Mix.shell().info("=== Skip downloads using '--quick' ===")
 
     :ok
   end
 
-  defp parse(case_data) when is_list(case_data) do
+  defp parse([case_entry | _] = case_data) when is_tuple(case_entry) do
     Enum.into(case_data, %{}, fn {k, v} -> {String.to_atom(k), parse(v)} end)
   end
 

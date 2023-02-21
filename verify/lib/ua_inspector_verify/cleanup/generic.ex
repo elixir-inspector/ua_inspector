@@ -85,23 +85,17 @@ defmodule UAInspectorVerify.Cleanup.Generic do
 
   defp cleanup_client_engine_version(testcase), do: testcase
 
-  defp cleanup_os_entry(%{os: os} = testcase) do
-    os =
-      case Map.keys(os) do
-        [] -> :unknown
-        _ -> os
-      end
-
-    %{testcase | os: os}
+  defp cleanup_os_entry(%{os: []} = testcase) do
+    %{testcase | os: :unknown}
   end
 
   defp cleanup_os_entry(testcase), do: testcase
 
   defp remove_unknown_device(
-         %{device: %{type: :unknown, brand: :unknown, model: :unknown}} = result
+         %{device: %{type: :unknown, brand: :unknown, model: :unknown}} = testcase
        ) do
-    %{result | device: :unknown}
+    %{testcase | device: :unknown}
   end
 
-  defp remove_unknown_device(result), do: result
+  defp remove_unknown_device(testcase), do: testcase
 end
