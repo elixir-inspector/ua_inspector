@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.2.0-dev
+
+- Enhancements
+    - Upstream improvements to detect tablet devices have been integrated
+
 ## v3.1.1 (2023-02-20)
 
 - Bug fixes
