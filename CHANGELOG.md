@@ -3,6 +3,7 @@
 ## v3.2.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.1.0`
     - Upstream improvements to detect tablet devices have been integrated
 
 ## v3.1.1 (2023-02-20)

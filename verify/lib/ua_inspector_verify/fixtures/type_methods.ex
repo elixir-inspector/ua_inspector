@@ -6,12 +6,12 @@ defmodule UAInspectorVerify.Fixtures.TypeMethods do
   @fixture_base "https://raw.githubusercontent.com/matomo-org/device-detector/"
   @fixture_path "/Tests/Parser/fixtures/"
 
-  @fixtures_default []
+  @fixtures_default [
+    "type-methods.yml"
+  ]
 
   @fixtures_release %{
-    "master" => [
-      "type-methods.yml"
-    ]
+    "master" => []
   }
 
   def download do
