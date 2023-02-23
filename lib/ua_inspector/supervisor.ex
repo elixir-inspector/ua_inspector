@@ -32,6 +32,8 @@ defmodule UAInspector.Supervisor do
 
   alias UAInspector.Config
 
+  require Logger
+
   @doc false
   def start_link(default \\ nil) do
     Supervisor.start_link(__MODULE__, default, name: __MODULE__)
@@ -41,6 +43,8 @@ defmodule UAInspector.Supervisor do
   def init(_state) do
     :ok = Config.init_env()
 
+    check_database_release()
+
     children = [
       UAInspector.ClientHints.Supervisor,
       UAInspector.Database.Supervisor,
@@ -48,5 +52,21 @@ defmodule UAInspector.Supervisor do
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
+  end
+
+  defp check_database_release do
+    with false <- Config.get(:startup_silent, false),
+         true <- Config.default_remote_database?(),
+         release_file <- Path.join(Config.database_path(), "ua_inspector.release"),
+         true <- File.exists?(release_file),
+         {:ok, database_release} <- File.read(release_file),
+         false <- Config.remote_release() == String.trim(database_release) do
+      Logger.info(
+        "Your local UAInspector database release '#{inspect(String.trim(database_release))}'" <>
+          " differs from the current default release '#{Config.remote_release()}'." <>
+          " Please update your database or delete the release tracking file" <>
+          " located at '#{release_file}'."
+      )
+    end
   end
 end

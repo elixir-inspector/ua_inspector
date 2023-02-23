@@ -5,6 +5,7 @@
 - Enhancements
     - Default upstream database version is now `6.1.0`
     - Upstream improvements to detect tablet devices have been integrated
+    - Using the mix download task with a default database will save the `:remote_release` configured during download. If the version differs from the current default upon application startup, a `Logger.info/1` will be issued unless `startup_silent = true` is configured
 
 ## v3.1.1 (2023-02-20)
 
