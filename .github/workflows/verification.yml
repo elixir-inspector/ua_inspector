@@ -1,10 +1,14 @@
 name: Verification
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - master
+      - test
   schedule:
     - cron: '45 15 * * *'
+  workflow_dispatch:
 
 jobs:
   check:
