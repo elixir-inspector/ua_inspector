@@ -62,10 +62,10 @@ defmodule UAInspector.Supervisor do
          {:ok, database_release} <- File.read(release_file),
          false <- Config.remote_release() == String.trim(database_release) do
       Logger.info(
-        "Your local UAInspector database release '#{inspect(String.trim(database_release))}'" <>
-          " differs from the current default release '#{Config.remote_release()}'." <>
+        "Your local UAInspector database release #{inspect(String.trim(database_release))}" <>
+          " differs from the current default release #{inspect(Config.remote_release())}." <>
           " Please update your database or delete the release tracking file" <>
-          " located at '#{release_file}'."
+          " located at #{inspect(release_file)}."
       )
     end
   end
