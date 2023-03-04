@@ -6,6 +6,8 @@ on:
     branches:
       - master
       - test
+    tags:
+      - '*'
   schedule:
     - cron: '45 15 * * *'
   workflow_dispatch:
