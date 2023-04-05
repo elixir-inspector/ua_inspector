@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.3.0-dev
+
+- Enhancements
+    - Upstream improvements to handle fake user agents ("Android" + "Apple" combination) have been integrated
+
 ## v3.2.1 (2023-03-17)
 
 - Enhancements

@@ -137,6 +137,7 @@ defmodule UAInspector.Parser do
     |> maybe_detect_opera_tv_store()
     |> maybe_detect_android_tv()
     |> maybe_detect_tv()
+    |> maybe_undetect_android_apple()
     |> maybe_fix_ios()
     |> maybe_fix_android_chrome()
     |> maybe_detect_tablet()
@@ -370,6 +371,14 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_windows(result), do: result
+
+  defp maybe_undetect_android_apple(
+         %{device: %{brand: "Apple"} = device, os: %{name: "Android"}} = result
+       ) do
+    %{result | device: %{device | brand: :unknown, model: :unknown}}
+  end
+
+  defp maybe_undetect_android_apple(result), do: result
 
   defp maybe_unknown_device(
          %{device: %{type: :unknown, brand: :unknown, model: :unknown}} = result
