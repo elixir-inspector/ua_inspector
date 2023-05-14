@@ -37,6 +37,7 @@ jobs:
         id: mix-cache
         with:
           path: deps
+          # yamllint disable-line rule:line-length
           key: ${{ runner.os }}-${{ steps.setup.outputs.otp-version }}-${{ steps.setup.outputs.elixir-version }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
 
       - name: mix-deps
@@ -47,5 +48,6 @@ jobs:
           mix deps.get
 
       - name: verify
+        # yamllint disable-line rule:line-length
         run: mix ua_inspector.verify ${{ 'default' == matrix.remote-release || format('--remote-release "{0}"', matrix.remote-release) }}
         working-directory: ./verify
