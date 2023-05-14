@@ -3,6 +3,7 @@
 ## v3.3.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.1.2`
     - Upstream improvements to handle fake user agents ("Android" + "Apple" combination) have been integrated
 
 ## v3.2.1 (2023-03-17)
