@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.3.1-dev
+
+- Enhancements
+    - Default upstream database version is now `6.1.3`
+
 ## v3.3.0 (2023-05-19)
 
 - Enhancements
