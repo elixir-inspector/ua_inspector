@@ -31,7 +31,7 @@ defmodule UAInspector.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: extra_applications(Mix.env()) ++ [:logger],
       mod: {UAInspector.Application, []}
     ]
   end
@@ -98,6 +98,9 @@ defmodule UAInspector.MixProject do
       formatters: ["html"]
     ]
   end
+
+  defp extra_applications(:test), do: [:inets]
+  defp extra_applications(_), do: []
 
   defp package do
     [

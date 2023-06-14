@@ -6,9 +6,6 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
   alias Mix.Tasks.UaInspector.Download, as: MixTask
 
   setup_all do
-    # setup internal testing webserver
-    Application.ensure_all_started(:inets)
-
     fixture_path = Path.expand("../../../fixtures/repository", __DIR__)
 
     httpd_opts = [
