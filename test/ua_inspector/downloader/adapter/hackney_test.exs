@@ -8,8 +8,6 @@ defmodule UAInspector.Downloader.Adapter.HackneyTest do
   end
 
   test "requires HTTP 200 responses for success" do
-    Application.ensure_all_started(:inets)
-
     httpd_opts = [
       port: 0,
       server_name: 'ua_inspector_hackney_test',
