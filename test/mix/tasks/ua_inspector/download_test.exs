@@ -10,7 +10,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
 
     httpd_opts = [
       port: 0,
-      server_name: 'ua_inspector_test',
+      server_name: ~c"ua_inspector_test",
       server_root: String.to_charlist(fixture_path),
       document_root: String.to_charlist(fixture_path)
     ]
