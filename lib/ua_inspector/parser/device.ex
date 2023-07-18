@@ -12,6 +12,8 @@ defmodule UAInspector.Parser.Device do
 
   @behaviour UAInspector.Parser.Behaviour
 
+  @frozen_android Regex.compile!("Android 10[.\d]*; K(?: Build/|[;)])", [:caseless])
+
   @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.build_regex("FBMD/")
   @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
@@ -46,6 +48,32 @@ defmodule UAInspector.Parser.Device do
     else
       parse_device_details(hints_result, client_hints, ua)
     end
+  end
+
+  defp parse_device(
+         %{model: model} = hints_result,
+         %{platform_version: platform_version} = client_hints,
+         ua
+       ) do
+    ua =
+      if Regex.match?(@frozen_android, ua) do
+        os_version =
+          case platform_version do
+            :unknown -> "10"
+            "" -> "10"
+            _ -> platform_version
+          end
+
+        Regex.replace(
+          ~r/(Android 10[.\d]*; K)/,
+          ua,
+          "Android #{os_version}; #{model}"
+        )
+      else
+        ua
+      end
+
+    parse_device_details(hints_result, client_hints, ua)
   end
 
   defp parse_device(hints_result, client_hints, ua),
