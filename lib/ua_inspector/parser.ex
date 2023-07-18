@@ -7,6 +7,7 @@ defmodule UAInspector.Parser do
   alias UAInspector.Result
   alias UAInspector.Result.Bot
   alias UAInspector.Util
+  alias UAInspector.Util.Fragment
 
   @devices_mobile [
     "camera",
@@ -26,7 +27,6 @@ defmodule UAInspector.Parser do
   @is_generic_tv Util.build_regex("\\(TV;")
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
-  @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
   @is_tablet Util.build_regex("Pad/APad")
 
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
@@ -271,7 +271,7 @@ defmodule UAInspector.Parser do
   defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
 
   defp maybe_fix_desktop(%{device: device, user_agent: ua} = result) do
-    if Regex.match?(@is_desktop, ua) do
+    if Fragment.desktop?(ua) do
       %{result | device: %{device | type: "desktop"}}
     else
       result
