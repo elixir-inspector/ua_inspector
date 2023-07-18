@@ -8,6 +8,7 @@ defmodule UAInspector.Parser.Device do
   alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
   alias UAInspector.Util
+  alias UAInspector.Util.Fragment
 
   @behaviour UAInspector.Parser.Behaviour
 
@@ -17,18 +18,9 @@ defmodule UAInspector.Parser.Device do
 
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
-    agent_result =
-      cond do
-        Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
-        Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
-        Regex.match?(@notebook, ua) -> parse_notebook(ua)
-        true -> parse_regular(ua)
-      end
-      |> maybe_parse_vendor(ua, client_hints)
-
-    hints_result = parse_hints(client_hints)
-
-    merge_results(hints_result, agent_result)
+    client_hints
+    |> parse_hints()
+    |> parse_device(client_hints, ua)
   end
 
   @doc """
@@ -48,6 +40,35 @@ defmodule UAInspector.Parser.Device do
   @spec shelltv?(String.t()) :: boolean
   def shelltv?(ua), do: Regex.match?(@shelltv, ua)
 
+  defp parse_device(%{model: :unknown} = hints_result, client_hints, ua) do
+    if Fragment.desktop?(ua) do
+      hints_result
+    else
+      parse_device_details(hints_result, client_hints, ua)
+    end
+  end
+
+  defp parse_device(hints_result, client_hints, ua),
+    do: parse_device_details(hints_result, client_hints, ua)
+
+  defp parse_device_details(hints_result, client_hints, ua) do
+    agent_result =
+      cond do
+        Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
+        Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
+        Regex.match?(@notebook, ua) -> parse_notebook(ua)
+        true -> parse_regular(ua)
+      end
+      |> maybe_parse_vendor(ua, client_hints)
+
+    merge_results(hints_result, agent_result)
+  end
+
+  defp merge_results(%{} = hints_result, %{brand: :unknown, model: :unknown, type: :unknown}),
+    do: hints_result
+
+  defp merge_results(_, agent_result), do: agent_result
+
   defp do_parse(_, []), do: :unknown
 
   defp do_parse(ua, [{regex, {_, models, _, _} = device_result} | database]) do
@@ -63,11 +84,6 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp maybe_parse_vendor(device, _, _), do: device
-
-  defp merge_results(%{} = hints_result, %{brand: :unknown, model: :unknown, type: :unknown}),
-    do: hints_result
-
-  defp merge_results(_, agent_result), do: agent_result
 
   defp parse_hints(%{model: model}) when is_binary(model),
     do: %Result.Device{model: Util.maybe_unknown(model)}
