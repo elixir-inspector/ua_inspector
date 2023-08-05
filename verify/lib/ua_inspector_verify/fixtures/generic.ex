@@ -81,6 +81,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
 
   @fixtures_release %{
     "master" => [
+      "smartphone-37.yml",
       "tablet-10.yml"
     ]
   }
