@@ -3,6 +3,7 @@
 ## v3.4.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.1.4`
     - Upstream improvements to detect device brand, if only model is found in client hints, have been integrated
 
 ## v3.3.1 (2023-06-06)
