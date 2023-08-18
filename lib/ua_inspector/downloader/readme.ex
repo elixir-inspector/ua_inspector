@@ -29,7 +29,9 @@ defmodule UAInspector.Downloader.README do
       File.mkdir_p!(dirname_local)
     end
 
-    File.copy!(path_priv, path_local)
+    unless path_priv == path_local do
+      File.copy!(path_priv, path_local)
+    end
 
     :ok
   end
