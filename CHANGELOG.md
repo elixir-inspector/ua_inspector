@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.5.0-dev
+
+- Enhancements
+    - Upstream improvements for TV device detection have been integrated
+
 ## v3.4.0 (2023-08-06)
 
 - Enhancements

@@ -230,15 +230,28 @@ defmodule UAInspector.Parser do
   defp maybe_detect_tablet(result), do: result
 
   # assume some browsers to be a tv
-  defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result) do
-    %{result | device: %{device | type: "tv"}}
-  end
-
   defp maybe_detect_tv(
          %{client: %{name: "Espial TV Browser"}, device: %{type: :unknown} = device} = result
-       ) do
-    %{result | device: %{device | type: "tv"}}
-  end
+       ),
+       do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result),
+    do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(
+         %{client: %{name: "LUJO TV Browser"}, device: %{type: :unknown} = device} = result
+       ),
+       do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(
+         %{client: %{name: "LogicUI TV Browser"}, device: %{type: :unknown} = device} = result
+       ),
+       do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(
+         %{client: %{name: "Open TV Browser"}, device: %{type: :unknown} = device} = result
+       ),
+       do: %{result | device: %{device | type: "tv"}}
 
   defp maybe_detect_tv(result), do: result
 
