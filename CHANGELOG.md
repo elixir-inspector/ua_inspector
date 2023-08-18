@@ -3,6 +3,7 @@
 ## v3.5.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.1.5`
     - Upstream improvements for TV device detection have been integrated
 
 ## v3.4.0 (2023-08-06)
