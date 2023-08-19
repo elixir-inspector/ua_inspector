@@ -30,7 +30,7 @@ defmodule UAInspector.Downloader.README do
     end
 
     unless path_priv == path_local do
-      File.copy!(path_priv, path_local)
+      _ = File.copy!(path_priv, path_local)
     end
 
     :ok
