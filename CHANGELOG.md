@@ -4,6 +4,7 @@
 
 - Enhancements
     - Default upstream database version is now `6.1.5`
+    - Special handling to detect the correct browser engine (and version) for a combination of a "Blink" style user agent and application client hint header has been integrated
     - Upstream improvements for TV device detection have been integrated
 
 ## v3.4.0 (2023-08-06)

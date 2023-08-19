@@ -4,6 +4,7 @@ defmodule UAInspector.Parser.Client do
   alias UAInspector.ClientHints
   alias UAInspector.ClientHints.Apps
   alias UAInspector.ClientHints.Browsers
+  alias UAInspector.Database.BrowserEngines
   alias UAInspector.Database.Clients
   alias UAInspector.Parser.BrowserEngine
   alias UAInspector.Result
@@ -14,6 +15,8 @@ defmodule UAInspector.Parser.Client do
 
   @behaviour UAInspector.Parser.Behaviour
 
+  @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
+
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     hints_result = parse_hints(client_hints)
@@ -23,7 +26,8 @@ defmodule UAInspector.Parser.Client do
 
     result
     |> maybe_application(client_hints)
-    |> maybe_browser(client_hints)
+    |> maybe_browser(client_hints, ua)
+    |> maybe_fix_flow_browser()
   end
 
   defp merge_results(:unknown, agent_result), do: agent_result
@@ -178,9 +182,9 @@ defmodule UAInspector.Parser.Client do
 
   defp maybe_application(result, _), do: result
 
-  defp maybe_browser(%{type: "mobile app"} = result, _), do: result
+  defp maybe_browser(%{type: "mobile app"} = result, _, _), do: result
 
-  defp maybe_browser(result, %ClientHints{application: browser}) when is_binary(browser) do
+  defp maybe_browser(result, %ClientHints{application: browser}, ua) when is_binary(browser) do
     browser = String.downcase(browser)
     browser_name = Browsers.list()[browser]
 
@@ -205,15 +209,29 @@ defmodule UAInspector.Parser.Client do
             result
           end
 
+        result =
+          if Regex.match?(@is_blink, ua) do
+            engine_version = parse_browser_engine_version("Blink", ua, BrowserEngines.list())
+
+            %{result | engine: "Blink", engine_version: engine_version}
+          else
+            result
+          end
+
         %{result | name: browser_name, type: "browser", version: :unknown}
     end
   end
 
-  defp maybe_browser(result, _), do: result
+  defp maybe_browser(result, _, _), do: result
 
   defp maybe_browser_engine("", ua), do: BrowserEngine.parse(ua, nil)
   defp maybe_browser_engine({"", _}, ua), do: BrowserEngine.parse(ua, nil)
   defp maybe_browser_engine(engine, _), do: engine
+
+  defp maybe_fix_flow_browser(%{engine: "Blink", name: "Flow Browser"} = result),
+    do: %{result | engine_version: :unknown}
+
+  defp maybe_fix_flow_browser(result), do: result
 
   defp maybe_resolve_engine("browser", engine_data, ua, version) do
     engine_data
@@ -222,6 +240,14 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp maybe_resolve_engine(_, _, _, _), do: :unknown
+
+  defp parse_browser_engine_version(_, _, []), do: :unknown
+
+  defp parse_browser_engine_version(engine, ua, [{_, {engine, regex}} | _]),
+    do: find_engine_version(ua, regex)
+
+  defp parse_browser_engine_version(engine, ua, [_ | engines]),
+    do: parse_browser_engine_version(engine, ua, engines)
 
   defp resolve_engine(nil, _), do: ""
   defp resolve_engine([{"default", default}], _), do: default
