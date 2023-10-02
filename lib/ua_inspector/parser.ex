@@ -28,6 +28,7 @@ defmodule UAInspector.Parser do
   @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
   @is_tablet Util.build_regex("Pad/APad")
+  @is_wearable Util.build_regex(" VR ")
 
   @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
@@ -139,6 +140,7 @@ defmodule UAInspector.Parser do
     |> maybe_detect_tv()
     |> maybe_undetect_android_apple()
     |> maybe_fix_ios()
+    |> maybe_detect_wearable()
     |> maybe_fix_android_chrome()
     |> maybe_detect_tablet()
     |> maybe_fix_device_type()
@@ -254,6 +256,16 @@ defmodule UAInspector.Parser do
        do: %{result | device: %{device | type: "tv"}}
 
   defp maybe_detect_tv(result), do: result
+
+  defp maybe_detect_wearable(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
+    if Regex.match?(@is_wearable, ua) do
+      %{result | device: %{device | type: "wearable"}}
+    else
+      result
+    end
+  end
+
+  defp maybe_detect_wearable(result), do: result
 
   # Android <  2.0.0 is always a smartphone
   # Android == 3.*   is always a tablet

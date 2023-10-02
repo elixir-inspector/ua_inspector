@@ -4,6 +4,7 @@
 
 - Enhancements
     - Upstream improvements for TV device detection have been integrated
+    - Upstream improvements for wearable device detection have been integrated
 
 ## v3.5.0 (2023-08-22)
 
