@@ -3,6 +3,7 @@
 ## v3.6.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.1.6`
     - Upstream improvements for TV device detection have been integrated
     - Upstream improvements for wearable device detection have been integrated
 
