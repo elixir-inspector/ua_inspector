@@ -82,7 +82,9 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => []
+    "master" => [
+      "podcasting.yml"
+    ]
   }
 
   def download do
