@@ -3,6 +3,7 @@
 ## v3.7.0-dev
 
 - Enhancements
+    - Upstream improvements for Blink engine version detection have been integrated
     - Upstream improvements for Android TV device detection have been integrated
 
 ## v3.6.0 (2023-10-09)

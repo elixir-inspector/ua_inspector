@@ -16,10 +16,12 @@ defmodule UAInspector.Util do
     )
   end
 
-  def build_engine_regex("Blink"), do: build_engine_regex("Chrome")
+  def build_engine_regex("Blink"), do: build_engine_regex("Chrome|Cronet")
 
   def build_engine_regex(name) do
-    Regex.compile!(name <> ~S"\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))", [:caseless])
+    Regex.compile!("(?:" <> name <> ~S")\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))", [
+      :caseless
+    ])
   end
 
   @doc """
