@@ -19,20 +19,22 @@ defmodule UAInspector.Parser do
   ]
   @devices_non_mobile ["console", "smart display", "tv"]
 
-  @has_touch Util.build_regex("Touch")
-  @is_android_tv Util.build_regex("Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA")
-  @is_chrome Util.build_regex("Chrome/[\.0-9]*")
-  @is_chrome_smartphone Util.build_regex("(?:Mobile|eliboM) Safari/")
-  @is_chrome_tablet Util.build_regex("(?!Mobile )Safari/")
-  @is_generic_tv Util.build_regex("\\(TV;")
-  @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
-  @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
-  @is_tablet Util.build_regex("Pad/APad")
-  @is_wearable Util.build_regex(" VR ")
+  @has_touch Util.build_base_regex("Touch")
+  @is_android_tv Util.build_base_regex(
+                   "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"
+                 )
+  @is_chrome Util.build_base_regex("Chrome/[\.0-9]*")
+  @is_chrome_smartphone Util.build_base_regex("(?:Mobile|eliboM) Safari/")
+  @is_chrome_tablet Util.build_base_regex("(?!Mobile )Safari/")
+  @is_generic_tv Util.build_base_regex("\\(TV;")
+  @is_misc_tv Util.build_base_regex("SmartTV|Tizen.+ TV .+$")
+  @is_opera_tv_store Util.build_base_regex("Opera TV Store| OMI/")
+  @is_tablet Util.build_base_regex("Pad/APad")
+  @is_wearable Util.build_base_regex(" VR ")
 
-  @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
-  @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
-  @opera_tablet Util.build_regex("Opera Tablet")
+  @android_mobile Util.build_base_regex("Android( [\.0-9]+)?; Mobile;")
+  @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;")
+  @opera_tablet Util.build_base_regex("Opera Tablet")
 
   @doc """
   Checks if a user agent is a known bot.

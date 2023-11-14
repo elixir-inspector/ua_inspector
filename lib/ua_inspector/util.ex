@@ -36,6 +36,14 @@ defmodule UAInspector.Util do
   end
 
   @doc """
+  Build a generic matching regex.
+  """
+  @spec build_base_regex(regex :: String.t()) :: Regex.t()
+  def build_base_regex(regex) do
+    Regex.compile!("(?:^|[^A-Z_-])(?:" <> regex <> ")", [:caseless])
+  end
+
+  @doc """
   Replaces an empty string with `:unknown`.
   """
   @spec maybe_unknown(data :: nil | String.t()) :: :unknown | String.t()
