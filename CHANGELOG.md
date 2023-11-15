@@ -3,6 +3,7 @@
 ## v3.7.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.2.0`
     - Upstream improvements for Blink engine version detection have been integrated
     - Upstream improvements for Android TV device detection have been integrated
 

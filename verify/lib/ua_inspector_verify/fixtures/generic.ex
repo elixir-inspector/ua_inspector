@@ -22,6 +22,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "peripheral.yml",
     "phablet.yml",
     "phablet-1.yml",
+    "podcasting.yml",
     "portable_media_player.yml",
     "smart_display.yml",
     "smart_speaker.yml",
@@ -82,9 +83,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => [
-      "podcasting.yml"
-    ]
+    "master" => []
   }
 
   def download do
