@@ -399,10 +399,8 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_windows(result), do: result
 
-  defp maybe_undetect_android_apple(
-         %{device: %{brand: "Apple"} = device, os: %{name: "Android"}} = result
-       ) do
-    %{result | device: %{device | brand: :unknown, model: :unknown}}
+  defp maybe_undetect_android_apple(%{device: %{brand: "Apple"}, os: %{name: "Android"}} = result) do
+    %{result | device: %Result.Device{}}
   end
 
   defp maybe_undetect_android_apple(result), do: result
