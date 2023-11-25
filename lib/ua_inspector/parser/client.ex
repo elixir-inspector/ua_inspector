@@ -28,6 +28,7 @@ defmodule UAInspector.Parser.Client do
     |> maybe_application(client_hints)
     |> maybe_browser(client_hints, ua)
     |> maybe_fix_flow_browser()
+    |> maybe_fix_every_browser()
   end
 
   defp merge_results(:unknown, agent_result), do: agent_result
@@ -227,6 +228,11 @@ defmodule UAInspector.Parser.Client do
   defp maybe_browser_engine("", ua), do: BrowserEngine.parse(ua, nil)
   defp maybe_browser_engine({"", _}, ua), do: BrowserEngine.parse(ua, nil)
   defp maybe_browser_engine(engine, _), do: engine
+
+  defp maybe_fix_every_browser(%{name: "Every Browser"} = result),
+    do: %{result | engine: "Blink", engine_version: :unknown}
+
+  defp maybe_fix_every_browser(result), do: result
 
   defp maybe_fix_flow_browser(%{engine: "Blink", name: "Flow Browser"} = result),
     do: %{result | engine_version: :unknown}

@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.8.0-dev
+
+- Enhancements
+    - Upstream improvements for "Every Browser" detection have been integrated
+
 ## v3.7.0 (2023-11-18)
 
 - Enhancements
