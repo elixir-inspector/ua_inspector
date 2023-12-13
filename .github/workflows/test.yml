@@ -15,6 +15,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - elixir: '1.9.4'
@@ -35,8 +36,8 @@ jobs:
           - elixir: '1.14.5'
             otp: '25.3'
             runs-on: ubuntu-22.04
-          - elixir: '1.15.0'
-            otp: '26.0'
+          - elixir: '1.15.7'
+            otp: '26.1'
             runs-on: ubuntu-22.04
 
     env:
@@ -44,7 +45,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: setup
         uses: erlef/setup-beam@v1
@@ -68,4 +69,4 @@ jobs:
           mix deps.get
 
       - name: test
-        run: mix coveralls.github
+        run: mix coveralls

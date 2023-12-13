@@ -17,20 +17,21 @@ jobs:
     runs-on: ubuntu-22.04
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - remote-release: default
           - remote-release: master
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: setup
         id: setup
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.15.0'
-          otp-version: '26.0'
+          elixir-version: '1.15.7'
+          otp-version: '26.1'
 
       - name: mix-cache
         uses: actions/cache@v3

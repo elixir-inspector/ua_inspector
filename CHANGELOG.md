@@ -1,5 +1,40 @@
 # Changelog
 
+## v3.8.0-dev
+
+- Enhancements
+    - Match upstream fake user agent device handling
+    - Upstream improvements for Android application detection have been integrated
+    - Upstream improvements for desktop device detection have been integrated
+    - Upstream improvements for "Every Browser" detection have been integrated
+
+## v3.7.0 (2023-11-18)
+
+- Enhancements
+    - Default upstream database version is now `6.2.0`
+    - Upstream improvements for Blink engine version detection have been integrated
+    - Upstream improvements for Android TV device detection have been integrated
+
+## v3.6.0 (2023-10-09)
+
+- Enhancements
+    - Default upstream database version is now `6.1.6`
+    - Upstream improvements for TV device detection have been integrated
+    - Upstream improvements for wearable device detection have been integrated
+
+## v3.5.0 (2023-08-22)
+
+- Enhancements
+    - Default upstream database version is now `6.1.5`
+    - Special handling to detect the correct browser engine (and version) for a combination of a "Blink" style user agent and application client hint header has been integrated
+    - Upstream improvements for TV device detection have been integrated
+
+## v3.4.0 (2023-08-06)
+
+- Enhancements
+    - Default upstream database version is now `6.1.4`
+    - Upstream improvements to detect device brand, if only model is found in client hints, have been integrated
+
 ## v3.3.1 (2023-06-06)
 
 - Enhancements

@@ -13,7 +13,8 @@ defmodule UAInspector.Parser.OS do
   @android_apps [
     "com.hisense.odinbrowser",
     "com.seraphic.openinet.pre",
-    "com.appssppa.idesktoppcbrowser"
+    "com.appssppa.idesktoppcbrowser",
+    "every.browser.inc"
   ]
 
   @platforms [

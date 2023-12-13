@@ -7,6 +7,7 @@ defmodule UAInspector.Parser do
   alias UAInspector.Result
   alias UAInspector.Result.Bot
   alias UAInspector.Util
+  alias UAInspector.Util.Fragment
 
   @devices_mobile [
     "camera",
@@ -18,20 +19,22 @@ defmodule UAInspector.Parser do
   ]
   @devices_non_mobile ["console", "smart display", "tv"]
 
-  @has_touch Util.build_regex("Touch")
-  @is_android_tv Util.build_regex("Andr0id|Android TV|\\(lite\\) TV")
-  @is_chrome Util.build_regex("Chrome/[\.0-9]*")
-  @is_chrome_smartphone Util.build_regex("(?:Mobile|eliboM) Safari/")
-  @is_chrome_tablet Util.build_regex("(?!Mobile )Safari/")
-  @is_generic_tv Util.build_regex("\\(TV;")
-  @is_misc_tv Util.build_regex("SmartTV|Tizen.+ TV .+$")
-  @is_opera_tv_store Util.build_regex("Opera TV Store| OMI/")
-  @is_desktop Util.build_regex("Desktop (x(?:32|64)|WOW64)")
-  @is_tablet Util.build_regex("Pad/APad")
+  @has_touch Util.build_base_regex("Touch")
+  @is_android_tv Util.build_base_regex(
+                   "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"
+                 )
+  @is_chrome Util.build_base_regex("Chrome/[\.0-9]*")
+  @is_chrome_smartphone Util.build_base_regex("(?:Mobile|eliboM) Safari/")
+  @is_chrome_tablet Util.build_base_regex("(?!Mobile )Safari/")
+  @is_generic_tv Util.build_base_regex("\\(TV;")
+  @is_misc_tv Util.build_base_regex("SmartTV|Tizen.+ TV .+$")
+  @is_opera_tv_store Util.build_base_regex("Opera TV Store| OMI/")
+  @is_tablet Util.build_base_regex("Pad/APad")
+  @is_wearable Util.build_base_regex(" VR ")
 
-  @android_mobile Util.build_regex("Android( [\.0-9]+)?; Mobile;")
-  @android_tablet Util.build_regex("Android( [\.0-9]+)?; Tablet;")
-  @opera_tablet Util.build_regex("Opera Tablet")
+  @android_mobile Util.build_base_regex("Android( [\.0-9]+)?; Mobile;")
+  @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;")
+  @opera_tablet Util.build_base_regex("Opera Tablet")
 
   @doc """
   Checks if a user agent is a known bot.
@@ -139,6 +142,7 @@ defmodule UAInspector.Parser do
     |> maybe_detect_tv()
     |> maybe_undetect_android_apple()
     |> maybe_fix_ios()
+    |> maybe_detect_wearable()
     |> maybe_fix_android_chrome()
     |> maybe_detect_tablet()
     |> maybe_fix_device_type()
@@ -230,17 +234,40 @@ defmodule UAInspector.Parser do
   defp maybe_detect_tablet(result), do: result
 
   # assume some browsers to be a tv
-  defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result) do
-    %{result | device: %{device | type: "tv"}}
-  end
-
   defp maybe_detect_tv(
          %{client: %{name: "Espial TV Browser"}, device: %{type: :unknown} = device} = result
-       ) do
-    %{result | device: %{device | type: "tv"}}
-  end
+       ),
+       do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result),
+    do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(
+         %{client: %{name: "LUJO TV Browser"}, device: %{type: :unknown} = device} = result
+       ),
+       do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(
+         %{client: %{name: "LogicUI TV Browser"}, device: %{type: :unknown} = device} = result
+       ),
+       do: %{result | device: %{device | type: "tv"}}
+
+  defp maybe_detect_tv(
+         %{client: %{name: "Open TV Browser"}, device: %{type: :unknown} = device} = result
+       ),
+       do: %{result | device: %{device | type: "tv"}}
 
   defp maybe_detect_tv(result), do: result
+
+  defp maybe_detect_wearable(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
+    if Regex.match?(@is_wearable, ua) do
+      %{result | device: %{device | type: "wearable"}}
+    else
+      result
+    end
+  end
+
+  defp maybe_detect_wearable(result), do: result
 
   # Android <  2.0.0 is always a smartphone
   # Android == 3.*   is always a tablet
@@ -271,7 +298,7 @@ defmodule UAInspector.Parser do
   defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
 
   defp maybe_fix_desktop(%{device: device, user_agent: ua} = result) do
-    if Regex.match?(@is_desktop, ua) do
+    if Fragment.desktop?(ua) do
       %{result | device: %{device | type: "desktop"}}
     else
       result
@@ -372,10 +399,8 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_windows(result), do: result
 
-  defp maybe_undetect_android_apple(
-         %{device: %{brand: "Apple"} = device, os: %{name: "Android"}} = result
-       ) do
-    %{result | device: %{device | brand: :unknown, model: :unknown}}
+  defp maybe_undetect_android_apple(%{device: %{brand: "Apple"}, os: %{name: "Android"}} = result) do
+    %{result | device: %Result.Device{}}
   end
 
   defp maybe_undetect_android_apple(result), do: result
