@@ -36,6 +36,14 @@ defmodule UAInspector.Parser do
   @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;")
   @opera_tablet Util.build_base_regex("Opera Tablet")
 
+  @tv_browser_names [
+    "Espial TV Browser",
+    "Kylo",
+    "LUJO TV Browser",
+    "LogicUI TV Browser",
+    "Open TV Browser"
+  ]
+
   @doc """
   Checks if a user agent is a known bot.
   """
@@ -235,26 +243,9 @@ defmodule UAInspector.Parser do
 
   # assume some browsers to be a tv
   defp maybe_detect_tv(
-         %{client: %{name: "Espial TV Browser"}, device: %{type: :unknown} = device} = result
-       ),
-       do: %{result | device: %{device | type: "tv"}}
-
-  defp maybe_detect_tv(%{client: %{name: "Kylo"}, device: %{type: :unknown} = device} = result),
-    do: %{result | device: %{device | type: "tv"}}
-
-  defp maybe_detect_tv(
-         %{client: %{name: "LUJO TV Browser"}, device: %{type: :unknown} = device} = result
-       ),
-       do: %{result | device: %{device | type: "tv"}}
-
-  defp maybe_detect_tv(
-         %{client: %{name: "LogicUI TV Browser"}, device: %{type: :unknown} = device} = result
-       ),
-       do: %{result | device: %{device | type: "tv"}}
-
-  defp maybe_detect_tv(
-         %{client: %{name: "Open TV Browser"}, device: %{type: :unknown} = device} = result
-       ),
+         %{client: %{name: browser_name}, device: %{type: :unknown} = device} = result
+       )
+       when browser_name in @tv_browser_names,
        do: %{result | device: %{device | type: "tv"}}
 
   defp maybe_detect_tv(result), do: result
