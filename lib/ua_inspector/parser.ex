@@ -41,7 +41,9 @@ defmodule UAInspector.Parser do
     "Kylo",
     "LUJO TV Browser",
     "LogicUI TV Browser",
-    "Open TV Browser"
+    "Open TV Browser",
+    "Opera Devices",
+    "Seraphic Sraf"
   ]
 
   @doc """
