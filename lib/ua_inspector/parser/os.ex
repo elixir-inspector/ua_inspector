@@ -17,6 +17,21 @@ defmodule UAInspector.Parser.OS do
     "every.browser.inc"
   ]
 
+  @fire_os_version_mapping %{
+    "11" => "8",
+    "10" => "8",
+    "9" => "7",
+    "7" => "6",
+    "5" => "5",
+    "4.4.3" => "4.5.1",
+    "4.4.2" => "4",
+    "4.2.2" => "3",
+    "4.0.3" => "3",
+    "4.0.2" => "3",
+    "4" => "2",
+    "2" => "1"
+  }
+
   @platforms [
     {"ARM", Util.build_regex("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
     {"SuperH", Util.build_regex("sh4")},
@@ -65,9 +80,6 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
-        "HarmonyOS" == name ->
-          :unknown
-
         hints_result.name != :unknown and hints_result.version == :unknown and
             agent_family == hints_family ->
           agent_result.version
@@ -77,6 +89,18 @@ defmodule UAInspector.Parser.OS do
 
         true ->
           :unknown
+      end
+
+    version =
+      cond do
+        "Fire OS" == name ->
+          parse_fire_os_version(version)
+
+        "HarmonyOS" == name ->
+          :unknown
+
+        true ->
+          version
       end
 
     name =
@@ -98,6 +122,23 @@ defmodule UAInspector.Parser.OS do
       captures -> result(ua, result, captures)
     end
   end
+
+  defp parse_fire_os_version(version) when is_binary(version) do
+    major =
+      case String.split(version, ".") do
+        [major | _] -> major
+        _ -> "0"
+      end
+
+    with nil <- Map.get(@fire_os_version_mapping, major),
+         nil <- Map.get(@fire_os_version_mapping, version) do
+      version
+    else
+      mapped_version -> mapped_version
+    end
+  end
+
+  defp parse_fire_os_version(version), do: version
 
   defp parse_hints(%{platform: platform, platform_version: platform_version})
        when is_binary(platform) do
