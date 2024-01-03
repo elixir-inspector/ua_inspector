@@ -1,0 +1,166 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - test
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  dialyzer:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup
+        id: setup
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.16.0'
+          otp-version: '26.1'
+
+      - name: mix-cache
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: deps
+          # yamllint disable-line rule:line-length
+          key: ${{ runner.os }}-${{ steps.setup.outputs.otp-version }}-${{ steps.setup.outputs.elixir-version }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: mix-deps
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      - name: plt-cache
+        uses: actions/cache@v3
+        id: plt-cache
+        with:
+          path: plts
+          key: ${{ runner.os }}-${{ steps.setup.outputs.otp-version }}-${{ steps.setup.outputs.elixir-version }}-plts
+
+      - name: plt-create
+        if: steps.plt-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p plts
+          mix dialyzer --plt
+
+      - name: dialyzer
+        run: mix dialyzer
+
+  quality_actions:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: yamllint .
+        working-directory: .github
+
+  quality_elixir:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup
+        id: setup
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.16.0'
+          otp-version: '26.1'
+
+      - name: mix-cache
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: deps
+          # yamllint disable-line rule:line-length
+          key: ${{ runner.os }}-${{ steps.setup.outputs.otp-version }}-${{ steps.setup.outputs.elixir-version }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: mix-deps
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      - name: check unused deps
+        run: mix deps.unlock --check-unused
+
+      - name: check for compiler warnings
+        run: |
+          mix deps.compile
+          mix compile --warnings-as-errors
+
+      - name: format
+        run: mix format --check-formatted
+
+      - name: credo
+        run: mix credo --strict
+
+  test:
+    runs-on: ${{ matrix.runs-on }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - elixir: '1.9.4'
+            otp: '20.3'
+            runs-on: ubuntu-20.04
+          - elixir: '1.10.4'
+            otp: '21.3'
+            runs-on: ubuntu-20.04
+          - elixir: '1.11.4'
+            otp: '22.3'
+            runs-on: ubuntu-20.04
+          - elixir: '1.12.3'
+            otp: '23.3'
+            runs-on: ubuntu-20.04
+          - elixir: '1.13.4'
+            otp: '24.3'
+            runs-on: ubuntu-22.04
+          - elixir: '1.14.5'
+            otp: '25.3'
+            runs-on: ubuntu-22.04
+          - elixir: '1.15.7'
+            otp: '26.1'
+            runs-on: ubuntu-22.04
+          - elixir: '1.16.0'
+            otp: '26.1'
+            runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: mix-cache
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: deps
+          # yamllint disable-line rule:line-length
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: mix-deps
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      - name: test
+        run: mix coveralls
