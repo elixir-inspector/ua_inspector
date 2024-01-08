@@ -3,6 +3,7 @@
 ## v3.8.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.2.1`
     - Match upstream fake user agent device handling
     - Upstream improvements for Android application detection have been integrated
     - Upstream improvements for desktop device detection have been integrated
