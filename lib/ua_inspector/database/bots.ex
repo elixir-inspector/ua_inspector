@@ -51,7 +51,7 @@ defmodule UAInspector.Database.Bots do
   defp producer_info(info) do
     info = Enum.into(info, %{})
 
-    {info["name"], info["url"]}
+    {info["name"], info["url"] || :unknown}
   end
 
   defp read_database do

@@ -57,6 +57,12 @@ defmodule UAInspectorVerify.Cleanup.Generic do
     %{testcase | bot: %{bot | producer: %{name: name, url: url}}}
   end
 
+  defp cleanup_bot_producers(%{bot: %{producer: %{name: name}} = bot} = testcase) do
+    name = if name === :null, do: "", else: name
+
+    %{testcase | bot: %{bot | producer: %{name: name, url: :unknown}}}
+  end
+
   defp cleanup_bot_producers(testcase), do: testcase
 
   defp cleanup_client_engine(%{client: client} = testcase) when is_map(client) do
