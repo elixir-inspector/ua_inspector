@@ -37,13 +37,15 @@ defmodule UAInspector.Parser do
   @opera_tablet Util.build_base_regex("Opera Tablet")
 
   @tv_browser_names [
+    "Crow Browser",
     "Espial TV Browser",
     "Kylo",
     "LUJO TV Browser",
     "LogicUI TV Browser",
     "Open TV Browser",
     "Opera Devices",
-    "Seraphic Sraf"
+    "Seraphic Sraf",
+    "Vewd Browser"
   ]
 
   @doc """
