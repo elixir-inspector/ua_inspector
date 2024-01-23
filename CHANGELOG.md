@@ -3,6 +3,7 @@
 ## v3.9.0-dev
 
 - Enhancements
+    - Upstream improvements for "Iridium" browser detection have been integrated
     - Upstream improvements for TV device detection have been integrated
 
 ## v3.8.0 (2024-01-13)

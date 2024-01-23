@@ -59,14 +59,18 @@ defmodule UAInspector.Parser.Client do
     merge_results_version(result, agent_result)
   end
 
-  defp merge_results_iridium(result, %{version: iridium_version}, %{
+  defp merge_results_iridium(result, %{version: version}, %{
          engine: engine,
          engine_version: engine_version
-       })
-       when iridium_version in ["2021.12", "2022", "2022.04"],
-       do: %{result | name: "Iridium", engine: engine, engine_version: engine_version}
-
-  defp merge_results_iridium(result, _, _), do: result
+       }) do
+    # If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
+    # then it is the Iridium browser (https://iridiumbrowser.de/news/)
+    if String.starts_with?(version, ["2020", "2021", "2022", "2023"]) do
+      %{result | name: "Iridium", engine: engine, engine_version: engine_version}
+    else
+      result
+    end
+  end
 
   defp merge_results_agent_version(result, %{name: "Atom"}, %{version: version}),
     do: %{result | version: version}
