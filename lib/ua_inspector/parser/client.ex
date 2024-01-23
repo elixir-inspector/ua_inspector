@@ -40,6 +40,7 @@ defmodule UAInspector.Parser.Client do
       hints_result
       |> merge_results_iridium(hints_result, agent_result)
       |> merge_results_agent_version(hints_result, agent_result)
+      |> merge_results_duckduckgo(hints_result, agent_result)
       |> merge_results_chromium(agent_result)
 
     result =
@@ -86,6 +87,12 @@ defmodule UAInspector.Parser.Client do
     do: %{result | name: name, version: version}
 
   defp merge_results_chromium(result, _), do: result
+
+  defp merge_results_duckduckgo(result, %{name: "DuckDuckGo Privacy Browser"}, _) do
+    %{result | version: :unknown}
+  end
+
+  defp merge_results_duckduckgo(result, _, _), do: result
 
   defp merge_results_version(%{name: result_name, version: result_version} = result, %{
          name: result_name,
