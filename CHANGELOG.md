@@ -5,6 +5,7 @@
 - Enhancements
     - Upstream improvements for "DuckDuckGo Privacy" browser detection have been integrated
     - Upstream improvements for "Iridium" browser detection have been integrated
+    - Upstream improvements for "Vewd" browser detection have been integrated
     - Upstream improvements for TV device detection have been integrated
 
 ## v3.8.0 (2024-01-13)

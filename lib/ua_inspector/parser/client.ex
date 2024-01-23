@@ -41,6 +41,7 @@ defmodule UAInspector.Parser.Client do
       |> merge_results_iridium(hints_result, agent_result)
       |> merge_results_agent_version(hints_result, agent_result)
       |> merge_results_duckduckgo(hints_result, agent_result)
+      |> merge_results_vewd(hints_result, agent_result)
       |> merge_results_chromium(agent_result)
 
     result =
@@ -127,6 +128,15 @@ defmodule UAInspector.Parser.Client do
       result_version
     end
   end
+
+  defp merge_results_vewd(result, %{name: "Vewd Browser"}, %{
+         engine: engine,
+         engine_version: engine_version
+       }) do
+    %{result | engine: engine, engine_version: engine_version}
+  end
+
+  defp merge_results_vewd(result, _, _), do: result
 
   defp parse_agent(_, []), do: :unknown
 
