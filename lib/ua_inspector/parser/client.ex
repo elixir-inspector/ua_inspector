@@ -16,6 +16,7 @@ defmodule UAInspector.Parser.Client do
   @behaviour UAInspector.Parser.Behaviour
 
   @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
+  @is_iridium_version Regex.compile!("^202[0-4]")
 
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
@@ -67,7 +68,7 @@ defmodule UAInspector.Parser.Client do
        }) do
     # If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
     # then it is the Iridium browser (https://iridiumbrowser.de/news/)
-    if String.starts_with?(version, ["2020", "2021", "2022", "2023"]) do
+    if Regex.match?(@is_iridium_version, version) do
       %{result | name: "Iridium", engine: engine, engine_version: engine_version}
     else
       result
