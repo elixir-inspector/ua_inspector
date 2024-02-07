@@ -24,8 +24,7 @@ defmodule UAInspector.Parser do
                    "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"
                  )
   @is_chrome Util.build_base_regex("Chrome/[\.0-9]*")
-  @is_chrome_smartphone Util.build_base_regex("(?:Mobile|eliboM) Safari/")
-  @is_chrome_tablet Util.build_base_regex("(?!Mobile )Safari/")
+  @is_chrome_smartphone Util.build_base_regex("(?:Mobile|eliboM)")
   @is_generic_tv Util.build_base_regex("\\(TV;")
   @is_misc_tv Util.build_base_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_base_regex("Opera TV Store| OMI/")
@@ -349,7 +348,7 @@ defmodule UAInspector.Parser do
     device_type =
       cond do
         is_chrome and Regex.match?(@is_chrome_smartphone, ua) -> "smartphone"
-        is_chrome and Regex.match?(@is_chrome_tablet, ua) -> "tablet"
+        is_chrome -> "tablet"
         true -> :unknown
       end
 
