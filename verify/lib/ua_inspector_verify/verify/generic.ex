@@ -3,16 +3,30 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
-  def verify(%{user_agent: "Mozilla/5.0 (Linux; Android 11; sohKwhigbQ; U; en) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.101 Mobile AvastSecureBrowser/6.6.0 Build/3850 Safari/537.36", device: %{type: "tablet"} = device} = testcase, result) do
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 11; sohKwhigbQ; U; en) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.101 Mobile AvastSecureBrowser/6.6.0 Build/3850 Safari/537.36",
+          device: %{type: "tablet"} = device
+        } = testcase,
+        result
+      ) do
     # detected as "tablet" in default remote release
     # detected as "smartphone" in upcoming remove release
     verify(
-      IO.inspect(%{testcase | device: %{device | type: "smartphone"}}),
+      %{testcase | device: %{device | type: "smartphone"}},
       result
     )
   end
 
-  def verify(%{user_agent: "Mozilla/5.0 (Linux; U; Android 4.0.4; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10990AP Mobile", device: %{type: "tablet"} = device} = testcase, result) do
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; U; Android 4.0.4; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10990AP Mobile",
+          device: %{type: "tablet"} = device
+        } = testcase,
+        result
+      ) do
     # detected as "tablet" in default remote release
     # detected as "smartphone" in upcoming remove release
     verify(
