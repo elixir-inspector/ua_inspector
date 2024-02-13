@@ -12,7 +12,7 @@ defmodule UAInspectorVerify.Verify.Generic do
         result
       ) do
     # detected as "tablet" in default remote release
-    # detected as "smartphone" in upcoming remove release
+    # detected as "smartphone" in upcoming remote release
     verify(
       %{testcase | device: %{device | type: "smartphone"}},
       result
@@ -28,7 +28,7 @@ defmodule UAInspectorVerify.Verify.Generic do
         result
       ) do
     # detected as "tablet" in default remote release
-    # detected as "smartphone" in upcoming remove release
+    # detected as "smartphone" in upcoming remote release
     verify(
       %{testcase | device: %{device | type: "smartphone"}},
       result
