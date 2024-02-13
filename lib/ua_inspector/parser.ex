@@ -35,6 +35,14 @@ defmodule UAInspector.Parser do
   @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;")
   @opera_tablet Util.build_base_regex("Opera Tablet")
 
+  @apple_os_names [
+    "iOS",
+    "iPadOS",
+    "Mac",
+    "tvOS",
+    "watchOS"
+  ]
+
   @tv_browser_names [
     "Crow Browser",
     "Espial TV Browser",
@@ -151,8 +159,8 @@ defmodule UAInspector.Parser do
     |> maybe_detect_opera_tv_store()
     |> maybe_detect_android_tv()
     |> maybe_detect_tv()
-    |> maybe_undetect_android_apple()
-    |> maybe_fix_ios()
+    |> maybe_undetect_apple()
+    |> maybe_fix_apple()
     |> maybe_detect_wearable()
     |> maybe_fix_android_chrome()
     |> maybe_detect_tablet()
@@ -289,6 +297,13 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_android(result), do: result
 
+  defp maybe_fix_apple(%{device: %{brand: :unknown} = device, os: %{name: os_name}} = result)
+       when is_binary(os_name) and os_name in @apple_os_names do
+    %{result | device: %{device | brand: "Apple"}}
+  end
+
+  defp maybe_fix_apple(result), do: result
+
   defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
 
   defp maybe_fix_desktop(%{device: device, user_agent: ua} = result) do
@@ -309,24 +324,6 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_device_type(result), do: result
-
-  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "tvOS"}} = result) do
-    %{result | device: %{device | brand: "Apple"}}
-  end
-
-  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "iOS"}} = result) do
-    %{result | device: %{device | brand: "Apple"}}
-  end
-
-  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "Mac"}} = result) do
-    %{result | device: %{device | brand: "Apple"}}
-  end
-
-  defp maybe_fix_ios(%{device: %{brand: :unknown} = device, os: %{name: "watchOS"}} = result) do
-    %{result | device: %{device | brand: "Apple"}}
-  end
-
-  defp maybe_fix_ios(result), do: result
 
   defp smartphone_android?(version) do
     :lt == Version.compare(version, "2.0.0")
@@ -393,11 +390,12 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_windows(result), do: result
 
-  defp maybe_undetect_android_apple(%{device: %{brand: "Apple"}, os: %{name: "Android"}} = result) do
+  defp maybe_undetect_apple(%{device: %{brand: "Apple"}, os: %{name: os_name}} = result)
+       when is_binary(os_name) and os_name not in @apple_os_names do
     %{result | device: %Result.Device{}}
   end
 
-  defp maybe_undetect_android_apple(result), do: result
+  defp maybe_undetect_apple(result), do: result
 
   defp maybe_unknown_device(
          %{device: %{type: :unknown, brand: :unknown, model: :unknown}} = result

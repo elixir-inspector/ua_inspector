@@ -3,6 +3,7 @@
 ## v3.9.0-dev
 
 - Enhancements
+    - Upstream improvements for "Apple" brand detection have been integrated
     - Upstream improvements for "Chrome Android" smartphone detection have been integrated
     - Upstream improvements for "DuckDuckGo Privacy" browser detection have been integrated
     - Upstream improvements for "Iridium" browser detection have been integrated
