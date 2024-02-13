@@ -32,7 +32,7 @@ defmodule UAInspector.Util do
   """
   @spec build_regex(regex :: String.t()) :: Regex.t()
   def build_regex(regex) do
-    Regex.compile!("(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-|MZ-)(?:" <> regex <> ")", [:caseless])
+    Regex.compile!("(?:^|[^A-Z0-9_-]|[^A-Z0-9-]_|sprd-|MZ-)(?:" <> regex <> ")", [:caseless])
   end
 
   @doc """
