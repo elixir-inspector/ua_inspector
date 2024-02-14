@@ -25,7 +25,7 @@ jobs:
           otp-version: '26.2'
 
       - name: mix-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: mix-cache
         with:
           path: deps
@@ -40,7 +40,7 @@ jobs:
           mix deps.get
 
       - name: plt-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: plt-cache
         with:
           path: plts
@@ -78,7 +78,7 @@ jobs:
           otp-version: '26.2'
 
       - name: mix-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: mix-cache
         with:
           path: deps
@@ -148,7 +148,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
 
       - name: mix-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: mix-cache
         with:
           path: deps
