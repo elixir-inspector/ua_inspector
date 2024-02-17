@@ -3,6 +3,7 @@
 ## v3.9.0-dev
 
 - Enhancements
+    - Default upstream database version is now `6.3.0`
     - Upstream improvements for "Apple" brand detection have been integrated
     - Upstream improvements for "Chrome Android" smartphone detection have been integrated
     - Upstream improvements for "DuckDuckGo Privacy" browser detection have been integrated
