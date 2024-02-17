@@ -75,6 +75,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "tablet-8.yml",
     "tablet-9.yml",
     "tablet-10.yml",
+    "tablet-11.yml",
     "tv.yml",
     "tv-1.yml",
     "tv-2.yml",
