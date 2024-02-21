@@ -94,14 +94,10 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
-        "Fire OS" == name ->
-          parse_fire_os_version(version)
-
-        "HarmonyOS" == name ->
-          :unknown
-
-        true ->
-          version
+        "Fire OS" == name -> parse_fire_os_version(version)
+        "HarmonyOS" == name -> :unknown
+        "PICO OS" == name -> agent_result.version
+        true -> version
       end
 
     name =
