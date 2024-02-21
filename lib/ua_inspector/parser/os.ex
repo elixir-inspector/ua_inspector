@@ -35,6 +35,7 @@ defmodule UAInspector.Parser.OS do
   @platforms [
     {"ARM", Util.build_regex("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
     {"SuperH", Util.build_regex("sh4")},
+    {"SPARC64", Util.build_regex("sparc64")},
     {"MIPS", Util.build_regex("mips")},
     {"x64", Util.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")},
     {"x86", Util.build_regex(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc")}
@@ -157,6 +158,7 @@ defmodule UAInspector.Parser.OS do
 
   defp parse_hints(_), do: :unknown
 
+  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp parse_hints_platform(result, %{architecture: architecture, bitness: bitness}, agent_result)
        when is_binary(architecture) do
     architecture = String.downcase(architecture)
@@ -166,6 +168,7 @@ defmodule UAInspector.Parser.OS do
         String.contains?(architecture, "arm") -> "ARM"
         String.contains?(architecture, "mips") -> "MIPS"
         String.contains?(architecture, "sh4") -> "SuperH"
+        String.contains?(architecture, "sparc64") -> "SPARC64"
         String.contains?(architecture, "x64") -> "x64"
         String.contains?(architecture, "x86") and "64" == bitness -> "x64"
         String.contains?(architecture, "x86") -> "x86"

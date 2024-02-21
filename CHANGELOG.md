@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.10.0-dev
+
+- Enhancements
+    - Upstream improvements for "SPARC64" platform detection have been integrated
+
 ## v3.9.0 (2024-02-20)
 
 - Enhancements
