@@ -75,6 +75,19 @@ defmodule UAInspector.Parser.Client do
     end
   end
 
+  defp merge_results_agent_version(result, %{version: "15" <> _}, %{
+         version: "114" <> _,
+         engine: agent_engine,
+         engine_version: agent_engine_version
+       }) do
+    %{
+      result
+      | engine: agent_engine,
+        engine_version: agent_engine_version,
+        name: "360 Secure Browser"
+    }
+  end
+
   defp merge_results_agent_version(result, %{name: "Atom"}, %{version: version}),
     do: %{result | version: version}
 
