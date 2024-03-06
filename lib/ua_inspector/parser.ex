@@ -23,13 +23,13 @@ defmodule UAInspector.Parser do
   @is_android_tv Util.build_base_regex(
                    "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"
                  )
+  @is_android_vr Util.build_base_regex("Android( [\.0-9]+)?; Mobile VR;| VR")
   @is_chrome Util.build_base_regex("Chrome/[\.0-9]*")
   @is_chrome_smartphone Util.build_base_regex("(?:Mobile|eliboM)")
   @is_generic_tv Util.build_base_regex("\\(TV;")
   @is_misc_tv Util.build_base_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.build_base_regex("Opera TV Store| OMI/")
   @is_tablet Util.build_base_regex("Pad/APad")
-  @is_wearable Util.build_base_regex(" VR ")
 
   @android_mobile Util.build_base_regex("Android( [\.0-9]+)?; Mobile;")
   @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;")
@@ -163,7 +163,7 @@ defmodule UAInspector.Parser do
     |> maybe_detect_tv()
     |> maybe_undetect_apple()
     |> maybe_fix_apple()
-    |> maybe_detect_wearable()
+    |> maybe_detect_android_vr()
     |> maybe_fix_android_chrome()
     |> maybe_detect_tablet()
     |> maybe_fix_device_type()
@@ -212,6 +212,16 @@ defmodule UAInspector.Parser do
       result
     end
   end
+
+  defp maybe_detect_android_vr(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
+    if Regex.match?(@is_android_vr, ua) do
+      %{result | device: %{device | type: "wearable"}}
+    else
+      result
+    end
+  end
+
+  defp maybe_detect_android_vr(result), do: result
 
   defp maybe_detect_desktop(
          %{client: client, device: %{type: :unknown} = device, os: %{name: os_name}} = result
@@ -262,16 +272,6 @@ defmodule UAInspector.Parser do
        do: %{result | device: %{device | type: "tv"}}
 
   defp maybe_detect_tv(result), do: result
-
-  defp maybe_detect_wearable(%{device: %{type: :unknown} = device, user_agent: ua} = result) do
-    if Regex.match?(@is_wearable, ua) do
-      %{result | device: %{device | type: "wearable"}}
-    else
-      result
-    end
-  end
-
-  defp maybe_detect_wearable(result), do: result
 
   # Android <  2.0.0 is always a smartphone
   # Android == 3.*   is always a tablet
