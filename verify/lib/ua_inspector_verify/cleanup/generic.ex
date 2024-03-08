@@ -95,6 +95,10 @@ defmodule UAInspectorVerify.Cleanup.Generic do
     %{testcase | os: :unknown}
   end
 
+  defp cleanup_os_entry(%{os: %{version: version} = os} = testcase) when is_integer(version) do
+    %{testcase | os: %{os | version: Integer.to_string(version)}}
+  end
+
   defp cleanup_os_entry(testcase), do: testcase
 
   defp remove_unknown_device(
