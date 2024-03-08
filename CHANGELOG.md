@@ -4,6 +4,7 @@
 
 - Enhancements
     - Upstream improvements for "360 Secure" browser detection have been integrated
+    - Upstream improvements for "Edge WebView" detection have been integrated
     - Upstream improvements for "PICO OS" detection have been integrated
     - Upstream improvements for "QJY TV" browser detection have been integrated
     - Upstream improvements for "SPARC64" platform detection have been integrated

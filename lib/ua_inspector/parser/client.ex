@@ -188,6 +188,7 @@ defmodule UAInspector.Parser.Client do
     case ClientBrowsers.find_fuzzy(hint_name) do
       nil -> parse_hints_versions(versions, fallback)
       {_, "Chromium"} -> parse_hints_versions(versions, {"Chromium", version})
+      {_, "Microsoft Edge"} -> parse_hints_versions(versions, {"Microsoft Edge", version})
       {_, brand_name} -> {brand_name, version}
     end
   end
