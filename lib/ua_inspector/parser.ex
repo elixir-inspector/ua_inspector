@@ -51,6 +51,7 @@ defmodule UAInspector.Parser do
     "LogicUI TV Browser",
     "Open TV Browser",
     "Opera Devices",
+    "QJY TV Browser",
     "Quick Search TV",
     "Seraphic Sraf",
     "TiviMate",
