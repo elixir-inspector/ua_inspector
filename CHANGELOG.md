@@ -7,6 +7,7 @@
     - Upstream improvements for "Edge WebView" detection have been integrated
     - Upstream improvements for "PICO OS" detection have been integrated
     - Upstream improvements for "QJY TV" browser detection have been integrated
+    - Upstream improvements for "TV Bro" browser detection have been integrated
     - Upstream improvements for "SPARC64" platform detection have been integrated
     - Upstream improvements for wearable device detection have been integrated
 

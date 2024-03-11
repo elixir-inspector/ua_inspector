@@ -55,6 +55,7 @@ defmodule UAInspector.Parser do
     "Quick Search TV",
     "Seraphic Sraf",
     "TiviMate",
+    "TV Bro",
     "Vewd Browser"
   ]
 
