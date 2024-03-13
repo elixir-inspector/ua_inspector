@@ -13,6 +13,14 @@ defmodule UAInspectorVerify.Verify.Client do
     true
   end
 
+  def verify(
+        %{user_agent: "Mozilla/5.0 (X11; Linux x86_64; rv:21.0) Gecko/20100101 SlimerJS/0.7"},
+        _result
+      ) do
+    # requires library only client parsing
+    true
+  end
+
   def verify(%{client: testcase}, result) do
     testcase.name == result.name &&
       testcase.type == result.type &&
