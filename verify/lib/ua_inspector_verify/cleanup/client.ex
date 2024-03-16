@@ -4,6 +4,8 @@ defmodule UAInspectorVerify.Cleanup.Client do
   alias UAInspectorVerify.Cleanup.Base
 
   @empty_to_unknown [
+    [:client, :engine],
+    [:client, :engine_version],
     [:client, :version]
   ]
 

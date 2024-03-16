@@ -21,6 +21,14 @@ defmodule UAInspectorVerify.Verify.Client do
     true
   end
 
+  def verify(%{client: %{engine: _} = testcase}, result) do
+    testcase.name == result.name &&
+      testcase.type == result.type &&
+      testcase.version == result.version &&
+      testcase.engine == result.engine &&
+      testcase.engine_version == result.engine_version
+  end
+
   def verify(%{client: testcase}, result) do
     testcase.name == result.name &&
       testcase.type == result.type &&
