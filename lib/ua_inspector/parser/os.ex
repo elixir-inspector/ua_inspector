@@ -55,11 +55,11 @@ defmodule UAInspector.Parser.OS do
   defp maybe_unknown_os(%{name: :unknown, platform: :unknown, version: :unknown}), do: :unknown
   defp maybe_unknown_os(result), do: result
 
-  defp merge_results(%{application: application}, :unknown, _)
-       when application in @android_apps,
+  defp merge_results(%{application: application}, %{name: name}, _)
+       when application in @android_apps and name != "Android",
        do: %Result.OS{name: "Android"}
 
-  defp merge_results(%{application: application}, %{name: name}, _)
+  defp merge_results(%{application: application}, _, %{name: name})
        when application in @android_apps and name != "Android",
        do: %Result.OS{name: "Android"}
 
