@@ -63,6 +63,14 @@ defmodule UAInspector.Parser.OS do
        when application in @android_apps and name != "Android",
        do: %Result.OS{name: "Android"}
 
+  defp merge_results(%{application: "org.lineageos.jelly"}, %{name: name}, _)
+       when name != "Lineage OS",
+       do: %Result.OS{name: "Lineage OS"}
+
+  defp merge_results(%{application: "org.lineageos.jelly"}, _, %{name: name})
+       when name != "Lineage OS",
+       do: %Result.OS{name: "Lineage OS"}
+
   defp merge_results(_, :unknown, :unknown), do: %Result.OS{}
   defp merge_results(_, :unknown, agent_result), do: agent_result
   defp merge_results(_, hints_result, :unknown), do: hints_result
