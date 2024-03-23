@@ -14,6 +14,7 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
     "\\$#{var} = (?:array\\(|\\[)(?<map>.*)(?:\\)|\\]);"
     |> Regex.compile!(re_opts)
     |> Regex.named_captures(source)
+    |> Kernel.||(%{})
     |> Map.get("map", "")
     |> parse_source(type)
   end
