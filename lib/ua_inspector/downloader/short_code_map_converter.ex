@@ -78,14 +78,14 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   end
 
   defp parse_mapping(mapping, :hash) do
-    "'(.+)' => '(.+)'"
+    "'(.+)' +=> +'(.+)'"
     |> Regex.compile!()
     |> Regex.run(mapping)
     |> mapping_to_entry()
   end
 
   defp parse_mapping(mapping, :hash_with_list) do
-    "'(.+)' +=> (?:array\\(|\\[)(.+)(?:\\)|\\]|$)"
+    "'(.+)' +=> +(?:array\\(|\\[)(.+)(?:\\)|\\]|$)"
     |> Regex.compile!([:dotall, :ungreedy])
     |> Regex.run(mapping)
     |> mapping_to_entry()
