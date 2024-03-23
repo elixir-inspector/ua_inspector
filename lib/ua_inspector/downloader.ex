@@ -45,7 +45,8 @@ defmodule UAInspector.Downloader do
     ShortCodeMap.MobileBrowsers,
     ShortCodeMap.OSFamilies,
     ShortCodeMap.OSs,
-    ShortCodeMap.VersionMappingFireOS
+    ShortCodeMap.VersionMappingFireOS,
+    ShortCodeMap.VersionMappingLineageOS
   ]
 
   @doc """

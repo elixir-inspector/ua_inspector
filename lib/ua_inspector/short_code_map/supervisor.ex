@@ -21,7 +21,8 @@ defmodule UAInspector.ShortCodeMap.Supervisor do
       ShortCodeMap.MobileBrowsers,
       ShortCodeMap.OSFamilies,
       ShortCodeMap.OSs,
-      ShortCodeMap.VersionMappingFireOS
+      ShortCodeMap.VersionMappingFireOS,
+      ShortCodeMap.VersionMappingLineageOS
     ]
 
     Supervisor.init(children, strategy: :one_for_all)
