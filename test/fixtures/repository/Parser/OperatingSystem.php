@@ -22,4 +22,8 @@ class OperatingSystem
         'GNU/Linux' => ['Linux'],
         'Mac'       => ['MacOS'],
     ];
+
+    private $fireOsVersionMapping = [
+        '11' => '8',
+    ];
 }
