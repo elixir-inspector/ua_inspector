@@ -36,7 +36,9 @@ defmodule UAInspector.ShortCodeMap.VersionMappingFireOS do
     |> parse_yaml_entries(map)
   end
 
-  defp parse_yaml_entries({:ok, entries}, _), do: entries
+  defp parse_yaml_entries({:ok, entries}, _) do
+    Enum.map(entries, fn [{v1, v2}] -> {v1, v2} end)
+  end
 
   defp parse_yaml_entries({:error, error}, map) do
     _ =
