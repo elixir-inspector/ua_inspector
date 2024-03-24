@@ -4,6 +4,7 @@ defmodule UAInspector.Parser.OS do
   alias UAInspector.Database.OSs, as: OSsDatabase
   alias UAInspector.Result
   alias UAInspector.ShortCodeMap.OSs, as: OSsShortCodeMap
+  alias UAInspector.ShortCodeMap.VersionMappingFireOS
   alias UAInspector.Util
   alias UAInspector.Util.ClientHintMapping
   alias UAInspector.Util.OS
@@ -16,21 +17,6 @@ defmodule UAInspector.Parser.OS do
     "com.appssppa.idesktoppcbrowser",
     "every.browser.inc"
   ]
-
-  @fire_os_version_mapping %{
-    "11" => "8",
-    "10" => "8",
-    "9" => "7",
-    "7" => "6",
-    "5" => "5",
-    "4.4.3" => "4.5.1",
-    "4.4.2" => "4",
-    "4.2.2" => "3",
-    "4.0.3" => "3",
-    "4.0.2" => "3",
-    "4" => "2",
-    "2" => "1"
-  }
 
   @platforms [
     {"ARM", Util.build_regex("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
@@ -102,7 +88,7 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
-        "Fire OS" == name -> parse_fire_os_version(version)
+        "Fire OS" == name -> resolve_version_mapping(version, VersionMappingFireOS.list())
         "HarmonyOS" == name -> :unknown
         "PICO OS" == name -> agent_result.version
         true -> version
@@ -127,23 +113,6 @@ defmodule UAInspector.Parser.OS do
       captures -> result(ua, result, captures)
     end
   end
-
-  defp parse_fire_os_version(version) when is_binary(version) do
-    major =
-      case String.split(version, ".") do
-        [major | _] -> major
-        _ -> "0"
-      end
-
-    with nil <- Map.get(@fire_os_version_mapping, major),
-         nil <- Map.get(@fire_os_version_mapping, version) do
-      version
-    else
-      mapped_version -> mapped_version
-    end
-  end
-
-  defp parse_fire_os_version(version), do: version
 
   defp parse_hints(%{platform: platform, platform_version: platform_version})
        when is_binary(platform) do
@@ -243,6 +212,24 @@ defmodule UAInspector.Parser.OS do
     |> Util.sanitize_version()
     |> Util.maybe_unknown()
   end
+
+  defp resolve_version_mapping(version, mapping) do
+    major =
+      case String.split(version, ".") do
+        [major | _] -> major
+        _ -> "0"
+      end
+
+    resolve_version_mapping(version, major, mapping)
+  end
+
+  defp resolve_version_mapping(_, _, []), do: :unknown
+
+  defp resolve_version_mapping(version, _, [{version, result} | _]), do: result
+  defp resolve_version_mapping(_, major, [{major, result} | _]), do: result
+
+  defp resolve_version_mapping(version, major, [_ | mapping]),
+    do: resolve_version_mapping(version, major, mapping)
 
   defp result(ua, {name, version, versions}, captures) do
     %Result.OS{
