@@ -5,6 +5,7 @@ defmodule UAInspector.Parser.OS do
   alias UAInspector.Result
   alias UAInspector.ShortCodeMap.OSs, as: OSsShortCodeMap
   alias UAInspector.ShortCodeMap.VersionMappingFireOS
+  alias UAInspector.ShortCodeMap.VersionMappingLineageOS
   alias UAInspector.Util
   alias UAInspector.Util.ClientHintMapping
   alias UAInspector.Util.OS
@@ -49,13 +50,21 @@ defmodule UAInspector.Parser.OS do
        when application in @android_apps and name != "Android",
        do: %Result.OS{name: "Android"}
 
-  defp merge_results(%{application: "org.lineageos.jelly"}, %{name: name}, _)
-       when name != "Lineage OS",
-       do: %Result.OS{name: "Lineage OS"}
+  defp merge_results(%{application: "org.lineageos.jelly"}, %{name: name, version: version}, _)
+       when name != "Lineage OS" do
+    %Result.OS{
+      name: "Lineage OS",
+      version: resolve_version_mapping(version, VersionMappingLineageOS.list())
+    }
+  end
 
-  defp merge_results(%{application: "org.lineageos.jelly"}, _, %{name: name})
-       when name != "Lineage OS",
-       do: %Result.OS{name: "Lineage OS"}
+  defp merge_results(%{application: "org.lineageos.jelly"}, _, %{name: name, version: version})
+       when name != "Lineage OS" do
+    %Result.OS{
+      name: "Lineage OS",
+      version: resolve_version_mapping(version, VersionMappingLineageOS.list())
+    }
+  end
 
   defp merge_results(_, :unknown, :unknown), do: %Result.OS{}
   defp merge_results(_, :unknown, agent_result), do: agent_result
