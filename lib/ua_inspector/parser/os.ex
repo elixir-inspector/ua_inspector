@@ -66,6 +66,22 @@ defmodule UAInspector.Parser.OS do
     }
   end
 
+  defp merge_results(%{application: "org.mozilla.tv.firefox"}, %{name: name, version: version}, _)
+       when name != "Fire OS" do
+    %Result.OS{
+      name: "Fire OS",
+      version: resolve_version_mapping(version, VersionMappingFireOS.list())
+    }
+  end
+
+  defp merge_results(%{application: "org.mozilla.tv.firefox"}, _, %{name: name, version: version})
+       when name != "Fire OS" do
+    %Result.OS{
+      name: "Fire OS",
+      version: resolve_version_mapping(version, VersionMappingFireOS.list())
+    }
+  end
+
   defp merge_results(_, :unknown, :unknown), do: %Result.OS{}
   defp merge_results(_, :unknown, agent_result), do: agent_result
   defp merge_results(_, hints_result, :unknown), do: hints_result
