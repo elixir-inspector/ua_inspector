@@ -213,6 +213,8 @@ defmodule UAInspector.Parser.OS do
     |> Util.maybe_unknown()
   end
 
+  defp resolve_version_mapping(:unknown, _), do: :unknown
+
   defp resolve_version_mapping(version, mapping) do
     major =
       case String.split(version, ".") do
