@@ -4,6 +4,7 @@
 
 - Enhancements
     - Upstream improvements for "360 Secure" browser detection have been integrated
+    - Upstream improvements for "Arachne" browser engine detection have been integrated
     - Upstream improvements for "Clecko" browser engine detection have been integrated
     - Upstream improvements for "Edge WebView" detection have been integrated
     - Upstream improvements for "Lineage OS" detection have been integrated
