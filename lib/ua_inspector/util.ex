@@ -29,6 +29,7 @@ defmodule UAInspector.Util do
 
   def build_engine_regex("Arachne"), do: build_engine_regex("Arachne\\/5\\.")
   def build_engine_regex("Blink"), do: build_engine_regex("Chrome|Cronet")
+  def build_engine_regex("LibWeb"), do: build_engine_regex("LibWeb\\+LibJs")
 
   def build_engine_regex(name) do
     Regex.compile!("(?:" <> name <> ~S")\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))", [
