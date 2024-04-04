@@ -114,13 +114,14 @@ defmodule UAInspector.Util do
       "0.1.0"
 
       iex> to_semver("1.2.3.4")
-      "1.2.3-4"
+      "1.2.3"
   """
-  @spec to_semver(version :: String.t()) :: String.t()
-  def to_semver(""), do: ""
+  @spec to_semver(version :: String.t(), parts :: integer) :: String.t()
+  def to_semver(version, parts \\ 3)
+  def to_semver("", _), do: ""
 
-  def to_semver(version) do
-    case String.split(version, ".", parts: 4) do
+  def to_semver(version, parts) do
+    case String.split(version, ".", parts: parts) do
       [maj] -> to_semver_string(maj, "0", "0", nil)
       [maj, min] -> to_semver_string(maj, min, "0", nil)
       [maj, min, patch] -> to_semver_string(maj, min, patch, nil)
@@ -143,7 +144,7 @@ defmodule UAInspector.Util do
       ""
   """
   def to_semver_with_pre(version) do
-    semver = to_semver(version)
+    semver = to_semver(version, 4)
 
     cond do
       "" == semver -> semver
