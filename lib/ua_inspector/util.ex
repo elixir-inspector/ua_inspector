@@ -112,6 +112,9 @@ defmodule UAInspector.Util do
 
       iex> to_semver("1.2.3.4")
       "1.2.3"
+
+      iex> to_semver("1.2.3.4", 4)
+      "1.2.3-4"
   """
   @spec to_semver(version :: String.t(), parts :: integer) :: String.t()
   def to_semver(version, parts \\ 3)
