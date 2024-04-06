@@ -140,7 +140,7 @@ defmodule UAInspector.Util do
       iex> to_semver_with_pre("1.2.3.4")
       "1.2.3-4"
 
-      iex> to_semver("")
+      iex> to_semver_with_pre("")
       ""
   """
   def to_semver_with_pre(version) do
