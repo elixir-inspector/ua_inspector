@@ -2,6 +2,9 @@
 
 ## v3.10.0-dev
 
+- Bug fixes
+    - Fix parsing if the fourth part of the user agent engine version (split by `.`) starts with `0[0-9]` ([#35](https://github.com/elixir-inspector/ua_inspector/issues/35))
+
 - Enhancements
     - Upstream improvements for "360 Secure" browser detection have been integrated
     - Upstream improvements for "Arachne" browser engine detection have been integrated
