@@ -82,9 +82,6 @@ defmodule UAInspector.Util do
   @doc """
   Converts an unknown version string to a semver-comparable format.
 
-  Everything except the `major` and `minor` version is dropped as
-  these two parts are the only available/needed.
-
   Missing values are filled with zeroes while empty strings are ignored.
 
   If a non-integer value is found it is ignored and every part
