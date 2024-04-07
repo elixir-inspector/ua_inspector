@@ -34,4 +34,21 @@ defmodule UAInspector.Parser.ClientTest do
 
     assert ^result = parsed.client
   end
+
+  test "engine version with leading zero in fourth place (x.y.z.0[0-9]+)" do
+    agent =
+      "Mozilla/5.0 (Linux; arm_64; Android 10; Mi Note 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5765.05 Mobile Safari/537.36"
+
+    parsed = UAInspector.parse(agent)
+
+    result = %UAInspector.Result.Client{
+      engine: "WebKit",
+      engine_version: "537.36",
+      name: "Chrome Mobile",
+      type: "browser",
+      version: "115.0.5765.05"
+    }
+
+    assert ^result = parsed.client
+  end
 end
