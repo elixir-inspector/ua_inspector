@@ -161,8 +161,8 @@ defmodule UAInspector.ParserTest do
       parsed = %Result{
         browser_family: "Chrome",
         client: %Result.Client{
-          engine: "WebKit",
-          engine_version: "537.36",
+          engine: "Blink",
+          engine_version: "83.0.4103.120",
           name: "Chrome",
           type: "browser",
           version: :unknown

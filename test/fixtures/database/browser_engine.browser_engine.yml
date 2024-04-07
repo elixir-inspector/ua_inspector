@@ -1,6 +1,9 @@
 - regex: 'Trident'
   name: 'Trident'
 
+- regex: 'Chrome/(?!1?\d\.|2[0-7]\.)'
+  name: 'Blink'
+
 - regex: '(?:Apple)?WebKit'
   name: 'WebKit'
 
