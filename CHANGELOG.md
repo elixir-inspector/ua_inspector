@@ -16,6 +16,7 @@
     - Upstream improvements for "QJY TV" browser detection have been integrated
     - Upstream improvements for "TV Bro" browser detection have been integrated
     - Upstream improvements for "SPARC64" platform detection have been integrated
+    - Upstream improvements for Android mobile/tablet device detection have been integrated
     - Upstream improvements for wearable device detection have been integrated
 
 ## v3.9.0 (2024-02-20)

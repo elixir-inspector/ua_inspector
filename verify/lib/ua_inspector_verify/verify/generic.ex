@@ -45,6 +45,24 @@ defmodule UAInspectorVerify.Verify.Generic do
     )
   end
 
+  def verify(%{user_agent: "spotify_other-mobile", device: :unknown} = testcase, result) do
+    # detected as "unknown" in default remote release
+    # detected as "smartphone" in upcoming remote release
+    verify(
+      %{testcase | device: %{brand: :unknown, model: :unknown, type: "smartphone"}},
+      result
+    )
+  end
+
+  def verify(%{user_agent: "spotify_android-tablet", device: :unknown} = testcase, result) do
+    # detected as "unknown" in default remote release
+    # detected as "tablet" in upcoming remote release
+    verify(
+      %{testcase | device: %{brand: :unknown, model: :unknown, type: "tablet"}},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&

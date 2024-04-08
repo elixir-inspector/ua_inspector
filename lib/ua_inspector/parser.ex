@@ -31,8 +31,8 @@ defmodule UAInspector.Parser do
   @is_opera_tv_store Util.build_base_regex("Opera TV Store| OMI/")
   @is_tablet Util.build_base_regex("Pad/APad")
 
-  @android_mobile Util.build_base_regex("Android( [\.0-9]+)?; Mobile;")
-  @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;")
+  @android_mobile Util.build_base_regex("Android( [\.0-9]+)?; Mobile;|.*\-mobile$")
+  @android_tablet Util.build_base_regex("Android( [\.0-9]+)?; Tablet;|.*\-tablet$")
   @opera_tablet Util.build_base_regex("Opera Tablet")
 
   @apple_os_names [
