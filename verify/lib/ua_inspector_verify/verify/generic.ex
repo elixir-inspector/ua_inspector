@@ -29,40 +29,6 @@ defmodule UAInspectorVerify.Verify.Generic do
     true
   end
 
-  def verify(
-        %{
-          user_agent:
-            "Mozilla/5.0 (X11; U; Linux sparc64; es-PY; rv:5.0) Gecko/20100101 IceCat/5.0 (like Firefox/5.0; Debian-6.0.1)",
-          os: %{platform: :unknown} = os
-        } = testcase,
-        result
-      ) do
-    # detected as "unknown" in default remote release
-    # detected as "SPARC64" in upcoming remote release
-    verify(
-      %{testcase | os: %{os | platform: "SPARC64"}},
-      result
-    )
-  end
-
-  def verify(%{user_agent: "spotify_other-mobile", device: :unknown} = testcase, result) do
-    # detected as "unknown" in default remote release
-    # detected as "smartphone" in upcoming remote release
-    verify(
-      %{testcase | device: %{brand: :unknown, model: :unknown, type: "smartphone"}},
-      result
-    )
-  end
-
-  def verify(%{user_agent: "spotify_android-tablet", device: :unknown} = testcase, result) do
-    # detected as "unknown" in default remote release
-    # detected as "tablet" in upcoming remote release
-    verify(
-      %{testcase | device: %{brand: :unknown, model: :unknown, type: "tablet"}},
-      result
-    )
-  end
-
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
