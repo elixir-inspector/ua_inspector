@@ -3,30 +3,6 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
-  def verify(
-        %{
-          user_agent:
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/21B101 [FBAN/FBIOS;FBAV/445.0.0.35.117;FBBV/548375166;FBDV/iPhone12,1;FBMD/iPhone;FBSN/iOS;FBSV/17.1.2;FBSS/2;FBID/phone;FBLC/es_LA;FBOP/5;FBRV/550068703]",
-          headers: %{"sec-ch-ua-brands" => _}
-        },
-        _result
-      ) do
-    # header format in fixture currently not parsed
-    true
-  end
-
-  def verify(
-        %{
-          user_agent:
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/79.0.3945.73 Mobile/15E148 Safari/604.1",
-          headers: %{"sec-ch-ua-brands" => _}
-        },
-        _result
-      ) do
-    # header format in fixture currently not parsed
-    true
-  end
-
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&

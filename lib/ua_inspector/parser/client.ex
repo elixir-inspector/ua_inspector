@@ -35,6 +35,10 @@ defmodule UAInspector.Parser.Client do
   defp merge_results(:unknown, agent_result), do: agent_result
   defp merge_results(hints_result, :unknown), do: hints_result
 
+  defp merge_results(_, %{name: name, type: "mobile app", version: version} = agent_result)
+       when is_binary(name) and is_binary(version),
+       do: agent_result
+
   defp merge_results(%{name: name, version: version} = hints_result, agent_result)
        when is_binary(name) and is_binary(version) do
     result =
