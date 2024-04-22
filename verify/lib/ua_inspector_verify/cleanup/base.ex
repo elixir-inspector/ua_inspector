@@ -16,23 +16,8 @@ defmodule UAInspectorVerify.Cleanup.Base do
     FunctionClauseError -> empty_to_unknown(testcase, paths)
   end
 
-  def prepare_headers(%{headers: headers} = testcase) do
-    %{
-      testcase
-      | headers:
-          Map.new(headers, fn {key, value} ->
-            header = key |> Atom.to_string() |> String.downcase()
-
-            header =
-              case header do
-                "http-" <> real_header -> real_header
-                real_header -> real_header
-              end
-
-            {header, value}
-          end)
-    }
-  end
+  def prepare_headers(%{headers: headers} = testcase),
+    do: %{testcase | headers: Map.new(headers, &prepare_header/1)}
 
   def prepare_headers(testcase), do: testcase
 
@@ -49,4 +34,43 @@ defmodule UAInspectorVerify.Cleanup.Base do
   rescue
     FunctionClauseError -> version_to_string(testcase, paths)
   end
+
+  defp prepare_header({key, value}) do
+    header =
+      key
+      |> Atom.to_string()
+      |> String.downcase()
+      |> prepare_header_strip_http()
+      |> prepare_header_prepend_sec_ua()
+      |> prepare_header_fixup()
+
+    value = prepare_header_value(value)
+
+    {header, value}
+  end
+
+  defp prepare_header_fixup("sec-ch-ua-architecture"), do: "sec-ch-ua-arch"
+  defp prepare_header_fixup("sec-ch-ua-fullversionlist"), do: "sec-ch-ua-full-version-list"
+  defp prepare_header_fixup("sec-ch-ua-uafullversion"), do: "sec-ch-ua-full-version"
+  defp prepare_header_fixup("sec-ch-ua-platformversion"), do: "sec-ch-ua-platform-version"
+  defp prepare_header_fixup(header), do: header
+
+  defp prepare_header_prepend_sec_ua("sec-ch-ua" = header), do: header
+  defp prepare_header_prepend_sec_ua("x-requested-with" = header), do: header
+  defp prepare_header_prepend_sec_ua("sec-ch-ua-" <> _ = header), do: header
+  defp prepare_header_prepend_sec_ua(header), do: "sec-ch-ua-" <> header
+
+  defp prepare_header_strip_http("http-" <> header), do: header
+  defp prepare_header_strip_http(header), do: header
+
+  defp prepare_header_value([[{"brand", _}, {"version", _}] | _] = values) do
+    Enum.map_join(
+      values,
+      ", ",
+      fn [{"brand", brand}, {"version", version}] -> ~s("#{brand}";v="#{version}") end
+    )
+  end
+
+  defp prepare_header_value([_ | _]), do: ""
+  defp prepare_header_value(value), do: value
 end
