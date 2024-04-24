@@ -3,6 +3,22 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
+  def verify(
+        %{
+          user_agent:
+            "Anytime/1.3.3 b95 (phone;android sdk_gphone64_arm64-userdebug 13 TE1A.220922.012 9302419 dev-keys) https://github.com/amugofjava/anytime_podcast_player",
+          os: %{platform: :unknown} = os
+        } = testcase,
+        result
+      ) do
+    # detected as "unknown" in default remote release
+    # detected as "ARM" in upcoming remote release
+    verify(
+      %{testcase | os: %{os | platform: "ARM"}},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
