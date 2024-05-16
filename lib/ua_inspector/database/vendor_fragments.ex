@@ -7,7 +7,6 @@ defmodule UAInspector.Database.VendorFragments do
 
   alias UAInspector.Config
   alias UAInspector.Util
-  alias UAInspector.Util.YAML
 
   @behaviour UAInspector.Storage.Database
 
@@ -47,7 +46,7 @@ defmodule UAInspector.Database.VendorFragments do
 
       contents =
         database
-        |> YAML.read_file()
+        |> Util.YAML.read_file()
         |> parse_yaml_entries(database)
 
       [contents | acc]

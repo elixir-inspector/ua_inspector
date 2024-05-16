@@ -7,7 +7,6 @@ defmodule UAInspector.Database.Clients do
 
   alias UAInspector.Config
   alias UAInspector.Util
-  alias UAInspector.Util.YAML
 
   @behaviour UAInspector.Storage.Database
 
@@ -41,9 +40,9 @@ defmodule UAInspector.Database.Clients do
         Util.Regex.build_regex(data["regex"]),
         {
           prepare_engine_data(type, data["engine"]),
-          YAML.maybe_to_string(data["name"]),
+          Util.YAML.maybe_to_string(data["name"]),
           type,
-          YAML.maybe_to_string(data["version"])
+          Util.YAML.maybe_to_string(data["version"])
         }
       }
     end)
@@ -84,7 +83,7 @@ defmodule UAInspector.Database.Clients do
 
       contents =
         database
-        |> YAML.read_file()
+        |> Util.YAML.read_file()
         |> parse_yaml_entries(database, type)
 
       [contents | acc]

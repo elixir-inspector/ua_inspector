@@ -7,7 +7,6 @@ defmodule UAInspector.Parser do
   alias UAInspector.Result
   alias UAInspector.Result.Bot
   alias UAInspector.Util
-  alias UAInspector.Util.Fragment
 
   @devices_mobile [
     "camera",
@@ -311,7 +310,7 @@ defmodule UAInspector.Parser do
   defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
 
   defp maybe_fix_desktop(%{device: device, user_agent: ua} = result) do
-    if Fragment.desktop?(ua) do
+    if Util.Fragment.desktop?(ua) do
       %{result | device: %{device | type: "desktop"}}
     else
       result

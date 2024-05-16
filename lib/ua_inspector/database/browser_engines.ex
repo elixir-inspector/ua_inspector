@@ -7,7 +7,6 @@ defmodule UAInspector.Database.BrowserEngines do
 
   alias UAInspector.Config
   alias UAInspector.Util
-  alias UAInspector.Util.YAML
 
   @behaviour UAInspector.Storage.Database
 
@@ -50,7 +49,7 @@ defmodule UAInspector.Database.BrowserEngines do
 
       contents =
         database
-        |> YAML.read_file()
+        |> Util.YAML.read_file()
         |> parse_yaml_entries(database)
 
       [contents | acc]

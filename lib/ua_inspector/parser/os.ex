@@ -7,8 +7,6 @@ defmodule UAInspector.Parser.OS do
   alias UAInspector.ShortCodeMap.VersionMappingFireOS
   alias UAInspector.ShortCodeMap.VersionMappingLineageOS
   alias UAInspector.Util
-  alias UAInspector.Util.ClientHintMapping
-  alias UAInspector.Util.OS
 
   @behaviour UAInspector.Parser.Behaviour
 
@@ -89,8 +87,8 @@ defmodule UAInspector.Parser.OS do
 
   # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp merge_results(_, hints_result, agent_result) do
-    agent_family = OS.family_from_result(agent_result)
-    hints_family = OS.family_from_result(hints_result)
+    agent_family = Util.OS.family_from_result(agent_result)
+    hints_family = Util.OS.family_from_result(hints_result)
 
     name =
       if hints_result.name != agent_result.name and hints_result.name == agent_family do
@@ -142,7 +140,7 @@ defmodule UAInspector.Parser.OS do
 
   defp parse_hints(%{platform: platform, platform_version: platform_version})
        when is_binary(platform) do
-    platform_name = ClientHintMapping.os_mapping(platform)
+    platform_name = Util.ClientHintMapping.os_mapping(platform)
 
     case OSsShortCodeMap.find_fuzzy(platform_name) do
       nil ->

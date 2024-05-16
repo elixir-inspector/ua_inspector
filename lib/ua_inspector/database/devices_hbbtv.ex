@@ -7,7 +7,6 @@ defmodule UAInspector.Database.DevicesHbbTV do
 
   alias UAInspector.Config
   alias UAInspector.Util
-  alias UAInspector.Util.YAML
 
   @behaviour UAInspector.Storage.Database
 
@@ -28,7 +27,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
         {
           nil,
           device,
-          YAML.maybe_to_string(model)
+          Util.YAML.maybe_to_string(model)
         }
       }
     ]
@@ -41,9 +40,9 @@ defmodule UAInspector.Database.DevicesHbbTV do
       {
         Util.Regex.build_regex(model["regex"]),
         {
-          YAML.maybe_to_string(model["brand"]),
-          YAML.maybe_to_string(model["device"]),
-          YAML.maybe_to_string(model["model"])
+          Util.YAML.maybe_to_string(model["brand"]),
+          Util.YAML.maybe_to_string(model["device"]),
+          Util.YAML.maybe_to_string(model["model"])
         }
       }
     end)
@@ -57,7 +56,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
       {
         Util.Regex.build_regex(data["regex"]),
         {
-          YAML.maybe_to_string(brand),
+          Util.YAML.maybe_to_string(brand),
           models,
           data["device"],
           type
@@ -83,7 +82,7 @@ defmodule UAInspector.Database.DevicesHbbTV do
 
       contents =
         database
-        |> YAML.read_file()
+        |> Util.YAML.read_file()
         |> parse_yaml_entries(database, type)
 
       [contents | acc]

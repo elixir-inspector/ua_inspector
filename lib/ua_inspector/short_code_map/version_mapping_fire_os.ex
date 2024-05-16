@@ -6,7 +6,7 @@ defmodule UAInspector.ShortCodeMap.VersionMappingFireOS do
   require Logger
 
   alias UAInspector.Config
-  alias UAInspector.Util.YAML
+  alias UAInspector.Util
 
   @behaviour UAInspector.Storage.ShortCodeMap
 
@@ -32,7 +32,7 @@ defmodule UAInspector.ShortCodeMap.VersionMappingFireOS do
     map = Path.join(Config.database_path(), local)
 
     map
-    |> YAML.read_file()
+    |> Util.YAML.read_file()
     |> parse_yaml_entries(map)
   end
 

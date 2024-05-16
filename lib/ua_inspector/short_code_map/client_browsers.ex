@@ -6,8 +6,7 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   require Logger
 
   alias UAInspector.Config
-  alias UAInspector.Util.ShortCodeMap, as: ShortCodeMapUtil
-  alias UAInspector.Util.YAML
+  alias UAInspector.Util
 
   @behaviour UAInspector.Storage.ShortCodeMap
 
@@ -48,14 +47,14 @@ defmodule UAInspector.ShortCodeMap.ClientBrowsers do
   Returns the short code for a client browser.
   """
   @spec to_short(String.t()) :: String.t()
-  def to_short(long), do: ShortCodeMapUtil.to_short(list(), long)
+  def to_short(long), do: Util.ShortCodeMap.to_short(list(), long)
 
   defp read_database do
     {local, _} = source()
     map = Path.join(Config.database_path(), local)
 
     map
-    |> YAML.read_file()
+    |> Util.YAML.read_file()
     |> parse_yaml_entries(map)
   end
 

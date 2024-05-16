@@ -10,8 +10,6 @@ defmodule UAInspector.Parser.Client do
   alias UAInspector.Result
   alias UAInspector.ShortCodeMap.ClientBrowsers
   alias UAInspector.Util
-  alias UAInspector.Util.Browser
-  alias UAInspector.Util.ClientHintMapping
 
   @behaviour UAInspector.Parser.Behaviour
 
@@ -57,7 +55,8 @@ defmodule UAInspector.Parser.Client do
       end
 
     result =
-      if agent_result.name != name and Browser.family(agent_result.name) == Browser.family(name) do
+      if agent_result.name != name and
+           Util.Browser.family(agent_result.name) == Util.Browser.family(name) do
         %{result | engine: agent_result.engine, engine_version: agent_result.engine_version}
       else
         result
@@ -187,7 +186,7 @@ defmodule UAInspector.Parser.Client do
   defp parse_hints_versions([], fallback), do: fallback
 
   defp parse_hints_versions([{name, version} | versions], fallback) do
-    hint_name = ClientHintMapping.browser_mapping(name)
+    hint_name = Util.ClientHintMapping.browser_mapping(name)
 
     case ClientBrowsers.find_fuzzy(hint_name) do
       nil -> parse_hints_versions(versions, fallback)

@@ -8,7 +8,6 @@ defmodule UAInspector.Parser.Device do
   alias UAInspector.Parser.VendorFragment
   alias UAInspector.Result
   alias UAInspector.Util
-  alias UAInspector.Util.Fragment
 
   @behaviour UAInspector.Parser.Behaviour
 
@@ -43,7 +42,7 @@ defmodule UAInspector.Parser.Device do
   def shelltv?(ua), do: Regex.match?(@shelltv, ua)
 
   defp parse_device(%{model: :unknown} = hints_result, client_hints, ua) do
-    if Fragment.desktop?(ua) do
+    if Util.Fragment.desktop?(ua) do
       hints_result
     else
       parse_device_details(hints_result, client_hints, ua)

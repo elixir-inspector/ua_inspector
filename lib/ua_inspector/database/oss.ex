@@ -7,7 +7,6 @@ defmodule UAInspector.Database.OSs do
 
   alias UAInspector.Config
   alias UAInspector.Util
-  alias UAInspector.Util.YAML
 
   @behaviour UAInspector.Storage.Database
 
@@ -39,8 +38,8 @@ defmodule UAInspector.Database.OSs do
       {
         Util.Regex.build_regex(data["regex"]),
         {
-          YAML.maybe_to_string(data["name"]),
-          YAML.maybe_to_string(data["version"]),
+          Util.YAML.maybe_to_string(data["name"]),
+          Util.YAML.maybe_to_string(data["version"]),
           oss_versions(data["versions"] || [])
         }
       }
@@ -64,7 +63,7 @@ defmodule UAInspector.Database.OSs do
 
       contents =
         database
-        |> YAML.read_file()
+        |> Util.YAML.read_file()
         |> parse_yaml_entries(database)
 
       [contents | acc]
