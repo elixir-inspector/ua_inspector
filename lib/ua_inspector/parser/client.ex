@@ -136,8 +136,8 @@ defmodule UAInspector.Parser.Client do
   defp merge_results_version_compare(result_version, :unknown), do: result_version
 
   defp merge_results_version_compare(result_version, agent_version) do
-    agent_semver = Util.to_semver_with_pre(agent_version)
-    result_semver = Util.to_semver_with_pre(result_version)
+    agent_semver = Util.Version.to_semver_with_pre(agent_version)
+    result_semver = Util.Version.to_semver_with_pre(result_version)
 
     if String.starts_with?(agent_version, result_version) and
          :lt == Version.compare(result_semver, agent_semver) do
@@ -301,7 +301,7 @@ defmodule UAInspector.Parser.Client do
 
   defp resolve_engine([{"default", default}, {"versions", engines}], version) do
     version
-    |> Util.to_semver()
+    |> Util.Version.to_semver()
     |> resolve_engine_detailed(engines, default)
   end
 
@@ -329,7 +329,7 @@ defmodule UAInspector.Parser.Client do
   defp resolve_version(version, captures) do
     version
     |> Util.Regex.uncapture(captures)
-    |> Util.sanitize_version()
+    |> Util.Version.sanitize()
     |> Util.maybe_unknown()
   end
 

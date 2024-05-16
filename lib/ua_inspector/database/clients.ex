@@ -62,7 +62,8 @@ defmodule UAInspector.Database.Clients do
     non_default =
       non_default
       |> Enum.map(fn {version, name} ->
-        {version |> to_string() |> Util.to_semver(), {name, Util.Regex.build_engine_regex(name)}}
+        {version |> to_string() |> Util.Version.to_semver(),
+         {name, Util.Regex.build_engine_regex(name)}}
       end)
       |> Enum.reverse()
 

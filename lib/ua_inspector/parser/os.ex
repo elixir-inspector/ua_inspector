@@ -185,8 +185,8 @@ defmodule UAInspector.Parser.OS do
   defp parse_hints_version("Windows", version) do
     semversion =
       version
-      |> Util.sanitize_version()
-      |> Util.to_semver()
+      |> Util.Version.sanitize()
+      |> Util.Version.to_semver()
       |> Version.parse()
 
     case semversion do
@@ -198,7 +198,7 @@ defmodule UAInspector.Parser.OS do
 
   defp parse_hints_version(_, version) do
     version
-    |> Util.sanitize_version()
+    |> Util.Version.sanitize()
     |> Util.maybe_unknown()
   end
 
@@ -235,7 +235,7 @@ defmodule UAInspector.Parser.OS do
   defp resolve_version(ua, version, subversions, captures) do
     ua
     |> resolve_subversion(version, subversions, captures)
-    |> Util.sanitize_version()
+    |> Util.Version.sanitize()
     |> Util.maybe_unknown()
   end
 
