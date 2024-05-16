@@ -319,7 +319,7 @@ defmodule UAInspector.Parser.Client do
 
   defp resolve_name(name, captures) do
     name
-    |> Util.uncapture(captures)
+    |> Util.Regex.uncapture(captures)
     |> String.trim()
     |> Util.maybe_unknown()
   end
@@ -328,7 +328,7 @@ defmodule UAInspector.Parser.Client do
 
   defp resolve_version(version, captures) do
     version
-    |> Util.uncapture(captures)
+    |> Util.Regex.uncapture(captures)
     |> Util.sanitize_version()
     |> Util.maybe_unknown()
   end

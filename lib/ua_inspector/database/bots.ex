@@ -26,7 +26,7 @@ defmodule UAInspector.Database.Bots do
       data = Enum.into(data, %{})
 
       {
-        Util.build_regex(data["regex"]),
+        Util.Regex.build_regex(data["regex"]),
         {
           YAML.maybe_to_string(data["category"]) || :unknown,
           data["name"],

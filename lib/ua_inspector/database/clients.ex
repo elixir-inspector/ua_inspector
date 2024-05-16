@@ -38,7 +38,7 @@ defmodule UAInspector.Database.Clients do
       data = Enum.into(data, %{})
 
       {
-        Util.build_regex(data["regex"]),
+        Util.Regex.build_regex(data["regex"]),
         {
           prepare_engine_data(type, data["engine"]),
           YAML.maybe_to_string(data["name"]),
@@ -62,15 +62,15 @@ defmodule UAInspector.Database.Clients do
     non_default =
       non_default
       |> Enum.map(fn {version, name} ->
-        {version |> to_string() |> Util.to_semver(), {name, Util.build_engine_regex(name)}}
+        {version |> to_string() |> Util.to_semver(), {name, Util.Regex.build_engine_regex(name)}}
       end)
       |> Enum.reverse()
 
-    [{"default", {default, Util.build_engine_regex(default)}}, {"versions", non_default}]
+    [{"default", {default, Util.Regex.build_engine_regex(default)}}, {"versions", non_default}]
   end
 
   defp prepare_engine_data(_, [{"default", default}]) do
-    [{"default", {default, Util.build_engine_regex(default)}}]
+    [{"default", {default, Util.Regex.build_engine_regex(default)}}]
   end
 
   defp prepare_engine_data(_, engine_data), do: engine_data

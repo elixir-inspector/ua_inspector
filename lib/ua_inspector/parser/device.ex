@@ -14,9 +14,9 @@ defmodule UAInspector.Parser.Device do
 
   @frozen_android Regex.compile!("Android 10[.\d]*; K(?: Build/|[;)])", [:caseless])
 
-  @hbbtv Util.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
-  @notebook Util.build_regex("FBMD/")
-  @shelltv Util.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
+  @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
+  @notebook Util.Regex.build_regex("FBMD/")
+  @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
 
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
@@ -162,7 +162,7 @@ defmodule UAInspector.Parser.Device do
 
   defp parse_model_data({device_brand, _, device, _}, {brand, model_device, model}, captures) do
     result_model =
-      case Util.uncapture(model, captures) do
+      case Util.Regex.uncapture(model, captures) do
         "" ->
           :unknown
 

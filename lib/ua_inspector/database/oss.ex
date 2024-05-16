@@ -26,7 +26,7 @@ defmodule UAInspector.Database.OSs do
       data = Enum.into(data, %{})
 
       {
-        Util.build_regex(data["regex"]),
+        Util.Regex.build_regex(data["regex"]),
         data["version"]
       }
     end)
@@ -37,7 +37,7 @@ defmodule UAInspector.Database.OSs do
       data = Enum.into(data, %{})
 
       {
-        Util.build_regex(data["regex"]),
+        Util.Regex.build_regex(data["regex"]),
         {
           YAML.maybe_to_string(data["name"]),
           YAML.maybe_to_string(data["version"]),

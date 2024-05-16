@@ -34,7 +34,7 @@ defmodule UAInspector.Database.DevicesRegular do
   defp parse_models(%{"device" => device, "model" => model, "regex" => regex}) do
     [
       {
-        Util.build_regex(regex),
+        Util.Regex.build_regex(regex),
         {
           nil,
           device,
@@ -49,7 +49,7 @@ defmodule UAInspector.Database.DevicesRegular do
       model = Enum.into(model, %{})
 
       {
-        Util.build_regex(model["regex"]),
+        Util.Regex.build_regex(model["regex"]),
         {
           YAML.maybe_to_string(model["brand"]),
           YAML.maybe_to_string(model["device"]),
@@ -65,7 +65,7 @@ defmodule UAInspector.Database.DevicesRegular do
       models = parse_models(data)
 
       {
-        Util.build_regex(data["regex"]),
+        Util.Regex.build_regex(data["regex"]),
         {
           YAML.maybe_to_string(brand),
           models,

@@ -20,13 +20,13 @@ defmodule UAInspector.Parser.OS do
   ]
 
   @platforms [
-    {"ARM", Util.build_regex("arm|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
-    {"SuperH", Util.build_regex("sh4")},
-    {"SPARC64", Util.build_regex("sparc64")},
-    {"LoongArch64", Util.build_regex("loongarch64")},
-    {"MIPS", Util.build_regex("mips")},
-    {"x64", Util.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")},
-    {"x86", Util.build_regex(".*32bit|.*win32|(?:i[0-9]|x)86|i86pc")}
+    {"ARM", Util.Regex.build_regex("arm|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
+    {"SuperH", Util.Regex.build_regex("sh4")},
+    {"SPARC64", Util.Regex.build_regex("sparc64")},
+    {"LoongArch64", Util.Regex.build_regex("loongarch64")},
+    {"MIPS", Util.Regex.build_regex("mips")},
+    {"x64", Util.Regex.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")},
+    {"x86", Util.Regex.build_regex(".*32bit|.*win32|(?:i[0-9]|x)86|i86pc")}
   ]
 
   @impl UAInspector.Parser.Behaviour
@@ -206,7 +206,7 @@ defmodule UAInspector.Parser.OS do
 
   defp resolve_name(name, captures) do
     name
-    |> Util.uncapture(captures)
+    |> Util.Regex.uncapture(captures)
     |> String.trim()
     |> Util.OS.proper_case()
     |> Util.maybe_unknown()
@@ -223,12 +223,12 @@ defmodule UAInspector.Parser.OS do
   end
 
   defp resolve_subversion(_, nil, [], _), do: ""
-  defp resolve_subversion(_, version, [], captures), do: Util.uncapture(version, captures)
+  defp resolve_subversion(_, version, [], captures), do: Util.Regex.uncapture(version, captures)
 
   defp resolve_subversion(ua, version, [{regex, subversion} | subversions], captures) do
     case Regex.run(regex, ua, capture: :all_but_first) do
       nil -> resolve_subversion(ua, version, subversions, captures)
-      captures -> Util.uncapture(subversion, captures)
+      captures -> Util.Regex.uncapture(subversion, captures)
     end
   end
 

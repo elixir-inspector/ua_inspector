@@ -26,7 +26,7 @@ defmodule UAInspector.Database.VendorFragments do
 
   defp parse_yaml_entries({:ok, entries}, _) do
     Enum.map(entries, fn {brand, regexes} ->
-      Enum.map(regexes, &{Util.build_regex(&1), brand})
+      Enum.map(regexes, &{Util.Regex.build_regex(&1), brand})
     end)
   end
 

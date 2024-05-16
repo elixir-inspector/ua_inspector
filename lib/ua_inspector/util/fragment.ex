@@ -3,7 +3,7 @@ defmodule UAInspector.Util.Fragment do
 
   alias UAInspector.Util
 
-  @desktop Util.build_regex("Desktop(?: (x(?:32|64)|WOW64))?;")
+  @desktop Util.Regex.build_regex("Desktop(?: (x(?:32|64)|WOW64))?;")
 
   @doc """
   Tests if a user agents contains a desktop fragment.

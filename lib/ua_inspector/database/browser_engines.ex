@@ -28,7 +28,8 @@ defmodule UAInspector.Database.BrowserEngines do
     Enum.map(entries, fn data ->
       data = Enum.into(data, %{})
 
-      {Util.build_regex(data["regex"]), {data["name"], Util.build_engine_regex(data["name"])}}
+      {Util.Regex.build_regex(data["regex"]),
+       {data["name"], Util.Regex.build_engine_regex(data["name"])}}
     end)
   end
 
