@@ -289,11 +289,9 @@ defmodule UAInspector.Parser do
          %{device: %{type: :unknown} = device, os: %{name: "Android", version: os_version}} =
            result
        ) do
-    version = Util.Version.to_semver(os_version)
-
     cond do
-      smartphone_android?(version) -> %{result | device: %{device | type: "smartphone"}}
-      tablet_android?(version) -> %{result | device: %{device | type: "tablet"}}
+      smartphone_android?(os_version) -> %{result | device: %{device | type: "smartphone"}}
+      tablet_android?(os_version) -> %{result | device: %{device | type: "tablet"}}
       true -> result
     end
   end
@@ -328,13 +326,12 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_device_type(result), do: result
 
-  defp smartphone_android?(version) do
-    :lt == Version.compare(version, "2.0.0")
-  end
+  defp smartphone_android?(version), do: :lt == Util.Version.compare(version, "2.0.0")
 
-  defp tablet_android?(version) do
-    :lt != Version.compare(version, "3.0.0") && :lt == Version.compare(version, "4.0.0")
-  end
+  defp tablet_android?(version),
+    do:
+      :lt != Util.Version.compare(version, "3.0.0") &&
+        :lt == Util.Version.compare(version, "4.0.0")
 
   defp maybe_fix_android_chrome(
          %{
@@ -382,8 +379,7 @@ defmodule UAInspector.Parser do
          } = result
        )
        when is_binary(os_version) do
-    with version <- Util.Version.to_semver(os_version),
-         true <- :lt != Version.compare(version, "8.0.0"),
+    with true <- :lt != Util.Version.compare(os_version, "8.0.0"),
          true <- Regex.match?(@has_touch, ua) do
       %{result | device: %{device | type: "tablet"}}
     else

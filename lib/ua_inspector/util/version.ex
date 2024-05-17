@@ -2,6 +2,50 @@ defmodule UAInspector.Util.Version do
   @moduledoc false
 
   @doc """
+  Compare two versions without "pre"-version information.
+
+  ## Examples
+
+      iex> compare("1.0.0", "1.0.1")
+      :lt
+
+      iex> compare("1.0.0", "1.0.0.0")
+      :eq
+
+      iex> compare("1.0.0.0", "1.0.0.1")
+      :eq
+  """
+  @spec compare(binary, binary) :: :eq | :gt | :lt
+  def compare(version1, version2) do
+    semver1 = to_semver(version1)
+    semver2 = to_semver(version2)
+
+    Version.compare(semver1, semver2)
+  end
+
+  @doc """
+  Compare two versions with forced "pre"-version information.
+
+  ## Examples
+
+      iex> compare_with_pre("1.0.0", "1.0.1")
+      :lt
+
+      iex> compare_with_pre("1.0.0", "1.0.0.4")
+      :lt
+
+      iex> compare_with_pre("1.0.0.0", "1.0.0.1")
+      :lt
+  """
+  @spec compare_with_pre(binary, binary) :: :eq | :gt | :lt
+  def compare_with_pre(version1, version2) do
+    semver1 = to_semver_with_pre(version1)
+    semver2 = to_semver_with_pre(version2)
+
+    Version.compare(semver1, semver2)
+  end
+
+  @doc """
   Sanitizes a version string.
   """
   @spec sanitize(version :: String.t()) :: String.t()
@@ -65,30 +109,6 @@ defmodule UAInspector.Util.Version do
     end
   end
 
-  @doc """
-  Forces a "pre-release" setting to a semver-comparable version.
-
-  ## Examples
-
-      iex> to_semver_with_pre("15")
-      "15.0.0-0"
-
-      iex> to_semver_with_pre("1.2.3.4")
-      "1.2.3-4"
-
-      iex> to_semver_with_pre("")
-      ""
-  """
-  def to_semver_with_pre(version) do
-    semver = to_semver(version, 4)
-
-    cond do
-      "" == semver -> semver
-      String.contains?(semver, "-") -> semver
-      true -> semver <> "-0"
-    end
-  end
-
   defp to_semver_string(major, minor, patch, pre) do
     version =
       case {Integer.parse(major), Integer.parse(minor), Integer.parse(patch)} do
@@ -102,6 +122,16 @@ defmodule UAInspector.Util.Version do
       version <> "-" <> pre
     else
       version
+    end
+  end
+
+  defp to_semver_with_pre(version) do
+    semver = to_semver(version, 4)
+
+    cond do
+      "" == semver -> semver
+      String.contains?(semver, "-") -> semver
+      true -> semver <> "-0"
     end
   end
 end

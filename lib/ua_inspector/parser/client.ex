@@ -135,11 +135,8 @@ defmodule UAInspector.Parser.Client do
   defp merge_results_version_compare(result_version, :unknown), do: result_version
 
   defp merge_results_version_compare(result_version, agent_version) do
-    agent_semver = Util.Version.to_semver_with_pre(agent_version)
-    result_semver = Util.Version.to_semver_with_pre(result_version)
-
     if String.starts_with?(agent_version, result_version) and
-         :lt == Version.compare(result_semver, agent_semver) do
+         :lt == Util.Version.compare_with_pre(result_version, agent_version) do
       agent_version
     else
       result_version
@@ -298,16 +295,13 @@ defmodule UAInspector.Parser.Client do
   defp resolve_engine([{"default", default}], _), do: default
   defp resolve_engine([{"default", default}, _], :unknown), do: default
 
-  defp resolve_engine([{"default", default}, {"versions", engines}], version) do
-    version
-    |> Util.Version.to_semver()
-    |> resolve_engine_detailed(engines, default)
-  end
+  defp resolve_engine([{"default", default}, {"versions", engines}], version),
+    do: resolve_engine_detailed(version, engines, default)
 
   defp resolve_engine_detailed(_, [], default), do: default
 
   defp resolve_engine_detailed(version, [{engine_version, engine} | engines], default) do
-    if :lt != Version.compare(version, engine_version) do
+    if :lt != Util.Version.compare(version, engine_version) do
       engine
     else
       resolve_engine_detailed(version, engines, default)
