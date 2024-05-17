@@ -43,8 +43,10 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
         for {entry, elements} <- map do
           elements_content = Enum.map(elements, &[~s(  - "), &1, ~s("\n)])
 
-          IO.write(outfile, [~s(- "), entry, ~s(":\n)])
-          IO.write(outfile, elements_content)
+          IO.write(
+            outfile,
+            [~s(- "), entry, ~s(":\n), elements_content]
+          )
         end
       end)
 
