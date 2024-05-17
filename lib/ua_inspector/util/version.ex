@@ -46,6 +46,30 @@ defmodule UAInspector.Util.Version do
   end
 
   @doc """
+  Extract the major version from a version string.
+
+  ## Examples
+
+      iex> major("1.0.0")
+      1
+
+      iex> major("5.2")
+      5
+
+      iex> major("invalid")
+      0
+  """
+  @spec major(binary) :: non_neg_integer
+  def major(version) do
+    semver = to_semver(version)
+
+    case Version.parse(semver) do
+      {:ok, %Version{major: major}} -> major
+      _ -> 0
+    end
+  end
+
+  @doc """
   Sanitizes a version string.
   """
   @spec sanitize(version :: String.t()) :: String.t()
