@@ -31,7 +31,9 @@ defmodule UAInspector.Parser do
   @is_tablet Util.Regex.build_base_regex("Pad/APad")
 
   @android_mobile Util.Regex.build_base_regex("Android( [\.0-9]+)?; Mobile;|.*\-mobile$")
-  @android_tablet Util.Regex.build_base_regex("Android( [\.0-9]+)?; Tablet;|.*\-tablet$")
+  @android_tablet Util.Regex.build_base_regex(
+                    "Android( [\.0-9]+)?; Tablet;|Tablet(?! PC)|.*\-tablet$"
+                  )
   @opera_tablet Util.Regex.build_base_regex("Opera Tablet")
 
   @apple_os_names [
