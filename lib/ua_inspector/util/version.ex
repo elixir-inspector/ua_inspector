@@ -36,6 +36,9 @@ defmodule UAInspector.Util.Version do
 
       iex> major("invalid")
       0
+
+      iex> major("-1.2.3")
+      0
   """
   @spec major(binary) :: non_neg_integer
   def major(version) do
@@ -97,6 +100,18 @@ defmodule UAInspector.Util.Version do
 
       iex> to_semver("1.2.3.4", 4)
       "1.2.3-4"
+
+      iex> to_semver("-1.2.3.4")
+      "0.0.0"
+
+      iex> to_semver("1.-2.3.4")
+      "1.0.0"
+
+      iex> to_semver("1.2.-3.4")
+      "1.2.0"
+
+      iex> to_semver("1.2.3.-4")
+      "1.2.3"
   """
   @spec to_semver(version :: String.t(), parts :: integer) :: String.t()
   def to_semver(version, parts \\ 3)
@@ -115,8 +130,11 @@ defmodule UAInspector.Util.Version do
     version =
       case {Integer.parse(major), Integer.parse(minor), Integer.parse(patch)} do
         {:error, _, _} -> "0.0.0"
+        {{maj, _}, _, _} when maj < 0 -> "0.0.0"
         {{maj, _}, :error, _} -> "#{maj}.0.0"
+        {{maj, _}, {min, _}, _} when min < 0 -> "#{maj}.0.0"
         {{maj, _}, {min, _}, :error} -> "#{maj}.#{min}.0"
+        {{maj, _}, {min, _}, {patch, _}} when patch < 0 -> "#{maj}.#{min}.0"
         {{maj, _}, {min, _}, {patch, _}} -> "#{maj}.#{min}.#{patch}"
       end
 
