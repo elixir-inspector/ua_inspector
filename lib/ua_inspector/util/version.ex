@@ -2,43 +2,21 @@ defmodule UAInspector.Util.Version do
   @moduledoc false
 
   @doc """
-  Compare two versions without "pre"-version information.
+  Compare two versions.
 
   ## Examples
 
       iex> compare("1.0.0", "1.0.1")
       :lt
 
-      iex> compare("1.0.0", "1.0.0.0")
-      :eq
+      iex> compare("1.0.0", "1.0.0.4")
+      :lt
 
       iex> compare("1.0.0.0", "1.0.0.1")
-      :eq
+      :lt
   """
   @spec compare(binary, binary) :: :eq | :gt | :lt
   def compare(version1, version2) do
-    semver1 = to_semver(version1)
-    semver2 = to_semver(version2)
-
-    Version.compare(semver1, semver2)
-  end
-
-  @doc """
-  Compare two versions with forced "pre"-version information.
-
-  ## Examples
-
-      iex> compare_with_pre("1.0.0", "1.0.1")
-      :lt
-
-      iex> compare_with_pre("1.0.0", "1.0.0.4")
-      :lt
-
-      iex> compare_with_pre("1.0.0.0", "1.0.0.1")
-      :lt
-  """
-  @spec compare_with_pre(binary, binary) :: :eq | :gt | :lt
-  def compare_with_pre(version1, version2) do
     semver1 = to_semver_with_pre(version1)
     semver2 = to_semver_with_pre(version2)
 
@@ -152,10 +130,10 @@ defmodule UAInspector.Util.Version do
   defp to_semver_with_pre(version) do
     semver = to_semver(version, 4)
 
-    cond do
-      "" == semver -> semver
-      String.contains?(semver, "-") -> semver
-      true -> semver <> "-0"
+    if String.contains?(semver, "-") do
+      semver
+    else
+      semver <> "-0"
     end
   end
 end

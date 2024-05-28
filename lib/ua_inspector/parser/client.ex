@@ -136,7 +136,7 @@ defmodule UAInspector.Parser.Client do
 
   defp merge_results_version_compare(result_version, agent_version) do
     if String.starts_with?(agent_version, result_version) and
-         :lt == Util.Version.compare_with_pre(result_version, agent_version) do
+         :lt == Util.Version.compare(result_version, agent_version) do
       agent_version
     else
       result_version
