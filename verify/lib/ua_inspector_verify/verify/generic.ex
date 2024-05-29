@@ -3,54 +3,6 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
-  def verify(
-        %{
-          user_agent:
-            "Anytime/1.3.3 b95 (phone;android sdk_gphone64_arm64-userdebug 13 TE1A.220922.012 9302419 dev-keys) https://github.com/amugofjava/anytime_podcast_player",
-          os: %{platform: :unknown} = os
-        } = testcase,
-        result
-      ) do
-    # detected as "unknown" in default remote release
-    # detected as "ARM" in upcoming remote release
-    verify(
-      %{testcase | os: %{os | platform: "ARM"}},
-      result
-    )
-  end
-
-  def verify(
-        %{
-          user_agent:
-            "Mozilla/5.0 (Linux; U; Android 4.0.4; es-es; tablet Fnac 10 3G Build/1.1.11-1015 20130125-16:17) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30",
-          device: :unknown
-        } = testcase,
-        result
-      ) do
-    # detected as "unknown" in default remote release
-    # detected as "tablet" in upcoming remote release
-    verify(
-      %{testcase | device: %{brand: :unknown, model: :unknown, type: "tablet"}},
-      result
-    )
-  end
-
-  def verify(
-        %{
-          user_agent:
-            "Mozilla/5.0 (X11; U; Linux armv7l; en-GB; rv:1.9.2a1pre) Gecko/20090514 Firefox/3.0 Tablet browser 0.9.7 RX-34",
-          device: %{type: "desktop"} = device
-        } = testcase,
-        result
-      ) do
-    # detected as "desktop" in default remote release
-    # detected as "tablet" in upcoming remote release
-    verify(
-      %{testcase | device: %{device | type: "tablet"}},
-      result
-    )
-  end
-
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
