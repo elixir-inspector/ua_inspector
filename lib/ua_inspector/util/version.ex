@@ -14,6 +14,12 @@ defmodule UAInspector.Util.Version do
 
       iex> compare("1.0.0.0", "1.0.0.1")
       :lt
+
+      iex> compare("1.2.3", "1.02.03")
+      :eq
+
+      iex> compare("1.2.3", "1.020.3")
+      :lt
   """
   @spec compare(binary, binary) :: :eq | :gt | :lt
   def compare(version1, version2) do
