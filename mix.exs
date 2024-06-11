@@ -3,7 +3,7 @@ defmodule UAInspector.MixProject do
 
   @url_changelog "https://hexdocs.pm/ua_inspector/changelog.html"
   @url_github "https://github.com/elixir-inspector/ua_inspector"
-  @version "3.10.0-dev"
+  @version "3.10.0"
 
   def project do
     [

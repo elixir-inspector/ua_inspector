@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.10.0-dev
+## v3.10.0 (2024-06-11)
 
 - Bug fixes
     - Fix parsing if the fourth part of the user agent engine version (split by `.`) starts with `0[0-9]` ([#35](https://github.com/elixir-inspector/ua_inspector/issues/35))
