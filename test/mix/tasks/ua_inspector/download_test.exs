@@ -114,7 +114,7 @@ defmodule Mix.Tasks.UaInspector.DownloadTest do
         ]
 
         for database <- databases do
-          for {_type, local, _remote} <- database.sources do
+          for {_type, local, _remote} <- database.sources() do
             [test_path, local]
             |> Path.join()
             |> File.exists?()
