@@ -18,7 +18,8 @@ defmodule UAInspector.Parser.OS do
   ]
 
   @platforms [
-    {"ARM", Util.Regex.build_regex("arm|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
+    {"ARM",
+     Util.Regex.build_regex("arm[ _;)ev]|.*arm$|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")},
     {"SuperH", Util.Regex.build_regex("sh4")},
     {"SPARC64", Util.Regex.build_regex("sparc64")},
     {"LoongArch64", Util.Regex.build_regex("loongarch64")},
