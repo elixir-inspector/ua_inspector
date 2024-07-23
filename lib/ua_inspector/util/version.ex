@@ -2,6 +2,61 @@ defmodule UAInspector.Util.Version do
   @moduledoc false
 
   @doc """
+  Canonicalize a version for comparison.
+
+  Matches canonicalization done by PHP's
+  [version_compare](https://www.php.net/version_compare)
+  to ensure matching upstream comparisons.
+
+  ## Examples
+
+      iex> canonicalize("1.0alpha")
+      "1.0.alpha"
+
+      iex> canonicalize("1.0alpha2")
+      "1.0.alpha.2"
+
+      iex> canonicalize("123.234+345")
+      "123.234.345"
+
+      iex> canonicalize("1...2")
+      "1.2"
+
+      iex> canonicalize("1.2-3+4.alpha5")
+      "1.2.3.4.alpha.5"
+
+      iex> canonicalize("1.02.03alpha")
+      "1.2.3.alpha"
+
+      iex> canonicalize("1.00.2")
+      "1.0.2"
+
+      iex> canonicalize("1.00alpha")
+      "1.0.alpha"
+
+      iex> canonicalize("1.02-03alpha04-05+00")
+      "1.2.3.alpha.4.5.0"
+
+      iex> canonicalize("1|2/3#4")
+      "1.|.2./.3.#.4"
+
+      iex> canonicalize("1p|c2")
+      "1.p.|.c.2"
+  """
+  @spec canonicalize(binary) :: binary
+  def canonicalize(version) do
+    version
+    |> String.replace(~r/[-_+]/, ".")
+    |> String.replace(~r/([^\d\.])([^\D\.])/, "\\1.\\2")
+    |> String.replace(~r/([^\D\.])([^\d\.])/, "\\1.\\2")
+    |> String.replace(~r/([[:alnum:]])([^[:alnum:]])/, "\\1.\\2")
+    |> String.replace(~r/([^[:alnum:]])([[:alnum:]])/, "\\1.\\2")
+    |> String.replace(~r/00+/, "0")
+    |> String.replace(~r/0([\d]+)/, "\\1")
+    |> String.replace(~r/\.\.+/, ".")
+  end
+
+  @doc """
   Compare two versions.
 
   ## Examples
