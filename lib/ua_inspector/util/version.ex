@@ -85,6 +85,58 @@ defmodule UAInspector.Util.Version do
   end
 
   @doc """
+  Compare two versions using canonicalized format.
+
+  ## Examples
+
+      iex> compare_canonicalized("1.2-3+4.alpha5", "1.2-3+4.alpha1")
+      :gt
+
+      iex> compare_canonicalized("1.02-03alpha04-05+00", "1.02-03alpha04-05+99")
+      :lt
+
+      iex> compare_canonicalized("1dev", "1alpha")
+      :lt
+
+      iex> compare_canonicalized("1alpha", "1beta")
+      :lt
+
+      iex> compare_canonicalized("1beta", "1rc")
+      :lt
+
+      iex> compare_canonicalized("1rc", "1")
+      :lt
+
+      iex> compare_canonicalized("1", "1patch")
+      :lt
+
+      iex> compare_canonicalized("1beta", "1patch")
+      :lt
+
+      iex> compare_canonicalized("1.02.03.04.05.06.alpha", "1.2.3.4.5.6alpha")
+      :eq
+
+      iex> compare_canonicalized("", "")
+      :eq
+
+      iex> compare_canonicalized("", "1")
+      :lt
+
+      iex> compare_canonicalized("1", "")
+      :gt
+
+      iex> compare_canonicalized(".", "1")
+      :lt
+  """
+  @spec compare_canonicalized(binary, binary) :: :eq | :gt | :lt
+  def compare_canonicalized(v1, v2) when is_binary(v1) and is_binary(v2) do
+    c1 = v1 |> canonicalize() |> String.split(".")
+    c2 = v2 |> canonicalize() |> String.split(".")
+
+    do_compare_canonicalized(c1, c2)
+  end
+
+  @doc """
   Extract the major version from a version string.
 
   ## Examples
@@ -184,6 +236,54 @@ defmodule UAInspector.Util.Version do
       [maj, min] -> to_semver_string(maj, min, "0", nil)
       [maj, min, patch] -> to_semver_string(maj, min, patch, nil)
       [maj, min, patch, pre] -> to_semver_string(maj, min, patch, pre)
+    end
+  end
+
+  defp comparison_priority("dev" <> _), do: 0
+  defp comparison_priority("a" <> _), do: 1
+  defp comparison_priority("b" <> _), do: 2
+  defp comparison_priority("rc" <> _), do: 3
+  defp comparison_priority(<<n::size(8), _::binary>>) when n in ~c'0123456789', do: 4
+  defp comparison_priority("p" <> _), do: 5
+  defp comparison_priority(_), do: -1
+
+  defp do_compare_canonicalized([], []), do: :eq
+
+  defp do_compare_canonicalized([], [v2 | _]) do
+    if comparison_priority(v2) >= comparison_priority("0") do
+      :lt
+    else
+      :gt
+    end
+  end
+
+  defp do_compare_canonicalized([v1 | _], []) do
+    if comparison_priority(v1) < comparison_priority("0") do
+      :lt
+    else
+      :gt
+    end
+  end
+
+  defp do_compare_canonicalized([<<p1::size(8), _::binary>> = v1 | c1], [
+         <<p2::size(8), _::binary>> = v2 | c2
+       ])
+       when p1 in ~c'0123456789' and p2 in ~c'0123456789' do
+    cond do
+      v1 < v2 -> :lt
+      v1 > v2 -> :gt
+      p1 == p2 -> do_compare_canonicalized(c1, c2)
+    end
+  end
+
+  defp do_compare_canonicalized([v1 | c1], [v2 | c2]) do
+    p1 = comparison_priority(v1)
+    p2 = comparison_priority(v2)
+
+    cond do
+      p1 < p2 -> :lt
+      p1 > p2 -> :gt
+      p1 == p2 -> do_compare_canonicalized(c1, c2)
     end
   end
 
