@@ -86,7 +86,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => []
+    "master" => ["smartphone-40.yml"]
   }
 
   def download do
