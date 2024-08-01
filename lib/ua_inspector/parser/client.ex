@@ -13,6 +13,12 @@ defmodule UAInspector.Parser.Client do
 
   @behaviour UAInspector.Parser.Behaviour
 
+  @client_hint_browser_user_agent_version [
+    "Mi Browser",
+    "Opera",
+    "Opera Mobile"
+  ]
+
   @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
   @is_iridium_version Regex.compile!("^202[0-4]")
 
@@ -43,7 +49,6 @@ defmodule UAInspector.Parser.Client do
       hints_result
       |> merge_results_iridium(hints_result, agent_result)
       |> merge_results_agent_version(hints_result, agent_result)
-      |> merge_results_duckduckgo(hints_result, agent_result)
       |> merge_results_vewd(hints_result, agent_result)
       |> merge_results_chromium(agent_result)
 
@@ -55,15 +60,41 @@ defmodule UAInspector.Parser.Client do
       end
 
     result =
-      if agent_result.name != name and
-           Util.Browser.family(agent_result.name) == Util.Browser.family(name) do
-        %{result | engine: agent_result.engine, engine_version: agent_result.engine_version}
-      else
-        result
+      cond do
+        agent_result.name != name and
+            Util.Browser.family(agent_result.name) == Util.Browser.family(name) ->
+          %{result | engine: agent_result.engine, engine_version: agent_result.engine_version}
+
+        agent_result.name == name ->
+          %{result | engine: agent_result.engine, engine_version: agent_result.engine_version}
+
+        true ->
+          result
       end
 
-    merge_results_version(result, agent_result)
+    result
+    |> merge_results_engine_version(agent_result)
+    |> merge_results_version_compare(agent_result)
+    |> patch_result_duckduckgo()
+    |> patch_result_special_browsers(agent_result)
   end
+
+  defp patch_result_duckduckgo(%{name: "DuckDuckGo Privacy Browser"} = result),
+    do: %{result | version: :unknown}
+
+  defp patch_result_duckduckgo(result), do: result
+
+  defp patch_result_special_browsers(%{name: browser_name} = result, %{version: agent_version})
+       when is_binary(agent_version) do
+    # use agent version if client hints report one of these browser
+    if browser_name in @client_hint_browser_user_agent_version do
+      %{result | version: agent_version}
+    else
+      result
+    end
+  end
+
+  defp patch_result_special_browsers(result, _), do: result
 
   defp merge_results_iridium(result, %{version: version}, %{
          engine: engine,
@@ -106,40 +137,39 @@ defmodule UAInspector.Parser.Client do
 
   defp merge_results_chromium(result, _), do: result
 
-  defp merge_results_duckduckgo(result, %{name: "DuckDuckGo Privacy Browser"}, _) do
-    %{result | version: :unknown}
-  end
-
-  defp merge_results_duckduckgo(result, _, _), do: result
-
-  defp merge_results_version(%{name: result_name, version: result_version} = result, %{
+  defp merge_results_engine_version(%{name: result_name} = result, %{
          name: result_name,
          engine: agent_engine,
-         engine_version: agent_engine_version,
-         version: agent_version
+         engine_version: agent_engine_version
        }) do
-    version =
-      if result_version != agent_version do
-        merge_results_version_compare(result_version, agent_version)
-      else
-        result_version
-      end
-
-    %{result | engine: agent_engine, engine_version: agent_engine_version, version: version}
+    %{result | engine: agent_engine, engine_version: agent_engine_version}
   end
 
-  defp merge_results_version(result, _), do: result
+  defp merge_results_engine_version(result, _), do: result
 
-  defp merge_results_version_compare(same_version, same_version), do: same_version
-  defp merge_results_version_compare(:unknown, agent_version), do: agent_version
-  defp merge_results_version_compare(result_version, :unknown), do: result_version
+  defp merge_results_version_compare(%{version: same_version} = result, %{version: same_version}),
+    do: result
 
-  defp merge_results_version_compare(result_version, agent_version) do
-    if String.starts_with?(agent_version, result_version) and
-         :lt == Util.Version.compare(result_version, agent_version) do
-      agent_version
-    else
-      result_version
+  defp merge_results_version_compare(%{version: :unknown} = result, %{version: version}),
+    do: %{result | version: version}
+
+  defp merge_results_version_compare(result, %{version: :unknown}), do: result
+
+  defp merge_results_version_compare(%{version: result_version} = result, %{
+         version: agent_version
+       }) do
+    cond do
+      String.starts_with?(agent_version, result_version) and
+          :lt == Util.Version.compare(result_version, agent_version) ->
+        %{result | version: agent_version}
+
+      String.starts_with?(agent_version, result_version) and
+        :eq == Util.Version.compare(result_version, agent_version) and
+          String.length(agent_version) > String.length(result_version) ->
+        %{result | version: agent_version}
+
+      true ->
+        result
     end
   end
 

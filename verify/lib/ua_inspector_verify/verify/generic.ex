@@ -74,6 +74,96 @@ defmodule UAInspectorVerify.Verify.Generic do
     )
   end
 
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 8.1.0; ZC554KL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.104 Mobile Safari/537.36 OPR/67.1.3508.63168",
+          client: %{version: "96.0.4664.104"} = client
+        } = testcase,
+        %{client: %{version: "67.1.3508.63168" = remote_version}} = result
+      ) do
+    # improved version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: remote_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36 OPR/84.0.4316.19",
+          client: %{version: "98.0.4758.82"} = client
+        } = testcase,
+        %{client: %{version: "84.0.4316.19" = remote_version}} = result
+      ) do
+    # improved version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: remote_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 OPR/84.0.4316.21",
+          client: %{version: "98.0.4758.102"} = client
+        } = testcase,
+        %{client: %{version: "84.0.4316.21" = remote_version}} = result
+      ) do
+    # improved version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: remote_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36",
+          client: %{version: "106"} = client
+        } = testcase,
+        %{client: %{version: "106.0.0.0" = remote_version}} = result
+      ) do
+    # improved version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: remote_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; NetCast; U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.128 Safari/537.36 SmartTV/10.0 Colt/2.0",
+          client: %{version: "94"} = client
+        } = testcase,
+        %{client: %{version: "94.0.4606.128" = remote_version}} = result
+      ) do
+    # improved version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: remote_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Andr0id 11; TY55_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.56 Safari/537.36 OMI/4.24.3.23.StableAVB_Telly.1",
+          client: %{version: "4.24"} = client
+        } = testcase,
+        %{client: %{version: "4.24.3.23" = remote_version}} = result
+      ) do
+    # improved version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: remote_version}},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
