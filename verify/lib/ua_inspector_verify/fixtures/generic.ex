@@ -81,6 +81,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "tv.yml",
     "tv-1.yml",
     "tv-2.yml",
+    "tv-3.yml",
     "unknown.yml",
     "wearable.yml"
   ]
