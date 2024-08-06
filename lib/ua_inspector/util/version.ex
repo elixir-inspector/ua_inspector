@@ -116,6 +116,9 @@ defmodule UAInspector.Util.Version do
       iex> compare_canonicalized("1.02.03.04.05.06.alpha", "1.2.3.4.5.6alpha")
       :eq
 
+      iex> compare_canonicalized("1", "1.0")
+      :lt
+
       iex> compare_canonicalized("", "")
       :eq
 
