@@ -167,3 +167,11 @@ jobs:
 
       - name: test
         run: mix coveralls
+
+  verify_version_compare:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: php ./test/ext/version_compare.php
