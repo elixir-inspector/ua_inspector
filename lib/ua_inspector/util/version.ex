@@ -28,6 +28,12 @@ defmodule UAInspector.Util.Version do
       iex> canonicalize("1.02.03alpha")
       "1.2.3.alpha"
 
+      iex> canonicalize("1.20304.alpha50607")
+      "1.20304.alpha.50607"
+
+      iex> canonicalize("1.020304.alpha050607")
+      "1.20304.alpha.50607"
+
       iex> canonicalize("1.00.2")
       "1.0.2"
 
@@ -42,6 +48,12 @@ defmodule UAInspector.Util.Version do
 
       iex> canonicalize("1p|c2")
       "1.p.|.c.2"
+
+      iex> canonicalize("01.02")
+      "1.2"
+
+      iex> canonicalize("0001.02")
+      "1.2"
   """
   @spec canonicalize(binary) :: binary
   def canonicalize(version) do
@@ -51,8 +63,8 @@ defmodule UAInspector.Util.Version do
     |> String.replace(~r/([^\D\.])([^\d\.])/, "\\1.\\2")
     |> String.replace(~r/([[:alnum:]])([^[:alnum:]])/, "\\1.\\2")
     |> String.replace(~r/([^[:alnum:]])([[:alnum:]])/, "\\1.\\2")
-    |> String.replace(~r/00+/, "0")
-    |> String.replace(~r/0([\d]+)/, "\\1")
+    |> String.replace(~r/(?:^|\.)0+/, "0")
+    |> String.replace(~r/(?:^|\.)0([\d]+)/, "\\1")
     |> String.replace(~r/\.\.+/, ".")
   end
 
