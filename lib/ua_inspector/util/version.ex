@@ -284,10 +284,13 @@ defmodule UAInspector.Util.Version do
          <<p2::size(8), _::binary>> = v2 | c2
        ])
        when p1 in ~c'0123456789' and p2 in ~c'0123456789' do
+    iv1 = String.to_integer(v1)
+    iv2 = String.to_integer(v2)
+
     cond do
-      v1 < v2 -> :lt
-      v1 > v2 -> :gt
-      p1 == p2 -> do_compare_canonicalized(c1, c2)
+      iv1 < iv2 -> :lt
+      iv1 > iv2 -> :gt
+      iv1 == iv2 -> do_compare_canonicalized(c1, c2)
     end
   end
 
