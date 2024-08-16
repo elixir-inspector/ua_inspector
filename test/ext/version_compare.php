@@ -6,6 +6,8 @@ $specs = file($source);
 foreach ($specs as $spec) {
     [$v1, $op, $v2] = explode(" ", trim($spec));
 
+    echo "Compare: {$v1} {$op} {$v2}" . PHP_EOL;
+
     if (version_compare($v1, $v2, $op)) {
         continue;
     }
