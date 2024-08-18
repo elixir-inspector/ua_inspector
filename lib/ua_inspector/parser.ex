@@ -276,8 +276,8 @@ defmodule UAInspector.Parser do
 
   defp maybe_detect_tv(result), do: result
 
-  # Android <  2.0.0 is always a smartphone
-  # Android == 3.*   is always a tablet
+  # Android <  2.0 is always a smartphone
+  # Android == 3.* is always a tablet
   # treat Android feature phones as smartphones
   defp maybe_fix_android(%{os: %{version: :unknown}} = result), do: result
 
@@ -328,12 +328,12 @@ defmodule UAInspector.Parser do
 
   defp maybe_fix_device_type(result), do: result
 
-  defp smartphone_android?(version), do: :lt == Util.Version.compare(version, "2.0.0")
+  defp smartphone_android?(version), do: :lt == Util.Version.compare(version, "2.0")
 
   defp tablet_android?(version),
     do:
-      :lt != Util.Version.compare(version, "3.0.0") &&
-        :lt == Util.Version.compare(version, "4.0.0")
+      :lt != Util.Version.compare(version, "3.0") &&
+        :lt == Util.Version.compare(version, "4.0")
 
   defp maybe_fix_android_chrome(
          %{
@@ -381,7 +381,7 @@ defmodule UAInspector.Parser do
          } = result
        )
        when is_binary(os_version) do
-    with true <- :lt != Util.Version.compare(os_version, "8.0.0"),
+    with true <- :lt != Util.Version.compare(os_version, "8"),
          true <- Regex.match?(@has_touch, ua) do
       %{result | device: %{device | type: "tablet"}}
     else

@@ -5,7 +5,7 @@ defmodule UAInspector.Util.VersionTest do
 
   doctest Version, import: true
 
-  test "compare canonicalized" do
+  test "compare" do
     source = Path.expand("../../fixtures/versions.txt", __DIR__)
     specs = File.stream!(source)
 
@@ -19,7 +19,7 @@ defmodule UAInspector.Util.VersionTest do
           "==" -> :eq
         end
 
-      assert ^result = Version.compare_canonicalized(v1, v2)
+      assert ^result = Version.compare(v1, v2)
     end
   end
 end
