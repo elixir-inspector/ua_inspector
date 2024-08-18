@@ -182,14 +182,9 @@ defmodule UAInspector.Parser.OS do
   defp parse_hints_version(_, :unknown), do: :unknown
 
   defp parse_hints_version("Windows", version) do
-    major =
-      version
-      |> Util.Version.sanitize()
-      |> Util.Version.major()
-
-    case major do
-      major when is_integer(major) and major >= 1 and major <= 10 -> "10"
-      major when is_integer(major) and major >= 11 -> "11"
+    case Util.Version.major(version) do
+      major when major >= 1 and major <= 10 -> "10"
+      major when major >= 11 -> "11"
       _ -> :unknown
     end
   end

@@ -170,10 +170,13 @@ defmodule UAInspector.Util.Version do
   """
   @spec major(binary) :: non_neg_integer
   def major(version) do
-    semver = to_semver(version)
+    [major | _] =
+      version
+      |> canonicalize()
+      |> String.split(".", parts: 2)
 
-    case Version.parse(semver) do
-      {:ok, %Version{major: major}} -> major
+    case Integer.parse(major) do
+      {value, _} when value > 0 -> value
       _ -> 0
     end
   end
