@@ -16,7 +16,8 @@ defmodule UAInspector.Parser.Client do
   @client_hint_browser_user_agent_version [
     "Mi Browser",
     "Opera",
-    "Opera Mobile"
+    "Opera Mobile",
+    "Veera"
   ]
 
   @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
