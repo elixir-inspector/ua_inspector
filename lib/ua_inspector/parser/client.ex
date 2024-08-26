@@ -87,7 +87,7 @@ defmodule UAInspector.Parser.Client do
 
   defp patch_result_special_browsers(%{name: browser_name} = result, %{version: agent_version})
        when is_binary(agent_version) do
-    # use agent version if client hints report one of these browser
+    # use agent version if client hints report one of these browsers
     if browser_name in @client_hint_browser_user_agent_version do
       %{result | version: agent_version}
     else
