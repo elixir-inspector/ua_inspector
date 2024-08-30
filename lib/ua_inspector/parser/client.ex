@@ -14,6 +14,7 @@ defmodule UAInspector.Parser.Client do
   @behaviour UAInspector.Parser.Behaviour
 
   @client_hint_browser_user_agent_version [
+    "Aloha Browser",
     "Mi Browser",
     "OJR Browser",
     "Opera",
