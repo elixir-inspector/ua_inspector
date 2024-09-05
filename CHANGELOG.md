@@ -4,6 +4,7 @@
 
 - Enhancements
     - Upstream improvements for ARM platform detection have been integrated
+    - Upstream improvements for Blink engine version detection have been integrated
     - Upstream improvements for browser version detection have been integrated
 
 ## v3.10.0 (2024-06-11)
