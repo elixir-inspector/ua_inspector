@@ -15,6 +15,8 @@ defmodule UAInspector.Parser.Client do
 
   @client_hint_browser_user_agent_version [
     "Aloha Browser",
+    "Atom",
+    "Huawei Browser",
     "Mi Browser",
     "OJR Browser",
     "Opera",
@@ -79,25 +81,12 @@ defmodule UAInspector.Parser.Client do
     |> merge_results_engine_version(agent_result)
     |> merge_results_version_compare(agent_result)
     |> patch_result_duckduckgo()
-    |> patch_result_special_browsers(agent_result)
   end
 
   defp patch_result_duckduckgo(%{name: "DuckDuckGo Privacy Browser"} = result),
     do: %{result | version: :unknown}
 
   defp patch_result_duckduckgo(result), do: result
-
-  defp patch_result_special_browsers(%{name: browser_name} = result, %{version: agent_version})
-       when is_binary(agent_version) do
-    # use agent version if client hints report one of these browsers
-    if browser_name in @client_hint_browser_user_agent_version do
-      %{result | version: agent_version}
-    else
-      result
-    end
-  end
-
-  defp patch_result_special_browsers(result, _), do: result
 
   defp merge_results_iridium(result, %{version: version}, %{
          engine: engine,
@@ -125,11 +114,15 @@ defmodule UAInspector.Parser.Client do
     }
   end
 
-  defp merge_results_agent_version(result, %{name: "Atom"}, %{version: version}),
-    do: %{result | version: version}
-
-  defp merge_results_agent_version(result, %{name: "Huawei Browser"}, %{version: version}),
-    do: %{result | version: version}
+  defp merge_results_agent_version(%{name: browser_name} = result, _, %{version: agent_version})
+       when is_binary(agent_version) do
+    # use agent version if client hints report one of these browsers
+    if browser_name in @client_hint_browser_user_agent_version do
+      %{result | version: agent_version}
+    else
+      result
+    end
+  end
 
   defp merge_results_agent_version(result, _, _), do: result
 
