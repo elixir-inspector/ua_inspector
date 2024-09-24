@@ -42,6 +42,7 @@ defmodule UAInspector.Parser.Client do
     |> maybe_browser(client_hints, ua)
     |> maybe_fix_flow_browser()
     |> maybe_fix_every_browser()
+    |> maybe_fix_tv_browser_internet()
   end
 
   defp merge_results(:unknown, agent_result), do: agent_result
@@ -307,6 +308,11 @@ defmodule UAInspector.Parser.Client do
     do: %{result | engine_version: :unknown}
 
   defp maybe_fix_flow_browser(result), do: result
+
+  defp maybe_fix_tv_browser_internet(%{engine: "Gecko", name: "TV-Browser Internet"} = result),
+    do: %{result | engine: "Blink", engine_version: :unknown}
+
+  defp maybe_fix_tv_browser_internet(result), do: result
 
   defp maybe_resolve_engine("browser", engine_data, ua, version) do
     engine_data

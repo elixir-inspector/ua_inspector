@@ -21,6 +21,21 @@ defmodule UAInspectorVerify.Verify.Client do
     true
   end
 
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0",
+          client: %{engine: :unknown, name: "TV-Browser Internet"} = client
+        } = testcase,
+        %{engine: "Blink" = remote_engine} = result
+      ) do
+    # improved engine detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine: remote_engine}},
+      result
+    )
+  end
+
   def verify(%{client: %{engine: _} = testcase}, result) do
     testcase.name == result.name &&
       testcase.type == result.type &&
