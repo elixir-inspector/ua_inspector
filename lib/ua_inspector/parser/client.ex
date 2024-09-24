@@ -24,6 +24,9 @@ defmodule UAInspector.Parser.Client do
     "Veera"
   ]
 
+  @client_hint_chromium_hint_names ["Chromium", "Chrome Webview"]
+  @client_hint_chromium_agent_names ["Chromium", "Chrome Webview", "Android Browser"]
+
   @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
   @is_iridium_version Regex.compile!("^202[0-4]")
 
@@ -126,10 +129,14 @@ defmodule UAInspector.Parser.Client do
 
   defp merge_results_agent_version(result, _, _), do: result
 
-  defp merge_results_chromium(%{name: "Chromium"} = result, %{name: "Chromium"}), do: result
-
-  defp merge_results_chromium(%{name: "Chromium"} = result, %{name: name, version: version}),
-    do: %{result | name: name, version: version}
+  defp merge_results_chromium(%{name: hint_name} = result, %{
+         name: agent_name,
+         version: agent_version
+       })
+       when hint_name in @client_hint_chromium_hint_names and
+              is_binary(agent_name) and
+              agent_name not in @client_hint_chromium_agent_names,
+       do: %{result | name: agent_name, version: agent_version}
 
   defp merge_results_chromium(result, _), do: result
 
