@@ -245,9 +245,23 @@ defmodule UAInspector.Parser.Client do
       end
 
     cond do
-      app_name == nil -> result
-      app_name == client_name -> result
-      true -> %Result.Client{name: app_name, type: "mobile app"}
+      app_name == nil ->
+        result
+
+      client_name == :unknown ->
+        result
+
+      app_name != client_name ->
+        %Result.Client{name: app_name, type: "mobile app", version: :unknown}
+
+      true ->
+        client_version =
+          case result do
+            :unknown -> :unknown
+            %{version: client_version} -> client_version
+          end
+
+        %Result.Client{name: client_name, type: "mobile app", version: client_version}
     end
   end
 
