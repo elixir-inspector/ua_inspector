@@ -139,6 +139,30 @@ defmodule UAInspector.ParserTest do
     assert ^parsed = UAInspector.parse(agent)
   end
 
+  test "parse form factor header" do
+    header_type_map = [
+      {~s("EInk", "Watch"), "wearable"},
+      {~s("EInk"), "tablet"},
+      {~s("Desktop", "Mobile"), "smartphone"},
+      {~s("Unknown Type", "Mobile"), "smartphone"},
+      {~s("Tablet", "Mobile"), "smartphone"},
+      {~s("EInk", "Tablet"), "tablet"},
+      {~s("Tablet", "Automotive"), "car browser"},
+      {~s("EInk", "Xr"), "wearable"}
+    ]
+
+    for {form_factors_header, device_type} <- header_type_map do
+      client_hints =
+        ClientHints.new([
+          {"sec-ch-ua-form-factors", form_factors_header},
+          {"sec-ch-ua-model", ~s("Some Unknown Model")}
+        ])
+
+      assert %{device: %{brand: :unknown, model: "Some Unknown Model", type: ^device_type}} =
+               UAInspector.parse("Some Unknown UA", client_hints)
+    end
+  end
+
   test "parse unknown" do
     agent = "some unknown user agent"
     parsed = %Result{user_agent: agent}

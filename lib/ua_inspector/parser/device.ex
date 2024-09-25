@@ -17,6 +17,16 @@ defmodule UAInspector.Parser.Device do
   @notebook Util.Regex.build_regex("FBMD/")
   @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
 
+  @form_factors_type_map [
+    {"automotive", "car browser"},
+    {"xr", "wearable"},
+    {"watch", "wearable"},
+    {"mobile", "smartphone"},
+    {"tablet", "tablet"},
+    {"desktop", "desktop"},
+    {"eink", "tablet"}
+  ]
+
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     client_hints
@@ -112,10 +122,27 @@ defmodule UAInspector.Parser.Device do
 
   defp maybe_parse_vendor(device, _, _), do: device
 
-  defp parse_hints(%{model: model}) when is_binary(model),
-    do: %Result.Device{model: Util.maybe_unknown(model)}
+  defp parse_hints(%{form_factors: form_factors, model: model})
+       when is_binary(model) or 0 < length(form_factors) do
+    device_model = Util.maybe_unknown(model)
+    device_type = parse_hints_form_factors(@form_factors_type_map, form_factors)
+
+    %Result.Device{type: device_type, model: device_model}
+  end
 
   defp parse_hints(_), do: :unknown
+
+  defp parse_hints_form_factors(_, []), do: :unknown
+
+  defp parse_hints_form_factors([{factor, device_type} | form_factors_type_map], form_factors) do
+    if Enum.member?(form_factors, factor) do
+      device_type
+    else
+      parse_hints_form_factors(form_factors_type_map, form_factors)
+    end
+  end
+
+  defp parse_hints_form_factors([], _), do: :unknown
 
   defp parse_hbbtv(ua) do
     case do_parse(ua, DevicesHbbTV.list()) do
