@@ -8,6 +8,7 @@ defmodule UAInspector.ClientHintsTest do
       application: "com.ua_inspector.test",
       architecture: "x86",
       bitness: "64",
+      form_factors: ["desktop", "mobile"],
       full_version: "98.0.14335.105",
       full_version_list: [
         {" Not A;Brand", "99.0.0.0"},
@@ -26,6 +27,7 @@ defmodule UAInspector.ClientHintsTest do
         {"sec-ch-ua", ~s(" Not A;Brand";v="99", "Chromium";v="98", "Opera";v="84")},
         {"sec-ch-ua-arch", "x86"},
         {"sec-ch-ua-bitness", "64"},
+        {"sec-ch-ua-form-factors", ~s("Desktop", "Mobile")},
         {"sec-ch-ua-full-version", "98.0.14335.105"},
         {"sec-ch-ua-full-version-list",
          ~s(" Not A;Brand";v="99.0.0.0", "Chromium";v="98.0.4758.82", "Opera";v="98.0.4758.82")},
