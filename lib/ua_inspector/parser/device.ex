@@ -11,6 +11,11 @@ defmodule UAInspector.Parser.Device do
 
   @behaviour UAInspector.Parser.Behaviour
 
+  @desktop_pos Util.Regex.build_regex("(?:Windows (?:NT|IoT)|X11; Linux x86_64)")
+  @desktop_neg Util.Regex.build_regex(
+                 "CE-HTML| Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser|PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)"
+               )
+
   @frozen_android Regex.compile!("Android 10[.\d]*; K(?: Build/|[;)])", [:caseless])
 
   @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
@@ -51,8 +56,10 @@ defmodule UAInspector.Parser.Device do
   @spec shelltv?(String.t()) :: boolean
   def shelltv?(ua), do: Regex.match?(@shelltv, ua)
 
+  defp desktop?(ua), do: Regex.match?(@desktop_pos, ua) && !Regex.match?(@desktop_neg, ua)
+
   defp parse_device(%{model: :unknown} = hints_result, client_hints, ua) do
-    if Util.Fragment.desktop?(ua) or Regex.match?(@frozen_android, ua) do
+    if desktop?(ua) or Regex.match?(@frozen_android, ua) do
       hints_result
     else
       parse_device_details(hints_result, client_hints, ua)
