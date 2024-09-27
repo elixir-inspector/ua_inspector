@@ -25,7 +25,7 @@ defmodule UAInspector.Parser do
   @is_android_vr Util.Regex.build_base_regex("Android( [\.0-9]+)?; Mobile VR;| VR")
   @is_chrome Util.Regex.build_base_regex("Chrome/[\.0-9]*")
   @is_chrome_smartphone Util.Regex.build_base_regex("(?:Mobile|eliboM)")
-  @is_desktop Util.Regex.build_regex("Desktop (x(?:32|64)|WOW64)")
+  @is_desktop Util.Regex.build_regex("Desktop(?: (x(?:32|64)|WOW64))?;")
   @is_generic_tv Util.Regex.build_base_regex("\\(TV;")
   @is_misc_tv Util.Regex.build_base_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.Regex.build_base_regex("Opera TV Store| OMI/")
