@@ -10,6 +10,7 @@
     - Upstream improvements for Blink engine version detection have been integrated
     - Upstream improvements for browser version detection have been integrated
     - Upstream improvements for Chromium version detection have been integrated
+    - Upstream improvements for Linux client detection have been integrated
     - Upstream improvements for "Puffin" browser detection have been integrated
     - Upstream improvements for "TV-Browser Internet" detection have been integrated
 

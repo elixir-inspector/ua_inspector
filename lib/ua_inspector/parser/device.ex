@@ -92,6 +92,21 @@ defmodule UAInspector.Parser.Device do
     parse_device_details(hints_result, client_hints, ua)
   end
 
+  defp parse_device(%{model: model} = hints_result, client_hints, ua) when is_binary(model) do
+    ua =
+      if desktop?(ua) do
+        Regex.replace(
+          ~r/(X11; Linux x86_64)/,
+          ua,
+          "X11; Linux x86_64; #{model}"
+        )
+      else
+        ua
+      end
+
+    parse_device_details(hints_result, client_hints, ua)
+  end
+
   defp parse_device(hints_result, client_hints, ua),
     do: parse_device_details(hints_result, client_hints, ua)
 
