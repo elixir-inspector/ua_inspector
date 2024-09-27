@@ -29,6 +29,9 @@ defmodule UAInspector.Parser do
   @is_generic_tv Util.Regex.build_base_regex("\\(TV;")
   @is_misc_tv Util.Regex.build_base_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.Regex.build_base_regex("Opera TV Store| OMI/")
+  @is_puffin_desktop Util.Regex.build_base_regex("Puffin/(?:\\d+[\.\\d]+)[LMW]D")
+  @is_puffin_smartphone Util.Regex.build_base_regex("Puffin/(?:\\d+[\.\\d]+)[AIFLW]P")
+  @is_puffin_tablet Util.Regex.build_base_regex("Puffin/(?:\\d+[\.\\d]+)[AILW]T")
   @is_tablet Util.Regex.build_base_regex("Pad/APad")
 
   @android_mobile Util.Regex.build_base_regex("Android( [\.0-9]+)?; Mobile;|.*\-mobile$")
@@ -174,6 +177,7 @@ defmodule UAInspector.Parser do
     |> maybe_fix_android()
     |> maybe_detect_feature_phone()
     |> maybe_fix_windows()
+    |> maybe_detect_puffin_browsers()
     |> maybe_fix_misc_tv()
     |> maybe_detect_desktop()
     |> maybe_fix_desktop()
@@ -257,6 +261,26 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_detect_feature_phone(result), do: result
+
+  defp maybe_detect_puffin_browsers(
+         %{device: %{type: :unknown} = device, user_agent: ua} = result
+       ) do
+    cond do
+      Regex.match?(@is_puffin_desktop, ua) ->
+        %{result | device: %{device | type: "desktop"}}
+
+      Regex.match?(@is_puffin_smartphone, ua) ->
+        %{result | device: %{device | type: "smartphone"}}
+
+      Regex.match?(@is_puffin_tablet, ua) ->
+        %{result | device: %{device | type: "tablet"}}
+
+      true ->
+        result
+    end
+  end
+
+  defp maybe_detect_puffin_browsers(result), do: result
 
   defp maybe_detect_tablet(%{device: %{type: "smartphone"} = device, user_agent: ua} = result) do
     if Regex.match?(@is_tablet, ua) do

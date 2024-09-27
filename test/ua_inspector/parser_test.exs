@@ -93,7 +93,7 @@ defmodule UAInspector.ParserTest do
 
     refute UAInspector.mobile?("generic crawler agent")
 
-    refute UAInspector.mobile?(
+    assert UAInspector.mobile?(
              "Mozilla/5.0 (X11; U; Linux x86_64; fa-ir) AppleWebKit/534.35 (KHTML, like Gecko)  Chrome/11.0.696.65 Safari/534.35 Puffin/2.10977AP"
            )
 
