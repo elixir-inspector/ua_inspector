@@ -3,6 +3,21 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36 AlohaBrowser/5.10.4",
+          browser_family: :unknown
+        } = testcase,
+        %{browser_family: "Chrome" = browser_family} = result
+      ) do
+    # upstream fails to detect browser_family
+    verify(
+      %{testcase | browser_family: browser_family},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
