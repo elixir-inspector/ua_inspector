@@ -16,7 +16,10 @@ defmodule UAInspector.Parser.Device do
                  "CE-HTML| Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser|PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)"
                )
 
-  @frozen_android Regex.compile!("Android 10[.\d]*; K(?: Build/|[;)])", [:caseless])
+  @frozen_android Regex.compile!(
+                    "Android (?:10[.\d]*; K(?: Build/|[;)])|1[1-5]\\)) AppleWebKit",
+                    [:caseless]
+                  )
 
   @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.Regex.build_regex("FBMD/")
@@ -123,7 +126,7 @@ defmodule UAInspector.Parser.Device do
         end
 
       Regex.replace(
-        ~r/(Android 10[.\d]*; K)/,
+        ~r/(Android (?:10[.\d]*; K|1[1-5]))/,
         ua,
         "Android #{os_version}; #{model}"
       )
