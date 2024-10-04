@@ -184,6 +184,18 @@ defmodule UAInspector.Parser do
     |> maybe_unknown_device()
   end
 
+  defp detect_browser_family(
+         %{client: %{name: "Wolvic", engine: "Blink", type: "browser"}} = result,
+         _
+       ),
+       do: %{result | browser_family: "Chrome"}
+
+  defp detect_browser_family(
+         %{client: %{name: "Wolvic", engine: "Gecko", type: "browser"}} = result,
+         _
+       ),
+       do: %{result | browser_family: "Firefox"}
+
   defp detect_browser_family(%{client: %{name: client_name, type: "browser"}} = result, %{
          application: app
        })
