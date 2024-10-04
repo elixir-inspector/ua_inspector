@@ -4,7 +4,7 @@
 
 - Enhancements
     - Added support to use "form factors" client hint header for improved detection
-    - Default upstream database version is now `6.4.0`
+    - Default upstream database version is now `6.4.1`
     - Improved mobile app detection
     - Upstream improvements for ARM platform detection have been integrated
     - Upstream improvements for Blink engine version detection have been integrated
