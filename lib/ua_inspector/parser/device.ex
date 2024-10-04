@@ -72,37 +72,15 @@ defmodule UAInspector.Parser.Device do
          ua
        ) do
     ua =
-      if Regex.match?(@frozen_android, ua) do
-        os_version =
-          case platform_version do
-            :unknown -> "10"
-            "" -> "10"
-            _ -> platform_version
-          end
-
-        Regex.replace(
-          ~r/(Android 10[.\d]*; K)/,
-          ua,
-          "Android #{os_version}; #{model}"
-        )
-      else
-        ua
-      end
+      ua
+      |> patch_ua_frozen_android(model, platform_version)
+      |> patch_ua_desktop(model)
 
     parse_device_details(hints_result, client_hints, ua)
   end
 
   defp parse_device(%{model: model} = hints_result, client_hints, ua) when is_binary(model) do
-    ua =
-      if desktop?(ua) do
-        Regex.replace(
-          ~r/(X11; Linux x86_64)/,
-          ua,
-          "X11; Linux x86_64; #{model}"
-        )
-      else
-        ua
-      end
+    ua = patch_ua_desktop(ua, model)
 
     parse_device_details(hints_result, client_hints, ua)
   end
@@ -121,6 +99,37 @@ defmodule UAInspector.Parser.Device do
       |> maybe_parse_vendor(ua, client_hints)
 
     merge_results(hints_result, agent_result)
+  end
+
+  defp patch_ua_desktop(ua, model) do
+    if desktop?(ua) do
+      Regex.replace(
+        ~r/(X11; Linux x86_64)/,
+        ua,
+        "X11; Linux x86_64; #{model}"
+      )
+    else
+      ua
+    end
+  end
+
+  defp patch_ua_frozen_android(ua, model, platform_version) do
+    if Regex.match?(@frozen_android, ua) do
+      os_version =
+        case platform_version do
+          :unknown -> "10"
+          "" -> "10"
+          _ -> platform_version
+        end
+
+      Regex.replace(
+        ~r/(Android 10[.\d]*; K)/,
+        ua,
+        "Android #{os_version}; #{model}"
+      )
+    else
+      ua
+    end
   end
 
   defp merge_results(%{} = hints_result, %{brand: :unknown, model: :unknown, type: :unknown}),
