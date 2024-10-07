@@ -11,7 +11,7 @@ defmodule UAInspectorVerify.Verify.Generic do
         } = testcase,
         %{browser_family: "Chrome" = browser_family} = result
       ) do
-    # upstream fails to detect browser_family
+    # improved browser family detection in upcoming remote release
     verify(
       %{testcase | browser_family: browser_family},
       result
