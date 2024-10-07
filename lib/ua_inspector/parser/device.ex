@@ -135,8 +135,12 @@ defmodule UAInspector.Parser.Device do
     end
   end
 
-  defp merge_results(%{} = hints_result, %{brand: :unknown, model: :unknown, type: :unknown}),
-    do: hints_result
+  defp merge_results(%{} = hints_result, %{} = agent_result) do
+    Map.merge(hints_result, agent_result, fn
+      _, hints_value, :unknown -> hints_value
+      _, _, agent_value -> agent_value
+    end)
+  end
 
   defp merge_results(_, agent_result), do: agent_result
 
