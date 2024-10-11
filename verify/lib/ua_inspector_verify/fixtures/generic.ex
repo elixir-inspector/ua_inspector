@@ -90,7 +90,9 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => []
+    "master" => [
+      "tablet-12.yml"
+    ]
   }
 
   def download do
