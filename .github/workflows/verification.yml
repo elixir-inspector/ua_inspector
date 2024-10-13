@@ -52,3 +52,11 @@ jobs:
         # yamllint disable-line rule:line-length
         run: mix ua_inspector.verify ${{ 'default' == matrix.remote-release || format('--remote-release "{0}"', matrix.remote-release) }}
         working-directory: ./verify
+
+  custom_php:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: php ./verify/ext/custom.php
