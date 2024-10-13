@@ -5,3 +5,5 @@ doc/
 plts/
 test/downloads/
 verify/priv/
+
+!verify/priv/fixtures/custom/

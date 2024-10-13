@@ -28,6 +28,15 @@ defmodule Mix.Tasks.UaInspector.Verify do
 
     :ok =
       verify_all(
+        &Fixtures.Custom.list/0,
+        &Fixtures.Custom.download_path/1,
+        &Function.identity/1,
+        &UAInspector.Parser.parse/2,
+        &Verify.Custom.verify/2
+      )
+
+    :ok =
+      verify_all(
         &Fixtures.Client.list/0,
         &Fixtures.Client.download_path/1,
         &Cleanup.Client.cleanup/1,
