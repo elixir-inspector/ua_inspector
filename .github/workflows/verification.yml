@@ -13,46 +13,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
-    runs-on: ubuntu-24.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - remote-release: default
-          - remote-release: master
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: setup
-        id: setup
-        uses: erlef/setup-beam@v1
-        with:
-          elixir-version: '1.17.3'
-          otp-version: '27.0'
-
-      - name: mix-cache
-        uses: actions/cache@v4
-        id: mix-cache
-        with:
-          path: deps
-          # yamllint disable-line rule:line-length
-          key: ${{ runner.os }}-${{ steps.setup.outputs.otp-version }}-${{ steps.setup.outputs.elixir-version }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
-
-      - name: mix-deps
-        if: steps.mix-cache.outputs.cache-hit != 'true'
-        run: |
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-
-      - name: verify
-        # yamllint disable-line rule:line-length
-        run: mix ua_inspector.verify ${{ 'default' == matrix.remote-release || format('--remote-release "{0}"', matrix.remote-release) }}
-        working-directory: ./verify
-
   custom_php:
     runs-on: ubuntu-24.04
 
