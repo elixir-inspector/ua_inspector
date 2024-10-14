@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
       - run: composer install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ./verify/ext
       - run: php custom.php
         working-directory: ./verify/ext
