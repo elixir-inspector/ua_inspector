@@ -59,4 +59,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: php ./verify/ext/custom.php
+      - uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v4
+        with:
+          repository: matomo-org/device-detector
+          path: verify/ext/device-detector
+      - run: composer install
+        working-directory: verify/ext/device-detector
+      - run: php custom.php
+        working-directory: verify/ext
