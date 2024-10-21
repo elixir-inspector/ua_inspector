@@ -24,7 +24,8 @@ defmodule UAInspector.Parser.OS do
     {"SPARC64", Util.Regex.build_regex("sparc64")},
     {"LoongArch64", Util.Regex.build_regex("loongarch64")},
     {"MIPS", Util.Regex.build_regex("mips")},
-    {"x64", Util.Regex.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")},
+    {"x64",
+     Util.Regex.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|.*amd64|x86_?64")},
     {"x86", Util.Regex.build_regex(".*32bit|.*win32|(?:i[0-9]|x)86|i86pc")}
   ]
 
