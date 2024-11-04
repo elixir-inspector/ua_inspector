@@ -16,11 +16,6 @@ defmodule UAInspector.Parser.Device do
                  "CE-HTML| Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser|PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)"
                )
 
-  @frozen_android Regex.compile!(
-                    "Android (?:10[.\d]*; K(?: Build/|[;)])|1[1-5]\\)) AppleWebKit",
-                    [:caseless]
-                  )
-
   @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.Regex.build_regex("FBMD/")
   @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
@@ -62,7 +57,7 @@ defmodule UAInspector.Parser.Device do
   defp desktop?(ua), do: Regex.match?(@desktop_pos, ua) && !Regex.match?(@desktop_neg, ua)
 
   defp parse_device(%{model: :unknown} = hints_result, client_hints, ua) do
-    if desktop?(ua) or Regex.match?(@frozen_android, ua) do
+    if desktop?(ua) or Util.UserAgent.has_client_hints_fragment?(ua) do
       hints_result
     else
       parse_device_details(hints_result, client_hints, ua)
@@ -117,7 +112,7 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp patch_ua_frozen_android(ua, model, platform_version) do
-    if Regex.match?(@frozen_android, ua) do
+    if Util.UserAgent.has_client_hints_fragment?(ua) do
       os_version =
         case platform_version do
           :unknown -> "10"
