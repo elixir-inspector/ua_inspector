@@ -11,11 +11,6 @@ defmodule UAInspector.Parser.Device do
 
   @behaviour UAInspector.Parser.Behaviour
 
-  @desktop_pos Util.Regex.build_regex("(?:Windows (?:NT|IoT)|X11; Linux x86_64)")
-  @desktop_neg Util.Regex.build_regex(
-                 "CE-HTML| Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser|PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)"
-               )
-
   @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.Regex.build_regex("FBMD/")
   @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
@@ -54,10 +49,8 @@ defmodule UAInspector.Parser.Device do
   @spec shelltv?(String.t()) :: boolean
   def shelltv?(ua), do: Regex.match?(@shelltv, ua)
 
-  defp desktop?(ua), do: Regex.match?(@desktop_pos, ua) && !Regex.match?(@desktop_neg, ua)
-
   defp parse_device(%{model: :unknown} = hints_result, client_hints, ua) do
-    if desktop?(ua) or Util.UserAgent.has_client_hints_fragment?(ua) do
+    if Util.UserAgent.has_desktop_fragment?(ua) or Util.UserAgent.has_client_hints_fragment?(ua) do
       hints_result
     else
       parse_device_details(hints_result, client_hints, ua)
@@ -100,7 +93,7 @@ defmodule UAInspector.Parser.Device do
   end
 
   defp patch_ua_desktop(ua, model) do
-    if desktop?(ua) do
+    if Util.UserAgent.has_desktop_fragment?(ua) do
       Regex.replace(
         ~r/(X11; Linux x86_64)/,
         ua,
