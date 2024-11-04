@@ -7,7 +7,7 @@
     - Default upstream database version is now `6.4.1`
     - Improved mobile app detection
     - Upstream improvements for OS platform detection have been integrated
-    - Upstream improvements for Blink engine version detection have been integrated
+    - Upstream improvements for Blink engine detection have been integrated
     - Upstream improvements for browser version detection have been integrated
     - Upstream improvements for Chromium version detection have been integrated
     - Upstream improvements for Linux client detection have been integrated

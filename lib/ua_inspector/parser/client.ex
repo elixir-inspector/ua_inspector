@@ -85,7 +85,22 @@ defmodule UAInspector.Parser.Client do
     |> merge_results_engine_version(agent_result)
     |> merge_results_version_compare(agent_result)
     |> patch_result_duckduckgo()
+    |> patch_result_blink(hints_result)
   end
+
+  defp patch_result_blink(
+         %{engine: "Blink", name: name, engine_version: result_version} = result,
+         %{version: hints_version}
+       )
+       when name != "Iridium" do
+    if :lt == Util.Version.compare(result_version, hints_version) do
+      %{result | engine_version: hints_version}
+    else
+      result
+    end
+  end
+
+  defp patch_result_blink(result, _), do: result
 
   defp patch_result_duckduckgo(%{name: "DuckDuckGo Privacy Browser"} = result),
     do: %{result | version: :unknown}
