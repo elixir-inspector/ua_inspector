@@ -130,6 +130,20 @@ defmodule UAInspector.Parser.OS do
         name
       end
 
+    version =
+      if "Android" == name and "Chrome OS" == agent_result.name do
+        :unknown
+      else
+        version
+      end
+
+    name =
+      if "Android" == name and "Chrome OS" == agent_result.name do
+        agent_result.name
+      else
+        name
+      end
+
     %{agent_result | name: name, version: version}
   end
 
