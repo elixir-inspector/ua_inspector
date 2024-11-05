@@ -31,6 +31,7 @@ defmodule UAInspector.Parser.OS do
 
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
+    ua = Util.UserAgent.restore_from_client_hints(ua, client_hints)
     hints_result = parse_hints(client_hints)
     agent_result = parse_agent(ua, OSsDatabase.list())
 
@@ -116,6 +117,7 @@ defmodule UAInspector.Parser.OS do
       cond do
         "Fire OS" == name -> resolve_version_mapping(version, VersionMappingFireOS.list())
         "HarmonyOS" == name -> :unknown
+        "LeafOS" == name -> :unknown
         "PICO OS" == name -> agent_result.version
         true -> version
       end
