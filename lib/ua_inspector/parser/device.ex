@@ -57,27 +57,11 @@ defmodule UAInspector.Parser.Device do
     end
   end
 
-  defp parse_device(
-         %{model: model} = hints_result,
-         %{platform_version: platform_version} = client_hints,
-         ua
-       ) do
-    ua =
-      ua
-      |> patch_ua_frozen_android(model, platform_version)
-      |> patch_ua_desktop(model)
+  defp parse_device(hints_result, client_hints, ua) do
+    ua = Util.UserAgent.restore_from_client_hints(ua, client_hints)
 
     parse_device_details(hints_result, client_hints, ua)
   end
-
-  defp parse_device(%{model: model} = hints_result, client_hints, ua) when is_binary(model) do
-    ua = patch_ua_desktop(ua, model)
-
-    parse_device_details(hints_result, client_hints, ua)
-  end
-
-  defp parse_device(hints_result, client_hints, ua),
-    do: parse_device_details(hints_result, client_hints, ua)
 
   defp parse_device_details(hints_result, client_hints, ua) do
     agent_result =
@@ -90,37 +74,6 @@ defmodule UAInspector.Parser.Device do
       |> maybe_parse_vendor(ua, client_hints)
 
     merge_results(hints_result, agent_result)
-  end
-
-  defp patch_ua_desktop(ua, model) do
-    if Util.UserAgent.has_desktop_fragment?(ua) do
-      Regex.replace(
-        ~r/(X11; Linux x86_64)/,
-        ua,
-        "X11; Linux x86_64; #{model}"
-      )
-    else
-      ua
-    end
-  end
-
-  defp patch_ua_frozen_android(ua, model, platform_version) do
-    if Util.UserAgent.has_client_hints_fragment?(ua) do
-      os_version =
-        case platform_version do
-          :unknown -> "10"
-          "" -> "10"
-          _ -> platform_version
-        end
-
-      Regex.replace(
-        ~r/(Android (?:10[.\d]*; K|1[1-5]))/,
-        ua,
-        "Android #{os_version}; #{model}"
-      )
-    else
-      ua
-    end
   end
 
   defp merge_results(%{} = hints_result, %{} = agent_result) do
