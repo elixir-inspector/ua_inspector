@@ -18,6 +18,132 @@ defmodule UAInspectorVerify.Verify.Generic do
     )
   end
 
+  def verify(
+        %{
+          client:
+            %{engine: "Blink", engine_version: wrong_version, version: correct_version} = client
+        } = testcase,
+        %{client: %{engine: "Blink", engine_version: correct_version, version: correct_version}} =
+          result
+      )
+      when wrong_version != correct_version do
+    # improved engine version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: correct_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36 AlohaBrowser/5.10.4",
+          client: %{engine: "Blink", engine_version: "123.0.0.0", version: "5.10.4"} = client
+        } = testcase,
+        %{
+          client: %{
+            engine: "Blink",
+            engine_version: "123.0.6312.118" = remote_engine_version,
+            version: "5.10.4"
+          }
+        } =
+          result
+      ) do
+    # improved engine version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: remote_engine_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+          client: %{engine: "Blink", engine_version: "122.0.0.0", version: :unknown} = client
+        } = testcase,
+        %{
+          client: %{
+            engine: "Blink",
+            engine_version: "122.0.6261.119" = remote_engine_version,
+            version: :unknown
+          }
+        } =
+          result
+      ) do
+    # improved engine version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: remote_engine_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
+          client: %{engine: "Blink", engine_version: "123.0.0.0", version: :unknown} = client
+        } = testcase,
+        %{
+          client: %{
+            engine: "Blink",
+            engine_version: "123.0.6312.99" = remote_engine_version,
+            version: :unknown
+          }
+        } =
+          result
+      ) do
+    # improved engine version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: remote_engine_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          client: %{engine: "Blink", engine_version: "125.0.0.0", version: :unknown} = client
+        } = testcase,
+        %{
+          client: %{
+            engine: "Blink",
+            engine_version: "125.0.6422.165" = remote_engine_version,
+            version: :unknown
+          }
+        } =
+          result
+      ) do
+    # improved engine version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: remote_engine_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          client: %{engine: "Blink", engine_version: "126.0.0.0", version: :unknown} = client
+        } = testcase,
+        %{
+          client: %{
+            engine: "Blink",
+            engine_version: "126.0.6478.186" = remote_engine_version,
+            version: :unknown
+          }
+        } =
+          result
+      ) do
+    # improved engine version detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: remote_engine_version}},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
