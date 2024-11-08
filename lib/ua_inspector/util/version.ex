@@ -139,36 +139,6 @@ defmodule UAInspector.Util.Version do
   end
 
   @doc """
-  Extract the major version from a version string.
-
-  ## Examples
-
-      iex> major("1.0.0")
-      1
-
-      iex> major("5.2")
-      5
-
-      iex> major("invalid")
-      0
-
-      iex> major("-1.2.3")
-      0
-  """
-  @spec major(binary) :: non_neg_integer
-  def major(version) do
-    [major | _] =
-      version
-      |> canonicalize()
-      |> String.split(".", parts: 2)
-
-    case Integer.parse(major) do
-      {value, _} when value > 0 -> value
-      _ -> 0
-    end
-  end
-
-  @doc """
   Sanitizes a version string.
   """
   @spec sanitize(version :: String.t()) :: String.t()

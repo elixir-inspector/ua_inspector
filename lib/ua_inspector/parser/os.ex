@@ -115,6 +115,13 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
+        "Windows" == name and "0.0.0" == version and "10" == agent_result.version -> :unknown
+        "Windows" == name and "0.0.0" == version -> agent_result.version
+        true -> version
+      end
+
+    version =
+      cond do
         "Fire OS" == name -> resolve_version_mapping(version, VersionMappingFireOS.list())
         "HarmonyOS" == name -> :unknown
         "LeafOS" == name -> :unknown
@@ -198,11 +205,33 @@ defmodule UAInspector.Parser.OS do
 
   defp parse_hints_version(_, :unknown), do: :unknown
 
+  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp parse_hints_version("Windows", version) do
-    case Util.Version.major(version) do
-      major when major >= 1 and major <= 10 -> "10"
-      major when major >= 11 -> "11"
-      _ -> :unknown
+    parts = String.split(version, ".")
+
+    major =
+      with [major | _] <- parts,
+           {value, _} when value > 0 <- Integer.parse(major) do
+        value
+      else
+        _ -> 0
+      end
+
+    minor =
+      with [_, minor | _] <- parts,
+           {value, _} when value > 0 <- Integer.parse(minor) do
+        value
+      else
+        _ -> 0
+      end
+
+    cond do
+      major == 0 and minor == 1 -> "7"
+      major == 0 and minor == 2 -> "8"
+      major == 0 and minor == 3 -> "8.1"
+      major == 0 -> version
+      major < 11 -> "10"
+      true -> "11"
     end
   end
 
