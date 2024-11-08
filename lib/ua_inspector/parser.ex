@@ -22,21 +22,21 @@ defmodule UAInspector.Parser do
   @is_android_tv Util.Regex.build_base_regex(
                    "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"
                  )
-  @is_android_vr Util.Regex.build_base_regex("Android( [\.0-9]+)?; Mobile VR;| VR")
-  @is_chrome Util.Regex.build_base_regex("Chrome/[\.0-9]*")
+  @is_android_vr Util.Regex.build_base_regex("Android( [.0-9]+)?; Mobile VR;| VR")
+  @is_chrome Util.Regex.build_base_regex("Chrome/[.0-9]*")
   @is_chrome_smartphone Util.Regex.build_base_regex("(?:Mobile|eliboM)")
   @is_desktop Util.Regex.build_regex("Desktop(?: (x(?:32|64)|WOW64))?;")
   @is_generic_tv Util.Regex.build_base_regex("\\(TV;")
   @is_misc_tv Util.Regex.build_base_regex("SmartTV|Tizen.+ TV .+$")
   @is_opera_tv_store Util.Regex.build_base_regex("Opera TV Store| OMI/")
-  @is_puffin_desktop Util.Regex.build_base_regex("Puffin/(?:\\d+[\.\\d]+)[LMW]D")
-  @is_puffin_smartphone Util.Regex.build_base_regex("Puffin/(?:\\d+[\.\\d]+)[AIFLW]P")
-  @is_puffin_tablet Util.Regex.build_base_regex("Puffin/(?:\\d+[\.\\d]+)[AILW]T")
+  @is_puffin_desktop Util.Regex.build_base_regex("Puffin/(?:\\d+[.\\d]+)[LMW]D")
+  @is_puffin_smartphone Util.Regex.build_base_regex("Puffin/(?:\\d+[.\\d]+)[AIFLW]P")
+  @is_puffin_tablet Util.Regex.build_base_regex("Puffin/(?:\\d+[.\\d]+)[AILW]T")
   @is_tablet Util.Regex.build_base_regex("Pad/APad")
 
-  @android_mobile Util.Regex.build_base_regex("Android( [\.0-9]+)?; Mobile;|.*\-mobile$")
+  @android_mobile Util.Regex.build_base_regex("Android( [.0-9]+)?; Mobile;|.*\-mobile$")
   @android_tablet Util.Regex.build_base_regex(
-                    "Android( [\.0-9]+)?; Tablet;|Tablet(?! PC)|.*\-tablet$"
+                    "Android( [.0-9]+)?; Tablet;|Tablet(?! PC)|.*\-tablet$"
                   )
   @opera_tablet Util.Regex.build_base_regex("Opera Tablet")
 

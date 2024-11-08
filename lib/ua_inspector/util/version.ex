@@ -59,8 +59,8 @@ defmodule UAInspector.Util.Version do
   def canonicalize(version) do
     version
     |> String.replace(~r/[-_+]/, ".")
-    |> String.replace(~r/([^\d\.])([^\D\.])/, "\\1.\\2")
-    |> String.replace(~r/([^\D\.])([^\d\.])/, "\\1.\\2")
+    |> String.replace(~r/([^\d.])([^\D.])/, "\\1.\\2")
+    |> String.replace(~r/([^\D.])([^\d.])/, "\\1.\\2")
     |> String.replace(~r/([[:alnum:]])([^[:alnum:]])/, "\\1.\\2")
     |> String.replace(~r/([^[:alnum:]])([[:alnum:]])/, "\\1.\\2")
     |> String.replace(~r/(?:^|\.)0+/, "0")

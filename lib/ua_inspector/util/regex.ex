@@ -8,10 +8,10 @@ defmodule UAInspector.Util.Regex do
   def build_engine_regex("Clecko") do
     # sigil_S used to ensure escaping is kept as-is
     # Concatenated expression:
-    # - [ ](?:rv[: ]([0-9\.]+)).*(?:g|cl)ecko\/[0-9]{8,10}
+    # - [ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}
     # - Regular expression of `build_engine_regex("Clecko")`
     Regex.compile!(
-      ~S"(?:[ ](?:rv[: ]([0-9\.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
+      ~S"(?:[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
       [:caseless]
     )
   end
@@ -19,10 +19,10 @@ defmodule UAInspector.Util.Regex do
   def build_engine_regex("Gecko") do
     # sigil_S used to ensure escaping is kept as-is
     # Concatenated expression:
-    # - [ ](?:rv[: ]([0-9\.]+)).*(?:g|cl)ecko\/[0-9]{8,10}
+    # - [ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}
     # - Regular expression of `build_engine_regex("Gecko")`
     Regex.compile!(
-      ~S"(?:[ ](?:rv[: ]([0-9\.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
+      ~S"(?:[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
       [:caseless]
     )
   end

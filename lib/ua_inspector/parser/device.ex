@@ -13,7 +13,7 @@ defmodule UAInspector.Parser.Device do
 
   @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.Regex.build_regex("FBMD/")
-  @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[\.\\d]*)")
+  @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[.\\d]*)")
 
   @form_factors_type_map [
     {"automotive", "car browser"},
