@@ -122,11 +122,20 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
-        "Fire OS" == name -> resolve_version_mapping(version, VersionMappingFireOS.list())
-        "HarmonyOS" == name -> :unknown
-        "LeafOS" == name -> :unknown
-        "PICO OS" == name -> agent_result.version
-        true -> version
+        name == "Fire OS" and hints_result.version != :unknown ->
+          resolve_version_mapping(version, VersionMappingFireOS.list())
+
+        name == "HarmonyOS" ->
+          :unknown
+
+        name == "LeafOS" ->
+          :unknown
+
+        name == "PICO OS" ->
+          agent_result.version
+
+        true ->
+          version
       end
 
     name =
