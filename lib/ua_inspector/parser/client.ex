@@ -29,6 +29,7 @@ defmodule UAInspector.Parser.Client do
 
   @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
   @is_iridium_version Regex.compile!("^202[0-4]")
+  @is_library Regex.compile!("Cypress|PhantomJS")
 
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
@@ -204,9 +205,11 @@ defmodule UAInspector.Parser.Client do
   defp parse_agent(_, []), do: :unknown
 
   defp parse_agent(ua, [{regex, result} | database]) do
-    case Regex.run(regex, ua, capture: :all_but_first) do
-      nil -> parse_agent(ua, database)
-      captures -> result(ua, result, captures)
+    with captures when not is_nil(captures) <- Regex.run(regex, ua, capture: :all_but_first),
+         %{} = result <- result(ua, result, captures) do
+      result
+    else
+      _ -> parse_agent(ua, database)
     end
   end
 
@@ -395,23 +398,27 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp result(ua, {engine, name, type, version}, captures) do
-    version = resolve_version(version, captures)
+    if type == "browser" and Regex.match?(@is_library, ua) do
+      nil
+    else
+      version = resolve_version(version, captures)
 
-    {engine, engine_version} =
-      case maybe_resolve_engine(type, engine, ua, version) do
-        {engine, version_regex} when is_binary(engine) and 0 < byte_size(engine) ->
-          {engine, find_engine_version(ua, version_regex)}
+      {engine, engine_version} =
+        case maybe_resolve_engine(type, engine, ua, version) do
+          {engine, version_regex} when is_binary(engine) and 0 < byte_size(engine) ->
+            {engine, find_engine_version(ua, version_regex)}
 
-        _ ->
-          {:unknown, :unknown}
-      end
+          _ ->
+            {:unknown, :unknown}
+        end
 
-    %Result.Client{
-      engine: engine,
-      engine_version: engine_version,
-      name: resolve_name(name, captures),
-      type: type,
-      version: version
-    }
+      %Result.Client{
+        engine: engine,
+        engine_version: engine_version,
+        name: resolve_name(name, captures),
+        type: type,
+        version: version
+      }
+    end
   end
 end

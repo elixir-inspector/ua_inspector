@@ -9,6 +9,7 @@
     - Upstream improvements for OS platform detection have been integrated
     - Upstream improvements for Blink engine detection have been integrated
     - Upstream improvements for browser version detection have been integrated
+    - Upstream improvements for library client detection have been integrated
     - Upstream improvements for Chromium version detection have been integrated
     - Upstream improvements for Windows version detection have been integrated
     - Upstream improvements for Linux client detection have been integrated
