@@ -38,7 +38,7 @@ defmodule UAInspector.Database.Bots do
 
   defp parse_yaml_entries({:error, error}, database) do
     _ =
-      unless Config.get(:startup_silent) do
+      if !Config.get(:startup_silent) do
         Logger.info("Failed to load database #{database}: #{inspect(error)}")
       end
 

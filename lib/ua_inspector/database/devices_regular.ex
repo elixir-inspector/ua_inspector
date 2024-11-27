@@ -77,7 +77,7 @@ defmodule UAInspector.Database.DevicesRegular do
 
   defp parse_yaml_entries({:error, error}, database, _) do
     _ =
-      unless Config.get(:startup_silent) do
+      if !Config.get(:startup_silent) do
         Logger.info("Failed to load database #{database}: #{inspect(error)}")
       end
 

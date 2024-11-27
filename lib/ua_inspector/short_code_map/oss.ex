@@ -57,7 +57,7 @@ defmodule UAInspector.ShortCodeMap.OSs do
 
   defp parse_yaml_entries({:error, error}, map) do
     _ =
-      unless Config.get(:startup_silent) do
+      if !Config.get(:startup_silent) do
         Logger.info("Failed to load short code map #{map}: #{inspect(error)}")
       end
 

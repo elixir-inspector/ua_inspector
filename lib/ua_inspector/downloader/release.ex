@@ -24,7 +24,7 @@ defmodule UAInspector.Downloader.Release do
     path_local = Path.join(Config.database_path(), @release)
     dirname_local = Path.dirname(path_local)
 
-    unless File.dir?(dirname_local) do
+    if !File.dir?(dirname_local) do
       File.mkdir_p!(dirname_local)
     end
 

@@ -53,7 +53,7 @@ defmodule Mix.Tasks.UaInspector.Download do
 
     {opts, _argv, _errors} = OptionParser.parse(args, @cli_options)
 
-    unless opts[:quiet] do
+    if !opts[:quiet] do
       Mix.shell().info("Download path: #{Config.database_path()}")
       Mix.shell().info("This command will replace any existing files!")
     end
@@ -66,7 +66,7 @@ defmodule Mix.Tasks.UaInspector.Download do
   end
 
   defp exit_unconfirmed(opts) do
-    unless opts[:quiet] do
+    if !opts[:quiet] do
       Mix.shell().info("Download aborted!")
     end
 
@@ -80,7 +80,7 @@ defmodule Mix.Tasks.UaInspector.Download do
     :ok = Downloader.README.write()
     :ok = Downloader.Release.write()
 
-    unless opts[:quiet] do
+    if !opts[:quiet] do
       Mix.shell().info("Download complete!")
     end
 
@@ -97,7 +97,7 @@ defmodule Mix.Tasks.UaInspector.Download do
   defp load_app(args) do
     _ = Mix.Task.run("loadpaths", args)
 
-    unless "--no-compile" in args do
+    if "--no-compile" not in args do
       _ = Mix.Task.run("compile", args)
     end
 

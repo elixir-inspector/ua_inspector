@@ -25,12 +25,12 @@ defmodule UAInspector.Downloader.README do
     path_priv = Application.app_dir(:ua_inspector, ["priv", @readme])
     dirname_local = Path.dirname(path_local)
 
-    unless File.dir?(dirname_local) do
+    if !File.dir?(dirname_local) do
       File.mkdir_p!(dirname_local)
     end
 
     _ =
-      unless path_priv == path_local do
+      if path_priv != path_local do
         File.copy!(path_priv, path_local)
       end
 
