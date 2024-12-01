@@ -1,5 +1,5 @@
 _build/
-data/
+./data/
 deps/
 doc/
 plts/
