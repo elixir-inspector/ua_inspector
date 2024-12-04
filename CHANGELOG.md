@@ -16,6 +16,7 @@
     - Upstream improvements for "Chrome OS" detection have been integrated
     - Upstream improvements for "Fire OS" detection have been integrated
     - Upstream improvements for "LeafOS" detection have been integrated
+    - Upstream improvements for "Meta Horizon" detection have been integrated
     - Upstream improvements for "Puffin" browser detection have been integrated
     - Upstream improvements for "TV-Browser Internet" detection have been integrated
     - Upstream improvements for "Wolvic" browser detection have been integrated

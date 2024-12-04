@@ -160,6 +160,13 @@ defmodule UAInspector.Parser.OS do
         name
       end
 
+    name =
+      if "GNU/Linux" == name and "Meta Horizon" == agent_result.name do
+        agent_result.name
+      else
+        name
+      end
+
     %{agent_result | name: name, version: version}
   end
 
