@@ -72,5 +72,6 @@ defmodule UAInspectorVerify.Cleanup.Base do
   end
 
   defp prepare_header_value([_ | _]), do: ""
+  defp prepare_header_value(:null), do: ""
   defp prepare_header_value(value), do: value
 end
