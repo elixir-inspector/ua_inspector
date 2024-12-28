@@ -20,6 +20,7 @@
     - Upstream improvements for "Puffin" browser detection have been integrated
     - Upstream improvements for "TV-Browser Internet" detection have been integrated
     - Upstream improvements for "Wolvic" browser detection have been integrated
+    - Upstream improvements for Android TV device detection have been integrated
 
 ## v3.10.0 (2024-06-11)
 

@@ -225,6 +225,9 @@ defmodule UAInspector.Parser do
   defp detect_os_family(result), do: result
 
   # assume "Andr0id" to be a tv
+  defp maybe_detect_android_tv(%{device: %{type: "peripheral"}} = result), do: result
+  defp maybe_detect_android_tv(%{device: %{type: "tv"}} = result), do: result
+
   defp maybe_detect_android_tv(%{device: device, user_agent: ua} = result) do
     if Regex.match?(@is_android_tv, ua) do
       %{result | device: %{device | type: "tv"}}

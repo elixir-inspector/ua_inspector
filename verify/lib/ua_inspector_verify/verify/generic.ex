@@ -144,6 +144,22 @@ defmodule UAInspectorVerify.Verify.Generic do
     )
   end
 
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; XK03H Build/QX; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/126.0.6478.133 YaBrowser/24.1.2.221 (lite) TV Safari/537.36",
+          device: %{type: "tv"} = device
+        } = testcase,
+        result
+      ) do
+    # detected as "tv" in default remote release
+    # detected as "peripheral" in upcoming remote release
+    verify(
+      %{testcase | device: %{device | type: "peripheral"}},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
