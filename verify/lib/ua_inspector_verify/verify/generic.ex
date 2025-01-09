@@ -160,6 +160,27 @@ defmodule UAInspectorVerify.Verify.Generic do
     )
   end
 
+  def verify(
+        %{device: %{type: testcase_device_type} = testcase_device, os: %{name: "KaiOS"}} =
+          testcase,
+        result
+      )
+      when testcase_device_type != "feature phone" do
+    # improved device type detection in upcoming remote release
+    verify(
+      %{testcase | device: %{testcase_device | type: "feature phone"}},
+      result
+    )
+  end
+
+  def verify(%{device: :unknown, os: %{name: "KaiOS"}} = testcase, result) do
+    # improved device type detection in upcoming remote release
+    verify(
+      %{testcase | device: %{brand: :unknown, model: :unknown, type: "feature phone"}},
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&

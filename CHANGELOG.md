@@ -15,6 +15,7 @@
     - Upstream improvements for Linux client detection have been integrated
     - Upstream improvements for "Chrome OS" detection have been integrated
     - Upstream improvements for "Fire OS" detection have been integrated
+    - Upstream improvements for "KaiOS" feature phone detection have been integrated
     - Upstream improvements for "LeafOS" detection have been integrated
     - Upstream improvements for "Meta Horizon" detection have been integrated
     - Upstream improvements for "Puffin" browser detection have been integrated

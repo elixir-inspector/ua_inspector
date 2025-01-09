@@ -275,6 +275,10 @@ defmodule UAInspector.Parser do
     %{result | device: %{device | type: "feature phone"}}
   end
 
+  defp maybe_detect_feature_phone(%{device: device, os: %{name: "KaiOS"}} = result) do
+    %{result | device: %{device | type: "feature phone"}}
+  end
+
   defp maybe_detect_feature_phone(result), do: result
 
   defp maybe_detect_puffin_browsers(
