@@ -30,7 +30,7 @@ jobs:
         id: setup
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.18.1'
+          elixir-version: '1.18.2'
           otp-version: '27.2'
 
       - name: mix-cache
