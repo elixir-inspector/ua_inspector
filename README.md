@@ -1,6 +1,6 @@
 # UAInspector
 
-[![Test](https://github.com/elixir-inspector/ua_inspector/actions/workflows/test.yml/badge.svg)](https://github.com/elixir-inspector/ua_inspector/actions/workflows/test.yml)
+[![CI](https://github.com/elixir-inspector/ua_inspector/actions/workflows/ci.yml/badge.svg)](https://github.com/elixir-inspector/ua_inspector/actions/workflows/ci.yml)
 [![Module Version](https://img.shields.io/hexpm/v/ua_inspector.svg)](https://hex.pm/packages/ua_inspector)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ua_inspector/)
 [![Total Downloads](https://img.shields.io/hexpm/dt/ua_inspector.svg)](https://hex.pm/packages/ua_inspector)
