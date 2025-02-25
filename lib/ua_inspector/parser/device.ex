@@ -11,7 +11,7 @@ defmodule UAInspector.Parser.Device do
 
   @behaviour UAInspector.Parser.Behaviour
 
-  @hbbtv Util.Regex.build_regex("HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})")
+  @hbbtv Util.Regex.build_regex("(?:HbbTV|SmartTvA)/([1-9]{1}(?:\.[0-9]{1}){1,2})")
   @notebook Util.Regex.build_regex("FBMD/")
   @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[.\\d]*)")
 
