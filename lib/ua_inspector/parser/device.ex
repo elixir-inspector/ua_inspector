@@ -126,7 +126,8 @@ defmodule UAInspector.Parser.Device do
   defp parse_hbbtv(ua) do
     case do_parse(ua, DevicesHbbTV.list()) do
       :unknown -> %Result.Device{type: "tv"}
-      device -> %{device | type: "tv"}
+      %{type: :unknown} = device -> %{device | type: "tv"}
+      device -> device
     end
   end
 
