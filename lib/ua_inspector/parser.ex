@@ -166,6 +166,7 @@ defmodule UAInspector.Parser do
     |> detect_browser_family(client_hints)
     |> detect_os_family()
     |> maybe_detect_opera_tv_store()
+    |> maybe_detect_coolita_tv()
     |> maybe_detect_android_tv()
     |> maybe_detect_tv()
     |> maybe_undetect_apple()
@@ -258,6 +259,13 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_detect_desktop(result), do: result
+
+  # assume "Coolita OS" to be a tv
+  defp maybe_detect_coolita_tv(%{device: device, os: %{name: "Coolita OS"}} = result) do
+    %{result | device: %{device | type: "tv"}}
+  end
+
+  defp maybe_detect_coolita_tv(result), do: result
 
   # assume "Opera TV Store" to be a tv
   defp maybe_detect_opera_tv_store(%{device: device, user_agent: ua} = result) do
