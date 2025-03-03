@@ -92,7 +92,9 @@ defmodule UAInspectorVerify.Fixtures.Generic do
   ]
 
   @fixtures_release %{
-    "master" => []
+    "master" => [
+      "tv-5.yml"
+    ]
   }
 
   def download do
