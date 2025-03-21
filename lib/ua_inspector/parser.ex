@@ -20,7 +20,7 @@ defmodule UAInspector.Parser do
 
   @has_touch Util.Regex.build_base_regex("Touch")
   @is_android_tv Util.Regex.build_base_regex(
-                   "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA| TV$"
+                   "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA|Firebolt| TV$"
                  )
   @is_android_vr Util.Regex.build_base_regex("Android( [.0-9]+)?; Mobile VR;| VR")
   @is_chrome Util.Regex.build_base_regex("Chrome/[.0-9]*")
@@ -262,7 +262,7 @@ defmodule UAInspector.Parser do
 
   # assume "Coolita OS" to be a tv
   defp maybe_detect_coolita_tv(%{device: device, os: %{name: "Coolita OS"}} = result) do
-    %{result | device: %{device | type: "tv"}}
+    %{result | device: %{device | brand: "coocaa", type: "tv"}}
   end
 
   defp maybe_detect_coolita_tv(result), do: result
