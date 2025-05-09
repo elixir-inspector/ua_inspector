@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: setup
         id: setup
@@ -60,6 +62,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - run: yamllint .
         working-directory: .github
@@ -69,6 +73,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: setup
         id: setup
@@ -132,6 +138,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: setup
         uses: erlef/setup-beam@v1
@@ -162,5 +170,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - run: php ./test/ext/version_compare.php

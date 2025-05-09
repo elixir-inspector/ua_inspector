@@ -25,6 +25,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: setup
         id: setup
@@ -58,10 +60,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: shivammathur/setup-php@v2
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
           repository: matomo-org/device-detector
           path: verify/ext/device-detector
       - run: composer install
