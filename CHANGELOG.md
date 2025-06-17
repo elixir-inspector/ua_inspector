@@ -24,10 +24,10 @@
     - Upstream improvements for Android TV device detection have been integrated
     - Upstream improvements for TV device detection have been integrated
 
-## v3.10.0 (2024-06-11)
-
 - Bug fixes
-    - Fix parsing if the fourth part of the user agent engine version (split by `.`) starts with `0[0-9]` ([#35](https://github.com/elixir-inspector/ua_inspector/issues/35))
+    - Fixed compilation for OTP 28+ ([#40](https://github.com/elixir-inspector/ua_inspector/pull/40))
+
+## v3.10.0 (2024-06-11)
 
 - Enhancements
     - Default upstream database version is now `6.3.2`
@@ -44,6 +44,9 @@
     - Upstream improvements for Android mobile/tablet device detection have been integrated
     - Upstream improvements for OS platform detection have been integrated
     - Upstream improvements for wearable device detection have been integrated
+
+- Bug fixes
+    - Fix parsing if the fourth part of the user agent engine version (split by `.`) starts with `0[0-9]` ([#35](https://github.com/elixir-inspector/ua_inspector/issues/35))
 
 ## v3.9.0 (2024-02-20)
 
