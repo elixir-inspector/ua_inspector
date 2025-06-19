@@ -87,14 +87,13 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "tv-2.yml",
     "tv-3.yml",
     "tv-4.yml",
+    "tv-5.yml",
     "unknown.yml",
     "wearable.yml"
   ]
 
   @fixtures_release %{
-    "master" => [
-      "tv-5.yml"
-    ]
+    "master" => []
   }
 
   def download do
