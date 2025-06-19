@@ -69,6 +69,7 @@ defmodule UAInspectorVerify.Fixtures.Generic do
     "smartphone-39.yml",
     "smartphone-40.yml",
     "smartphone-41.yml",
+    "smartphone-42.yml",
     "tablet.yml",
     "tablet-1.yml",
     "tablet-2.yml",
