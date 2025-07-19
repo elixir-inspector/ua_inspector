@@ -27,8 +27,6 @@ defmodule UAInspector.ClientHints do
             platform: :unknown,
             platform_version: :unknown
 
-  @regex_version ~r/^"([^"]+)"; ?v="([^"]+)"(?:, )?/
-
   @doc """
   Parse headers into a new client hint struct.
 
@@ -110,10 +108,12 @@ defmodule UAInspector.ClientHints do
   end
 
   defp parse_version_list(version_list) do
+    re_version = ~r/^"([^"]+)"; ?v="([^"]+)"(?:, )?/
+
     version_list
     |> String.split(",")
     |> Enum.map(&String.trim/1)
-    |> Enum.map(&Regex.run(@regex_version, &1, capture: :all_but_first))
+    |> Enum.map(&Regex.run(re_version, &1, capture: :all_but_first))
     |> Enum.reject(&is_nil/1)
     |> Enum.map(fn [brand, version] -> {brand, version} end)
   end
