@@ -10,11 +10,11 @@ defmodule UAInspector.Benchmark.ParseOS do
   def run do
     Benchee.run(
       %{
-        "Parse OS: desktop" => fn -> OS.parse(@agent_desktop) end,
-        "Parse OS: hbbtv" => fn -> OS.parse(@agent_hbbtv) end,
-        "Parse OS: smartphone" => fn -> OS.parse(@agent_smartphone) end,
-        "Parse OS: tablet" => fn -> OS.parse(@agent_tablet) end,
-        "Parse OS: unknown" => fn -> OS.parse(@agent_unknown) end
+        "Parse OS: desktop" => fn -> OS.parse(@agent_desktop, %{}) end,
+        "Parse OS: hbbtv" => fn -> OS.parse(@agent_hbbtv, %{}) end,
+        "Parse OS: smartphone" => fn -> OS.parse(@agent_smartphone, %{}) end,
+        "Parse OS: tablet" => fn -> OS.parse(@agent_tablet, %{}) end,
+        "Parse OS: unknown" => fn -> OS.parse(@agent_unknown, %{}) end
       },
       formatters: [{Benchee.Formatters.Console, comparison: false}],
       warmup: 2,

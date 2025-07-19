@@ -10,11 +10,11 @@ defmodule UAInspector.Benchmark.ParseClient do
   def run do
     Benchee.run(
       %{
-        "Parse Client: desktop" => fn -> Client.parse(@agent_desktop) end,
-        "Parse Client: hbbtv" => fn -> Client.parse(@agent_hbbtv) end,
-        "Parse Client: smartphone" => fn -> Client.parse(@agent_smartphone) end,
-        "Parse Client: tablet" => fn -> Client.parse(@agent_tablet) end,
-        "Parse Client: unknown" => fn -> Client.parse(@agent_unknown) end
+        "Parse Client: desktop" => fn -> Client.parse(@agent_desktop, %{}) end,
+        "Parse Client: hbbtv" => fn -> Client.parse(@agent_hbbtv, %{}) end,
+        "Parse Client: smartphone" => fn -> Client.parse(@agent_smartphone, %{}) end,
+        "Parse Client: tablet" => fn -> Client.parse(@agent_tablet, %{}) end,
+        "Parse Client: unknown" => fn -> Client.parse(@agent_unknown, %{}) end
       },
       formatters: [{Benchee.Formatters.Console, comparison: false}],
       warmup: 2,

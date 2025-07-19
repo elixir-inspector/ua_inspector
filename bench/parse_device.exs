@@ -10,11 +10,11 @@ defmodule UAInspector.Benchmark.ParseDevice do
   def run do
     Benchee.run(
       %{
-        "Parse Device: desktop" => fn -> Device.parse(@agent_desktop) end,
-        "Parse Device: hbbtv" => fn -> Device.parse(@agent_hbbtv) end,
-        "Parse Device: smartphone" => fn -> Device.parse(@agent_smartphone) end,
-        "Parse Device: tablet" => fn -> Device.parse(@agent_tablet) end,
-        "Parse Device: unknown" => fn -> Device.parse(@agent_unknown) end
+        "Parse Device: desktop" => fn -> Device.parse(@agent_desktop, %{}) end,
+        "Parse Device: hbbtv" => fn -> Device.parse(@agent_hbbtv, %{}) end,
+        "Parse Device: smartphone" => fn -> Device.parse(@agent_smartphone, %{}) end,
+        "Parse Device: tablet" => fn -> Device.parse(@agent_tablet, %{}) end,
+        "Parse Device: unknown" => fn -> Device.parse(@agent_unknown, %{}) end
       },
       formatters: [{Benchee.Formatters.Console, comparison: false}],
       warmup: 2,
