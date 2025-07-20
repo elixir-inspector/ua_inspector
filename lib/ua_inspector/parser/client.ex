@@ -27,10 +27,6 @@ defmodule UAInspector.Parser.Client do
   @client_hint_chromium_hint_names ["Chromium", "Chrome Webview"]
   @client_hint_chromium_agent_names ["Chromium", "Chrome Webview", "Android Browser"]
 
-  @is_blink Regex.compile!("Chrome/.+ Safari/537.36", [:caseless])
-  @is_iridium_version Regex.compile!("^202[0-4]")
-  @is_library Regex.compile!("Cypress|PhantomJS")
-
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     hints_result = parse_hints(client_hints)
@@ -114,7 +110,7 @@ defmodule UAInspector.Parser.Client do
        }) do
     # If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
     # then it is the Iridium browser (https://iridiumbrowser.de/news/)
-    if Regex.match?(@is_iridium_version, version) do
+    if Regex.match?(~r/^202[0-4]/, version) do
       %{result | name: "Iridium", engine: engine, engine_version: engine_version}
     else
       result
@@ -313,7 +309,7 @@ defmodule UAInspector.Parser.Client do
           end
 
         result =
-          if Regex.match?(@is_blink, ua) do
+          if Regex.match?(~r(Chrome/.+ Safari/537.36)i, ua) do
             engine_version = parse_browser_engine_version("Blink", ua, BrowserEngines.list())
 
             %{result | engine: "Blink", engine_version: engine_version}
@@ -398,7 +394,7 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp result(ua, {engine, name, type, version}, captures) do
-    if type == "browser" and Regex.match?(@is_library, ua) do
+    if type == "browser" and Regex.match?(~r/Cypress|PhantomJS/, ua) do
       nil
     else
       version = resolve_version(version, captures)
