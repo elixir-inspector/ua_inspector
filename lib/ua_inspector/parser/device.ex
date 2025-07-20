@@ -11,10 +11,6 @@ defmodule UAInspector.Parser.Device do
 
   @behaviour UAInspector.Parser.Behaviour
 
-  @hbbtv Util.Regex.build_regex("(?:HbbTV|SmartTvA)/([1-9]{1}(?:\.[0-9]{1}){1,2})")
-  @notebook Util.Regex.build_regex("FBMD/")
-  @shelltv Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[.\\d]*)")
-
   @form_factors_type_map [
     {"automotive", "car browser"},
     {"xr", "wearable"},
@@ -37,7 +33,7 @@ defmodule UAInspector.Parser.Device do
   """
   @spec parse_hbbtv_version(String.t()) :: nil | String.t()
   def parse_hbbtv_version(ua) do
-    case Regex.run(@hbbtv, ua, capture: :all_but_first) do
+    case Regex.run(re_hbbtv(), ua, capture: :all_but_first) do
       nil -> nil
       [version | _] -> version
     end
@@ -47,7 +43,7 @@ defmodule UAInspector.Parser.Device do
   Checks if a devices contains a ShellTV part.
   """
   @spec shelltv?(String.t()) :: boolean
-  def shelltv?(ua), do: Regex.match?(@shelltv, ua)
+  def shelltv?(ua), do: Regex.match?(re_shelltv(), ua)
 
   defp parse_device(%{model: :unknown} = hints_result, client_hints, ua) do
     if Util.UserAgent.has_desktop_fragment?(ua) or Util.UserAgent.has_client_hints_fragment?(ua) do
@@ -66,9 +62,9 @@ defmodule UAInspector.Parser.Device do
   defp parse_device_details(hints_result, client_hints, ua) do
     agent_result =
       cond do
-        Regex.match?(@hbbtv, ua) -> parse_hbbtv(ua)
-        Regex.match?(@shelltv, ua) -> parse_shelltv(ua)
-        Regex.match?(@notebook, ua) -> parse_notebook(ua)
+        Regex.match?(re_hbbtv(), ua) -> parse_hbbtv(ua)
+        Regex.match?(re_shelltv(), ua) -> parse_shelltv(ua)
+        Regex.match?(re_notebook(), ua) -> parse_notebook(ua)
         true -> parse_regular(ua)
       end
       |> maybe_parse_vendor(ua, client_hints)
@@ -190,4 +186,8 @@ defmodule UAInspector.Parser.Device do
       model: result_model
     }
   end
+
+  defp re_hbbtv, do: Util.Regex.build_regex("(?:HbbTV|SmartTvA)/([1-9]{1}(?:\.[0-9]{1}){1,2})")
+  defp re_shelltv, do: Util.Regex.build_regex("[a-z]+[ _]Shell[ _]\\w{6}|tclwebkit(\\d+[.\\d]*)")
+  defp re_notebook, do: Util.Regex.build_regex("FBMD/")
 end
