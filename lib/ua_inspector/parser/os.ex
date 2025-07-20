@@ -17,22 +17,6 @@ defmodule UAInspector.Parser.OS do
     "every.browser.inc"
   ]
 
-  defp platforms do
-    [
-      {"ARM",
-       Util.Regex.build_regex(
-         "arm[ _;)ev]|.*arm$|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]"
-       )},
-      {"SuperH", Util.Regex.build_regex("sh4")},
-      {"SPARC64", Util.Regex.build_regex("sparc64")},
-      {"LoongArch64", Util.Regex.build_regex("loongarch64")},
-      {"MIPS", Util.Regex.build_regex("mips")},
-      {"x64",
-       Util.Regex.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|.*amd64|.*x86_?64")},
-      {"x86", Util.Regex.build_regex(".*32bit|.*win32|(?:i[0-9]|x)86|i86pc")}
-    ]
-  end
-
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     ua = Util.UserAgent.restore_from_client_hints(ua, client_hints)
@@ -319,9 +303,23 @@ defmodule UAInspector.Parser.OS do
     do: resolve_version_mapping(version, major, mapping)
 
   defp result(ua, {name, version, versions}, captures) do
+    platforms = [
+      {"ARM",
+       Util.Regex.build_regex(
+         "arm[ _;)ev]|.*arm$|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]"
+       )},
+      {"SuperH", Util.Regex.build_regex("sh4")},
+      {"SPARC64", Util.Regex.build_regex("sparc64")},
+      {"LoongArch64", Util.Regex.build_regex("loongarch64")},
+      {"MIPS", Util.Regex.build_regex("mips")},
+      {"x64",
+       Util.Regex.build_regex("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|.*amd64|.*x86_?64")},
+      {"x86", Util.Regex.build_regex(".*32bit|.*win32|(?:i[0-9]|x)86|i86pc")}
+    ]
+
     %Result.OS{
       name: resolve_name(name, captures),
-      platform: resolve_platform(ua, platforms()),
+      platform: resolve_platform(ua, platforms),
       version: resolve_version(ua, version, versions, captures)
     }
   end
