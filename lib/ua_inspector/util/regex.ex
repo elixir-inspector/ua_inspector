@@ -11,7 +11,7 @@ defmodule UAInspector.Util.Regex do
     # - [ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}
     # - Regular expression of `build_engine_regex("Clecko")`
     Regex.compile!(
-      ~S"(?:[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
+      ~S"(?:[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Clecko\s*[/_]?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
       [:caseless]
     )
   end
@@ -22,7 +22,7 @@ defmodule UAInspector.Util.Regex do
     # - [ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}
     # - Regular expression of `build_engine_regex("Gecko")`
     Regex.compile!(
-      ~S"(?:[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
+      ~S"(?:[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko\/[0-9]{8,10}|Gecko\s*[/_]?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$)))))",
       [:caseless]
     )
   end
