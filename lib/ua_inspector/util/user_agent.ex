@@ -24,7 +24,7 @@ defmodule UAInspector.Util.UserAgent do
   """
   @spec has_client_hints_fragment?(String.t()) :: boolean
   def has_client_hints_fragment?(ua),
-    do: Regex.match?(~r/Android (?:10[.\d]*; K(?: Build\/|[;)])|1[1-5]\)) AppleWebKit/i, ua)
+    do: Regex.match?(~r"Android (?:10[.\d]*; K(?: Build/|[;)])|1[1-5]\)) AppleWebKit"i, ua)
 
   @doc """
   Patch "frozen" user agents for improved detection.
