@@ -81,23 +81,20 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
   end
 
   defp parse_mapping(mapping, :hash) do
-    "'(.+)' +=> +'(.+)'"
-    |> Regex.compile!()
+    ~r/'(.+)' +=> +'(.+)'/
     |> Regex.run(mapping)
     |> mapping_to_entry()
   end
 
   defp parse_mapping(mapping, :hash_with_list) do
-    "'(.+)' +=> +(?:array\\(|\\[)(.+)(?:\\)|\\]|$)"
-    |> Regex.compile!([:dotall, :ungreedy])
+    ~r/'(.+)' +=> +(?:array\(|\[)(.+)(?:\)|\]|$)/sU
     |> Regex.run(mapping)
     |> mapping_to_entry()
     |> mapping_to_entry_list()
   end
 
   defp parse_mapping(mapping, :list) do
-    "'(.+)'"
-    |> Regex.compile!([:ungreedy])
+    ~r/'(.+)'/U
     |> Regex.run(mapping)
     |> mapping_to_entry()
   end
