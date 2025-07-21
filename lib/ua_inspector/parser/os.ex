@@ -90,15 +90,9 @@ defmodule UAInspector.Parser.OS do
 
     version =
       cond do
-        hints_result.name != :unknown and hints_result.version == :unknown and
-            agent_family == hints_family ->
-          agent_result.version
-
-        hints_result.version != :unknown ->
-          hints_result.version
-
-        true ->
-          :unknown
+        hints_result.version == :unknown and agent_family == hints_family -> agent_result.version
+        hints_result.version != :unknown -> hints_result.version
+        true -> :unknown
       end
 
     version =
