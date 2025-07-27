@@ -16,9 +16,7 @@ defmodule UAInspector.Benchmark.ParseClient do
         "Parse Client: tablet" => fn -> Client.parse(@agent_tablet, %{}) end,
         "Parse Client: unknown" => fn -> Client.parse(@agent_unknown, %{}) end
       },
-      formatters: [{Benchee.Formatters.Console, comparison: false}],
-      warmup: 2,
-      time: 10
+      formatters: [{Benchee.Formatters.Console, comparison: false}]
     )
   end
 end
