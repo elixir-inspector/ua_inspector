@@ -26,6 +26,7 @@
 
 - Bug fixes
     - Fixed compilation for OTP 28+ ([#40](https://github.com/elixir-inspector/ua_inspector/pull/40))
+    - Version parsing changed from "SemVer style" to "PHP style" for exact upstream compatibility
 
 ## v3.10.0 (2024-06-11)
 
