@@ -10,6 +10,9 @@ on:
       - '*'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   dialyzer:
     runs-on: ubuntu-24.04
