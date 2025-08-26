@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.11.0-dev
+## v3.11.0 (2025-08-26)
 
 - Enhancements
     - Added support to use "form factors" client hint header for improved detection
