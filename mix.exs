@@ -10,7 +10,7 @@ defmodule UAInspector.MixProject do
       app: :ua_inspector,
       name: "UAInspector",
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.17",
       aliases: aliases(),
       deps: deps(),
       description: "User agent parser library",
