@@ -17,14 +17,6 @@ defmodule UAInspector.MixProject do
       dialyzer: dialyzer(),
       docs: docs(),
       package: package(),
-      preferred_cli_env: [
-        "bench.parse": :bench,
-        "bench.parse_client": :bench,
-        "bench.parse_device": :bench,
-        "bench.parse_os": :bench,
-        coveralls: :test,
-        "coveralls.detail": :test
-      ],
       test_coverage: [tool: ExCoveralls]
     ]
   end
@@ -33,6 +25,19 @@ defmodule UAInspector.MixProject do
     [
       extra_applications: extra_applications(Mix.env()) ++ [:logger],
       mod: {UAInspector.Application, []}
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
+        "bench.parse": :bench,
+        "bench.parse_client": :bench,
+        "bench.parse_device": :bench,
+        "bench.parse_os": :bench,
+        coveralls: :test,
+        "coveralls.detail": :test
+      ]
     ]
   end
 
