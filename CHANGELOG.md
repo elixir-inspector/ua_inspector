@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.12.0-dev
+
+- Enhancements
+    - Upstream improvements for detections have been integrated
+
 ## v3.11.0 (2025-08-26)
 
 - Enhancements

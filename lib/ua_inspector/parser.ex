@@ -8,6 +8,17 @@ defmodule UAInspector.Parser do
   alias UAInspector.Result.Bot
   alias UAInspector.Util
 
+  @apple_os_names [
+    "iOS",
+    "iPadOS",
+    "Mac",
+    "tvOS",
+    "watchOS"
+  ]
+
+  @client_names_blink_engine_chrome_family ["Wolvic", "Yaani Browser"]
+  @client_names_gecko_engine_firefox_family ["Wolvic", "Yaani Browser"]
+
   @devices_mobile [
     "camera",
     "feature phone",
@@ -16,15 +27,8 @@ defmodule UAInspector.Parser do
     "smartphone",
     "tablet"
   ]
-  @devices_non_mobile ["console", "smart display", "tv"]
 
-  @apple_os_names [
-    "iOS",
-    "iPadOS",
-    "Mac",
-    "tvOS",
-    "watchOS"
-  ]
+  @devices_non_mobile ["console", "smart display", "tv"]
 
   @tv_browser_names [
     "Crow Browser",
@@ -164,15 +168,17 @@ defmodule UAInspector.Parser do
   end
 
   defp detect_browser_family(
-         %{client: %{name: "Wolvic", engine: "Blink", type: "browser"}} = result,
+         %{client: %{name: client_name, engine: "Blink", type: "browser"}} = result,
          _
-       ),
+       )
+       when client_name in @client_names_blink_engine_chrome_family,
        do: %{result | browser_family: "Chrome"}
 
   defp detect_browser_family(
-         %{client: %{name: "Wolvic", engine: "Gecko", type: "browser"}} = result,
+         %{client: %{name: client_name, engine: "Gecko", type: "browser"}} = result,
          _
-       ),
+       )
+       when client_name in @client_names_gecko_engine_firefox_family,
        do: %{result | browser_family: "Firefox"}
 
   defp detect_browser_family(%{client: %{name: client_name, type: "browser"}} = result, %{
