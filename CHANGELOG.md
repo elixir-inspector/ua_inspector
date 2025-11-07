@@ -5,6 +5,11 @@
 - Backwards incompatible changes
     - Minimum required Elixir version is now `~> 1.17`
 
+## v3.12.0-dev
+
+- Enhancements
+    - Upstream improvements for detections have been integrated
+
 ## v3.11.0 (2025-08-26)
 
 - Enhancements
