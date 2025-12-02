@@ -101,24 +101,30 @@ defmodule UAInspector.Downloader.ShortCodeMapConverter do
 
   defp parse_source(source, :hash) do
     source
-    |> String.trim()
-    |> String.split("\n")
+    |> split_into_lines("\n")
     |> Enum.map(&parse_mapping(&1, :hash))
+    |> Enum.reject(&is_nil/1)
   end
 
   defp parse_source(source, :hash_with_list) do
     source
-    |> String.trim()
-    |> String.split(~r/[)\]],/)
+    |> split_into_lines(~r/[)\]],/)
     |> Enum.map(&parse_mapping(&1, :hash_with_list))
     |> Enum.reject(&is_nil/1)
   end
 
   defp parse_source(source, :list) do
     source
-    |> String.trim()
-    |> String.split(",")
+    |> split_into_lines(",")
     |> Enum.map(&parse_mapping(&1, :list))
     |> Enum.reject(&is_nil/1)
+  end
+
+  defp split_into_lines(source, splitter) do
+    source
+    |> String.trim()
+    |> String.split(splitter)
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&String.starts_with?(&1, "//"))
   end
 end

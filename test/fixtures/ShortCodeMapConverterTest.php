@@ -6,6 +6,8 @@ class ShortCodeMapConverterTest
         'AA' => 'A-Value',
         'BB' => 'B-Value',
         'CC' => 'C-Value',
+
+        // 'DD' => 'ignored',
     ];
 
     public static $hashLegacy = array(
@@ -17,6 +19,8 @@ class ShortCodeMapConverterTest
     protected static $hashWithList = [
         'A-Value' => ['AA'],
         'B-Value' => ['BA', 'BB'],
+
+        // 'CC' => ['ignored'],
     ];
 
     protected static $hashWithListLegacy = array(
@@ -37,5 +41,7 @@ class ShortCodeMapConverterTest
     protected static $listMultiline = [
         'AA',
         'BB',
+
+        // 'ignored',
     ];
 }

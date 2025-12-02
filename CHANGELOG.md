@@ -11,6 +11,9 @@
     - Default upstream database version is now `6.4.8`
     - Upstream improvements for detections have been integrated
 
+- Bug fixes
+    - Fixed accidental parsing of deprecated (commented) short codes
+
 ## v3.11.0 (2025-08-26)
 
 - Enhancements
