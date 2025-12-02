@@ -25,7 +25,16 @@ defmodule UAInspector.Parser.Client do
   ]
 
   @client_hint_chromium_hint_names ["Chromium", "Chrome Webview"]
-  @client_hint_chromium_agent_names ["Chromium", "Chrome Webview", "Android Browser"]
+  @client_hint_chromium_agent_names [
+    # upstream shortcode AN
+    "Android Browser",
+    # upstream shortcode CR
+    "Chromium",
+    # upstream shortcode CM
+    "Chrome Mobile",
+    # upstream shortcode CV
+    "Chrome Webview"
+  ]
 
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
