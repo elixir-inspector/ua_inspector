@@ -23,8 +23,11 @@ defmodule UAInspector.Util.UserAgent do
   Returns if the parsed UA contains the 'Android 10 K;' or Android 10 K Build/` fragment
   """
   @spec has_client_hints_fragment?(String.t()) :: boolean
-  def has_client_hints_fragment?(ua),
-    do: Regex.match?(~r"Android (?:10[.\d]*; K(?: Build/|[;)])|1[1-5]\)) AppleWebKit"i, ua)
+
+  def has_client_hints_fragment?(ua) do
+    Regex.match?(~r"Android (?:1[0-6][.\d]*; K(?: Build/|[;)])|1[0-6]\)) AppleWebKit"i, ua) &&
+      !String.contains?(String.downcase(ua), "telegram-android/")
+  end
 
   @doc """
   Patch "frozen" user agents for improved detection.
