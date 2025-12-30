@@ -98,7 +98,7 @@ defmodule UAInspector.Parser.Device do
   defp maybe_parse_vendor(device, _, _), do: device
 
   defp parse_hints(%{form_factors: form_factors, model: model})
-       when is_binary(model) or 0 < length(form_factors) do
+       when is_binary(model) or form_factors != [] do
     device_model = Util.maybe_unknown(model)
     device_type = parse_hints_form_factors(@form_factors_type_map, form_factors)
 
