@@ -40,6 +40,7 @@ defmodule UAInspector.Parser do
     "Opera Devices",
     "QJY TV Browser",
     "Quick Search TV",
+    "Redline",
     "Seraphic Sraf",
     "TiviMate",
     "TV Bro",
