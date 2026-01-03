@@ -4,6 +4,18 @@ defmodule UAInspectorVerify.Verify.Client do
   def verify(
         %{
           user_agent:
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+          client: %{name: "Blazer", version: "140.0.0.0"} = testcase_client
+        } = testcase,
+        result
+      ) do
+    # needs clarification whether first or second client hint "Blazer" version is correct
+    verify(%{testcase | client: %{testcase_client | version: "3"}}, result)
+  end
+
+  def verify(
+        %{
+          user_agent:
             "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; Win64; x64; Anonymisiert durch AlMiSoft Browser-Maulkorb 39663422; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; Tablet PC 2.0; Browzar)"
         },
         _result
