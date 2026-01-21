@@ -3,6 +3,7 @@ defmodule UAInspector.Parser.Bot do
 
   alias UAInspector.Database.Bots
   alias UAInspector.Result
+  alias UAInspector.Util
 
   @behaviour UAInspector.Parser.Behaviour
 
@@ -12,10 +13,15 @@ defmodule UAInspector.Parser.Bot do
   defp do_parse(_, []), do: :unknown
 
   defp do_parse(ua, [{regex, result} | database]) do
-    if Regex.match?(regex, ua) do
-      result(ua, result)
-    else
-      do_parse(ua, database)
+    case Regex.run(regex, ua, capture: :all_but_first) do
+      nil ->
+        do_parse(ua, database)
+
+      captures ->
+        {category, name, url, producer} = result
+        name = Util.Regex.uncapture(name, captures)
+
+        result(ua, {category, name, url, producer})
     end
   end
 
