@@ -19,6 +19,8 @@ defmodule UAInspector.Downloader do
   alias UAInspector.Downloader.ShortCodeMapConverter
   alias UAInspector.ShortCodeMap
 
+  require Logger
+
   @client_hints [
     ClientHints.Apps,
     ClientHints.Browsers
@@ -108,8 +110,14 @@ defmodule UAInspector.Downloader do
   end
 
   defp download_file(remote, local) do
-    {:ok, content} = Config.downloader_adapter().read_remote(remote)
+    case Config.downloader_adapter().read_remote(remote) do
+      {:ok, content} ->
+        File.write!(local, content)
+        :ok
 
-    File.write!(local, content)
+      {:error, reason} ->
+        Logger.error("Failed to download file: #{reason}")
+        :ok
+    end
   end
 end
