@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.12.0-dev
+## v3.12.0 (2026-02-21)
 
 - Enhancements
     - Default upstream database version is now `6.5.0`
