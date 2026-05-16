@@ -4,6 +4,7 @@
 
 - Backwards incompatible changes
     - Minimum required Elixir version is now `~> 1.17`
+    - Minimum required `:hackney` version is now `~> 4.0`
 
 ## v3.12.0 (2026-02-21)
 
