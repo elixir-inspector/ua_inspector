@@ -12,7 +12,7 @@ defmodule UAInspector.Downloader.Adapter.Hackney do
     http_opts = Config.get(:http_opts, [])
 
     case :hackney.get(location, [], [], http_opts) do
-      {:ok, 200, _, client} -> :hackney.body(client)
+      {:ok, 200, _, body} -> {:ok, body}
       {:ok, status, _, _} -> {:error, {:status, status, location}}
       {:error, _} = error -> error
     end
