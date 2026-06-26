@@ -46,15 +46,26 @@ defmodule UAInspector.MixProject do
   end
 
   defp deps do
-    [
-      {:benchee, "~> 1.3", only: :bench, runtime: false},
-      {:credo, "~> 1.7", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.4", only: :dev, runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.16.0", only: :test, runtime: false},
-      {:hackney, "~> 1.0"},
-      {:yamerl, "~> 0.7"}
-    ]
+    case {Mix.env(), System.get_env("MIX_DEPS_RANGE")} do
+      {:test, "lowest"} ->
+        [
+          {:excoveralls, "~> 0.16.0", only: :test, runtime: false},
+          # Override higher :excoveralls requirement
+          {:hackney, "~> 1.2.0", override: true},
+          {:yamerl, "~> 0.7.0"}
+        ]
+
+      _ ->
+        [
+          {:benchee, "~> 1.3", only: :bench, runtime: false},
+          {:credo, "~> 1.7", only: :dev, runtime: false},
+          {:dialyxir, "~> 1.4", only: :dev, runtime: false},
+          {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+          {:excoveralls, "~> 0.16.0", only: :test, runtime: false},
+          {:hackney, "~> 1.0"},
+          {:yamerl, "~> 0.7"}
+        ]
+    end
   end
 
   defp dialyzer do

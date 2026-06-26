@@ -125,20 +125,13 @@ jobs:
         include:
           - elixir: '1.11.4'
             otp: '24.3'
-          - elixir: '1.12.3'
+            deps_range: lowest
+          - elixir: '1.11.4'
             otp: '24.3'
-          - elixir: '1.13.4'
-            otp: '24.3'
-          - elixir: '1.14.5'
-            otp: '25.3'
-          - elixir: '1.15.7'
-            otp: '26.2'
-          - elixir: '1.16.3'
-            otp: '26.2'
-          - elixir: '1.17.3'
-            otp: '27.3'
+            deps_range: current
           - elixir: '1.18.4'
             otp: '28.0'
+            deps_range: current
 
     steps:
       - uses: actions/checkout@v6
@@ -150,6 +143,11 @@ jobs:
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
+
+      - name: mix-deps-range
+        if: matrix.deps_range == 'lowest'
+        run:
+          cp mix.lock.lowest mix.lock
 
       - name: mix-cache
         uses: actions/cache@v5
@@ -165,9 +163,15 @@ jobs:
           mix local.rebar --force
           mix local.hex --force
           mix deps.get
+        env:
+          MIX_ENV: test
+          MIX_DEPS_RANGE: ${{ matrix.deps_range }}
 
       - name: test
         run: mix coveralls
+        env:
+          MIX_ENV: test
+          MIX_DEPS_RANGE: ${{ matrix.deps_range }}
 
   verify_version_compare:
     runs-on: ubuntu-24.04
