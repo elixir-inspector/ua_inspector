@@ -126,8 +126,8 @@ jobs:
           - elixir: '1.11.4'
             otp: '24.3'
             deps_range: lowest
-          - elixir: '1.11.4'
-            otp: '24.3'
+          - elixir: '1.17.3'
+            otp: '26.2'
             deps_range: current
           - elixir: '1.18.4'
             otp: '28.0'

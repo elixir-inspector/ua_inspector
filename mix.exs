@@ -61,8 +61,8 @@ defmodule UAInspector.MixProject do
           {:credo, "~> 1.7", only: :dev, runtime: false},
           {:dialyxir, "~> 1.4", only: :dev, runtime: false},
           {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-          {:excoveralls, "~> 0.16.0", only: :test, runtime: false},
-          {:hackney, "~> 1.0"},
+          {:excoveralls, "~> 0.18", only: :test, runtime: false},
+          {:hackney, "~> 1.0 or ~> 2.0 or ~> 3.0 or ~> 4.0"},
           {:yamerl, "~> 0.7"}
         ]
     end
