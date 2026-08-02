@@ -189,7 +189,7 @@ defmodule UAInspector.ParserTest do
           engine_version: "83.0.4103.120",
           name: "Chrome",
           type: "browser",
-          version: :unknown
+          version: "83.0.4103.120"
         },
         device: %Result.Device{brand: :unknown, model: :unknown, type: "tv"},
         user_agent: agent

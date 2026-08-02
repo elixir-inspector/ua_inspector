@@ -30,6 +30,7 @@
 
 - regex: 'Chrome(?:/(\d+[\.\d]+))?'
   name: 'Chrome'
+  version: '$1'
 
 - regex: 'Kylo(?:/(\d+[\.\d]+))?'
   name: 'Kylo'

@@ -36,6 +36,8 @@ defmodule UAInspector.Parser.Client do
     "Chrome Webview"
   ]
 
+  @client_hint_engine_brands ["Android WebView", "Chromium"]
+
   @impl UAInspector.Parser.Behaviour
   def parse(ua, client_hints) do
     hints_result = parse_hints(client_hints)
@@ -65,6 +67,7 @@ defmodule UAInspector.Parser.Client do
       |> merge_results_iridium(hints_result, agent_result)
       |> merge_results_agent_version(hints_result, agent_result)
       |> merge_results_vewd(hints_result, agent_result)
+      |> merge_results_blink_engine_version(agent_result)
       |> merge_results_chromium(agent_result)
 
     result =
@@ -92,6 +95,7 @@ defmodule UAInspector.Parser.Client do
     |> merge_results_version_compare(agent_result)
     |> patch_result_duckduckgo()
     |> patch_result_blink(hints_result)
+    |> patch_result_blink_engine_version(agent_result, hints_result)
   end
 
   defp patch_result_blink(
@@ -107,6 +111,22 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp patch_result_blink(result, _), do: result
+
+  defp patch_result_blink_engine_version(
+         %{engine: "Blink", name: name} = result,
+         %{engine_version: agent_engine_version},
+         %{engine_version: hints_engine_version}
+       )
+       when name != "Iridium" and is_binary(agent_engine_version) and
+              is_binary(hints_engine_version) do
+    if :lt == Util.Version.compare(agent_engine_version, hints_engine_version) do
+      %{result | engine_version: hints_engine_version}
+    else
+      result
+    end
+  end
+
+  defp patch_result_blink_engine_version(result, _, _), do: result
 
   defp patch_result_duckduckgo(%{name: "DuckDuckGo Privacy Browser"} = result),
     do: %{result | version: :unknown}
@@ -151,16 +171,40 @@ defmodule UAInspector.Parser.Client do
 
   defp merge_results_agent_version(result, _, _), do: result
 
-  defp merge_results_chromium(%{name: hint_name} = result, %{
+  defp merge_results_chromium(%{name: hint_name, version: result_version} = result, %{
          name: agent_name,
          version: agent_version
        })
        when hint_name in @client_hint_chromium_hint_names and
               is_binary(agent_name) and
-              agent_name not in @client_hint_chromium_agent_names,
-       do: %{result | name: agent_name, version: agent_version}
+              agent_name not in @client_hint_chromium_agent_names do
+    version =
+      if is_binary(result_version) and is_binary(agent_version) and
+           version_major(result_version) == version_major(agent_version) and
+           :gt == Util.Version.compare(result_version, agent_version) do
+        result_version
+      else
+        agent_version
+      end
+
+    %{result | name: agent_name, version: version}
+  end
 
   defp merge_results_chromium(result, _), do: result
+
+  defp merge_results_blink_engine_version(
+         %{engine: "Blink", name: name, engine_version: result_version} = result,
+         %{engine_version: agent_engine_version}
+       )
+       when name != "Iridium" and is_binary(result_version) and is_binary(agent_engine_version) do
+    if :gt == Util.Version.compare(agent_engine_version, result_version) do
+      %{result | engine_version: agent_engine_version}
+    else
+      result
+    end
+  end
+
+  defp merge_results_blink_engine_version(result, _), do: result
 
   defp merge_results_engine_version(%{name: result_name} = result, %{
          name: result_name,
@@ -228,7 +272,15 @@ defmodule UAInspector.Parser.Client do
             full_version
           end
 
-        %Result.Client{name: name, type: "browser", version: client_version}
+        {engine, engine_version} = parse_hints_engine(versions)
+
+        %Result.Client{
+          engine: engine,
+          engine_version: engine_version,
+          name: name,
+          type: "browser",
+          version: client_version
+        }
 
       :unknown ->
         :unknown
@@ -236,6 +288,17 @@ defmodule UAInspector.Parser.Client do
   end
 
   defp parse_hints(_), do: :unknown
+
+  defp parse_hints_engine(versions) do
+    brands = Map.new(versions)
+
+    Enum.find_value(@client_hint_engine_brands, {:unknown, :unknown}, fn brand ->
+      case Map.fetch(brands, brand) do
+        {:ok, version} -> {"Blink", version}
+        :error -> nil
+      end
+    end)
+  end
 
   defp parse_hints_versions([], fallback), do: fallback
 
@@ -247,6 +310,13 @@ defmodule UAInspector.Parser.Client do
       {_, "Chromium"} -> parse_hints_versions(versions, {"Chromium", version})
       {_, "Microsoft Edge"} -> parse_hints_versions(versions, {"Microsoft Edge", version})
       {_, brand_name} -> {brand_name, version}
+    end
+  end
+
+  defp version_major(version) do
+    case Regex.run(~r/^\d+/, version) do
+      [major] -> String.to_integer(major)
+      nil -> 0
     end
   end
 

@@ -5,6 +5,7 @@
 - Enhancements
     - Default upstream database version is now `6.5.1`
     - Support for `:hackney >= 2.0`
+    - Upstream improvements for detections have been integrated
 
 ## v3.12.0 (2026-02-21)
 

@@ -97,4 +97,92 @@ defmodule UAInspector.Parser.ClientTest do
 
     assert ^result = parsed.client
   end
+
+  test "engine reported via client hint brand list prefers Android WebView over Chromium" do
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-full-version-list",
+         ~s("Android WebView";v="115.0.5790.171", "Chromium";v="999.0.0.0", "Puffin";v="9.9")}
+      ])
+
+    parsed = UAInspector.parse("curl/7.68.0", client_hints)
+
+    result = %UAInspector.Result.Client{
+      engine: "Blink",
+      engine_version: "115.0.5790.171",
+      name: "Puffin",
+      type: "browser",
+      version: "9.9"
+    }
+
+    assert ^result = parsed.client
+  end
+
+  test "user agent engine version replaces a lower engine version reported by client hints" do
+    agent =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.70 Safari/537.36"
+
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-full-version-list",
+         ~s("Not A;Brand";v="8", "Chromium";v="50.0.1000.10", "Puffin";v="1.0")}
+      ])
+
+    parsed = UAInspector.parse(agent, client_hints)
+
+    result = %UAInspector.Result.Client{
+      engine: "Blink",
+      engine_version: "118.0.5993.70",
+      name: "Puffin",
+      type: "browser",
+      version: "1.0"
+    }
+
+    assert ^result = parsed.client
+  end
+
+  test "client hint engine version is restored when reduced below the reported brand version" do
+    agent =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.1000.10 Safari/537.36"
+
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-full-version-list",
+         ~s("Not A;Brand";v="8", "Chromium";v="200.0.0.0", "Chrome";v="1.0")}
+      ])
+
+    parsed = UAInspector.parse(agent, client_hints)
+
+    result = %UAInspector.Result.Client{
+      engine: "Blink",
+      engine_version: "200.0.0.0",
+      name: "Chrome",
+      type: "browser",
+      version: "1.0"
+    }
+
+    assert ^result = parsed.client
+  end
+
+  test "client hint reported browser version is kept when more precise than user agent version" do
+    agent =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5000.10 Safari/537.36"
+
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-full-version-list", ~s("Not A;Brand";v="8", "Chromium";v="118.0.9000.50")}
+      ])
+
+    parsed = UAInspector.parse(agent, client_hints)
+
+    result = %UAInspector.Result.Client{
+      engine: "Blink",
+      engine_version: "118.0.9000.50",
+      name: "Chrome",
+      type: "browser",
+      version: "118.0.9000.50"
+    }
+
+    assert ^result = parsed.client
+  end
 end
