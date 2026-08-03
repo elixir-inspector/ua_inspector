@@ -25,7 +25,7 @@ defmodule UAInspector.Util.UserAgent do
   @spec has_client_hints_fragment?(String.t()) :: boolean
 
   def has_client_hints_fragment?(ua) do
-    Regex.match?(~r"Android (?:1[0-6][.\d]*; K(?: Build/|[;)])|1[0-6]\)) AppleWebKit"i, ua) &&
+    Regex.match?(~r"Android (?:1[0-7][.\d]*; K(?: Build/|[;)])|1[0-7]\)) AppleWebKit"i, ua) &&
       !String.contains?(String.downcase(ua), "telegram-android/")
   end
 
@@ -50,7 +50,7 @@ defmodule UAInspector.Util.UserAgent do
         end
 
       Regex.replace(
-        ~r/(Android (?:10[.\d]*; K|1[1-5]))/,
+        ~r/(Android (?:10[.\d]*; K|1[1-7]))/,
         ua,
         "Android #{os_version}; #{model}"
       )

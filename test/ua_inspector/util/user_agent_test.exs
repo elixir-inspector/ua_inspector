@@ -19,6 +19,14 @@ defmodule UAInspector.Util.UserAgentTest do
         true
       },
       {
+        "Mozilla/5.0 (Linux; Android 17; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.171 Mobile Safari/537.36",
+        true
+      },
+      {
+        "Mozilla/5.0 (Linux; Android 18; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.171 Mobile Safari/537.36",
+        false
+      },
+      {
         "Mozilla/5.0 (Linux; Android 14; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36",
         true
       },
@@ -58,6 +66,25 @@ defmodule UAInspector.Util.UserAgentTest do
 
     for {ua, result} <- cases do
       assert result == UserAgent.has_client_hints_fragment?(ua)
+    end
+  end
+
+  test "restore android fragment from client hints" do
+    client_hints = %ClientHints{model: "Pixel 9", platform_version: "17"}
+
+    cases = [
+      {
+        "Mozilla/5.0 (Linux; Android 16; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.171 Mobile Safari/537.36",
+        "Mozilla/5.0 (Linux; Android 17; Pixel 9; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.171 Mobile Safari/537.36"
+      },
+      {
+        "Mozilla/5.0 (Linux; Android 17; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.171 Mobile Safari/537.36",
+        "Mozilla/5.0 (Linux; Android 17; Pixel 9; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.171 Mobile Safari/537.36"
+      }
+    ]
+
+    for {ua, restored} <- cases do
+      assert restored == UserAgent.restore_from_client_hints(ua, client_hints)
     end
   end
 
