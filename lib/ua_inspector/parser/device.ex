@@ -49,25 +49,27 @@ defmodule UAInspector.Parser.Device do
     if Util.UserAgent.has_desktop_fragment?(ua) or Util.UserAgent.has_client_hints_fragment?(ua) do
       hints_result
     else
-      parse_device_details(hints_result, client_hints, ua)
+      parse_device_details(hints_result, client_hints, ua, ua)
     end
   end
 
   defp parse_device(hints_result, client_hints, ua) do
-    ua = Util.UserAgent.restore_from_client_hints(ua, client_hints)
+    restored_ua = Util.UserAgent.restore_from_client_hints(ua, client_hints)
 
-    parse_device_details(hints_result, client_hints, ua)
+    parse_device_details(hints_result, client_hints, ua, restored_ua)
   end
 
-  defp parse_device_details(hints_result, client_hints, ua) do
+  # gate categories on the un-restored "ua" (like upstream's "preMatchOverall"),
+  # only matching against "restored_ua" once a category is confirmed relevant
+  defp parse_device_details(hints_result, client_hints, ua, restored_ua) do
     agent_result =
       cond do
-        Regex.match?(re_hbbtv(), ua) -> parse_hbbtv(ua)
-        Regex.match?(re_shelltv(), ua) -> parse_shelltv(ua)
-        Regex.match?(re_notebook(), ua) -> parse_notebook(ua)
-        true -> parse_regular(ua)
+        Regex.match?(re_hbbtv(), ua) -> parse_hbbtv(restored_ua)
+        Regex.match?(re_shelltv(), ua) -> parse_shelltv(restored_ua)
+        Regex.match?(re_notebook(), ua) -> parse_notebook(ua, restored_ua)
+        true -> parse_regular(ua, restored_ua)
       end
-      |> maybe_parse_vendor(ua, client_hints)
+      |> maybe_parse_vendor(restored_ua, client_hints)
 
     merge_results(hints_result, agent_result)
   end
@@ -134,17 +136,33 @@ defmodule UAInspector.Parser.Device do
     end
   end
 
-  defp parse_notebook(ua) do
-    case do_parse(ua, DevicesNotebooks.list()) do
-      :unknown -> parse_regular(ua)
+  defp parse_notebook(ua, restored_ua) do
+    case do_parse(restored_ua, DevicesNotebooks.list()) do
+      :unknown -> parse_regular(ua, restored_ua)
       device -> device
     end
   end
 
-  defp parse_regular(ua) do
-    case do_parse(ua, DevicesRegular.list()) do
+  defp parse_regular(ua, restored_ua) do
+    case do_parse_categories(ua, restored_ua, DevicesRegular.list()) do
       :unknown -> %Result.Device{}
       device -> device
+    end
+  end
+
+  defp do_parse_categories(_ua, _restored_ua, []), do: :unknown
+
+  # the "mobiles" category has no upstream pre-match guard: it is the
+  # generic catch-all and is expected to rely on client hint restoration
+  defp do_parse_categories(_ua, restored_ua, [{:mobiles, entries} | _rest]) do
+    do_parse(restored_ua, entries)
+  end
+
+  defp do_parse_categories(ua, restored_ua, [{_category, entries} | rest]) do
+    if Enum.any?(entries, fn {regex, _} -> Regex.match?(regex, ua) end) do
+      do_parse(restored_ua, entries)
+    else
+      do_parse_categories(ua, restored_ua, rest)
     end
   end
 

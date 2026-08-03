@@ -4,5 +4,5 @@ defmodule UAInspector.Storage.Database do
   @doc """
   Returns the database sources.
   """
-  @callback sources() :: [{binary, binary, binary}]
+  @callback sources() :: [{atom | binary, binary, binary}]
 end

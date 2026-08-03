@@ -21,12 +21,13 @@ defmodule UAInspector.Database.DevicesRegular do
     # https://github.com/matomo-org/device-detector/blob/master/DeviceDetector.php
     # to prevent false detections
     [
-      {"", "device.consoles.yml", Config.database_url(:device, "consoles.yml")},
-      {"", "device.car_browsers.yml", Config.database_url(:device, "car_browsers.yml")},
-      {"", "device.cameras.yml", Config.database_url(:device, "cameras.yml")},
-      {"", "device.portable_media_player.yml",
+      {:consoles, "device.consoles.yml", Config.database_url(:device, "consoles.yml")},
+      {:car_browsers, "device.car_browsers.yml",
+       Config.database_url(:device, "car_browsers.yml")},
+      {:cameras, "device.cameras.yml", Config.database_url(:device, "cameras.yml")},
+      {:portable_media_player, "device.portable_media_player.yml",
        Config.database_url(:device, "portable_media_player.yml")},
-      {"", "device.mobiles.yml", Config.database_url(:device, "mobiles.yml")}
+      {:mobiles, "device.mobiles.yml", Config.database_url(:device, "mobiles.yml")}
     ]
   end
 
@@ -85,18 +86,15 @@ defmodule UAInspector.Database.DevicesRegular do
   end
 
   defp read_database do
-    sources()
-    |> Enum.reverse()
-    |> Enum.reduce([], fn {type, local, _remote}, acc ->
+    Enum.map(sources(), fn {type, local, _remote} ->
       database = Path.join([Config.database_path(), local])
 
-      contents =
+      entries =
         database
         |> Util.YAML.read_file()
         |> parse_yaml_entries(database, type)
 
-      [contents | acc]
+      {type, entries}
     end)
-    |> List.flatten()
   end
 end

@@ -63,10 +63,12 @@ defmodule UAInspector.Util.UserAgent do
 
   defp restore_desktop(ua, %{model: model}) when is_binary(model) do
     if Util.UserAgent.has_desktop_fragment?(ua) do
+      ua = Regex.replace(~r/(X11; Linux x86_64)/, ua, "X11; Linux x86_64; #{model}")
+
       Regex.replace(
-        ~r/(X11; Linux x86_64)/,
+        ~r/(Windows NT 10\.0; Win64; x64)/,
         ua,
-        "X11; Linux x86_64; #{model}"
+        "Windows NT 10.0; Win64; x64; #{model}"
       )
     else
       ua

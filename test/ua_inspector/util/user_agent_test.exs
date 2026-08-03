@@ -1,6 +1,7 @@
 defmodule UAInspector.Util.UserAgentTest do
   use ExUnit.Case, async: true
 
+  alias UAInspector.ClientHints
   alias UAInspector.Util.UserAgent
 
   test "has client hints fragment" do
@@ -57,6 +58,25 @@ defmodule UAInspector.Util.UserAgentTest do
 
     for {ua, result} <- cases do
       assert result == UserAgent.has_client_hints_fragment?(ua)
+    end
+  end
+
+  test "restore desktop fragment from client hints" do
+    client_hints = %ClientHints{model: "Surface Pro"}
+
+    cases = [
+      {
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64; Surface Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+      },
+      {
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; Surface Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+      }
+    ]
+
+    for {ua, restored} <- cases do
+      assert restored == UserAgent.restore_from_client_hints(ua, client_hints)
     end
   end
 end
