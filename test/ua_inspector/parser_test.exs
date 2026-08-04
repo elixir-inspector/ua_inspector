@@ -67,6 +67,13 @@ defmodule UAInspector.ParserTest do
            )
   end
 
+  test "sets device type desktop for 'PC;' fragment" do
+    ua =
+      "Mozilla/5.0 (PC; OpenHarmony 6.1; Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 ArkWeb/6.1.0.100 HuaweiBrowser/6.1.3.321"
+
+    assert %Result{device: %Result.Device{type: "desktop"}} = UAInspector.parse(ua)
+  end
+
   test "hbbtv?" do
     hbbtv_ua = "agent containing HbbTV/1.1.1 (; ;) information"
     regular_ua = "generic user agent"

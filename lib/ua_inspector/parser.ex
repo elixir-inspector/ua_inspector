@@ -370,7 +370,7 @@ defmodule UAInspector.Parser do
   defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
 
   defp maybe_fix_desktop(%{device: device, user_agent: ua} = result) do
-    re_is_desktop = Util.Regex.build_regex("Desktop(?: (x(?:32|64)|WOW64))?;")
+    re_is_desktop = Util.Regex.build_regex("(?:Desktop|PC)(?: (x(?:32|64)|WOW64))?;")
 
     if Regex.match?(re_is_desktop, ua) do
       %{result | device: %{device | type: "desktop"}}
