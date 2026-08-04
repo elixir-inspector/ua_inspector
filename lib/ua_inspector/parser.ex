@@ -154,6 +154,7 @@ defmodule UAInspector.Parser do
     |> maybe_detect_tv()
     |> maybe_undetect_apple()
     |> maybe_fix_apple()
+    |> maybe_fix_thinos()
     |> maybe_detect_android_vr()
     |> maybe_fix_android_chrome()
     |> maybe_detect_tablet()
@@ -358,6 +359,13 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_fix_apple(result), do: result
+
+  # assume all devices running ThinOS are from Dell
+  defp maybe_fix_thinos(%{device: %{brand: :unknown} = device, os: %{name: "ThinOS"}} = result) do
+    %{result | device: %{device | brand: "Dell"}}
+  end
+
+  defp maybe_fix_thinos(result), do: result
 
   defp maybe_fix_desktop(%{device: %{type: "desktop"}} = result), do: result
 

@@ -139,6 +139,10 @@ defmodule UAInspector.ParserTest do
     assert ^parsed = UAInspector.parse(agent)
   end
 
+  test "assumes devices running ThinOS to be from Dell" do
+    assert %{device: %{brand: "Dell"}} = UAInspector.parse("CitrixReceiver WTOS/1.0")
+  end
+
   test "parse form factor header" do
     header_type_map = [
       {~s("EInk", "Watch"), "wearable"},

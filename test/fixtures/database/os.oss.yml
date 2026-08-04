@@ -21,3 +21,11 @@
 - regex: 'SymbianOS/(\d+[\.\d]+)'
   name: 'Symbian OS'
   version: '$1'
+
+- regex: 'Cloud Phone(?: (\d+[.\d]+))?'
+  name: 'Puffin OS'
+  version: '$1'
+
+- regex: '(?:Warthog|WTOS)(?:/((?!1\.)\d+(?:\.\d+)*))?'
+  name: 'ThinOS'
+  version: '$1'
