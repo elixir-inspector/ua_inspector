@@ -208,5 +208,19 @@ defmodule UAInspector.ParserTest do
 
       assert ^parsed = UAInspector.parse(agent)
     end
+
+    test "does not override wearable device type with android tv detection" do
+      agent =
+        "Mozilla/5.0 (Linux; Android 12; RES102 Build/STTC.230104.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/130.0.6723.60 YaBrowser/24.1.2.342 (lite) TV Safari/537.36"
+
+      client_hints =
+        ClientHints.new([
+          {"sec-ch-ua-form-factors", ~s("Watch")},
+          {"sec-ch-ua-model", ~s("Some Unknown Model")}
+        ])
+
+      assert %Result{device: %Result.Device{type: "wearable"}} =
+               UAInspector.parse(agent, client_hints)
+    end
   end
 end

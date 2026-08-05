@@ -214,6 +214,7 @@ defmodule UAInspector.Parser do
   # assume "Andr0id" to be a tv
   defp maybe_detect_android_tv(%{device: %{type: "peripheral"}} = result), do: result
   defp maybe_detect_android_tv(%{device: %{type: "tv"}} = result), do: result
+  defp maybe_detect_android_tv(%{device: %{type: "wearable"}} = result), do: result
 
   defp maybe_detect_android_tv(%{device: device, user_agent: ua} = result) do
     re_is_android_tv =
