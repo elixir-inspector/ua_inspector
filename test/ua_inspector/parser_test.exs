@@ -209,6 +209,10 @@ defmodule UAInspector.ParserTest do
       assert ^parsed = UAInspector.parse(agent)
     end
 
+    test "assumes devices running VIDAA to be a tv" do
+      assert %{device: %{type: "tv"}} = UAInspector.parse("Mozilla/5.0 VIDAA/1.0")
+    end
+
     test "does not override wearable device type with android tv detection" do
       agent =
         "Mozilla/5.0 (Linux; Android 12; RES102 Build/STTC.230104.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/130.0.6723.60 YaBrowser/24.1.2.342 (lite) TV Safari/537.36"

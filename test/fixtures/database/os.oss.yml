@@ -29,3 +29,7 @@
 - regex: '(?:Warthog|WTOS)(?:/((?!1\.)\d+(?:\.\d+)*))?'
   name: 'ThinOS'
   version: '$1'
+
+- regex: 'VIDAA'
+  name: 'VIDAA'
+  version: ''

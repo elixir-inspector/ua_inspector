@@ -36,6 +36,7 @@ defmodule UAInspector.Parser do
     "Kylo",
     "LUJO TV Browser",
     "LogicUI TV Browser",
+    "Odin",
     "Open TV Browser",
     "Opera Devices",
     "QJY TV Browser",
@@ -150,6 +151,7 @@ defmodule UAInspector.Parser do
     |> detect_os_family()
     |> maybe_detect_opera_tv_store()
     |> maybe_detect_coolita_tv()
+    |> maybe_detect_vidaa_tv()
     |> maybe_detect_android_tv()
     |> maybe_detect_tv()
     |> maybe_undetect_apple()
@@ -260,6 +262,13 @@ defmodule UAInspector.Parser do
   end
 
   defp maybe_detect_coolita_tv(result), do: result
+
+  # assume "VIDAA" to be a tv
+  defp maybe_detect_vidaa_tv(%{device: device, os: %{name: "VIDAA"}} = result) do
+    %{result | device: %{device | type: "tv"}}
+  end
+
+  defp maybe_detect_vidaa_tv(result), do: result
 
   # assume "Opera TV Store" to be a tv
   defp maybe_detect_opera_tv_store(%{device: device, user_agent: ua} = result) do
