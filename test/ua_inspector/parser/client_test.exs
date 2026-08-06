@@ -102,7 +102,7 @@ defmodule UAInspector.Parser.ClientTest do
     client_hints =
       ClientHints.new([
         {"sec-ch-ua-full-version-list",
-         ~s("Android WebView";v="115.0.5790.171", "Chromium";v="999.0.0.0", "Puffin";v="9.9")}
+         ~s("Android WebView";v="115.0.5790.171", "Chromium";v="999.0.0.0", "Crazy Browser";v="9.9")}
       ])
 
     parsed = UAInspector.parse("curl/7.68.0", client_hints)
@@ -110,7 +110,7 @@ defmodule UAInspector.Parser.ClientTest do
     result = %UAInspector.Result.Client{
       engine: "Blink",
       engine_version: "115.0.5790.171",
-      name: "Puffin",
+      name: "Crazy Browser",
       type: "browser",
       version: "9.9"
     }
@@ -125,7 +125,7 @@ defmodule UAInspector.Parser.ClientTest do
     client_hints =
       ClientHints.new([
         {"sec-ch-ua-full-version-list",
-         ~s("Not A;Brand";v="8", "Chromium";v="50.0.1000.10", "Puffin";v="1.0")}
+         ~s("Not A;Brand";v="8", "Chromium";v="50.0.1000.10", "Crazy Browser";v="1.0")}
       ])
 
     parsed = UAInspector.parse(agent, client_hints)
@@ -133,7 +133,7 @@ defmodule UAInspector.Parser.ClientTest do
     result = %UAInspector.Result.Client{
       engine: "Blink",
       engine_version: "118.0.5993.70",
-      name: "Puffin",
+      name: "Crazy Browser",
       type: "browser",
       version: "1.0"
     }
@@ -181,6 +181,26 @@ defmodule UAInspector.Parser.ClientTest do
       name: "Chrome",
       type: "browser",
       version: "118.0.9000.50"
+    }
+
+    assert ^result = parsed.client
+  end
+
+  test "puffin cloud browser client hint brand is not shadowed by a later chrome/chromium brand" do
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-full-version-list",
+         ~s("Not A;Brand";v="99.0.0.0", "Google Chrome";v="132.0.6834.210", "Chromium";v="132.0.6834.210", "Puffin";v="132.0.8.80800")}
+      ])
+
+    parsed = UAInspector.parse("curl/7.68.0", client_hints)
+
+    result = %UAInspector.Result.Client{
+      engine: "Blink",
+      engine_version: "132.0.6834.210",
+      name: "Puffin Cloud Browser",
+      type: "browser",
+      version: "132.0.8.80800"
     }
 
     assert ^result = parsed.client

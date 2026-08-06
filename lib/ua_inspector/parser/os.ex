@@ -116,6 +116,9 @@ defmodule UAInspector.Parser.OS do
         name == "PICO OS" ->
           agent_result.version
 
+        name == "Puffin OS" ->
+          agent_result.version
+
         true ->
           version
       end

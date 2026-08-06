@@ -1,6 +1,7 @@
 defmodule UAInspector.Parser.OSTest do
   use ExUnit.Case, async: true
 
+  alias UAInspector.ClientHints
   alias UAInspector.Result
 
   test "#1" do
@@ -19,6 +20,23 @@ defmodule UAInspector.Parser.OSTest do
 
     parsed = UAInspector.parse(agent)
     result = %Result.OS{name: "Android", platform: "ARM", version: "4.4.2"}
+
+    assert ^result = parsed.os
+  end
+
+  test "puffin os version is read from the user agent instead of client hints" do
+    agent =
+      "Mozilla/5.0 (Cloud Phone 2.4; Nokia 225 4G; UNISOC) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6834.210 Mobile Safari/537.36 Puffin/132.0.8.80800FP"
+
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-platform", "Cloud Phone 2.4"},
+        {"sec-ch-ua-platform-version", "132"}
+      ])
+
+    parsed = UAInspector.parse(agent, client_hints)
+
+    result = %Result.OS{name: "Puffin OS", platform: :unknown, version: "2.4"}
 
     assert ^result = parsed.os
   end

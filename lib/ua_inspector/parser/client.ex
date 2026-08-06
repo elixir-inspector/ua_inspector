@@ -305,13 +305,28 @@ defmodule UAInspector.Parser.Client do
   defp parse_hints_versions([{name, version} | versions], fallback) do
     hint_name = Util.ClientHintMapping.browser_mapping(name)
 
-    case ClientBrowsers.find_fuzzy(hint_name) do
-      nil -> parse_hints_versions(versions, fallback)
-      {_, "Chromium"} -> parse_hints_versions(versions, {"Chromium", version})
-      {_, "Microsoft Edge"} -> parse_hints_versions(versions, {"Microsoft Edge", version})
-      {_, brand_name} -> {brand_name, version}
-    end
+    ClientBrowsers.find_fuzzy(hint_name)
+    |> parse_hints_versions_brand(versions, version, fallback)
   end
+
+  defp parse_hints_versions_brand(nil, versions, _version, fallback),
+    do: parse_hints_versions(versions, fallback)
+
+  # a brand already resolved to "Chrome" takes precedence over a later "Chromium" brand
+  defp parse_hints_versions_brand({_, "Chromium"}, versions, _version, {"Chrome", _} = fallback),
+    do: parse_hints_versions(versions, fallback)
+
+  defp parse_hints_versions_brand({_, "Chromium"}, versions, version, _fallback),
+    do: parse_hints_versions(versions, {"Chromium", version})
+
+  defp parse_hints_versions_brand({_, "Microsoft Edge"}, versions, version, _fallback),
+    do: parse_hints_versions(versions, {"Microsoft Edge", version})
+
+  defp parse_hints_versions_brand({_, "Chrome"}, versions, version, _fallback),
+    do: parse_hints_versions(versions, {"Chrome", version})
+
+  defp parse_hints_versions_brand({_, brand_name}, _versions, version, _fallback),
+    do: {brand_name, version}
 
   defp version_major(version) do
     case Regex.run(~r/^\d+/, version) do
