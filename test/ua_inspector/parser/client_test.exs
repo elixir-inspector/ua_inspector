@@ -186,6 +186,29 @@ defmodule UAInspector.Parser.ClientTest do
     assert ^result = parsed.client
   end
 
+  test "user agent engine version does not override client hint blink engine version when the user agent's own engine is not blink" do
+    agent =
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1"
+
+    client_hints =
+      ClientHints.new([
+        {"sec-ch-ua-full-version-list",
+         ~s("Not A;Brand";v="8", "Chromium";v="121.0.6167.57", "Crazy Browser";v="9.9")}
+      ])
+
+    parsed = UAInspector.parse(agent, client_hints)
+
+    result = %UAInspector.Result.Client{
+      engine: "Blink",
+      engine_version: "121.0.6167.57",
+      name: "Crazy Browser",
+      type: "browser",
+      version: "9.9"
+    }
+
+    assert ^result = parsed.client
+  end
+
   test "puffin cloud browser client hint brand is not shadowed by a later chrome/chromium brand" do
     client_hints =
       ClientHints.new([

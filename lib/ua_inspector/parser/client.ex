@@ -194,7 +194,7 @@ defmodule UAInspector.Parser.Client do
 
   defp merge_results_blink_engine_version(
          %{engine: "Blink", name: name, engine_version: result_version} = result,
-         %{engine_version: agent_engine_version}
+         %{engine: "Blink", engine_version: agent_engine_version}
        )
        when name != "Iridium" and is_binary(result_version) and is_binary(agent_engine_version) do
     if :gt == Util.Version.compare(agent_engine_version, result_version) do
