@@ -4,6 +4,113 @@ defmodule UAInspectorVerify.Verify.Client do
   def verify(
         %{
           user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Mobile Alva/113.0.0.0 Mobile Safari/537.36",
+          client: %{name: "ALVA", version: "113.0.0.0"} = client
+        } = testcase,
+        %{version: "113.0.5643.0" = result_version} = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | version: result_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent: "Dalvik/2.1.0 (Linux; U; Android 11; SM-A705MN Build/RP1A.200720.012)",
+          client: %{name: "Chrome Webview", engine: :unknown, engine_version: :unknown} = client
+        } = testcase,
+        %{
+          engine: "Blink" = result_engine,
+          engine_version: "117.0.5938.140" = result_engine_version
+        } = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{
+        testcase
+        | client: %{client | engine: result_engine, engine_version: result_engine_version}
+      },
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.200",
+          client: %{name: "Edge WebView", engine: :unknown, engine_version: :unknown} = client
+        } = testcase,
+        %{
+          engine: "Blink" = result_engine,
+          engine_version: "115.0.5790.171" = result_engine_version
+        } = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{
+        testcase
+        | client: %{client | engine: result_engine, engine_version: result_engine_version}
+      },
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 15; SM-S911B Build/AP3A.240905.015.A2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.155 Mobile Safari/537.36",
+          client: %{name: "Opera GX", engine: :unknown, engine_version: :unknown} = client
+        } = testcase,
+        %{
+          engine: "Blink" = result_engine,
+          engine_version: "140.0.7339.155" = result_engine_version
+        } = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{
+        testcase
+        | client: %{client | engine: result_engine, engine_version: result_engine_version}
+      },
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+          client: %{name: "Vivaldi", engine_version: "114.0.0.0"} = client
+        } = testcase,
+        %{engine_version: "114.0.5735.245" = result_engine_version} = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: result_engine_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 YaSearchBrowser/24.10.0 Mobile Safari/537.36",
+          client: %{name: "Yandex Browser", engine_version: "120.0.0.0"} = client
+        } = testcase,
+        %{engine_version: "120.0.6099.234" = result_engine_version} = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{testcase | client: %{client | engine_version: result_engine_version}},
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
           client: %{name: "Blazer", version: "140.0.0.0"} = testcase_client
         } = testcase,

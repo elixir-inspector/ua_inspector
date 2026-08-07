@@ -3,6 +3,61 @@ defmodule UAInspectorVerify.Verify.Generic do
   Verify a generic fixture against a result.
   """
 
+  def verify(
+        %{
+          user_agent: "",
+          client:
+            %{name: "Avast Secure Browser", engine_version: :unknown, engine: :unknown} = client
+        } = testcase,
+        %{
+          client: %{
+            engine: "Blink" = result_client_engine,
+            engine_version: "98.0.4758.101" = result_client_engine_version
+          }
+        } = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{
+        testcase
+        | client: %{
+            client
+            | engine: result_client_engine,
+              engine_version: result_client_engine_version
+          }
+      },
+      result
+    )
+  end
+
+  def verify(
+        %{
+          user_agent:
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/24.0 Chrome/117.0.0.0 Mobile Safari/537.36",
+          client:
+            %{name: "Samsung Browser", engine_version: "117.0.0.0", version: "24.0"} = client
+        } = testcase,
+        %{
+          client: %{
+            engine_version: "117.0.5938.156" = result_client_engine_version,
+            version: "24.0.7.1" = result_client_version
+          }
+        } = result
+      ) do
+    # improved detection in upcoming remote release
+    verify(
+      %{
+        testcase
+        | client: %{
+            client
+            | engine_version: result_client_engine_version,
+              version: result_client_version
+          }
+      },
+      result
+    )
+  end
+
   def verify(%{client: _} = testcase, %{client: _} = result) do
     # regular user agent
     testcase.user_agent == result.user_agent &&
