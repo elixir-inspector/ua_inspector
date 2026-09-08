@@ -57,7 +57,7 @@ defmodule UAInspector.MixProject do
       {:dialyxir, "~> 1.4", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:excoveralls, "~> 0.18.0", only: :test, runtime: false},
-      {:hackney, "~> 1.0"},
+      {:hackney, "~> 1.0", optional: true},
       {:yamerl, "~> 0.7"}
     ]
   end

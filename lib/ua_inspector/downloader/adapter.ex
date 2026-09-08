@@ -1,6 +1,9 @@
 defmodule UAInspector.Downloader.Adapter do
   @moduledoc """
   Behaviour for modules used by the downloader.
+
+  The default adapter is `UAInspector.Downloader.Adapter.Hackney`. A custom
+  implementation can be configured using the `:downloader_adapter` option.
   """
 
   @doc """
