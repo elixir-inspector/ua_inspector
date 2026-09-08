@@ -4,6 +4,7 @@
 
 - Backwards incompatible changes
     - Minimum required Elixir version is now `~> 1.17`
+    - Made `:hackney` an optional dependency (applications relying on the default `UAInspector.Downloader.Adapter.Hackney` need to add it as a dependency explicitly)
 
 ## v3.12.0 (2026-02-21)
 

@@ -39,6 +39,8 @@ You need to obtain a copy of the configured databases by calling either `mix ua_
 
 Refer to `UAInspector.Downloader` for more details.
 
+The default downloader adapter uses `:hackney`. Applications configuring a custom adapter (implementing the `UAInspector.Downloader.Adapter` behaviour using a different HTTP client) can omit `:hackney` because it is only an optional dependency.
+
 ### User Agent Parsing
 
 ```elixir
